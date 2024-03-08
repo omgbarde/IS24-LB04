@@ -1,5 +1,4 @@
 # IS24-LB04
-<img src="https://github.com/omgbarde/IS24-LB04/assets/124436316/6139f2ad-e8a1-477c-a006-bdf2d3438225" alt="Codex banner" />
 
 ## Team
 - Lorenzo Bardelli 10831941 `lorenzo1.bardelli@mail.polimi.it`
