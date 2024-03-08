@@ -9,7 +9,7 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("modifica pitesse");
+        welcomeText.setText("modifica pitesse con nuovo OS :) ");
 
     }
 }
