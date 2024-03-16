@@ -1,5 +1,5 @@
 # IS24-LB04
-
+![codex](src/main/resources/CODEX_wallpaper_1080.jpg)
 ## Team
 - Lorenzo Bardelli 10831941 `lorenzo1.bardelli@mail.polimi.it`
 - Pietro Pizzoccheri 10797420 `pietro.pizzoccheri@mail.polimi.it`
