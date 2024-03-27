@@ -6,6 +6,8 @@
 - Alex Hathaway 10829946 `alex.hathaway@mail.polimi.it`
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
-## Features
-- [ ] incomplete task
-- [x] completed task : - depression
+## Tasks
+- [ ] deck model
+- [ ] deck builder
+- [ ] first interface
+- [ ] implement socket communication
