@@ -1,4 +1,4 @@
-module codex.lb04 {
+module codex.lb {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;

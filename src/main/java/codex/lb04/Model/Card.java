@@ -1,4 +1,4 @@
 package codex.lb04.Model;
 
-public class a {
+public class Card {
 }
