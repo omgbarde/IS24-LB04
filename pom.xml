@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>it.polimi.ingsw</groupId>
-  <artifactId>LB04</artifactId>
+  <groupId>com.example</groupId>
+  <artifactId>IS24-LB04</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>demo1</name>
+  <name>IS24-LB04</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +28,10 @@
       <groupId>org.controlsfx</groupId>
       <artifactId>controlsfx</artifactId>
       <version>11.1.2</version>
+    </dependency><dependency>
+      <groupId>org.kordamp.ikonli</groupId>
+      <artifactId>ikonli-javafx</artifactId>
+      <version>12.3.1</version>
     </dependency>
 <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -68,7 +72,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.example.demo1/com.example.demo1.HelloApplication</mainClass>
+              <mainClass>com.example.is24lb04/codex.lb04.HelloApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
