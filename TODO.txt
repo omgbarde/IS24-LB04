@@ -1,1 +1,2 @@
 finire implementazione classe 'Face' e 'Card'
+finire setup socket client e server

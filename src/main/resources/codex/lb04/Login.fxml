@@ -4,54 +4,47 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.HelloController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.LoginViewController">
    <children>
-      <ImageView blendMode="SRC_ATOP" fitHeight="1080.0" fitWidth="1920.0" preserveRatio="true">
+      <ImageView blendMode="SRC_ATOP" fitHeight="851.0" fitWidth="1521.0" layoutY="-1.0" preserveRatio="true">
          <image>
             <Image url="@../../graphics/CODEX_wallpaper_1080.jpg" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
-         <effect>
-            <Lighting bumpInput="$null">
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect>
       </ImageView>
-      <Label layoutX="958.0" layoutY="839.0" textFill="RED">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffda3" height="493.0" layoutX="508.0" layoutY="178.0" rotate="45.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="495.0" />
+      <Label fx:id="errorLabel" layoutX="755.0" layoutY="574.0" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="933.0" layoutY="754.0" mnemonicParsing="false" text="ok">
+      <Button layoutX="728.0" layoutY="516.0" mnemonicParsing="false" onAction="#login" text="ok">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <TextField layoutX="757.0" layoutY="545.0" prefHeight="59.0" prefWidth="411.0" promptText="username">
+      <TextField fx:id="username" layoutX="551.0" layoutY="358.0" prefHeight="59.0" prefWidth="411.0" promptText="username">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <TextField layoutX="757.0" layoutY="634.0" prefHeight="59.0" prefWidth="411.0" promptText="password">
+      <TextField fx:id="port" layoutX="551.0" layoutY="438.0" prefHeight="59.0" prefWidth="411.0" promptText="port">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <Label layoutX="887.0" layoutY="421.0" text="Login" textAlignment="CENTER" textFill="WHITE">
+      <Label alignment="TOP_CENTER" layoutX="695.0" layoutY="290.0" text="Login" textAlignment="CENTER">
          <font>
-            <Font name="Arial Black" size="48.0" />
+            <Font name="Times New Roman Bold" size="48.0" />
          </font>
       </Label>
    </children>
-</Pane>
+</AnchorPane>

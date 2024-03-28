@@ -42,7 +42,7 @@ public class Corner {
     }
 
     /**
-     * This method tells if a corner ha a cover or not
+     * This method tells if a corner is covered or not
      * @return {@code true} if the corner is covered, {@code false} if it's not
      */
     public boolean isCovered(){
@@ -50,7 +50,7 @@ public class Corner {
     }
 
     /**
-     * This method returns the cover of the corner
+     * This method returns the card that covers the corner
      * @return The card that covers the corner
      */
     public Card getCover(){
