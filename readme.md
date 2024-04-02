@@ -10,7 +10,9 @@
 - [ ] deck model
 - [ ] deck builder
 - [ ] first interface
-- [ ] implement socket communication
+- [ ] implement message system
+- [x] implement socket communication
+
 
 ## Features
 wip 😊
