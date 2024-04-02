@@ -1,0 +1,58 @@
+package codex.lb04.Model;
+
+import codex.lb04.Model.Enumerations.ResourceType;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class FaceTest {
+    private Face face;
+    private Corner upperLeft;
+    private Corner upperRight;
+    private Corner lowerLeft;
+    private Corner lowerRight;
+
+    @BeforeEach
+    void setUp() {
+        this.face = new Face(upperLeft, upperRight, lowerLeft, lowerRight, ResourceType.INSECT);
+        this.upperLeft = new Corner(ResourceType.INSECT);
+        this.upperRight = new Corner(ResourceType.INSECT);
+        this.lowerLeft = new Corner(ResourceType.INSECT);
+        this.lowerRight = new Corner(ResourceType.INSECT);
+    }
+
+    @AfterEach
+    void tearDown() {
+        upperLeft = null;
+        upperRight = null;
+        lowerLeft = null;
+        lowerRight = null;
+    }
+
+    @Test
+    void getUpperLeft() {
+        assertEquals(upperLeft, face.getUpperLeft());
+    }
+
+    @Test
+    void getUpperRight() {
+        assertEquals(upperRight, face.getUpperRight());
+    }
+
+    @Test
+    void getLowerLeft() {
+        assertEquals(lowerLeft, face.getLowerLeft());
+    }
+
+    @Test
+    void getLowerRight() {
+        assertEquals(lowerRight, face.getLowerRight());
+    }
+
+    @Test
+    void getCentralResources() {
+        assertEquals(ResourceType.INSECT, face.getCentralResources().getFirst());
+    }
+}
