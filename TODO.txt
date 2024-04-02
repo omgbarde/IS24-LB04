@@ -1,2 +1,4 @@
-finire implementazione classe 'Face' e 'Card'
-finire setup socket client e server
+//TODO finire implementazione classe 'Face' e 'Card'
+//TODO discutere il "getClientSocket" in ClientApp
+//TODO implementare utilizzo e serializzazione dei messaggi
+//TODO implementare chiusura graceful del socket client

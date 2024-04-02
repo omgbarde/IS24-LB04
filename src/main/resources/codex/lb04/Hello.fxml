@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.LoginViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.View.HelloController">
    <children>
-      <ImageView blendMode="SRC_ATOP" fitHeight="851.0" fitWidth="1521.0" layoutY="-1.0" preserveRatio="true">
+      <ImageView blendMode="SRC_ATOP" fitHeight="850.0" fitWidth="1522.0" layoutX="1.0" preserveRatio="true">
          <image>
             <Image url="@../../graphics/CODEX_wallpaper_1080.jpg" />
          </image>
@@ -26,22 +25,17 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="728.0" layoutY="516.0" mnemonicParsing="false" onAction="#login" text="ok">
+      <Button fx:id="playButton" layoutX="719.0" layoutY="460.0" mnemonicParsing="false" text="play">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <TextField fx:id="username" layoutX="551.0" layoutY="358.0" prefHeight="59.0" prefWidth="411.0" promptText="username">
+      <TextField fx:id="username" layoutX="549.0" layoutY="395.0" prefHeight="59.0" prefWidth="411.0" promptText="username">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <TextField fx:id="port" layoutX="551.0" layoutY="438.0" prefHeight="59.0" prefWidth="411.0" promptText="port">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label alignment="TOP_CENTER" layoutX="695.0" layoutY="290.0" text="Login" textAlignment="CENTER">
+      <Label alignment="TOP_CENTER" layoutX="555.0" layoutY="334.0" text="Welcome to Codex!" textAlignment="CENTER">
          <font>
             <Font name="Times New Roman Bold" size="48.0" />
          </font>
