@@ -1,9 +1,8 @@
 package codex.lb04.Model;
 
+import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
@@ -11,27 +10,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
-    Game game;
-    Player player;
-    Board board;
-    Deck deck;
+    private static Game game;
+    private static Corner corner = new Corner(ResourceType.ANIMAL);
+    private static Face face = new Face(corner , corner , corner , corner , ResourceType.INSECT);
+    private static Player player;
+    private static ArrayList<Player> players = new ArrayList<Player>();
+    private static Board board;
+    private static Deck deck;
+    private static ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+    private static ArrayList<Card> cards = new ArrayList<>();
+    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE , face , face , 2, ResourceType.MUSHROOM);
 
-    ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-    ArrayList<Card> cards = new ArrayList<>();
-    ObjectiveCard objectiveCard;
 
-
-    @BeforeEach
-    void setUp() {
-        player = new Player("test" , objectiveCards, objectiveCard, cards);
+    @BeforeAll
+    static void setUp() {
+        player = new Player("test" , objectiveCards, SecretobjectiveCard, cards);
+        players.add(player);
         board = new Board();
-        deck = new Deck();
+        deck = Deck.getInstance();
         game = Game.getInstance(player , deck , board);
         game.setGameState(GameState.PLAYING);
     }
 
-    @AfterEach
-    void tearDown() {
+    @AfterAll
+    static void tearDown() {
         player = null;
         board = null;
         deck = null;
@@ -40,6 +42,7 @@ class GameTest {
 
     @Test
     void getGameState() {
+        game.setGameState(GameState.PLAYING);
         assertEquals(GameState.PLAYING, game.getGameState());
     }
 
@@ -51,7 +54,7 @@ class GameTest {
 
     @Test
     void getPlayer() {
-        assertEquals(player, game.getPlayers());
+        assertEquals(player, game.getPlayers().getFirst());
     }
 
     @Test
@@ -67,5 +70,11 @@ class GameTest {
     @Test
     void placeCard() {
         //TODO
+    }
+
+    @Test
+    void addPlayer() {
+        game.addPlayer(player);
+        assertEquals(player, game.getPlayers().getLast());
     }
 }

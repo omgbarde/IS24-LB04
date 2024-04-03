@@ -4,6 +4,9 @@ import codex.lb04.Model.Enumerations.ResourceType;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a face of a card.
+ */
 public class Face {
     private final Corner UpperLeft;
     private final Corner UpperRight;

@@ -4,6 +4,6 @@
 
 //TODO organizzare conteggio risorse nella parte PLAYER/BOARD
 
-//TODO riguardare GameTest e vedere per player
+//TODO come gestire player in classe Game
 
 //TODO finire card e sue gen

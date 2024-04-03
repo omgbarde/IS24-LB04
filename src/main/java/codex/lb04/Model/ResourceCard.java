@@ -2,6 +2,9 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+/**
+ * This class represents a resource card
+ */
 public class ResourceCard extends Card{
 
     private int points;

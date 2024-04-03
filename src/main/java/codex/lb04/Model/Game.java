@@ -3,7 +3,7 @@ package codex.lb04.Model;
 import java.util.ArrayList;
 
 public class Game {
-    public static Game instance;
+    private static Game instance;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Deck deck;
     private Board board;
@@ -20,14 +20,6 @@ public class Game {
         this.players.add(player);
         this.deck = deck;
         this.board = board;
-    }
-
-    /**
-     * secondary constructor to add a player to the game
-     * @param player
-     */
-    public Game(Player player){
-        this.players.add(player);
     }
     /**
      * Singleton instance method
@@ -87,6 +79,6 @@ public class Game {
      * @param card the card to place
      */
     public void placeCard(Card card) {
-        board.placeCard(card);
+        board.placeCard(card , card);
     }
 }

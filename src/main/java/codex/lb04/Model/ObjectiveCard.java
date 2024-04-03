@@ -5,9 +5,12 @@ import codex.lb04.Model.Enumerations.ResourceType;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents an objective card, both secret and non
+ */
 public class ObjectiveCard extends Card{
     private int points;
-    private ArrayList<ResourceType> resourceNeeded;
+    private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
 
     /**
      * Default constructor
@@ -16,10 +19,10 @@ public class ObjectiveCard extends Card{
      * @param front the face of the card
      * @param back  the face of the card
      */
-    public ObjectiveCard(Color color, Face front, Face back, int points, ArrayList<ResourceType> resourceNeeded) {
+    public ObjectiveCard(Color color, Face front, Face back, int points, ResourceType resourceNeeded) {
         super(color, front, back);
         this.points = points;
-        this.resourceNeeded = resourceNeeded;
+        this.resourceNeeded.add(resourceNeeded);
     }
 
     public int getPoints() {

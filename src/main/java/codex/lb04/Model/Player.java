@@ -3,6 +3,9 @@ package codex.lb04.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a player
+ */
 public class Player {
     private String username;
     private ArrayList<ObjectiveCard> objectives;

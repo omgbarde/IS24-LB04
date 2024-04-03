@@ -16,11 +16,11 @@ class FaceTest {
 
     @BeforeEach
     void setUp() {
-        this.face = new Face(upperLeft, upperRight, lowerLeft, lowerRight, ResourceType.INSECT);
         this.upperLeft = new Corner(ResourceType.INSECT);
         this.upperRight = new Corner(ResourceType.INSECT);
         this.lowerLeft = new Corner(ResourceType.INSECT);
         this.lowerRight = new Corner(ResourceType.INSECT);
+        this.face = new Face(upperRight, upperLeft, lowerRight, lowerLeft, ResourceType.INSECT);
     }
 
     @AfterEach
