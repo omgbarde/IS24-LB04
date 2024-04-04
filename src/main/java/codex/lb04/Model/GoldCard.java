@@ -6,7 +6,7 @@ import codex.lb04.Model.Enumerations.Color;
  * Class that represents a Gold Card
  */
 public class GoldCard extends Card{
-    private int points;
+    private final int points;
     /**
      * Default constructor
      *

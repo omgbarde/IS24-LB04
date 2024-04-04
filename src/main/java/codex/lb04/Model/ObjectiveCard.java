@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This class represents an objective card, both secret and non
  */
 public class ObjectiveCard extends Card{
-    private int points;
+    private final int points;
     private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
 
     /**

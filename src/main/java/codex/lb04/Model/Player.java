@@ -1,5 +1,7 @@
 package codex.lb04.Model;
 
+import codex.lb04.Model.Enumerations.ResourceType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +44,6 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
+
 
 }
