@@ -7,5 +7,8 @@ public enum ResourceType {
     ANIMAL,
     INSECT,
     MUSHROOM,
-    LEAF
+    LEAF,
+    QUILL,
+    INKWELL,
+    MANUSCRIPT
 }

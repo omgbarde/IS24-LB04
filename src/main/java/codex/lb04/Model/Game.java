@@ -75,7 +75,7 @@ public class Game {
      * Places a card on the board
      * @param card the card to place
      */
-    public void placeCard(Card card) {
-        board.placeCard(card , card);
+    public void placeCard(Card card , Integer x, Integer y) {
+        board.placeCard(card , x , y);
     }
 }
