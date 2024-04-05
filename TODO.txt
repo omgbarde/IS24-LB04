@@ -1,4 +1,3 @@
-//TODO discutere il "getClientSocket" in ClientApp
 //TODO implementare utilizzo e serializzazione dei messaggi
 //TODO implementare chiusura graceful del socket client
 

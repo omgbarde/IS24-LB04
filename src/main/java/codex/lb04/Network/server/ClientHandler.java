@@ -1,10 +1,11 @@
 package codex.lb04.Network.server;
 
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -13,8 +14,8 @@ import java.net.Socket;
 public class ClientHandler implements Runnable{
     private Socket clientSocket;
     private ServerApp server;
-    private DataOutputStream output;
-    private DataInputStream input;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private String username;
 
     /**
@@ -27,8 +28,8 @@ public class ClientHandler implements Runnable{
         this.clientSocket = socket;
         this.server = server;
         try {
-            input = new DataInputStream(clientSocket.getInputStream());
-            output = new DataOutputStream(clientSocket.getOutputStream());
+            input = new ObjectInputStream(clientSocket.getInputStream());
+            output = new ObjectOutputStream(clientSocket.getOutputStream());
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -43,19 +44,21 @@ public class ClientHandler implements Runnable{
         //send message back to client
         try {
             while (clientSocket.isConnected()) {
-                String message = input.readUTF();
+                Message message = (Message) input.readObject();
                 if (message != null) {
                     this.handleInput(message);
                 }
             }
-        }catch (IOException ex){
-            ex.printStackTrace();
+        }
+        catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
         }
         finally {
             try {
                 clientSocket.close();
                 this.server.removeClientHandler(this);
-            }catch (IOException ex){
+            }
+            catch (IOException ex){
                 ex.printStackTrace();
             }
         }
@@ -64,24 +67,29 @@ public class ClientHandler implements Runnable{
     /**
      * this method parses messages from the client and invokes methods based on the type and parameters of those messages
      * */
-    public void handleInput(String input) {
-        //se è un messaggio di login aggiorno username per ora faccio cosi ma va sistemato
-        if(getUsername()==null){
-            setUsername(input);
+    public void handleInput(Message input) {
+        if(input.getMessageType().equals(MessageType.LOGIN_REQUEST)&& getUsername()==null){
+            setUsername(input.getNickname());
+            server.print("new user wants to play: " + getUsername());
+            LoginReply reply = new LoginReply(getUsername(),true);
+            server.broadcast(reply);
         }
-        ServerApp.print("nuovo messaggio da " + getUsername() + ": " + input);
-        //server.broadcast(input);
+        else{
+            ServerApp.print("message not recognized");
+        }
     }
 
     /**
      * this method reads messages from the server and sends them to the client
      * @param message is the message passed from the server
      */
-    public void sendMessage(String message) {
+    public void sendMessage(Message message) {
         try {
-            output.writeUTF(message);
+            output.writeObject(message);
             output.flush();
-        } catch (IOException ex) {ex.printStackTrace();}
+        }
+        catch (IOException e) {
+            e.printStackTrace();}
     }
 
     public String getUsername() {

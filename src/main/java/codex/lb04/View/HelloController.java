@@ -1,6 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Message.LoginMessage;
 import codex.lb04.Network.client.ClientSocket;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,7 +33,8 @@ public class HelloController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 String usr = username.getText();
                 if(!usr.isEmpty()){
-                    clientSocket.sendMessage(usr);
+                    LoginMessage loginMessage = new LoginMessage(usr);
+                    clientSocket.sendMessage(loginMessage);
                 }
             }
         });

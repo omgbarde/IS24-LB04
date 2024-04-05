@@ -1,5 +1,6 @@
 package codex.lb04;
 
+import codex.lb04.Message.Message;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import codex.lb04.Utils.GraphicUtil;
@@ -34,9 +35,14 @@ public class CodexClientApp{
         else {
             //defaults to CLI
         }
+        //clientSocket.readMessage();
     }
 
     public static ClientSocket getClientSocket() {
         return clientSocket;
+    }
+
+    public static void print(String string) {
+        System.out.println(string);
     }
 }

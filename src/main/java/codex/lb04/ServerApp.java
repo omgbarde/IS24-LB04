@@ -1,5 +1,7 @@
 package codex.lb04;
 
+import codex.lb04.Message.ErrorMessage;
+import codex.lb04.Message.Message;
 import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
@@ -42,7 +44,7 @@ public class ServerApp implements Runnable {
      * send message to all connected clients
      * @param message
      */
-    public void broadcast(String message) {
+    public void broadcast(Message message) {
         for (ClientHandler clientHandler : this.clientHandlerList) {
             clientHandler.sendMessage(message);
         }
@@ -54,7 +56,8 @@ public class ServerApp implements Runnable {
      */
     public void removeClientHandler(ClientHandler clientHandler){
         clientHandlerList.remove(clientHandler);
-        broadcast(clientHandler.getUsername() + "disconnected");
+        ErrorMessage errorMessage = new ErrorMessage("server", "client"+ clientHandler.getUsername() + "disconnected");
+        broadcast(errorMessage);
     }
 
     public static void main(String[] args) {
