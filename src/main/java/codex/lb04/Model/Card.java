@@ -10,7 +10,8 @@ public class Card {
     private final Face front;
     private final Face back;
     private Color color;
-    private int points;
+    private Integer points;
+    private Integer x , y;
     /**
      * Default constructor
      * @param front the face of the card
@@ -22,6 +23,9 @@ public class Card {
         this.color = color;
         this.back = back;
         this.front = front;
+        this.points = null;
+        this.x = null;
+        this.y = null;
     }
     /**
      *  This method flips the card
@@ -39,5 +43,36 @@ public class Card {
      */
     public Face getShownFace() {
         return ShownFace;
+    }
+    /**
+     * Set the coordinates of the card
+     */
+    public void setCoordinates(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public Face getFront() {
+        return front;
+    }
+
+    public Face getBack() {
+        return back;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public Integer getY() {
+        return y;
     }
 }

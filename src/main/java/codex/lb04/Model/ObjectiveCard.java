@@ -25,7 +25,7 @@ public class ObjectiveCard extends Card{
         this.resourceNeeded.add(resourceNeeded);
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
     //metodo che dice se ho raggiunto l'obiettivo

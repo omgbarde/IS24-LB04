@@ -28,7 +28,8 @@ class GameTest {
         players.add(player);
         board = new Board();
         deck = Deck.getInstance();
-        game = Game.getInstance(player , deck , board);
+        game = Game.getInstance(deck , board);
+        game.addPlayer(player);
         game.setGameState(GameState.PLAYING);
     }
 

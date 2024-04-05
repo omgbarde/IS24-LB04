@@ -7,17 +7,14 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
     private Deck deck;
     private Board board;
-
     private GameState gameState;
-
     /**
      * Private constructor to prevent instantiation from outside the class
-     * @param player the player
+     *
      * @param deck the deck
      * @param board the board
      */
-    private Game(Player player, Deck deck, Board board) {
-        this.players.add(player);
+    private Game(Deck deck, Board board) {
         this.deck = deck;
         this.board = board;
     }
@@ -25,9 +22,9 @@ public class Game {
      * Singleton instance method
      * @return the singleton instance of the Game class
      */
-    public static Game getInstance(Player player, Deck deck, Board board) {
+    public static Game getInstance(Deck deck, Board board) {
         if (instance == null) {
-            instance = new Game(player, deck, board);
+            instance = new Game(deck, board);
         }
         return instance;
     }
