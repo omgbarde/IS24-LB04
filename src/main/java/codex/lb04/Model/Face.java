@@ -104,4 +104,17 @@ public class Face {
     public ArrayList<ResourceType> getCentralResources() {
         return CentralResources;
     }
+
+    /**
+     * return the corners as an arraylist
+     * @return corners as an arraylist
+     */
+    public ArrayList<Corner> getCorners(){
+        ArrayList<Corner> corners = new ArrayList<>();
+        corners.add(UpperLeft);
+        corners.add(UpperRight);
+        corners.add(LowerLeft);
+        corners.add(LowerRight);
+        return corners;
+    }
 }

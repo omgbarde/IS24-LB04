@@ -43,8 +43,43 @@ public class Board {
     public void placeCard(Card toBePlaced , Integer x, Integer y){
         if(canBePlaced(x,y)== true){
             toBePlaced.setCoordinates(x , y);
+            updateResourcesWhenCardIsPlaced(toBePlaced);
             ingameCards.add(toBePlaced);
-            //setto i corner che vengono coperti
+            //TODO setto i corner che vengono coperti
+        }
+    }
+
+    /**
+     * updates the resources of a player when a card is placed
+     * @param toBePlaced the card added
+     */
+    public void updateResourcesWhenCardIsPlaced(Card toBePlaced){
+        for( Corner corner : toBePlaced.getShownFace().getCorners()){
+            if(!corner.isCovered()){
+                switch (corner.getResource()){
+                    case ResourceType.ANIMAL:
+                        this.Animals++;
+                        break;
+                    case ResourceType.INSECT:
+                        this.Insects++;
+                        break;
+                    case ResourceType.LEAF:
+                        this.Leaves++;
+                        break;
+                    case ResourceType.MUSHROOM:
+                        this.Mushrooms++;
+                        break;
+                    case ResourceType.QUILL:
+                        this.Quills++;
+                        break;
+                    case ResourceType.INKWELL:
+                        this.Inkwells++;
+                        break;
+                    case ResourceType.MANUSCRIPT:
+                        this.Manuscripts++;
+                        break;
+                }
+            }
         }
     }
     /**
