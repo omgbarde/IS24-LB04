@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ObjectiveCard extends Card{
     private final int points;
     private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
+    private boolean inGame;
 
     /**
      * Default constructor
@@ -23,6 +24,7 @@ public class ObjectiveCard extends Card{
         super(color, front, back);
         this.points = points;
         this.resourceNeeded.add(resourceNeeded);
+        this.inGame = false;
     }
 
     public Integer getPoints() {
@@ -37,4 +39,7 @@ public class ObjectiveCard extends Card{
             return false;
         }
     }*/
+    public void setInGame(){
+        this.inGame = true;
+    }
 }

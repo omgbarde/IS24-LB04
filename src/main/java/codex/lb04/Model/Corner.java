@@ -3,7 +3,7 @@ package codex.lb04.Model;
 import codex.lb04.Model.Enumerations.ResourceType;
 
 /**
- * This class represents a corner of a card, it can contain items
+ * This class represents a corner of a card, it can contain resources
  */
 public class Corner {
     private final ResourceType resource;
