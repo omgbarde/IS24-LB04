@@ -20,6 +20,15 @@ public class Corner {
         Covered = false;
         this.Cover = null;
     }
+
+    /**
+     * constructor for corners with no resources that can be covered or not
+     */
+    public Corner(boolean isCovered){
+        this.resource = null;
+        Covered = isCovered;
+        this.Cover = null;
+    }
     /**
      * Secondary constructor
      * @param resource the resource the corner has
@@ -34,7 +43,7 @@ public class Corner {
      * This method covers a corner by applying a card onto it
      * @param Cover The Card that covers the corner
      */
-    public void getCovered(Card Cover){
+    public void setCovered(Card Cover){
         this.Cover = Cover;
         Covered = true;
     }

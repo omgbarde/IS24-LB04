@@ -28,6 +28,21 @@ public class Card {
         this.y = null;
     }
     /**
+     * Default constructor for cards with points
+     * @param front the face of the card
+     * @param back the face of the card
+     * @param color the color of the card
+     */
+    public Card(Color color , Face front , Face back , Integer points){
+        this.ShownFace = front;
+        this.color = color;
+        this.back = back;
+        this.front = front;
+        this.points = points;
+        this.x = null;
+        this.y = null;
+    }
+    /**
      *  This method flips the card
      */
     public void flip (Card card){

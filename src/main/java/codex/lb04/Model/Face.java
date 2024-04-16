@@ -15,6 +15,20 @@ public class Face {
     private final ArrayList<ResourceType> CentralResources= new ArrayList<>();
 
     /**
+     * Default constructor for a face with no central resources
+     * @param Ur the upper left corner of the face
+     * @param Ul the upper right corner of the face
+     * @param Lr the lower right corner of the face
+     * @param Ll the lower left corner of the face
+     *
+     */
+    public Face(Corner Ur,Corner Ul,Corner Lr,Corner Ll){
+        UpperRight = Ur;
+        UpperLeft = Ul;
+        LowerLeft = Ll;
+        LowerRight = Lr;
+    }
+    /**
      * Default constructor
      * @param Ur the upper left corner of the face
      * @param Ul the upper right corner of the face

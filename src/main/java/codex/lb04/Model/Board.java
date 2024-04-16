@@ -8,17 +8,18 @@ import java.util.ArrayList;
  * This class represents the board of the game
  */
 public class Board {
-    private ArrayList<Card> ingameCards = new ArrayList<Card>();
+    private final ArrayList<Card> inGameCards = new ArrayList<Card>();
     private ArrayList<Card> ResourceCards = new ArrayList<Card>();
     private ArrayList<Card> GoldCards = new ArrayList<Card>();
     private Integer Insects;
     private Integer Animals;
+
     private Integer Mushrooms;
     private Integer Leaves;
     private Integer Quills;
     private Integer Inkwells;
     private Integer Manuscripts;
-    private Deck deck;
+    private final Deck deck;
 
     /**
      * Default constructor
@@ -35,49 +36,77 @@ public class Board {
         this.Inkwells = 0;
         this.Manuscripts = 0;
     }
+
+    /**
+     * This method sets the resources to zero
+     */
+    public void setZeroResources(){
+        this.Insects = 0;
+        this.Animals = 0;
+        this.Mushrooms = 0;
+        this.Leaves = 0;
+        this.Quills = 0;
+        this.Inkwells = 0;
+        this.Manuscripts = 0;
+    }
     /**
      * This method places a card on the board
      * @param toBePlaced the card to be placed on the board
      *
      */
     public void placeCard(Card toBePlaced , Integer x, Integer y){
-        if(canBePlaced(x,y)== true){
+        if(canBePlaced(x , y)){
+            for (Card card : inGameCards){
+                if(card.getX() == x+1 && card.getY() == y+1 ){
+                    card.getShownFace().getLowerLeft().setCovered(toBePlaced);
+                }
+                if (card.getX() == x+1 && card.getY() == y-1 ){
+                    card.getShownFace().getUpperLeft().setCovered(toBePlaced);
+                }
+                if (card.getX() == x-1 && card.getY() == y+1 ){
+                    card.getShownFace().getLowerRight().setCovered(toBePlaced);
+                }
+                if (card.getX() == x-1 && card.getY() == y-1 ){
+                    card.getShownFace().getUpperRight().setCovered(toBePlaced);
+                }
+            }
             toBePlaced.setCoordinates(x , y);
-            updateResourcesWhenCardIsPlaced(toBePlaced);
-            ingameCards.add(toBePlaced);
-            //TODO setto i corner che vengono coperti
+            inGameCards.add(toBePlaced);
+            updateResources();
         }
     }
-
     /**
      * updates the resources of a player when a card is placed
-     * @param toBePlaced the card added
+     *
      */
-    public void updateResourcesWhenCardIsPlaced(Card toBePlaced){
-        for( Corner corner : toBePlaced.getShownFace().getCorners()){
-            if(!corner.isCovered()){
-                switch (corner.getResource()){
-                    case ResourceType.ANIMAL:
-                        this.Animals++;
-                        break;
-                    case ResourceType.INSECT:
-                        this.Insects++;
-                        break;
-                    case ResourceType.LEAF:
-                        this.Leaves++;
-                        break;
-                    case ResourceType.MUSHROOM:
-                        this.Mushrooms++;
-                        break;
-                    case ResourceType.QUILL:
-                        this.Quills++;
-                        break;
-                    case ResourceType.INKWELL:
-                        this.Inkwells++;
-                        break;
-                    case ResourceType.MANUSCRIPT:
-                        this.Manuscripts++;
-                        break;
+    public void updateResources(){
+        setZeroResources();
+        for (Card card : inGameCards){
+            for( Corner corner : card.getShownFace().getCorners()) {
+                if (!corner.isCovered()) {
+                    switch (corner.getResource()) {
+                        case ResourceType.ANIMAL:
+                            this.Animals++;
+                            break;
+                        case ResourceType.INSECT:
+                            this.Insects++;
+                            break;
+                        case ResourceType.LEAF:
+                            this.Leaves++;
+                            break;
+                        case ResourceType.MUSHROOM:
+                            this.Mushrooms++;
+                            break;
+                        case ResourceType.QUILL:
+                            this.Quills++;
+                            break;
+                        case ResourceType.INKWELL:
+                            this.Inkwells++;
+                            break;
+                        case ResourceType.MANUSCRIPT:
+                            this.Manuscripts++;
+                            break;
+                    }
                 }
             }
         }
@@ -89,7 +118,7 @@ public class Board {
      * @return true if the card can be placed false otherwise
      */
    public boolean canBePlaced(Integer x, Integer y){
-       for (Card card : ingameCards){
+       for (Card card : inGameCards){
            if(card.getX() == x+1 && card.getY() == y+1 ){
                if(card.getShownFace().getLowerLeft().isCovered()) {
                    return false;
@@ -121,6 +150,13 @@ public class Board {
         return ResourceCards;
     }
 
+    /**
+     * This method returns the ingame cards
+     * @return ingameCards the cards that are on the board
+     */
+    public ArrayList<Card> getIngameCards() {
+        return inGameCards;
+    }
     /**
      * This method returns the gold cards that can be picked
      * @return Goldcards the gold cards that can be picked
@@ -191,5 +227,20 @@ public class Board {
      */
     public Deck getDeck() {
         return deck;
+    }
+
+    /**
+     * returns the card at the specified coordinates
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return the card at the specified coordinates
+     */
+    public Card getCard(Integer x , Integer y){
+        for(Card card : inGameCards){
+            if(card.getX() == x && card.getY() == y){
+                return card;
+            }
+        }
+        return null;
     }
 }

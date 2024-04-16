@@ -31,20 +31,20 @@ class CornerTest {
     }
 
     @Test
-    void getCovered() {
-        corner.getCovered(cover);
+    void setCovered() {
+        corner.setCovered(cover);
         assertEquals(cover , corner.getCover() );
     }
 
     @Test
     void isCovered() {
-        corner.getCovered(cover);
+        corner.setCovered(cover);
         assertTrue(corner.isCovered());
     }
 
     @Test
     void getCover() {
-        corner.getCovered(cover);
+        corner.setCovered(cover);
         assertEquals(cover, corner.getCover());
     }
 

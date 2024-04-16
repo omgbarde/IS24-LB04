@@ -20,16 +20,17 @@ public class ObjectiveCard extends Card{
      * @param front the face of the card
      * @param back  the face of the card
      */
-    public ObjectiveCard(Color color, Face front, Face back, int points, ResourceType resourceNeeded) {
+    public ObjectiveCard(Color color, Face front, Face back, int points) {
         super(color, front, back);
         this.points = points;
-        this.resourceNeeded.add(resourceNeeded);
         this.inGame = false;
     }
 
     public Integer getPoints() {
         return points;
     }
+
+    // forse conviene mettere il check dell'obiettivo in un'altra classe, in questa mettiamo solo le condizioni
     //metodo che dice se ho raggiunto l'obiettivo
     /*
     public boolean enoughResources(){
@@ -42,4 +43,8 @@ public class ObjectiveCard extends Card{
     public void setInGame(){
         this.inGame = true;
     }
+
+    //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
+
+
 }

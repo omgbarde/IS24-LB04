@@ -13,13 +13,14 @@ class GameTest {
     private static Game game;
     private static Corner corner = new Corner(ResourceType.ANIMAL);
     private static Face face = new Face(corner , corner , corner , corner , ResourceType.INSECT);
+    private static Card card = new Card(Color.BLUE , face , face);
     private static Player player;
     private static ArrayList<Player> players = new ArrayList<Player>();
     private static Board board;
     private static Deck deck;
     private static ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
     private static ArrayList<Card> cards = new ArrayList<>();
-    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE , face , face , 2, ResourceType.MUSHROOM);
+    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE , face , face , 2);
 
 
     @BeforeAll
@@ -70,9 +71,9 @@ class GameTest {
 
     @Test
     void placeCard() {
-        //TODO
+        board.placeCard(card , 0 , 0);
+        assertEquals(card, board.getCard(0,0));
     }
-
     @Test
     void addPlayer() {
         game.addPlayer(player);

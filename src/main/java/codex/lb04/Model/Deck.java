@@ -16,10 +16,19 @@ public class Deck {
     private Deck() {
         ResourceCards = new ArrayList<>();
         GoldCards = new ArrayList<>();
-        // Initialize Deck - CREARE SIA DECK DI GOLD CHE DI RESOURCE
+        //TODO implementare creazione mazzo
         initializeDeck();
     }
-
+    /**
+     * returns the deck instance
+     * @return the deck instance
+     */
+    public static Deck getInstance() {
+        if (instance == null) {
+            instance = new Deck();
+        }
+        return instance;
+    }
     /**
      * this method returns the deck of resource cards
      * @return the deck of resource cards
@@ -34,16 +43,6 @@ public class Deck {
      */
     public ArrayList<Card> getGoldCards() {
         return GoldCards;
-    }
-    /**
-     * returns the deck instance
-     * @return the deck instance
-     */
-    public static Deck getInstance() {
-        if (instance == null) {
-            instance = new Deck();
-        }
-        return instance;
     }
     /**
      * this method shuffles the deck of resources cards
@@ -82,6 +81,6 @@ public class Deck {
      * this method creates the deck of cards and returns it
      */
     public void initializeDeck() {
-        //TODO
+        //TODO implemetare creazione mazzo
     }
 }
