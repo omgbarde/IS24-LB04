@@ -55,6 +55,7 @@ public class ServerApp implements Runnable {
     public void removeClientHandler(ClientHandler clientHandler){
         clientHandlerList.remove(clientHandler);
         broadcast(clientHandler.getUsername() + "disconnected");
+
     }
 
     public static void main(String[] args) {

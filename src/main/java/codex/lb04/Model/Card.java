@@ -67,6 +67,10 @@ public class Card {
         this.y = y;
     }
 
+    public boolean hasEnoughResources(){
+        if
+    }
+
     public Face getFront() {
         return front;
     }

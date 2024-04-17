@@ -143,7 +143,7 @@ public class Board {
        return true;
    }
     /**
-     * This method returns the resource cars that can be picked
+     * This method returns the resource cards that can be picked
      * @return ResourceCards the resource cards that can be picked
      */
     public ArrayList<Card> getResourceCards() {
@@ -243,4 +243,5 @@ public class Board {
         }
         return null;
     }
+
 }
