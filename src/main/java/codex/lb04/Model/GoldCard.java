@@ -13,7 +13,7 @@ public class GoldCard extends Card{
     private final int insects_needed;
     private final int leaf_needed;
 
-    //TO DO aggiorna il commento con i nuovi parametri
+    //TODO aggiorna il commento con i nuovi parametri
     /**
      * Default constructor
      *
@@ -29,5 +29,27 @@ public class GoldCard extends Card{
         this.insects_needed = insects_needed;
         this.leaf_needed = leaf_needed;
     }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public Integer getMushroom_needed() {
+        return mushroom_needed;
+    }
+
+    public Integer getAnimals_needed() {
+        return animals_needed;
+    }
+
+    public Integer getInsects_needed() {
+        return insects_needed;
+    }
+
+    public Integer getLeaf_needed() {
+        return leaf_needed;
+    }
+
+
 
 }

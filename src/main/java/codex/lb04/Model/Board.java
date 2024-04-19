@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class Board {
     private final ArrayList<Card> inGameCards = new ArrayList<Card>();
+    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+    private ObjectiveCard secretObjective;
     private ArrayList<Card> ResourceCards = new ArrayList<Card>();
     private ArrayList<Card> GoldCards = new ArrayList<Card>();
     private Integer Insects;
@@ -19,6 +21,8 @@ public class Board {
     private Integer Inkwells;
     private Integer Manuscripts;
     private final Deck deck;
+    private Integer Points;
+    private Integer PointsByGoldCards;
 
     /**
      * Default constructor
@@ -34,6 +38,8 @@ public class Board {
         this.Quills = 0;
         this.Inkwells = 0;
         this.Manuscripts = 0;
+        this.Points = 0 ;
+        this.PointsByGoldCards = 0;
     }
 
     /**
@@ -49,12 +55,59 @@ public class Board {
         this.Manuscripts = 0;
     }
     /**
+     * This method tells if a card can be placed with certain coordinates
+     * @param x coordinate
+     * @param y coordinate
+     * @return true if the card can be placed false otherwise
+     */
+    public boolean canBePlaced(Integer x, Integer y , Card toBePlaced){
+        //if it's a gold card checks if we have enough resources
+        if(toBePlaced.getClass() == GoldCard.class){
+            if(Insects <= ((GoldCard) toBePlaced).getInsects_needed()){
+                return false;
+            }
+            if(Animals <= ((GoldCard) toBePlaced).getAnimals_needed()){
+                return false;
+            }
+            if(Leaves <= ((GoldCard) toBePlaced).getLeaf_needed()){
+                return false;
+            }
+            if(Mushrooms <= ((GoldCard) toBePlaced).getMushroom_needed()){
+                return false;
+            }
+        }
+        for (Card card : inGameCards){
+            if(card.getX() == x+1 && card.getY() == y+1 ){
+                if(card.getShownFace().getLowerLeft().isCovered()) {
+                    return false;
+                }
+            }
+            if(card.getX() == x+1 && card.getY() == y-1 ){
+                if(card.getShownFace().getUpperLeft().isCovered()) {
+                    return false;
+                }
+            }
+            if(card.getX() == x-1 && card.getY() == y+1 ){
+                if(card.getShownFace().getLowerRight().isCovered()) {
+                    return false;
+                }
+            }
+            if(card.getX() == x-1 && card.getY() == y-1 ){
+                if(card.getShownFace().getUpperRight().isCovered()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    /**
      * This method places a card on the board
      * @param toBePlaced the card to be placed on the board
      *
      */
     public void placeCard(Card toBePlaced , Integer x, Integer y){
-        if(canBePlaced(x , y)){
+        if(canBePlaced(x , y , toBePlaced)){
             for (Card card : inGameCards){
                 if(card.getX() == x+1 && card.getY() == y+1 ){
                     card.getShownFace().getLowerLeft().setCovered(toBePlaced);
@@ -72,6 +125,20 @@ public class Board {
             toBePlaced.setCoordinates(x , y);
             inGameCards.add(toBePlaced);
             updateResources();
+            if(toBePlaced.getClass() == GoldCard.class){
+                updateGoldCardsPoints((GoldCard) toBePlaced);
+            }
+            pointsUpdate();
+        }
+    }
+
+    /**
+     * updates the points a player has received only by placing gold cards
+     * @param toBePlaced the gold card that has been placed
+     */
+    public void updateGoldCardsPoints(GoldCard toBePlaced){
+        if(toBePlaced.conditionCheck()){
+            this.PointsByGoldCards += toBePlaced.getPoints();
         }
     }
     /**
@@ -135,37 +202,7 @@ public class Board {
             }
         }
     }
-    /**
-     * This method tells if a card can be placed with certain coordinates
-     * @param x coordinate
-     * @param y coordinate
-     * @return true if the card can be placed false otherwise
-     */
-   public boolean canBePlaced(Integer x, Integer y){
-       for (Card card : inGameCards){
-           if(card.getX() == x+1 && card.getY() == y+1 ){
-               if(card.getShownFace().getLowerLeft().isCovered()) {
-                   return false;
-               }
-           }
-           if(card.getX() == x+1 && card.getY() == y-1 ){
-               if(card.getShownFace().getUpperLeft().isCovered()) {
-                   return false;
-               }
-           }
-           if(card.getX() == x-1 && card.getY() == y+1 ){
-               if(card.getShownFace().getLowerRight().isCovered()) {
-                   return false;
-               }
-           }
-           if(card.getX() == x-1 && card.getY() == y-1 ){
-               if(card.getShownFace().getUpperRight().isCovered()) {
-                   return false;
-               }
-           }
-       }
-       return true;
-   }
+
     /**
      * This method returns the resource cards that can be picked
      * @return ResourceCards the resource cards that can be picked
@@ -252,7 +289,6 @@ public class Board {
     public Deck getDeck() {
         return deck;
     }
-
     /**
      * returns the card at the specified coordinates
      * @param x the x coordinate
@@ -266,6 +302,25 @@ public class Board {
             }
         }
         return null;
+    }
+    /**
+     * This method updates the points of the player
+     */
+    public void pointsUpdate(){
+        this.Points = this.PointsByGoldCards;
+        for(Card card : inGameCards){
+            if(card.getClass() == ResourceCard.class){
+                this.Points += ((ResourceCard) card).getPoints();
+            }
+        }
+        for(ObjectiveCard objectiveCard : inGameObjectiveCards){
+            //TODO implementare metodo in classe objectivecard che controlla la condizione
+            for(Card card : inGameCards){
+                if(true /* objectiveCard.conditionCheck(card) */){
+                    this.Points += objectiveCard.getPoints();
+                }
+            }
+        }
     }
 
 }

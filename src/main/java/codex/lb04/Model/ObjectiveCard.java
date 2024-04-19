@@ -47,4 +47,6 @@ public class ObjectiveCard extends Card{
     //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
 
 
+
+
 }
