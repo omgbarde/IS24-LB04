@@ -925,11 +925,229 @@ public class Deck {
         Face back_gc63 = new Face(cornerB_Ur_gc63,cornerB_Ul_gc63,cornerB_Lr_gc63,cornerB_Ll_gc63,ResourceType.ANIMAL);
         GoldCard gold_card_63 = new GoldCard(Color.BLUE,front_gc63,back_gc63,1, 1, 2,0,0);
 
+        //blue card 64
+        Corner corner_Ur_gc64 = new Corner(false);
+        Corner corner_Lr_gc64 = new Corner(false);
+        Corner corner_Ul_gc64 = new Corner(false);
+        Corner corner_Ll_gc64 = new Corner(true);
+        Corner cornerB_Ur_gc64 = new Corner(false);
+        Corner cornerB_Ul_gc64 = new Corner(false);
+        Corner cornerB_Lr_gc64 = new Corner(false);
+        Corner cornerB_Ll_gc64 = new Corner(false);
+        Face front_gc64 = new Face(corner_Ur_gc64,corner_Ul_gc64,corner_Lr_gc64,corner_Ll_gc64);
+        Face back_gc64 = new Face(cornerB_Ur_gc64,cornerB_Ul_gc64,cornerB_Lr_gc64,cornerB_Ll_gc64,ResourceType.ANIMAL);
+        GoldCard gold_card_64 = new GoldCard(Color.BLUE,front_gc64,back_gc64,2, 0, 3,0,1);
+        
+        //blue card 65
+        Corner corner_Ur_gc65 = new Corner(true);
+        Corner corner_Lr_gc65 = new Corner(false);
+        Corner corner_Ul_gc65 = new Corner(false);
+        Corner corner_Ll_gc65 = new Corner(false);
+        Corner cornerB_Ur_gc65 = new Corner(false);
+        Corner cornerB_Ul_gc65 = new Corner(false);
+        Corner cornerB_Lr_gc65 = new Corner(false);
+        Corner cornerB_Ll_gc65 = new Corner(false);
+        Face front_gc65 = new Face(corner_Ur_gc65,corner_Ul_gc65,corner_Lr_gc65,corner_Ll_gc65);
+        Face back_gc65 = new Face(cornerB_Ur_gc65,cornerB_Ul_gc65,cornerB_Lr_gc65,cornerB_Ll_gc65,ResourceType.ANIMAL);
+        GoldCard gold_card_65 = new GoldCard(Color.BLUE,front_gc65,back_gc65,2, 1, 3,0,0);
 
+        //blue card 66
+        Corner corner_Ur_gc66 = new Corner(false);
+        Corner corner_Lr_gc66 = new Corner(false);
+        Corner corner_Ul_gc66 = new Corner(true);
+        Corner corner_Ll_gc66 = new Corner(false);
+        Corner cornerB_Ur_gc66 = new Corner(false);
+        Corner cornerB_Ul_gc66 = new Corner(false);
+        Corner cornerB_Lr_gc66 = new Corner(false);
+        Corner cornerB_Ll_gc66 = new Corner(false);
+        Face front_gc66 = new Face(corner_Ur_gc66,corner_Ul_gc66,corner_Lr_gc66,corner_Ll_gc66);
+        Face back_gc66 = new Face(cornerB_Ur_gc66,cornerB_Ul_gc66,cornerB_Lr_gc66,cornerB_Ll_gc66,ResourceType.ANIMAL);
+        GoldCard gold_card_66 = new GoldCard(Color.BLUE,front_gc66,back_gc66,2, 0, 3,1,0);
 
+        //blue card 67
+        Corner corner_Ur_gc67 = new Corner(true);
+        Corner corner_Lr_gc67 = new Corner(true);
+        Corner corner_Ul_gc67 = new Corner(false);
+        Corner corner_Ll_gc67 = new Corner(ResourceType.MANUSCRIPT);
+        Corner cornerB_Ur_gc67 = new Corner(false);
+        Corner cornerB_Ul_gc67 = new Corner(false);
+        Corner cornerB_Lr_gc67 = new Corner(false);
+        Corner cornerB_Ll_gc67 = new Corner(false);
+        Face front_gc67 = new Face(corner_Ur_gc67,corner_Ul_gc67,corner_Lr_gc67,corner_Ll_gc67);
+        Face back_gc67 = new Face(cornerB_Ur_gc67,cornerB_Ul_gc67,cornerB_Lr_gc67,cornerB_Ll_gc67,ResourceType.ANIMAL);
+        GoldCard gold_card_67 = new GoldCard(Color.BLUE,front_gc67,back_gc67,3, 0, 3,0,0);
+
+        //blue card 68
+        Corner corner_Ur_gc68 = new Corner(ResourceType.INKWELL);
+        Corner corner_Lr_gc68 = new Corner(true);
+        Corner corner_Ul_gc68 = new Corner(false);
+        Corner corner_Ll_gc68 = new Corner(true);
+        Corner cornerB_Ur_gc68 = new Corner(false);
+        Corner cornerB_Ul_gc68 = new Corner(false);
+        Corner cornerB_Lr_gc68 = new Corner(false);
+        Corner cornerB_Ll_gc68 = new Corner(false);
+        Face front_gc68 = new Face(corner_Ur_gc68,corner_Ul_gc68,corner_Lr_gc68,corner_Ll_gc68);
+        Face back_gc68 = new Face(cornerB_Ur_gc68,cornerB_Ul_gc68,cornerB_Lr_gc68,cornerB_Ll_gc68,ResourceType.ANIMAL);
+        GoldCard gold_card_68 = new GoldCard(Color.BLUE,front_gc68,back_gc68,3, 0, 3,0,0);
+
+        //blue card 69
+        Corner corner_Ur_gc69 = new Corner(false);
+        Corner corner_Lr_gc69 = new Corner(ResourceType.QUILL);
+        Corner corner_Ul_gc69 = new Corner(true);
+        Corner corner_Ll_gc69 = new Corner(true);
+        Corner cornerB_Ur_gc69 = new Corner(false);
+        Corner cornerB_Ul_gc69 = new Corner(false);
+        Corner cornerB_Lr_gc69 = new Corner(false);
+        Corner cornerB_Ll_gc69 = new Corner(false);
+        Face front_gc69 = new Face(corner_Ur_gc69,corner_Ul_gc69,corner_Lr_gc69,corner_Ll_gc69);
+        Face back_gc69 = new Face(cornerB_Ur_gc69,cornerB_Ul_gc69,cornerB_Lr_gc69,cornerB_Ll_gc69,ResourceType.ANIMAL);
+        GoldCard gold_card_69 = new GoldCard(Color.BLUE,front_gc69,back_gc69,3, 0, 3,0,0);
+
+        //blue card 70
+        Corner corner_Ur_gc70 = new Corner(false);
+        Corner corner_Lr_gc70 = new Corner(false);
+        Corner corner_Ul_gc70 = new Corner(true);
+        Corner corner_Ll_gc70 = new Corner(true);
+        Corner cornerB_Ur_gc70 = new Corner(false);
+        Corner cornerB_Ul_gc70 = new Corner(false);
+        Corner cornerB_Lr_gc70 = new Corner(false);
+        Corner cornerB_Ll_gc70 = new Corner(false);
+        Face front_gc70 = new Face(corner_Ur_gc70,corner_Ul_gc70,corner_Lr_gc70,corner_Ll_gc70);
+        Face back_gc70 = new Face(cornerB_Ur_gc70,cornerB_Ul_gc70,cornerB_Lr_gc70,cornerB_Ll_gc70,ResourceType.ANIMAL);
+        GoldCard gold_card_70 = new GoldCard(Color.BLUE,front_gc70,back_gc70,5, 0, 5,0,0);
+        
         //purple gold cards
-        //blue card 71
+        //purple card 71
+        Corner corner_Ur_gc71 = new Corner(ResourceType.QUILL);
+        Corner corner_Lr_gc71 = new Corner(false);
+        Corner corner_Ul_gc71 = new Corner(false);
+        Corner corner_Ll_gc71 = new Corner(true);
+        Corner cornerB_Ur_gc71 = new Corner(false);
+        Corner cornerB_Ul_gc71 = new Corner(false);
+        Corner cornerB_Lr_gc71 = new Corner(false);
+        Corner cornerB_Ll_gc71 = new Corner(false);
+        Face front_gc71 = new Face(corner_Ur_gc71,corner_Ul_gc71,corner_Lr_gc71,corner_Ll_gc71);
+        Face back_gc71 = new Face(cornerB_Ur_gc71,cornerB_Ul_gc71,cornerB_Lr_gc71,cornerB_Ll_gc71,ResourceType.INSECT);
+        GoldCard gold_card_71 = new GoldCard(Color.PURPLE,front_gc71,back_gc71,1, 0, 0,1,2);
 
+        //purple card 72
+        Corner corner_Ur_gc72 = new Corner(true);
+        Corner corner_Lr_gc72 = new Corner(false);
+        Corner corner_Ul_gc72 = new Corner(false);
+        Corner corner_Ll_gc72 = new Corner(ResourceType.MANUSCRIPT);
+        Corner cornerB_Ur_gc72 = new Corner(false);
+        Corner cornerB_Ul_gc72 = new Corner(false);
+        Corner cornerB_Lr_gc72 = new Corner(false);
+        Corner cornerB_Ll_gc72 = new Corner(false);
+        Face front_gc72 = new Face(corner_Ur_gc72,corner_Ul_gc72,corner_Lr_gc72,corner_Ll_gc72);
+        Face back_gc72 = new Face(cornerB_Ur_gc72,cornerB_Ul_gc72,cornerB_Lr_gc72,cornerB_Ll_gc72,ResourceType.INSECT);
+        GoldCard gold_card_72 = new GoldCard(Color.PURPLE,front_gc72,back_gc72,1, 0, 1,0,2);
+
+        //purple card 73
+        Corner corner_Ur_gc73 = new Corner(false);
+        Corner corner_Lr_gc73 = new Corner(ResourceType.INKWELL);
+        Corner corner_Ul_gc73 = new Corner(true);
+        Corner corner_Ll_gc73 = new Corner(false);
+        Corner cornerB_Ur_gc73 = new Corner(false);
+        Corner cornerB_Ul_gc73 = new Corner(false);
+        Corner cornerB_Lr_gc73 = new Corner(false);
+        Corner cornerB_Ll_gc73 = new Corner(false);
+        Face front_gc73 = new Face(corner_Ur_gc73,corner_Ul_gc73,corner_Lr_gc73,corner_Ll_gc73);
+        Face back_gc73 = new Face(cornerB_Ur_gc73,cornerB_Ul_gc73,cornerB_Lr_gc73,cornerB_Ll_gc73,ResourceType.INSECT);
+        GoldCard gold_card_73 = new GoldCard(Color.PURPLE,front_gc73,back_gc73,1, 1, 0,0,2);
+
+        //purple card 74
+        Corner corner_Ur_gc74 = new Corner(false);
+        Corner corner_Lr_gc74 = new Corner(false);
+        Corner corner_Ul_gc74 = new Corner(false);
+        Corner corner_Ll_gc74 = new Corner(true);
+        Corner cornerB_Ur_gc74 = new Corner(false);
+        Corner cornerB_Ul_gc74 = new Corner(false);
+        Corner cornerB_Lr_gc74 = new Corner(false);
+        Corner cornerB_Ll_gc74 = new Corner(false);
+        Face front_gc74 = new Face(corner_Ur_gc74,corner_Ul_gc74,corner_Lr_gc74,corner_Ll_gc74);
+        Face back_gc74 = new Face(cornerB_Ur_gc74,cornerB_Ul_gc74,cornerB_Lr_gc74,cornerB_Ll_gc74,ResourceType.INSECT);
+        GoldCard gold_card_74 = new GoldCard(Color.PURPLE,front_gc74,back_gc74,2, 0, 1,0,3);
+
+        //purple card 75
+        Corner corner_Ur_gc75 = new Corner(false);
+        Corner corner_Lr_gc75 = new Corner(true);
+        Corner corner_Ul_gc75 = new Corner(false);
+        Corner corner_Ll_gc75 = new Corner(false);
+        Corner cornerB_Ur_gc75 = new Corner(false);
+        Corner cornerB_Ul_gc75 = new Corner(false);
+        Corner cornerB_Lr_gc75 = new Corner(false);
+        Corner cornerB_Ll_gc75 = new Corner(false);
+        Face front_gc75 = new Face(corner_Ur_gc75,corner_Ul_gc75,corner_Lr_gc75,corner_Ll_gc75);
+        Face back_gc75 = new Face(cornerB_Ur_gc75,cornerB_Ul_gc75,cornerB_Lr_gc75,cornerB_Ll_gc75,ResourceType.INSECT);
+        GoldCard gold_card_75 = new GoldCard(Color.PURPLE,front_gc75,back_gc75,2, 0, 0,1,3);
+
+        //purple card 76
+        Corner corner_Ur_gc76 = new Corner(true);
+        Corner corner_Lr_gc76 = new Corner(false);
+        Corner corner_Ul_gc76 = new Corner(false);
+        Corner corner_Ll_gc76 = new Corner(false);
+        Corner cornerB_Ur_gc76 = new Corner(false);
+        Corner cornerB_Ul_gc76 = new Corner(false);
+        Corner cornerB_Lr_gc76 = new Corner(false);
+        Corner cornerB_Ll_gc76 = new Corner(false);
+        Face front_gc76 = new Face(corner_Ur_gc76,corner_Ul_gc76,corner_Lr_gc76,corner_Ll_gc76);
+        Face back_gc76 = new Face(cornerB_Ur_gc76,cornerB_Ul_gc76,cornerB_Lr_gc76,cornerB_Ll_gc76,ResourceType.INSECT);
+        GoldCard gold_card_76 = new GoldCard(Color.PURPLE,front_gc76,back_gc76,2, 1, 0,0,3);
+
+        //purple card 77
+        Corner corner_Ur_gc77 = new Corner(true);
+        Corner corner_Lr_gc77 = new Corner(true);
+        Corner corner_Ul_gc77 = new Corner(ResourceType.INKWELL);
+        Corner corner_Ll_gc77 = new Corner(false);
+        Corner cornerB_Ur_gc77 = new Corner(false);
+        Corner cornerB_Ul_gc77 = new Corner(false);
+        Corner cornerB_Lr_gc77 = new Corner(false);
+        Corner cornerB_Ll_gc77 = new Corner(false);
+        Face front_gc77 = new Face(corner_Ur_gc77,corner_Ul_gc77,corner_Lr_gc77,corner_Ll_gc77);
+        Face back_gc77 = new Face(cornerB_Ur_gc77,cornerB_Ul_gc77,cornerB_Lr_gc77,cornerB_Ll_gc77,ResourceType.INSECT);
+        GoldCard gold_card_77 = new GoldCard(Color.PURPLE,front_gc77,back_gc77,3, 0, 0,0,3);
+
+        //purple card 78
+        Corner corner_Ur_gc78 = new Corner(ResourceType.MANUSCRIPT);
+        Corner corner_Lr_gc78 = new Corner(true);
+        Corner corner_Ul_gc78 = new Corner(false);
+        Corner corner_Ll_gc78 = new Corner(true);
+        Corner cornerB_Ur_gc78 = new Corner(false);
+        Corner cornerB_Ul_gc78 = new Corner(false);
+        Corner cornerB_Lr_gc78 = new Corner(false);
+        Corner cornerB_Ll_gc78 = new Corner(false);
+        Face front_gc78 = new Face(corner_Ur_gc78,corner_Ul_gc78,corner_Lr_gc78,corner_Ll_gc78);
+        Face back_gc78 = new Face(cornerB_Ur_gc78,cornerB_Ul_gc78,cornerB_Lr_gc78,cornerB_Ll_gc78,ResourceType.INSECT);
+        GoldCard gold_card_78 = new GoldCard(Color.PURPLE,front_gc78,back_gc78,3, 0, 0,0,3);
+
+        //purple card 79
+        Corner corner_Ur_gc79 = new Corner(true);
+        Corner corner_Lr_gc79 = new Corner(false);
+        Corner corner_Ul_gc79 = new Corner(true);
+        Corner corner_Ll_gc79 = new Corner(ResourceType.QUILL);
+        Corner cornerB_Ur_gc79 = new Corner(false);
+        Corner cornerB_Ul_gc79 = new Corner(false);
+        Corner cornerB_Lr_gc79 = new Corner(false);
+        Corner cornerB_Ll_gc79 = new Corner(false);
+        Face front_gc79 = new Face(corner_Ur_gc79,corner_Ul_gc79,corner_Lr_gc79,corner_Ll_gc79);
+        Face back_gc79 = new Face(cornerB_Ur_gc79,cornerB_Ul_gc79,cornerB_Lr_gc79,cornerB_Ll_gc79,ResourceType.INSECT);
+        GoldCard gold_card_79 = new GoldCard(Color.PURPLE,front_gc79,back_gc79,3, 0, 0,0,3);
+
+        //purple card 80
+        Corner corner_Ur_gc80 = new Corner(false);
+        Corner corner_Lr_gc80 = new Corner(true);
+        Corner corner_Ul_gc80 = new Corner(false);
+        Corner corner_Ll_gc80 = new Corner(true);
+        Corner cornerB_Ur_gc80 = new Corner(false);
+        Corner cornerB_Ul_gc80 = new Corner(false);
+        Corner cornerB_Lr_gc80 = new Corner(false);
+        Corner cornerB_Ll_gc80 = new Corner(false);
+        Face front_gc80 = new Face(corner_Ur_gc80,corner_Ul_gc80,corner_Lr_gc80,corner_Ll_gc80);
+        Face back_gc80 = new Face(cornerB_Ur_gc80,cornerB_Ul_gc80,cornerB_Lr_gc80,cornerB_Ll_gc80,ResourceType.INSECT);
+        GoldCard gold_card_80 = new GoldCard(Color.PURPLE,front_gc80,back_gc80,5, 0, 0,0,5);
+
+        //TODO Gestire punteggi ottenuti dalle GoldCard
 
         //starting cards
         //starting card 81
