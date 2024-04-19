@@ -31,9 +31,9 @@ class DeckTest {
         this.corner4 = new Corner(ResourceType.LEAF);
         this.EmptyCorner = new Corner(false);
         this.CoveredCorner = new Corner(true);
-        this.front = new Face( corner1 , corner2 , corner3 , corner4 );
-        this.back = new Face( EmptyCorner , EmptyCorner , EmptyCorner , EmptyCorner , ResourceType.ANIMAL);
-        this.card = new Card(Color.BLUE , front , back);
+        this.front = new Face(corner1, corner2, corner3, corner4);
+        this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
+        this.card = new Card(Color.BLUE, front, back);
         this.board = new Board();
     }
 

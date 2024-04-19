@@ -12,6 +12,7 @@ class ObjectiveCardTest {
     void setUp() {
 
     }
+
     @AfterEach
     void tearDown() {
 

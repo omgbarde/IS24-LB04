@@ -11,14 +11,16 @@ public class Card {
     private final Face back;
     private Color color;
     private Integer points;
-    private Integer x , y;
+    private Integer x, y;
+
     /**
      * Default constructor
+     *
      * @param front the face of the card
-     * @param back the face of the card
+     * @param back  the face of the card
      * @param color the color of the card
      */
-    public Card(Color color , Face front , Face back){
+    public Card(Color color, Face front, Face back) {
         this.ShownFace = front;
         this.color = color;
         this.back = back;
@@ -27,13 +29,15 @@ public class Card {
         this.x = null;
         this.y = null;
     }
+
     /**
      * Default constructor for cards with points
+     *
      * @param front the face of the card
-     * @param back the face of the card
+     * @param back  the face of the card
      * @param color the color of the card
      */
-    public Card(Color color , Face front , Face back , Integer points){
+    public Card(Color color, Face front, Face back, Integer points) {
         this.ShownFace = front;
         this.color = color;
         this.back = back;
@@ -42,34 +46,40 @@ public class Card {
         this.x = null;
         this.y = null;
     }
+
     /**
-     *  This method flips the card
+     * This method flips the card
      */
-    public void flip (Card card){
-        if (ShownFace == front){
+    public void flip(Card card) {
+        if (ShownFace == front) {
             ShownFace = back;
-        }else{
+        } else {
             ShownFace = front;
         }
     }
+
     /**
      * returns the shown face of the card
+     *
      * @return the shown face of the card
      */
     public Face getShownFace() {
         return ShownFace;
     }
+
     /**
      * Set the coordinates of the card
      */
-    public void setCoordinates(int x, int y){
+    public void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public boolean hasEnoughResources(){
+    public boolean hasEnoughResources() {
         return false;
-    };
+    }
+
+    ;
 
     public Face getFront() {
         return front;

@@ -12,24 +12,24 @@ class GameTest {
 
     private static Game game;
     private static Corner corner = new Corner(ResourceType.ANIMAL);
-    private static Face face = new Face(corner , corner , corner , corner , ResourceType.INSECT);
-    private static Card card = new Card(Color.BLUE , face , face);
+    private static Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
+    private static Card card = new Card(Color.BLUE, face, face);
     private static Player player;
     private static ArrayList<Player> players = new ArrayList<Player>();
     private static Board board;
     private static Deck deck;
     private static ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
     private static ArrayList<Card> cards = new ArrayList<>();
-    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE , face , face , 2);
+    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2 , 87);
 
 
     @BeforeAll
     static void setUp() {
-        player = new Player("test" , objectiveCards, SecretobjectiveCard, cards);
+        player = new Player("test", objectiveCards, SecretobjectiveCard, cards);
         players.add(player);
         board = new Board();
         deck = Deck.getInstance();
-        game = Game.getInstance(deck , board);
+        game = Game.getInstance(deck, board);
         game.addPlayer(player);
         game.setGameState(GameState.PLAYING);
     }
@@ -71,9 +71,10 @@ class GameTest {
 
     @Test
     void placeCard() {
-        board.placeCard(card , 0 , 0);
-        assertEquals(card, board.getCard(0,0));
+        board.placeCard(card, 0, 0);
+        assertEquals(card, board.getCard(0, 0));
     }
+
     @Test
     void addPlayer() {
         game.addPlayer(player);

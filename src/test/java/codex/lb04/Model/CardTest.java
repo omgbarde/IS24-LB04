@@ -27,10 +27,10 @@ class CardTest {
         this.corner3 = new Corner(ResourceType.INSECT);
         this.EmptyCorner = new Corner(false);
         this.CoveredCorner = new Corner(true);
-        this.front = new Face( corner1 , corner2 , corner3 , CoveredCorner );
-        this.back = new Face( EmptyCorner , EmptyCorner , EmptyCorner , EmptyCorner , ResourceType.ANIMAL);
-        this.card = new Card(Color.BLUE , front , back);
-        this.CardWithPoints = new Card(Color.BLUE , front , back , 2);
+        this.front = new Face(corner1, corner2, corner3, CoveredCorner);
+        this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
+        this.card = new Card(Color.BLUE, front, back);
+        this.CardWithPoints = new Card(Color.BLUE, front, back, 2);
     }
 
     @AfterEach
@@ -80,7 +80,7 @@ class CardTest {
 
     @Test
     void getPoints() {
-        assertEquals(2 , CardWithPoints.getPoints());
+        assertEquals(2, CardWithPoints.getPoints());
     }
 
     @Test

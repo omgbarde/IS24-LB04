@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * This class represents an objective card, both secret and non
  */
-public class ObjectiveCard extends Card{
+public class ObjectiveCard extends Card {
     private final int points;
     private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
     private boolean inGame;
@@ -42,7 +42,7 @@ public class ObjectiveCard extends Card{
             return false;
         }
     }*/
-    public void setInGame(){
+    public void setInGame() {
         this.inGame = true;
     }
 
@@ -56,7 +56,6 @@ public class ObjectiveCard extends Card{
 
     //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
     //ogni numero rappresenta una carta obb
-
 
 
 }

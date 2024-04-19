@@ -33,7 +33,7 @@ class CornerTest {
     @Test
     void setCovered() {
         corner.setCovered(cover);
-        assertEquals(cover , corner.getCover() );
+        assertEquals(cover, corner.getCover());
     }
 
     @Test
@@ -50,6 +50,6 @@ class CornerTest {
 
     @Test
     void getResource() {
-        assertEquals(corner.getResource() , ResourceType.INSECT);
+        assertEquals(corner.getResource(), ResourceType.INSECT);
     }
 }

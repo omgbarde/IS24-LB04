@@ -5,7 +5,7 @@ import codex.lb04.Model.Enumerations.Color;
 /**
  * Class that represents a Gold Card
  */
-public class GoldCard extends Card{
+public class GoldCard extends Card {
     //number of points you gain from the "objective"
     private final int points;
     private final int mushroom_needed;
@@ -14,6 +14,7 @@ public class GoldCard extends Card{
     private final int leaf_needed;
 
     //TODO aggiorna il commento con i nuovi parametri
+
     /**
      * Default constructor
      *
@@ -49,7 +50,6 @@ public class GoldCard extends Card{
     public Integer getLeaf_needed() {
         return leaf_needed;
     }
-
 
 
 }
