@@ -68,8 +68,8 @@ public class Card {
     }
 
     public boolean hasEnoughResources(){
-        if
-    }
+        return false;
+    };
 
     public Face getFront() {
         return front;

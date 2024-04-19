@@ -13,7 +13,6 @@ public class Board {
     private ArrayList<Card> GoldCards = new ArrayList<Card>();
     private Integer Insects;
     private Integer Animals;
-
     private Integer Mushrooms;
     private Integer Leaves;
     private Integer Quills;
@@ -82,6 +81,31 @@ public class Board {
     public void updateResources(){
         setZeroResources();
         for (Card card : inGameCards){
+            for(ResourceType resource : card.getShownFace().getCentralResources()){
+                switch (resource){
+                    case ResourceType.ANIMAL:
+                        this.Animals++;
+                        break;
+                    case ResourceType.INSECT:
+                        this.Insects++;
+                        break;
+                    case ResourceType.LEAF:
+                        this.Leaves++;
+                        break;
+                    case ResourceType.MUSHROOM:
+                        this.Mushrooms++;
+                        break;
+                    case ResourceType.QUILL:
+                        this.Quills++;
+                        break;
+                    case ResourceType.INKWELL:
+                        this.Inkwells++;
+                        break;
+                    case ResourceType.MANUSCRIPT:
+                        this.Manuscripts++;
+                        break;
+                }
+            }
             for( Corner corner : card.getShownFace().getCorners()) {
                 if (!corner.isCovered()) {
                     switch (corner.getResource()) {
