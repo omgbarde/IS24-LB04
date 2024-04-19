@@ -9,7 +9,7 @@ import java.util.*;
  * this class represents the deck of cards
  */
 public class Deck {
-    private ArrayList<Card> ResourceCards;
+    private ArrayList<Card> resourceCards;
     private ArrayList<Card> GoldCards;
     private static Deck instance;
 
@@ -17,7 +17,7 @@ public class Deck {
      * Default constructor
      */
     private Deck() {
-        ResourceCards = new ArrayList<>();
+        resourceCards = new ArrayList<>();
         GoldCards = new ArrayList<>();
         //TODO implementare creazione mazzo
         initializeDeck();
@@ -37,7 +37,7 @@ public class Deck {
      * @return the deck of resource cards
      */
     public ArrayList<Card> getResourceCards() {
-        return ResourceCards;
+        return resourceCards;
     }
 
     /**
@@ -51,7 +51,7 @@ public class Deck {
      * this method shuffles the deck of resources cards
      */
     public void shuffleResources() {
-        Collections.shuffle(ResourceCards);
+        Collections.shuffle(resourceCards);
     }
     /**
      * this method shuffles the deck of gold cards
@@ -65,10 +65,12 @@ public class Deck {
      * @return the card drawn
      */
     public Card drawResource() {
-        if(ResourceCards.isEmpty()){
+        if(resourceCards.isEmpty()){
             throw new IllegalStateException("Deck is empty");
         }
-        return ResourceCards.removeFirst();
+        //TODO uncomment the return
+        //return resourceCards.removeFirst();
+        return resourceCards.get(0);
     }
     /**
      * this method draws a card from the deck of gold
@@ -78,7 +80,9 @@ public class Deck {
         if (GoldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        return GoldCards.removeFirst();
+        //TODO uncomment the return
+       // return GoldCards.removeFirst();
+        return resourceCards.get(0);
     }
     /**
      * this method creates the deck of cards and returns it
@@ -1013,4 +1017,5 @@ public class Deck {
 
 
     }
+
 }

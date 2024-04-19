@@ -317,4 +317,109 @@ public class Board {
         }
     }
 
+    public void finalPointsUpdate(){
+        for(ObjectiveCard objectiveCard : inGameObjectiveCards){
+            for(Card card : inGameCards){
+                if(this.conditionCheckOnPositions(objectiveCard , card)){
+                    this.Points += objectiveCard.getPoints();
+                }
+            }
+        }
+        for(Card card : inGameCards){
+            if(this.conditionCheckOnPositions(secretObjective , card)){
+                this.Points += secretObjective.getPoints();
+            }
+        }
+        for (ObjectiveCard objectiveCard : inGameObjectiveCards){
+            this.Points += conditionCheckResources(objectiveCard);
+        }
+
+        this.Points += conditionCheckResources(secretObjective);
+    }
+
+    public Integer conditionCheckResources(ObjectiveCard objectiveCard){
+        switch(objectiveCard.getID()){
+            case 95 :
+                return (Integer) objectiveCard.getPoints() * this.getMushrooms()/3;
+            case 96 :
+                return (Integer) objectiveCard.getPoints() * this.getLeaves()/3;
+            case 97 :
+                return (Integer) objectiveCard.getPoints() * this.getAnimals()/3;
+            case 98 :
+                return (Integer) objectiveCard.getPoints() * this.getInsects()/3;
+            case 99 :
+                return (Integer) objectiveCard.getPoints() * Math.min( this.getManuscripts() , Math.min(this.getInkwells() , this.getQuills()));
+            case 100 :
+                return (Integer) objectiveCard.getPoints() * this.getManuscripts()/2;
+            case 101 :
+                return (Integer) objectiveCard.getPoints() * this.getInkwells()/2;
+            case 102 :
+                return (Integer) objectiveCard.getPoints() * this.getQuills()/2;
+        }
+        return 0;
+    }
+
+
+    public boolean conditionCheckOnPositions(ObjectiveCard objectiveCard , Card card){
+        switch(objectiveCard.getID()){
+            case 87 :
+                if(card.getColor() == Color.RED) {
+                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED) {
+                        return true;
+                    }
+                }
+                break;
+            case 88 :
+                if(card.getColor() == Color.GREEN) {
+                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN) {
+                        return true;
+                    }
+                }
+                break;
+            case 89 :
+                if(card.getColor() == Color.BLUE) {
+                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE) {
+                        return true;
+                    }
+                }
+                break;
+            case 90 :
+                if(card.getColor() == Color.PURPLE) {
+                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE) {
+                        return true;
+                    }
+                }
+                break;
+            case 91 :
+                if(card.getColor() == Color.RED) {
+                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 2).getColor() == Color.GREEN) {
+                        return true;
+                    }
+                }
+                break;
+            case 92 :
+                if(card.getColor() == Color.GREEN) {
+                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 2).getColor() == Color.PURPLE) {
+                        return true;
+                    }
+                }
+                break;
+            case 93 :
+                if(card.getColor() == Color.BLUE) {
+                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 2).getColor() == Color.RED) {
+                        return true;
+                    }
+                }
+                break;
+            case 94 :
+                if(card.getColor() == Color.PURPLE) {
+                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 2).getColor() == Color.BLUE) {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
+    }
+
 }

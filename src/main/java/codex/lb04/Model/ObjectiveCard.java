@@ -12,6 +12,7 @@ public class ObjectiveCard extends Card{
     private final int points;
     private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
     private boolean inGame;
+    private Integer ID;
 
     /**
      * Default constructor
@@ -20,10 +21,11 @@ public class ObjectiveCard extends Card{
      * @param front the face of the card
      * @param back  the face of the card
      */
-    public ObjectiveCard(Color color, Face front, Face back, int points) {
+    public ObjectiveCard(Color color, Face front, Face back, int points, int ID) {
         super(color, front, back);
         this.points = points;
         this.inGame = false;
+        this.ID = ID;
     }
 
     public Integer getPoints() {
@@ -44,8 +46,16 @@ public class ObjectiveCard extends Card{
         this.inGame = true;
     }
 
-    //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
+    public Integer getID() {
+        return ID;
+    }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
+    //ogni numero rappresenta una carta obb
 
 
 
