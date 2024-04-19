@@ -19,7 +19,6 @@ public class Deck {
     private Deck() {
         ResourceCards = new ArrayList<>();
         GoldCards = new ArrayList<>();
-        //TODO implementare creazione mazzo
         initializeDeck();
     }
     /**
@@ -84,7 +83,7 @@ public class Deck {
      * this method creates the deck of cards and returns it
      */
     public void initializeDeck() {
-        //TODO implementare creazione mazzo
+
     }
 
     public static void main(String[] args) {
@@ -630,7 +629,7 @@ public class Deck {
         Corner cornerB_Ll_gc41 = new Corner(true);
         Face front_gc41 = new Face(corner_Ur_gc41,corner_Ul_gc41,corner_Lr_gc41,corner_Ll_gc41);
         Face back_gc41 = new Face(cornerB_Ur_gc41,cornerB_Ul_gc41,cornerB_Lr_gc41,cornerB_Ll_gc41,ResourceType.MUSHROOM);
-        GoldCard gold_card_41 = new GoldCard(Color.RED,front_gc41,back_gc41,0);
+//        GoldCard gold_card_41 = new GoldCard(Color.RED,front_gc41,back_gc41,0);
 
         //green gold cards
         //green card 51

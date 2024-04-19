@@ -30,5 +30,4 @@ public class GoldCard extends Card{
         this.leaf_needed = leaf_needed;
     }
 
-
 }
