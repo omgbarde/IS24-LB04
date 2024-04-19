@@ -13,10 +13,10 @@ import java.util.List;
 
 public class ServerApp implements Runnable {
     //default port
-    private static int port = ConnectionUtil.port;
+    private static int port = ConnectionUtil.defaultPort;
     private ServerSocket serverSocket;
     //list of all client handlers
-    private List<ClientHandler> clientHandlerList = new ArrayList<ClientHandler>();
+    private List<ClientHandler> clientHandlerList = new ArrayList<>();
 
     /**
      * creates the server socket and multiple client handlers based on incoming connection requests
@@ -42,7 +42,7 @@ public class ServerApp implements Runnable {
 
     /**
      * send message to all connected clients
-     * @param message
+     * @param message message to be broadcasted
      */
     public void broadcast(Message message) {
         for (ClientHandler clientHandler : this.clientHandlerList) {
@@ -52,7 +52,7 @@ public class ServerApp implements Runnable {
 
     /**
      * remove a client handler from the list
-     * @param clientHandler
+     * @param clientHandler is the client handler to be removed
      */
     public void removeClientHandler(ClientHandler clientHandler){
         clientHandlerList.remove(clientHandler);
@@ -64,10 +64,17 @@ public class ServerApp implements Runnable {
         try {
             port = Integer.parseInt(args[0]);
         }
-        catch (Exception e){
-            System.out.println("port error or not specified, default port is used");
+        catch (NumberFormatException|IndexOutOfBoundsException e){
+            System.out.println("port reding error, default port is used");
         }
-        new Thread(new ServerApp()).run();
+            if(ConnectionUtil.isValidPort(port)){
+                System.out.println("using port " + port);
+            }
+            else {
+                System.out.println("invalid port, default port is used");
+            }
+
+        new Thread(new ServerApp()).start();
     }
     public static void print(String s){
         System.out.println(s);

@@ -1,5 +1,8 @@
 package codex.lb04.Message;
 
+/**
+ * mesaage sent as reply to login message
+ */
 public class LoginReply extends Message{
     private static final long serialVersionUID = 4;
     private final boolean accepted;
@@ -16,7 +19,7 @@ public class LoginReply extends Message{
     @Override
     public String toString() {
         return "LoginReply{" +
-                "nickname=" + getNickname() +
+                "nickname=" + getUsername() +
                 ", accepted=" + accepted +
                 '}';
     }

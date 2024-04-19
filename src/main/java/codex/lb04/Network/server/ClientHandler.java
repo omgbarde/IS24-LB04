@@ -1,19 +1,21 @@
 package codex.lb04.Network.server;
 
-import codex.lb04.Message.LoginReply;
-import codex.lb04.Message.Message;
-import codex.lb04.Message.MessageType;
+import codex.lb04.Message.*;
 import codex.lb04.ServerApp;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * client handler class handles client-server comunication
  */
 public class ClientHandler implements Runnable{
-    private Socket clientSocket;
+    //TODO avoid this upward dependency
     private ServerApp server;
+    private Socket clientSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private String username;
@@ -49,13 +51,16 @@ public class ClientHandler implements Runnable{
                     this.handleInput(message);
                 }
             }
-        }
-        catch (IOException | ClassNotFoundException e){
+        } catch (SocketException e){
+               System.out.println("client disconnected: " + getUsername());
+
+        } catch (IOException | ClassNotFoundException e){
+            //TODO separare i catch
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 clientSocket.close();
+                //TODO move this in ServerApp
                 this.server.removeClientHandler(this);
             }
             catch (IOException ex){
@@ -66,16 +71,23 @@ public class ClientHandler implements Runnable{
 
     /**
      * this method parses messages from the client and invokes methods based on the type and parameters of those messages
+     * @param input is the message passed from the client
      * */
     public void handleInput(Message input) {
+        //TODO implementare metodo parse
+
         if(input.getMessageType().equals(MessageType.LOGIN_REQUEST)&& getUsername()==null){
-            setUsername(input.getNickname());
+            setUsername(input.getUsername());
             server.print("new user wants to play: " + getUsername());
-            LoginReply reply = new LoginReply(getUsername(),true);
-            server.broadcast(reply);
+            //mando al game, risponde lui se accettato
+
+            //risponderà solo con fconferma ricezione
+            sendMessage(new OkMessage());
         }
         else{
-            ServerApp.print("message not recognized");
+            server.print("message not recognized");
+            ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
+            sendMessage(error);
         }
     }
 
@@ -92,10 +104,18 @@ public class ClientHandler implements Runnable{
             e.printStackTrace();}
     }
 
+    /**
+     * method to get the username associated with the clientHandler
+     * @return the username associated with the clientHandler
+     */
     public String getUsername() {
         return this.username;
     }
 
+    /**
+     * method to set the username associated with the clientHandler
+     * @param username is the username to be associated with the clientHandler
+     */
     public void setUsername(String username) {
         this.username = username;
     }

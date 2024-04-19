@@ -9,8 +9,8 @@ public class ErrorMessage extends Message {
 
     private final String error;
 
-    public ErrorMessage(String nickname, String error) {
-        super(nickname, MessageType.ERROR);
+    public ErrorMessage(String username, String error) {
+        super(username, MessageType.ERROR);
         this.error = error;
     }
 
@@ -21,7 +21,7 @@ public class ErrorMessage extends Message {
     @Override
     public String toString() {
         return "ErrorMessage{" +
-                "nickname=" + getNickname() +
+                "nickname=" + getUsername() +
                 ", error=" + error +
                 '}';
     }

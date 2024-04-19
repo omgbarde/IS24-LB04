@@ -10,7 +10,7 @@
 - [ ] deck model
 - [ ] deck builder
 - [ ] first interface
-- [ ] implement message system
+- [x] implement message system
 - [x] implement socket communication
 
 

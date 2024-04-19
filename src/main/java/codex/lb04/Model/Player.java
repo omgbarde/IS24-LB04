@@ -1,9 +1,6 @@
 package codex.lb04.Model;
 
-import codex.lb04.Model.Enumerations.ResourceType;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class represents a player

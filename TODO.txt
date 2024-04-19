@@ -1,4 +1,3 @@
-//TODO implementare utilizzo e serializzazione dei messaggi
 //TODO implementare chiusura graceful del socket client
 
 //TODO organizzare conteggio risorse nella parte PLAYER/BOARD
@@ -6,3 +5,5 @@
 //TODO come gestire player in classe Game
 
 //TODO finire card e sue gen
+
+//TODO sistemare clientHandler

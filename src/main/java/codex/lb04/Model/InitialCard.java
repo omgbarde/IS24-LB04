@@ -1,7 +1,6 @@
 package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
-import codex.lb04.Model.Enumerations.ResourceType;
 
 /**
  * This class represents initial cards

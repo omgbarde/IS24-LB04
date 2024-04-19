@@ -1,10 +1,5 @@
 package codex.lb04.Model;
 
-import codex.lb04.Model.Enumerations.Items;
-import codex.lb04.Model.Enumerations.ResourceType;
-
-import java.util.ArrayList;
-
 /**
  * This class represents the board of the game
  */

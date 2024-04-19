@@ -6,37 +6,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Observable class that can be observed by implementing the {@link Observer} interface and registering as listener.
+ * observable class that is extended by classes that need to be observed.
+ * contains methods to add and remove observers and to notify them.
  */
 public class Observable {
-
-    private final List<Observer> observers = new ArrayList<>();
+    private final List<Observer> observerList = new ArrayList<>();
 
     /**
-     * Adds an observer.
-     *
-     * @param obs the observer to be added.
+     * adds observer to the list.
+     * @param observer the observer you want to add.
      */
-    public void addObserver(Observer obs) {
-        observers.add(obs);
+    public void addObserver(Observer observer) {
+        observerList.add(observer);
     }
 
     /**
-     * Removes an observer.
-     *
-     * @param obs the observer to be removed.
+     * removes observer from the list.
+     * @param observer the observer you want to remove.
      */
-    public void removeObserver(Observer obs) {
-        observers.remove(obs);
+    public void removeObserver(Observer observer) {
+        observerList.remove(observer);
     }
 
     /**
-     * Notifies all the current observers through the update method and passes to them a {@link Message}.
-     *
-     * @param message the message to be passed to the observers.
+     * notify all observers by calling the update method and sends them the {@link Message}.
+     * @param message the message to be forwarded.
      */
     protected void notifyObserver(Message message) {
-        for (Observer observer : observers) {
+        for (Observer observer : observerList) {
             observer.update(message);
         }
     }

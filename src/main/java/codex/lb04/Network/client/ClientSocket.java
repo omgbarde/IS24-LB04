@@ -1,15 +1,19 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.CodexClientApp;
 import codex.lb04.Message.Message;
+import codex.lb04.ServerApp;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 
 /**
  * this class represents a client connection
  */
 public class ClientSocket {
+    private String username;
     private final Socket socket;
     private final ObjectOutputStream output;
     private final ObjectInputStream input;
@@ -19,8 +23,9 @@ public class ClientSocket {
      * @param address is the port address
      * @param port is the desired port
      */
-    public ClientSocket(String address, int port) {
+    public ClientSocket(String username, String address, int port) throws RuntimeException{
         try {
+            this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
@@ -28,6 +33,10 @@ public class ClientSocket {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -63,15 +72,21 @@ public class ClientSocket {
     public void readMessage() {
         (new Thread(){
             public void run(){
-                try{
-                    Message message = (Message) input.readObject();
-                    CodexClientApp.print(message.toString());
-                    //andranno inviati all'interfaccia utente
-                }catch(IOException | ClassNotFoundException e){
-                    e.printStackTrace();
-                    disconnect();
+                while (!socket.isClosed()) {
+                    try {
+                        Message message = (Message) input.readObject();
+                        //CodexClientApp.print(message.toString());
+                        parseMessage(message);
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        disconnect();
+                    }
                 }
             }
         }).start();
     }
+
+    private void parseMessage(Message message) {
+    }
+
 }
