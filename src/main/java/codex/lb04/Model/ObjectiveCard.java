@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 public class ObjectiveCard extends Card {
     private final int points;
-    private ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
+    private final ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
     private boolean inGame;
-    private Integer ID;
+    private final Integer ID;
 
     /**
      * Default constructor
@@ -28,34 +28,31 @@ public class ObjectiveCard extends Card {
         this.ID = ID;
     }
 
+    /**
+     * this method returns the points of the objective card
+     *
+     * @return the points of the objective card
+     */
     public Integer getPoints() {
         return points;
     }
 
-    // forse conviene mettere il check dell'obiettivo in un'altra classe, in questa mettiamo solo le condizioni
-    //metodo che dice se ho raggiunto l'obiettivo
-    /*
-    public boolean enoughResources(){
-        if(myresources>ResourcesObj){
-            return true
-        }else{
-            return false;
-        }
-    }*/
+    /**
+     * this method sets if the objective card is in game
+     *
+     * @return true if the objective card is in game, false otherwise
+     */
     public void setInGame() {
         this.inGame = true;
     }
 
+    /**
+     * this method returns the ID of the objective card
+     *
+     * @return the ID of the objective card
+     */
     public Integer getID() {
         return ID;
     }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    //TODO implementare gli obiettivi -- trovare un modo per implementarli più che altro
-    //ogni numero rappresenta una carta obb
-
 
 }

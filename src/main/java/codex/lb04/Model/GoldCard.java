@@ -13,14 +13,17 @@ public class GoldCard extends Card {
     private final int insects_needed;
     private final int leaf_needed;
 
-    //TODO aggiorna il commento con i nuovi parametri
-
     /**
      * Default constructor
      *
      * @param color the color of the card
      * @param front the face of the card
      * @param back  the face of the card
+     * @param points the number of points you gain from the "objective"
+     * @param mushroom_needed the number of mushrooms needed to complete the "objective"
+     * @param animals_needed the number of animals needed to complete the "objective"
+     * @param leaf_needed the number of leafs needed to complete the "objective"
+     * @param insects_needed the number of insects needed to complete the "objective"
      */
     public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed) {
         super(color, front, back);
