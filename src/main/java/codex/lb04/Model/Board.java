@@ -1,9 +1,10 @@
 package codex.lb04.Model;
 
+import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 
 import java.util.ArrayList;
-
+//TODO commentare metodi non commentati
 /**
  * This class represents the board of the game
  */
@@ -137,7 +138,8 @@ public class Board {
      * @param toBePlaced the gold card that has been placed
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced){
-        if(toBePlaced.conditionCheck()){
+        //TODO implementare conditioncheck per carte oro (aggiunta punti carte oro quando piazzate) (si aggiungono una sola volta)
+        if( true /*toBePlaced.conditionCheck()*/){
             this.PointsByGoldCards += toBePlaced.getPoints();
         }
     }
@@ -311,14 +313,6 @@ public class Board {
         for(Card card : inGameCards){
             if(card.getClass() == ResourceCard.class){
                 this.Points += ((ResourceCard) card).getPoints();
-            }
-        }
-        for(ObjectiveCard objectiveCard : inGameObjectiveCards){
-            //TODO implementare metodo in classe objectivecard che controlla la condizione
-            for(Card card : inGameCards){
-                if(true /* objectiveCard.conditionCheck(card) */){
-                    this.Points += objectiveCard.getPoints();
-                }
             }
         }
     }
