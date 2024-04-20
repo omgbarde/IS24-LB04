@@ -1,20 +1,25 @@
 package codex.lb04.Network.server;
 
+import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * client handler class handles client-server comunication
  */
 public class ClientHandler implements Runnable{
-    private Socket clientSocket;
-    private ServerApp server;
-    private DataOutputStream output;
-    private DataInputStream input;
+    //TODO avoid this upward dependency
+    private final ServerApp server;
+    private final Parser messageParser;
+    private final Socket clientSocket;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private String username;
 
     /**
@@ -25,10 +30,11 @@ public class ClientHandler implements Runnable{
      /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
+        this.messageParser = new Parser(this);
         this.server = server;
         try {
-            input = new DataInputStream(clientSocket.getInputStream());
-            output = new DataOutputStream(clientSocket.getOutputStream());
+            input = new ObjectInputStream(clientSocket.getInputStream());
+            output = new ObjectOutputStream(clientSocket.getOutputStream());
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -43,51 +49,54 @@ public class ClientHandler implements Runnable{
         //send message back to client
         try {
             while (clientSocket.isConnected()) {
-                String message = input.readUTF();
+                Message message = (Message) input.readObject();
                 if (message != null) {
-                    this.handleInput(message);
+                    messageParser.handleInput(message);
                 }
             }
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
-        finally {
+        } catch (SocketException | EOFException e){
+               System.out.println("client disconnected: " + getUsername());
+
+        } catch (IOException | ClassNotFoundException e){
+            //TODO separare i catch
+            e.printStackTrace();
+        } finally {
             try {
                 clientSocket.close();
+                //TODO move this in ServerApp
                 this.server.removeClientHandler(this);
-            }catch (IOException ex){
+            }
+            catch (IOException ex){
                 ex.printStackTrace();
             }
         }
     }
 
     /**
-     * this method parses messages from the client and invokes methods based on the type and parameters of those messages
-     * */
-    public void handleInput(String input) {
-        //se è un messaggio di login aggiorno username per ora faccio cosi ma va sistemato
-        if(getUsername()==null){
-            setUsername(input);
-        }
-        ServerApp.print("nuovo messaggio da " + getUsername() + ": " + input);
-        //server.broadcast(input);
-    }
-
-    /**
      * this method reads messages from the server and sends them to the client
      * @param message is the message passed from the server
      */
-    public void sendMessage(String message) {
+    public void sendMessage(Message message) {
         try {
-            output.writeUTF(message);
+            output.writeObject(message);
             output.flush();
-        } catch (IOException ex) {ex.printStackTrace();}
+        }
+        catch (IOException e) {
+            e.printStackTrace();}
     }
 
+    /**
+     * method to get the username associated with the clientHandler
+     * @return the username associated with the clientHandler
+     */
     public String getUsername() {
         return this.username;
     }
 
+    /**
+     * method to set the username associated with the clientHandler
+     * @param username is the username to be associated with the clientHandler
+     */
     public void setUsername(String username) {
         this.username = username;
     }

@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.View.HelloController">
-   <children>
-      <ImageView blendMode="SRC_ATOP" fitHeight="850.0" fitWidth="1522.0" layoutX="1.0" preserveRatio="true">
-         <image>
-            <Image url="@../../graphics/CODEX_wallpaper_1080.jpg" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-      </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffda3" height="493.0" layoutX="508.0" layoutY="178.0" rotate="45.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="495.0" />
-      <Label fx:id="errorLabel" layoutX="755.0" layoutY="574.0" textAlignment="CENTER" textFill="RED">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button fx:id="playButton" layoutX="719.0" layoutY="460.0" mnemonicParsing="false" text="play">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-      <TextField fx:id="username" layoutX="549.0" layoutY="395.0" prefHeight="59.0" prefWidth="411.0" promptText="username">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label alignment="TOP_CENTER" layoutX="555.0" layoutY="334.0" text="Welcome to Codex!" textAlignment="CENTER">
-         <font>
-            <Font name="Times New Roman Bold" size="48.0" />
-         </font>
-      </Label>
-   </children>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.Controller.HelloController">
+   <ImageView blendMode="SRC_ATOP" fitHeight="850.0" fitWidth="1522.0" layoutX="1.0" preserveRatio="true">
+      <cursor>
+         <Cursor fx:constant="DEFAULT" />
+      </cursor>
+      <Image url="@../../graphics/CODEX_wallpaper_1080.jpg" />
+   </ImageView>
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffda3" height="493.0" layoutX="508.0" layoutY="178.0" rotate="45.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="495.0" />
+   <Label fx:id="errorLabel" alignment="CENTER" layoutX="589.0" layoutY="560.0" prefHeight="86.0" prefWidth="341.0" textAlignment="CENTER" textFill="RED" underline="true">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Button fx:id="playButton" layoutX="642.0" layoutY="509.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="235.0" text="play">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <TextField fx:id="username" layoutX="559.0" layoutY="338.0" prefHeight="26.0" prefWidth="400.0" promptText="username">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Label alignment="TOP_CENTER" layoutX="559.0" layoutY="275.0" text="Welcome to Codex!" textAlignment="CENTER">
+      <font>
+         <Font name="Times New Roman Bold" size="48.0" />
+      </font>
+   </Label>
+   <TextField fx:id="serverAddress" layoutX="559.0" layoutY="414.0" prefHeight="29.0" prefWidth="400.0" promptText="server address">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <TextField fx:id="serverPort" layoutX="559.0" layoutY="463.0" prefHeight="4.0" prefWidth="400.0" promptText="server port">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
 </AnchorPane>

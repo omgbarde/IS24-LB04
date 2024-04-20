@@ -1,4 +1,5 @@
 package codex.lb04.Observer;
 
-public class GameObserver {
+public interface GameObserver extends Observer {
+
 }
