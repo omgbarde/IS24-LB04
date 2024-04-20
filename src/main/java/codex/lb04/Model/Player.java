@@ -13,12 +13,13 @@ public class Player {
 
     /**
      * default constructor
-     * @param username username
-     * @param objectives objectives
+     *
+     * @param username        username
+     * @param objectives      objectives
      * @param secretObjective secret object
-     * @param hand hand
+     * @param hand            hand
      */
-    public Player(String username, ArrayList<ObjectiveCard> objectives, ObjectiveCard secretObjective, ArrayList<Card> hand){
+    public Player(String username, ArrayList<ObjectiveCard> objectives, ObjectiveCard secretObjective, ArrayList<Card> hand) {
         this.username = username;
         this.objectives = objectives;
         this.secretObjective = secretObjective;
@@ -27,20 +28,23 @@ public class Player {
 
     /**
      * This method returns the username of the player
+     *
      * @return the username of the player
      */
-    public  String getUsername(){
+    public String getUsername() {
         return username;
     }
+
     public ArrayList<ObjectiveCard> getObjectives() {
         return objectives;
     }
+
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
+
     public ArrayList<Card> getHand() {
         return hand;
     }
-
 
 }

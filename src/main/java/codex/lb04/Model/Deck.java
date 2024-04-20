@@ -1,43 +1,30 @@
 package codex.lb04.Model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import codex.lb04.Model.Enumerations.Color;
+import codex.lb04.Model.Enumerations.ResourceType;
+
+import java.util.*;
 
 /**
  * this class represents the deck of cards
  */
 public class Deck {
-    private ArrayList<Card> ResourceCards;
-    private ArrayList<Card> GoldCards;
+    private final ArrayList<Card> resourceCards;
+    private final ArrayList<Card> goldCards;
     private static Deck instance;
 
     /**
      * Default constructor
      */
     private Deck() {
-        ResourceCards = new ArrayList<>();
-        GoldCards = new ArrayList<>();
-        // Initialize Deck - CREARE SIA DECK DI GOLD CHE DI RESOURCE
+        resourceCards = new ArrayList<>();
+        goldCards = new ArrayList<>();
         initializeDeck();
     }
 
     /**
-     * this method returns the deck of resource cards
-     * @return the deck of resource cards
-     */
-    public ArrayList<Card> getResourceCards() {
-        return ResourceCards;
-    }
-
-    /**
-     * this method returns the deck of gold cards
-     * @return the deck of gold cards
-     */
-    public ArrayList<Card> getGoldCards() {
-        return GoldCards;
-    }
-    /**
      * returns the deck instance
+     *
      * @return the deck instance
      */
     public static Deck getInstance() {
@@ -46,43 +33,73 @@ public class Deck {
         }
         return instance;
     }
+
+    /**
+     * this method returns the deck of resource cards
+     *
+     * @return the deck of resource cards
+     */
+    public ArrayList<Card> getResourceCards() {
+        return resourceCards;
+    }
+
+    /**
+     * this method returns the deck of gold cards
+     *
+     * @return the deck of gold cards
+     */
+    public ArrayList<Card> getGoldCards() {
+        return goldCards;
+    }
+
     /**
      * this method shuffles the deck of resources cards
      */
     public void shuffleResources() {
-        Collections.shuffle(ResourceCards);
+        Collections.shuffle(resourceCards);
     }
+
     /**
      * this method shuffles the deck of gold cards
-     *
      */
     public void shuffleGold() {
-        Collections.shuffle(GoldCards);
+        Collections.shuffle(goldCards);
     }
+
     /**
      * this method draws a card from the deck of resources
+     *
      * @return the card drawn
      */
     public Card drawResource() {
-        if(ResourceCards.isEmpty()){
+        if (resourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        return ResourceCards.removeFirst();
+        return resourceCards.removeFirst();
+
     }
+
     /**
      * this method draws a card from the deck of gold
+     *
      * @return the card drawn
      */
     public Card drawGold() {
-        if (GoldCards.isEmpty()) {
+        if (goldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        return GoldCards.removeFirst();
+        return goldCards.removeFirst();
+
     }
+
     /**
      * this method creates the deck of cards and returns it
      */
     public void initializeDeck() {
-        //TODO
+        //TODO implementare creazione mazzo - poi cambieremo questo metodo in modo che deserializzi il file serializzato del deck quando viene chiamato
+        //DeckBuilder deckBuilder = new DeckBuilder();
+        //resourceCards = deckBuilder.buildResourceDeck();
+        //goldCards = deckBuilder.buildGoldDeck();
+
     }
 }
