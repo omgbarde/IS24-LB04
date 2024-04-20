@@ -1,5 +1,7 @@
 package codex.lb04;
 
+import codex.lb04.Message.Message;
+import codex.lb04.Network.client.ClientSocket;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GuiApp extends Application {
+    private static ClientSocket clientSocket;
     private static Stage stageReference;
 
     /**
@@ -83,5 +86,21 @@ public class GuiApp extends Application {
         } else {
             Platform.runLater(()->stageReference.setFullScreen(true));
         }
+    }
+
+    public static ClientSocket getClientSocket() {
+        return clientSocket;
+    }
+    public static void setClientSocket(String usr, String addr, int port) {
+        clientSocket = new ClientSocket(usr,addr, port);
+    }
+    public static void disconnect() {
+        clientSocket.disconnect();
+    }
+    public static void sendMessage(Message message) {
+        clientSocket.sendMessage(message);
+    }
+    public static void print(String s) {
+        System.out.println(s);
     }
 }

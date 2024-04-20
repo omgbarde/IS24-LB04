@@ -1,10 +1,12 @@
 package codex.lb04.Message;
 
+import java.io.Serial;
+
 /**
  * Message to notify an error to the user.
  */
 public class ErrorMessage extends Message {
-
+    @Serial
     private static final long serialVersionUID = 2;
 
     private final String error;

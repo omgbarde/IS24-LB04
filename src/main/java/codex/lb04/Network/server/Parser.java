@@ -27,6 +27,10 @@ public class Parser {
             //risponderà solo con fconferma ricezione
             clientHandler.sendMessage(new OkMessage());
         }
+        else if (input.getMessageType().equals(MessageType.LOGOUT_REQUEST)){
+            //server.print("user wants to logout: " + getUsername());
+            clientHandler.sendMessage(new OkMessage());
+        }
         else{
             //server.print("message not recognized");
             ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");

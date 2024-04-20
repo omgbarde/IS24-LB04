@@ -1,9 +1,12 @@
 package codex.lb04.Message;
 
+import java.io.Serial;
+
 /**
  * mesaage sent as reply to login message
  */
 public class LoginReply extends Message{
+    @Serial
     private static final long serialVersionUID = 4;
     private final boolean accepted;
 

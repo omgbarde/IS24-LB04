@@ -2,7 +2,6 @@ package codex.lb04.Controller;
 
 import codex.lb04.GuiApp;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import java.util.ResourceBundle;
  * class that controls the hello view
  */
 public class HelloController implements Initializable {
-    private ClientSocket clientSocket;
     //FXML fields
     @FXML
     private Label errorLabel;
@@ -49,14 +47,14 @@ public class HelloController implements Initializable {
                     return;
                 }
                 try {
-                    clientSocket = new ClientSocket(usr,addr, port);
+                    GuiApp.setClientSocket(usr, addr, port);
                 }
                 catch (RuntimeException e){
                     setErrorLabel("Server not available");
                     return;
                 }
                 LoginMessage loginMessage = new LoginMessage(usr);
-                clientSocket.sendMessage(loginMessage);
+                GuiApp.sendMessage(loginMessage);
                 disableAll();
 
             }
@@ -101,4 +99,5 @@ public class HelloController implements Initializable {
         GuiApp.switchScene("Lobby.fxml");
         GuiApp.setMode("fullscreen");
     }
+
 }

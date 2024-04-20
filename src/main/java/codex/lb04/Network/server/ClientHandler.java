@@ -1,8 +1,9 @@
 package codex.lb04.Network.server;
 
-import codex.lb04.Message.*;
+import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,9 +15,9 @@ import java.net.SocketException;
  */
 public class ClientHandler implements Runnable{
     //TODO avoid this upward dependency
-    private ServerApp server;
-    private Parser messageParser;
-    private Socket clientSocket;
+    private final ServerApp server;
+    private final Parser messageParser;
+    private final Socket clientSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private String username;
@@ -53,7 +54,7 @@ public class ClientHandler implements Runnable{
                     messageParser.handleInput(message);
                 }
             }
-        } catch (SocketException e){
+        } catch (SocketException | EOFException e){
                System.out.println("client disconnected: " + getUsername());
 
         } catch (IOException | ClassNotFoundException e){

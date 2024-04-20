@@ -1,5 +1,3 @@
-//TODO implementare chiusura graceful del socket client
-
 //TODO organizzare conteggio risorse nella parte PLAYER/BOARD
 
 //TODO come gestire player in classe Game

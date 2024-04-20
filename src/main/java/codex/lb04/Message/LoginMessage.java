@@ -1,9 +1,12 @@
 package codex.lb04.Message;
 
+import java.io.Serial;
+
 /**
  * message that represents a login request from a client
  */
 public class LoginMessage extends Message{
+    @Serial
     private static final long serialVersionUID = 1;
 
     public LoginMessage(String username) {

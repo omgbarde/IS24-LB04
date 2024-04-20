@@ -1,23 +1,23 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.Controller.HelloController;
-import codex.lb04.Message.LoginMessage;
+import codex.lb04.GuiApp;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
-import codex.lb04.ServerApp;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * this class represents a client connection
  */
 public class ClientSocket {
-    private String username;
+    private final String username;
     private final Socket socket;
     private final ObjectOutputStream output;
     private final ObjectInputStream input;
@@ -80,6 +80,9 @@ public class ClientSocket {
                     Message message = (Message) input.readObject();
                     //CodexClientApp.print(message.toString());
                     parseMessage(message);
+                }catch (SocketException | EOFException e){
+                    GuiApp.print("server disconnected");
+                    disconnect();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     disconnect();
@@ -99,19 +102,19 @@ public class ClientSocket {
                 HelloController.switchToLobby();
             }
             else{
-                ServerApp.print("login refused");
+                GuiApp.print("login refused");
                 disconnect();
             }
         }
         else if(message.getMessageType().equals(MessageType.ERROR)){
-            ServerApp.print("error: " + message.toString());
+            GuiApp.print("error: " + message.toString());
             disconnect();
         }
         else if(message.getMessageType().equals(MessageType.OK_MESSAGE)){
-            ServerApp.print("message received");
+            GuiApp.print("message received");
         }
         else{
-            ServerApp.print("message not recognized");
+            GuiApp.print("message not recognized");
             disconnect();
         }
 
