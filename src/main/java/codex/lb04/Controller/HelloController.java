@@ -3,7 +3,6 @@ package codex.lb04.Controller;
 import codex.lb04.GuiApp;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Network.client.ClientSocket;
-import codex.lb04.Observer.Observable;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -97,7 +96,9 @@ public class HelloController implements Initializable {
     /**
      * method to switch to the lobby view, it calls the switchScene method from the GuiApp class
      */
-    public void switchToLobby(){
+    public static void switchToLobby(){
+        GuiApp.setTitle("Codex!-Lobby");
         GuiApp.switchScene("Lobby.fxml");
+        GuiApp.setMode("fullscreen");
     }
 }

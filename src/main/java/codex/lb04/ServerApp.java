@@ -25,12 +25,13 @@ public class ServerApp implements Runnable {
     @Override
     public void run() {
         try {
+
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running:\n" + serverSocket);
 
             while(!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("player connected: " + clientSocket.getLocalAddress());
+                System.out.println("client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket,this);
                 clientHandlerList.add(clientHandler);
                 new Thread(clientHandler).start();

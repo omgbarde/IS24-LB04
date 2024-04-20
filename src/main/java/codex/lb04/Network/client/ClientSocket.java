@@ -1,6 +1,10 @@
 package codex.lb04.Network.client;
 
+import codex.lb04.Controller.HelloController;
+import codex.lb04.Message.LoginMessage;
+import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;
 
 import java.io.IOException;
@@ -70,23 +74,47 @@ public class ClientSocket {
      * starts a new thread to listen for incoming messages
      */
     public void readMessage() {
-        (new Thread(){
-            public void run(){
-                while (!socket.isClosed()) {
-                    try {
-                        Message message = (Message) input.readObject();
-                        //CodexClientApp.print(message.toString());
-                        parseMessage(message);
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                        disconnect();
-                    }
+        (new Thread(() -> {
+            while (!socket.isClosed()) {
+                try {
+                    Message message = (Message) input.readObject();
+                    //CodexClientApp.print(message.toString());
+                    parseMessage(message);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    disconnect();
                 }
             }
-        }).start();
+        })).start();
     }
 
+    //TODO fare classe client parser
+    /**
+     * method to parse the message received from the server
+     * @param message is the message passed from the server
+     */
     private void parseMessage(Message message) {
+        if(message.getMessageType().equals(MessageType.LOGIN_REPLY)){
+            if(((LoginReply)message).isAccepted()){
+                HelloController.switchToLobby();
+            }
+            else{
+                ServerApp.print("login refused");
+                disconnect();
+            }
+        }
+        else if(message.getMessageType().equals(MessageType.ERROR)){
+            ServerApp.print("error: " + message.toString());
+            disconnect();
+        }
+        else if(message.getMessageType().equals(MessageType.OK_MESSAGE)){
+            ServerApp.print("message received");
+        }
+        else{
+            ServerApp.print("message not recognized");
+            disconnect();
+        }
+
     }
 
 }

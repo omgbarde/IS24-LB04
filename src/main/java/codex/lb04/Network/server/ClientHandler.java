@@ -15,6 +15,7 @@ import java.net.SocketException;
 public class ClientHandler implements Runnable{
     //TODO avoid this upward dependency
     private ServerApp server;
+    private Parser messageParser;
     private Socket clientSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
@@ -28,6 +29,7 @@ public class ClientHandler implements Runnable{
      /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
+        this.messageParser = new Parser(this);
         this.server = server;
         try {
             input = new ObjectInputStream(clientSocket.getInputStream());
@@ -48,7 +50,7 @@ public class ClientHandler implements Runnable{
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
-                    this.handleInput(message);
+                    messageParser.handleInput(message);
                 }
             }
         } catch (SocketException e){
@@ -66,28 +68,6 @@ public class ClientHandler implements Runnable{
             catch (IOException ex){
                 ex.printStackTrace();
             }
-        }
-    }
-
-    /**
-     * this method parses messages from the client and invokes methods based on the type and parameters of those messages
-     * @param input is the message passed from the client
-     * */
-    public void handleInput(Message input) {
-        //TODO implementare metodo parse
-
-        if(input.getMessageType().equals(MessageType.LOGIN_REQUEST)&& getUsername()==null){
-            setUsername(input.getUsername());
-            server.print("new user wants to play: " + getUsername());
-            //mando al game, risponde lui se accettato
-
-            //risponderà solo con fconferma ricezione
-            sendMessage(new OkMessage());
-        }
-        else{
-            server.print("message not recognized");
-            ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
-            sendMessage(error);
         }
     }
 

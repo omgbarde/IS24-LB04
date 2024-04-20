@@ -72,4 +72,16 @@ public class GuiApp extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
         stageReference.setScene(scene);
     }
+    public static void setTitle(String s) {
+        Platform.runLater(()->stageReference.setTitle(s));
+
+    }
+
+    public static void setMode(String s) {
+        if (s.equals("full")) {
+            Platform.runLater(()->stageReference.setFullScreen(true));
+        } else {
+            Platform.runLater(()->stageReference.setFullScreen(true));
+        }
+    }
 }
