@@ -14,6 +14,7 @@ public class Observable {
 
     /**
      * adds observer to the list.
+     *
      * @param observer the observer you want to add.
      */
     public void addObserver(Observer observer) {
@@ -22,6 +23,7 @@ public class Observable {
 
     /**
      * removes observer from the list.
+     *
      * @param observer the observer you want to remove.
      */
     public void removeObserver(Observer observer) {
@@ -30,6 +32,7 @@ public class Observable {
 
     /**
      * notify all observers by calling the update method and sends them the {@link Message}.
+     *
      * @param message the message to be forwarded.
      */
     protected void notifyObserver(Message message) {

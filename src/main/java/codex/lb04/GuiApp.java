@@ -19,6 +19,7 @@ public class GuiApp extends Application {
 
     /**
      * this method starts the GUI
+     *
      * @param stage is the stage (window) reference
      * @throws IOException when an error occurs in loading the fxml
      */
@@ -28,7 +29,7 @@ public class GuiApp extends Application {
         loadScene("Hello.fxml");
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("window icon not found");
         }
         stage.setTitle("Codex! - Welcome");
@@ -39,12 +40,14 @@ public class GuiApp extends Application {
     /**
      * this method stops the GUI
      */
-    public void stop(){
+    public void stop() {
         Platform.exit();
         System.exit(0);
     }
+
     /**
      * this method returns the stage reference
+     *
      * @return the stage reference
      */
     public static Stage getStage() {
@@ -53,6 +56,7 @@ public class GuiApp extends Application {
 
     /**
      * this method switches the scene to the one specified in the fxml file
+     *
      * @param fxml is the name of the fxml file to load
      */
     public static void switchScene(String fxml) {
@@ -60,13 +64,14 @@ public class GuiApp extends Application {
             try {
                 loadScene(fxml);
             } catch (IOException e) {
-                System.out.println("Error loading the" + fxml +"scene");
+                System.out.println("Error loading the" + fxml + "scene");
             }
         });
     }
 
     /**
      * this method loads the scene from the fxml file
+     *
      * @param fxml is the fxml file to load
      * @throws IOException when an error occurs in loading the fxml
      */
@@ -75,31 +80,36 @@ public class GuiApp extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
         stageReference.setScene(scene);
     }
+
     public static void setTitle(String s) {
-        Platform.runLater(()->stageReference.setTitle(s));
+        Platform.runLater(() -> stageReference.setTitle(s));
 
     }
 
     public static void setMode(String s) {
         if (s.equals("full")) {
-            Platform.runLater(()->stageReference.setFullScreen(true));
+            Platform.runLater(() -> stageReference.setFullScreen(true));
         } else {
-            Platform.runLater(()->stageReference.setFullScreen(true));
+            Platform.runLater(() -> stageReference.setFullScreen(true));
         }
     }
 
     public static ClientSocket getClientSocket() {
         return clientSocket;
     }
+
     public static void setClientSocket(String usr, String addr, int port) {
-        clientSocket = new ClientSocket(usr,addr, port);
+        clientSocket = new ClientSocket(usr, addr, port);
     }
+
     public static void disconnect() {
         clientSocket.disconnect();
     }
+
     public static void sendMessage(Message message) {
         clientSocket.sendMessage(message);
     }
+
     public static void print(String s) {
         System.out.println(s);
     }

@@ -30,10 +30,10 @@ public class ServerApp implements Runnable {
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running:\n" + serverSocket);
 
-            while(!serverSocket.isClosed()) {
+            while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("client connected: " + clientSocket.getLocalAddress());
-                ClientHandler clientHandler = new ClientHandler(clientSocket,this);
+                ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandlerList.add(clientHandler);
                 new Thread(clientHandler).start();
             }
@@ -44,6 +44,7 @@ public class ServerApp implements Runnable {
 
     /**
      * send message to all connected clients
+     *
      * @param message message to be broadcasted
      */
     public void broadcast(Message message) {
@@ -54,31 +55,31 @@ public class ServerApp implements Runnable {
 
     /**
      * remove a client handler from the list
+     *
      * @param clientHandler is the client handler to be removed
      */
-    public void removeClientHandler(ClientHandler clientHandler){
+    public void removeClientHandler(ClientHandler clientHandler) {
         clientHandlerList.remove(clientHandler);
-        ErrorMessage errorMessage = new ErrorMessage("server", "client"+ clientHandler.getUsername() + "disconnected");
+        ErrorMessage errorMessage = new ErrorMessage("server", "client" + clientHandler.getUsername() + "disconnected");
         broadcast(errorMessage);
     }
 
     public static void main(String[] args) {
         try {
             port = Integer.parseInt(args[0]);
-        }
-        catch (NumberFormatException|IndexOutOfBoundsException e){
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
             System.out.println("port reding error, default port is used");
         }
-        if(ConnectionUtil.isValidPort(port)){
+        if (ConnectionUtil.isValidPort(port)) {
             System.out.println("using port " + port);
-        }
-        else {
+        } else {
             System.out.println("invalid port, default port is used");
         }
 
         new Thread(new ServerApp()).start();
     }
-    public static void print(String s){
+
+    public static void print(String s) {
         System.out.println(s);
     }
 }

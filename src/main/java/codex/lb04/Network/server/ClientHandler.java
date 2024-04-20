@@ -13,7 +13,7 @@ import java.net.SocketException;
 /**
  * client handler class handles client-server comunication
  */
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
     //TODO avoid this upward dependency
     private final ServerApp server;
     private final Parser messageParser;
@@ -24,10 +24,11 @@ public class ClientHandler implements Runnable{
 
     /**
      * the client handler constructor creates a handler for a single client
+     *
      * @param socket is the socket of the client
      * @param server is the serverApp instance that the client is connected to
      */
-     /* @param game is the game instance that the player wants to join */
+    /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
         this.messageParser = new Parser(this);
@@ -35,7 +36,7 @@ public class ClientHandler implements Runnable{
         try {
             input = new ObjectInputStream(clientSocket.getInputStream());
             output = new ObjectOutputStream(clientSocket.getOutputStream());
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -54,10 +55,10 @@ public class ClientHandler implements Runnable{
                     messageParser.handleInput(message);
                 }
             }
-        } catch (SocketException | EOFException e){
-               System.out.println("client disconnected: " + getUsername());
+        } catch (SocketException | EOFException e) {
+            System.out.println("client disconnected: " + getUsername());
 
-        } catch (IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             //TODO separare i catch
             e.printStackTrace();
         } finally {
@@ -65,8 +66,7 @@ public class ClientHandler implements Runnable{
                 clientSocket.close();
                 //TODO move this in ServerApp
                 this.server.removeClientHandler(this);
-            }
-            catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
@@ -74,19 +74,21 @@ public class ClientHandler implements Runnable{
 
     /**
      * this method reads messages from the server and sends them to the client
+     *
      * @param message is the message passed from the server
      */
     public void sendMessage(Message message) {
         try {
             output.writeObject(message);
             output.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) {
-            e.printStackTrace();}
     }
 
     /**
      * method to get the username associated with the clientHandler
+     *
      * @return the username associated with the clientHandler
      */
     public String getUsername() {
@@ -95,6 +97,7 @@ public class ClientHandler implements Runnable{
 
     /**
      * method to set the username associated with the clientHandler
+     *
      * @param username is the username to be associated with the clientHandler
      */
     public void setUsername(String username) {

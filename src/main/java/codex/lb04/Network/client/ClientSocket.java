@@ -24,10 +24,11 @@ public class ClientSocket {
 
     /**
      * generates a client socket with the parameters in input
+     *
      * @param address is the port address
-     * @param port is the desired port
+     * @param port    is the desired port
      */
-    public ClientSocket(String username, String address, int port) throws RuntimeException{
+    public ClientSocket(String username, String address, int port) throws RuntimeException {
         try {
             this.username = username;
             this.socket = new Socket(address, port);
@@ -46,7 +47,7 @@ public class ClientSocket {
     /**
      * method to close the socket
      */
-    public void disconnect(){
+    public void disconnect() {
         if (!socket.isClosed()) {
             try {
                 socket.close();
@@ -58,14 +59,14 @@ public class ClientSocket {
 
     /**
      * this method reads messages from the inteface and sends them to the server (invoked by the interface)
+     *
      * @param message is the message passed from the server
      */
     public void sendMessage(Message message) {
         try {
             output.writeObject(message);
             output.flush();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -80,7 +81,7 @@ public class ClientSocket {
                     Message message = (Message) input.readObject();
                     //CodexClientApp.print(message.toString());
                     parseMessage(message);
-                }catch (SocketException | EOFException e){
+                } catch (SocketException | EOFException e) {
                     GuiApp.print("server disconnected");
                     disconnect();
                 } catch (IOException | ClassNotFoundException e) {
@@ -92,28 +93,26 @@ public class ClientSocket {
     }
 
     //TODO fare classe client parser
+
     /**
      * method to parse the message received from the server
+     *
      * @param message is the message passed from the server
      */
     private void parseMessage(Message message) {
-        if(message.getMessageType().equals(MessageType.LOGIN_REPLY)){
-            if(((LoginReply)message).isAccepted()){
+        if (message.getMessageType().equals(MessageType.LOGIN_REPLY)) {
+            if (((LoginReply) message).isAccepted()) {
                 HelloController.switchToLobby();
-            }
-            else{
+            } else {
                 GuiApp.print("login refused");
                 disconnect();
             }
-        }
-        else if(message.getMessageType().equals(MessageType.ERROR)){
+        } else if (message.getMessageType().equals(MessageType.ERROR)) {
             GuiApp.print("error: " + message.toString());
             disconnect();
-        }
-        else if(message.getMessageType().equals(MessageType.OK_MESSAGE)){
+        } else if (message.getMessageType().equals(MessageType.OK_MESSAGE)) {
             GuiApp.print("message received");
-        }
-        else{
+        } else {
             GuiApp.print("message not recognized");
             disconnect();
         }
