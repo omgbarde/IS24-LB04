@@ -8,6 +8,7 @@ import codex.lb04.Model.Enumerations.Color;
 public class InitialCard extends Card {
     private Face front;
     private Face back;
+    private Integer ID;
 
 
     /**
@@ -16,8 +17,9 @@ public class InitialCard extends Card {
      * @param front the face of the card
      * @param back  the face of the card
      */
-    public InitialCard(Face front, Face back) {
+    public InitialCard(Face front, Face back , Integer ID) {
         super(Color.YELLOW, front, back);
+        this.ID = ID;
     }
 
 

@@ -13,8 +13,8 @@ public class Board {
     private final ArrayList<Card> inGameCards = new ArrayList<Card>();
     private final ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
     private ObjectiveCard secretObjective;
-    private ArrayList<Card> ResourceCards = new ArrayList<Card>();
-    private ArrayList<Card> GoldCards = new ArrayList<Card>();
+    private ArrayList<ResourceCard> ResourceCards = new ArrayList<ResourceCard>();
+    private ArrayList<GoldCard> GoldCards = new ArrayList<GoldCard>();
     private Integer Insects;
     private Integer Animals;
     private Integer Mushrooms;
@@ -360,7 +360,7 @@ public class Board {
      *
      * @return ResourceCards the resource cards that can be picked
      */
-    public ArrayList<Card> getResourceCards() {
+    public ArrayList<ResourceCard> getResourceCards() {
         return ResourceCards;
     }
 
@@ -378,7 +378,7 @@ public class Board {
      *
      * @return Goldcards the gold cards that can be picked
      */
-    public ArrayList<Card> getGoldCards() {
+    public ArrayList<GoldCard> getGoldCards() {
         return GoldCards;
     }
 

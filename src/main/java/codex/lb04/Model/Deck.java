@@ -3,14 +3,17 @@ package codex.lb04.Model;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import javax.naming.PartialResultException;
 import java.util.*;
 
 /**
  * this class represents the deck of cards
  */
 public class Deck {
-    private final ArrayList<Card> resourceCards;
-    private final ArrayList<Card> goldCards;
+    private ArrayList<ResourceCard> resourceCards;
+    private ArrayList<GoldCard> goldCards;
+    private ArrayList<ObjectiveCard> objectiveCards;
+    private ArrayList<InitialCard> initialCards;
     private static Deck instance;
 
     /**
@@ -19,7 +22,21 @@ public class Deck {
     private Deck() {
         resourceCards = new ArrayList<>();
         goldCards = new ArrayList<>();
+        objectiveCards = new ArrayList<>();
+        initialCards = new ArrayList<>();
         initializeDeck();
+    }
+    /**
+     * this method creates the deck of cards
+     */
+    public void initializeDeck() {
+
+        DeckBuilder deckBuilder = new DeckBuilder();
+        resourceCards = deckBuilder.createResourceCards();
+        goldCards = deckBuilder.createGoldCards();
+        initialCards = deckBuilder.createInitialCards();
+        objectiveCards = deckBuilder.createObjectiveCards();
+
     }
 
     /**
@@ -39,7 +56,7 @@ public class Deck {
      *
      * @return the deck of resource cards
      */
-    public ArrayList<Card> getResourceCards() {
+    public ArrayList<ResourceCard> getResourceCards() {
         return resourceCards;
     }
 
@@ -48,7 +65,7 @@ public class Deck {
      *
      * @return the deck of gold cards
      */
-    public ArrayList<Card> getGoldCards() {
+    public ArrayList<GoldCard> getGoldCards() {
         return goldCards;
     }
 
@@ -92,14 +109,5 @@ public class Deck {
 
     }
 
-    /**
-     * this method creates the deck of cards and returns it
-     */
-    public void initializeDeck() {
-        //TODO implementare creazione mazzo - poi cambieremo questo metodo in modo che deserializzi il file serializzato del deck quando viene chiamato
-        //DeckBuilder deckBuilder = new DeckBuilder();
-        //resourceCards = deckBuilder.buildResourceDeck();
-        //goldCards = deckBuilder.buildGoldDeck();
 
-    }
 }

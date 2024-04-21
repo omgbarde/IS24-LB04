@@ -6,6 +6,7 @@ module codex.lb {
     requires org.kordamp.ikonli.javafx;
     requires java.desktop;
     requires java.logging;
+    requires java.naming;
 
     opens codex.lb04 to javafx.fxml;
     exports codex.lb04;

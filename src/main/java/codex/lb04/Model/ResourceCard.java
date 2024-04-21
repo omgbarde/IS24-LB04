@@ -8,6 +8,7 @@ import codex.lb04.Model.Enumerations.Color;
 public class ResourceCard extends Card {
 
     private int points;
+    private Integer ID;
 
     /**
      * Default constructor
@@ -17,8 +18,9 @@ public class ResourceCard extends Card {
      * @param back   the face of the card
      * @param points the points of the card
      */
-    public ResourceCard(Color color, Face front, Face back, int points) {
+    public ResourceCard(Color color, Face front, Face back, int points , Integer ID) {
         super(color, front, back);
         this.points = points;
+        this.ID = ID;
     }
 }
