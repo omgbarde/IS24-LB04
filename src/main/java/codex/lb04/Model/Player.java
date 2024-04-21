@@ -17,13 +17,12 @@ public class Player {
      * @param username        username
      * @param objectives      objectives
      * @param secretObjective secret object
-     * @param hand            hand
      */
-    public Player(String username, ArrayList<ObjectiveCard> objectives, ObjectiveCard secretObjective, ArrayList<Card> hand) {
+    public Player(String username, ArrayList<ObjectiveCard> objectives, ObjectiveCard secretObjective) {
         this.username = username;
         this.objectives = objectives;
         this.secretObjective = secretObjective;
-        this.hand = hand;
+        this.hand = new ArrayList<>();
     }
 
     /**

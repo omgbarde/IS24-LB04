@@ -27,7 +27,7 @@ class GameTest {
 
     @BeforeAll
     static void setUp() {
-        player = new Player("test", objectiveCards, SecretobjectiveCard, cards);
+        player = new Player("test", objectiveCards, SecretobjectiveCard);
         players.add(player);
         board = new Board();
         deck = Deck.getInstance();

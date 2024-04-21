@@ -12,9 +12,10 @@ public class DeckBuilder {
 
 
     /**
-     * TODO successivamente una volta che siamo sicuri che il mazzo sia tutto giusto e a posto cambieremo il metodo initalizeDeck in modo che deserializzi e basta il file serializzato di deck
+     * TODO successivamente una volta che siamo sicuri che il mazzo sia tutto giusto e a posto cambieremo il metodo initalizeDeck in modo che deserializzi il file serializzato di deck e basta
      */
-    public DeckBuilder(){}
+    public DeckBuilder() {
+    }
 
     public ArrayList<ResourceCard> createResourceCards() {
         ArrayList<ResourceCard> resourceCards = new ArrayList<>();
@@ -1327,8 +1328,4 @@ public class DeckBuilder {
 
     }
 
-    public static void main(String[] args) {
-
-
-    }
 }

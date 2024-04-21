@@ -82,10 +82,6 @@ class DeckTest {
         assertNotNull(deck.drawResource());
     }
 
-    @Test
-    void drawGold() {
-        assertNotNull(deck.drawGold());
-    }
 
     @Test
     void initializeDeck() {

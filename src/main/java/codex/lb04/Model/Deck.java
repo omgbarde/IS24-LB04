@@ -26,6 +26,7 @@ public class Deck {
         initialCards = new ArrayList<>();
         initializeDeck();
     }
+
     /**
      * this method creates the deck of cards
      */
@@ -70,6 +71,24 @@ public class Deck {
     }
 
     /**
+     * this method returns the deck of objective cards
+     *
+     * @return the deck of objective cards
+     */
+    public ArrayList<ObjectiveCard> getObjectiveCards() {
+        return objectiveCards;
+    }
+
+    /**
+     * this method returns the deck of initial cards
+     *
+     * @return the deck of initial cards
+     */
+    public ArrayList<InitialCard> getInitialCards() {
+        return initialCards;
+    }
+
+    /**
      * this method shuffles the deck of resources cards
      */
     public void shuffleResources() {
@@ -92,8 +111,9 @@ public class Deck {
         if (resourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        return resourceCards.removeFirst();
-
+        ResourceCard toDraw = resourceCards.getFirst();
+        resourceCards.removeFirst();
+        return toDraw;
     }
 
     /**
@@ -105,8 +125,37 @@ public class Deck {
         if (goldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        return goldCards.removeFirst();
+        GoldCard toDraw = goldCards.getFirst();
+        goldCards.removeFirst();
+        return toDraw;
+    }
 
+    /**
+     * this method draws a card from the deck of objectives
+     *
+     * @return the card drawn
+     */
+    public Card drawObjective() {
+        if (objectiveCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        ObjectiveCard toDraw = objectiveCards.getFirst();
+        objectiveCards.removeFirst();
+        return toDraw;
+    }
+
+    /**
+     * this method draws a card from the deck of initial cards
+     *
+     * @return the card drawn
+     */
+    public Card drawInitial() {
+        if (initialCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        InitialCard toDraw = initialCards.getFirst();
+        initialCards.removeFirst();
+        return toDraw;
     }
 
 

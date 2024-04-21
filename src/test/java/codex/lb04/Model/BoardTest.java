@@ -137,5 +137,8 @@ class BoardTest {
 
     @Test
     void getDeck() {
+        assertNotNull(board.getDeck());
     }
+
+
 }
