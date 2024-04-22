@@ -15,6 +15,8 @@ public class Board {
     private ObjectiveCard secretObjective;
     private ArrayList<ResourceCard> ResourceCards = new ArrayList<ResourceCard>();
     private ArrayList<GoldCard> GoldCards = new ArrayList<GoldCard>();
+    private ArrayList<GoldCard> VisibleGoldCards = new ArrayList<>();
+    private ArrayList<ResourceCard> VisibleResourceCards = new ArrayList<>();
     private Integer Insects;
     private Integer Animals;
     private Integer Mushrooms;
@@ -33,6 +35,7 @@ public class Board {
         this.deck = Deck.getInstance();
         this.GoldCards = deck.getGoldCards();
         this.ResourceCards = deck.getResourceCards();
+        this.VisibleGoldCards = deck.setVisibleGoldCards();
         //TODO implemetare estrazione carte obiettivo comuni e segrete
         //this.inGameObjectiveCards = deck.getObjectiveCards();
         this.Insects = 0;
@@ -58,6 +61,8 @@ public class Board {
         this.Inkwells = 0;
         this.Manuscripts = 0;
     }
+
+
 
     /**
      * This method tells if a card can be placed with certain coordinates
@@ -109,6 +114,28 @@ public class Board {
     }
 
     /**
+     * This method returns the number of corner you're going to cover placing a card
+     */
+    public Integer getCornerCovered(Card toBePlaced, Integer x, Integer y){
+        int corner_covered = 0;
+        for (Card card : inGameCards){
+            if(card.getX() == x + 1 && card.getY() == y + 1){
+                corner_covered += 1;
+            }
+            if(card.getX() == x + 1 && card.getY() == y - 1){
+                corner_covered += 1;
+            }
+            if(card.getX() == x - 1 && card.getY() == y + 1){
+                corner_covered += 1;
+            }
+            if (card.getX() == x - 1 && card.getY() == y - 1){
+                corner_covered += 1;
+            }
+        }
+        return corner_covered;
+    }
+
+    /**
      * This method places a card on the board
      *
      * @param toBePlaced the card to be placed on the board
@@ -146,8 +173,127 @@ public class Board {
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced) {
         //TODO implementare conditioncheck per carte oro (aggiunta punti carte oro quando piazzate) (si aggiungono una sola volta)
-        if (true /*toBePlaced.conditionCheck()*/) {
-            this.PointsByGoldCards += toBePlaced.getPoints();
+        switch (toBePlaced.getID()) {
+            case 41:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
+                break;
+            case 42:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
+                break;
+            case 43:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
+                break;
+            case 44:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 45:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 46:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 47:
+                this.PointsByGoldCards += 3;
+                break;
+            case 48:
+                this.PointsByGoldCards += 3;
+                break;
+            case 49:
+                this.PointsByGoldCards += 3;
+                break;
+            case 50:
+                this.PointsByGoldCards += 5;
+                break;
+            case 51:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
+                break;
+            case 52:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
+                break;
+            case 53:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
+                break;
+            case 54:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 55:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 56:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 57:
+                this.PointsByGoldCards += 3;
+                break;
+            case 58:
+                this.PointsByGoldCards += 3;
+                break;
+            case 59:
+                this.PointsByGoldCards += 3;
+                break;
+            case 60:
+                this.PointsByGoldCards += 5;
+                break;
+            case 61:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
+                break;
+            case 62:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
+                break;
+            case 63:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
+                break;
+            case 64:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
+                break;
+            case 65:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
+                break;
+            case 66:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
+                break;
+            case 67:
+                this.PointsByGoldCards += 3;
+                break;
+            case 68:
+                this.PointsByGoldCards += 3;
+                break;
+            case 69:
+                this.PointsByGoldCards += 3;
+                break;
+            case 70:
+                this.PointsByGoldCards += 5;
+                break;
+            case 71:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
+                break;
+            case 72:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
+                break;
+            case 73:
+                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
+                break;
+            case 74:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 75:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 76:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+                break;
+            case 77:
+                this.PointsByGoldCards += 3;
+                break;
+            case 78:
+                this.PointsByGoldCards += 3;
+                break;
+            case 79:
+                this.PointsByGoldCards += 3;
+                break;
+            case 80:
+                this.PointsByGoldCards += 5;
+                break;
         }
     }
 

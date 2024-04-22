@@ -56,5 +56,7 @@ public class GoldCard extends Card {
         return leaf_needed;
     }
 
+    public Integer getID(){return ID;}
+
 
 }

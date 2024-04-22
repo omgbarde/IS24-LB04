@@ -13,6 +13,8 @@ public class Deck {
     private ArrayList<GoldCard> goldCards;
     private ArrayList<ObjectiveCard> objectiveCards;
     private ArrayList<InitialCard> initialCards;
+    private ArrayList<GoldCard> VisibleGoldCards;
+    private ArrayList<ResourceCard> VisibleResourceCards;
     private static Deck instance;
 
     /**
@@ -23,6 +25,8 @@ public class Deck {
         goldCards = new ArrayList<>();
         objectiveCards = new ArrayList<>();
         initialCards = new ArrayList<>();
+        VisibleGoldCards = new ArrayList<>();
+        VisibleResourceCards = new ArrayList<>();
         initializeDeck();
     }
 
@@ -106,7 +110,7 @@ public class Deck {
      *
      * @return the card drawn
      */
-    public Card drawResource() {
+    public ResourceCard drawResource() {
         if (resourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
@@ -120,7 +124,7 @@ public class Deck {
      *
      * @return the card drawn
      */
-    public Card drawGold() {
+    public GoldCard drawGold() {
         if (goldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
@@ -134,7 +138,7 @@ public class Deck {
      *
      * @return the card drawn
      */
-    public Card drawObjective() {
+    public ObjectiveCard drawObjective() {
         if (objectiveCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
@@ -148,7 +152,7 @@ public class Deck {
      *
      * @return the card drawn
      */
-    public Card drawInitial() {
+    public InitialCard drawInitial() {
         if (initialCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }

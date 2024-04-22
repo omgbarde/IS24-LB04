@@ -38,7 +38,7 @@ public class Card {
      * @param color the color of the card
      */
     public Card(Color color, Face front, Face back, Integer points) {
-        this.ShownFace = front;
+        this.ShownFace = back;
         this.color = color;
         this.back = back;
         this.front = front;
@@ -50,7 +50,7 @@ public class Card {
     /**
      * This method flips the card
      */
-    public void flip(Card card) {
+    public void flip() {
         if (ShownFace == front) {
             ShownFace = back;
         } else {
