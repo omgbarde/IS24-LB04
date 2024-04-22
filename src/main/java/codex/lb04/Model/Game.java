@@ -3,7 +3,7 @@ package codex.lb04.Model;
 import java.util.ArrayList;
 
 //TODO come gestire player in classe Game
-//TODO implemetare display delle carte sulla board e come pescarle
+//TODO implementare display delle carte sulla board e come pescarle
 
 /**
  * This class represents the game
