@@ -23,6 +23,7 @@ public class ClientSocket {
     private final Socket socket;
     private final ObjectOutputStream output;
     private final ObjectInputStream input;
+    private ClientParser messageParser;
 
     /**
      * generates a client socket with the parameters in input
@@ -37,6 +38,7 @@ public class ClientSocket {
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
+            this.messageParser = new ClientParser(this);
             readMessage();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,7 +86,7 @@ public class ClientSocket {
                 try {
                     Message message = (Message) input.readObject();
                     //CodexClientApp.print(message.toString());
-                    parseMessage(message);
+                    messageParser.handleInput(message);
                 } catch (SocketException | EOFException e) {
                     GuiApp.print("server disconnected");
                     disconnect();
@@ -94,32 +96,6 @@ public class ClientSocket {
                 }
             }
         })).start();
-    }
-
-    //TODO fare classe client parser che fa questo e aggiungere casi per gli altri messaggi
-    /**
-     * method to parse the message received from the server
-     *
-     * @param message is the message passed from the server
-     */
-    private void parseMessage(Message message) {
-        if (message.getMessageType().equals(MessageType.LOGIN_REPLY)) {
-            if (((LoginReply) message).isAccepted()) {
-                HelloController.switchToLobby();
-            } else {
-                GuiApp.print("login refused");
-                disconnect();
-            }
-        } else if (message.getMessageType().equals(MessageType.ERROR)) {
-            GuiApp.print("error: " + message.toString());
-            disconnect();
-        } else if (message.getMessageType().equals(MessageType.OK_MESSAGE)) {
-            GuiApp.print("server: received");
-        } else {
-            GuiApp.print("message not recognized");
-            disconnect();
-        }
-
     }
 
 }

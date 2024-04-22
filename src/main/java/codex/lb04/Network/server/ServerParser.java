@@ -1,6 +1,7 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Message.*;
+import codex.lb04.ServerApp;
 
 /**
  * class that represents the message parser

@@ -46,7 +46,10 @@ public class ServerApp implements Runnable {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-                clientHandlerList.add(clientHandler);
+                if(clientHandlerList.size()<=4){
+                    clientHandlerList.add(clientHandler);
+                    game.addPlayerName(clientHandler.getUsername());
+                }
                 new Thread(clientHandler).start();
             }
         } catch (IOException e) {
@@ -98,5 +101,9 @@ public class ServerApp implements Runnable {
 
     public static void print(String s) {
         System.out.println(s);
+    }
+
+    public static int getNumClient(){
+        return clientHandlerList.size();
     }
 }
