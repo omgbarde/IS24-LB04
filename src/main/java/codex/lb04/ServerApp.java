@@ -68,7 +68,7 @@ public class ServerApp implements Runnable {
         try {
             port = Integer.parseInt(args[0]);
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            System.out.println("port reding error, default port is used");
+            System.out.println("port reading error, default port is used");
         }
         if (ConnectionUtil.isValidPort(port)) {
             System.out.println("using port " + port);

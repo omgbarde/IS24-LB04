@@ -51,6 +51,8 @@ public class ClientSocket {
         if (!socket.isClosed()) {
             try {
                 socket.close();
+                //TODO usare classe view
+                GuiApp.switchScene("Hello.fxml");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -92,8 +94,7 @@ public class ClientSocket {
         })).start();
     }
 
-    //TODO fare classe client parser
-
+    //TODO fare classe client parser che fa questo
     /**
      * method to parse the message received from the server
      *
@@ -111,7 +112,7 @@ public class ClientSocket {
             GuiApp.print("error: " + message.toString());
             disconnect();
         } else if (message.getMessageType().equals(MessageType.OK_MESSAGE)) {
-            GuiApp.print("message received");
+            GuiApp.print("server: received");
         } else {
             GuiApp.print("message not recognized");
             disconnect();
