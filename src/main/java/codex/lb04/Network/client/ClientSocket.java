@@ -54,7 +54,7 @@ public class ClientSocket {
         if (!socket.isClosed()) {
             try {
                 socket.close();
-                view.switchScene("Hello.fxml");
+                view.switchScene("Hello");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

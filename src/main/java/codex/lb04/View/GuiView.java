@@ -19,17 +19,18 @@ public class GuiView extends Observable implements View{
     }
 
     /**
-     * this method switches the scene to the one specified in the fxml file
+     * this method switches the scene to the one specified by the name
      *
-     * @param fxml is the name of the fxml file to load
+     * @param sceneName is the name of the scene to load
      */
     @Override
-    public void switchScene(String fxml) {
+    public void switchScene(String sceneName) {
+        //in guiview we need to add the .fxml extension to the scene name
         Platform.runLater(() -> {
             try {
-                    loadScene(fxml);
+                    loadScene(sceneName+".fxml");
             } catch (IOException e) {
-                System.out.println("Error loading the" + fxml + "scene");
+                System.out.println("Error loading the" + sceneName + "scene");
             }
         });
     }

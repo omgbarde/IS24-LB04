@@ -27,7 +27,7 @@ public class GuiApp extends Application{
     public void start(Stage stage) throws IOException {
         stageReference = stage;
         guiView = new GuiView(stage);
-        guiView.switchScene("Hello.fxml");
+        guiView.switchScene("Hello");
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
         } catch (FileNotFoundException e) {

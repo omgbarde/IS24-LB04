@@ -96,7 +96,7 @@ public class HelloController implements Initializable {
      */
     public static void switchToLobby(){
         GuiApp.getGuiView().setTitle("Codex!-Lobby");
-        GuiApp.getGuiView().switchScene("Lobby.fxml");
+        GuiApp.getGuiView().switchScene("Lobby");
         GuiApp.setMode("fullscreen");
     }
 
