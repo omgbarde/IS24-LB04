@@ -5,6 +5,7 @@ import codex.lb04.Network.server.ClientHandler;
 import java.util.ArrayList;
 
 //TODO implementare display delle carte sulla board e come pescarle
+// TODO implementare gestione dei turni e delle fasi di gioco
 
 /**
  * This class represents the game

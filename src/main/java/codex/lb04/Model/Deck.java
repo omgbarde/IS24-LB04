@@ -1,7 +1,6 @@
 package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.ResourceType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -124,9 +123,38 @@ public class Deck {
         if (resourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        ResourceCard toDraw = resourceCards.getFirst();
-        resourceCards.removeFirst();
+        ResourceCard toDraw = resourceCards.get(0);
+        resourceCards.remove(0);
         return toDraw;
+    }
+
+    public void updateVisibleResource(){
+        ResourceCard toDraw = drawResource();
+        toDraw.flip();
+        VisibleResourceCards.add(toDraw);
+    }
+    //TODO implentare scelta carte visibile - come le scelgo?
+    /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleResource, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
+    public ResourceCard  drawVisibleResource(Integer choice){
+        if (VisibleResourceCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        ResourceCard toDraw;
+        switch(choice) {
+            case 0:
+                toDraw = this.VisibleResourceCards.get(0);
+                this.VisibleResourceCards.remove(0);
+                updateVisibleResource();
+                return toDraw;
+            case 1:
+                toDraw = this.VisibleResourceCards.get(1);
+                this.VisibleResourceCards.remove(1);
+                updateVisibleResource();
+                return toDraw;
+            default:
+                System.out.println("invalid choice");
+                return null;
+        }
     }
 
     /**
@@ -138,8 +166,8 @@ public class Deck {
         if (goldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        GoldCard toDraw = goldCards.getFirst();
-        goldCards.removeFirst();
+        GoldCard toDraw = goldCards.get(0);
+        goldCards.remove(0);
         return toDraw;
     }
 
@@ -152,8 +180,8 @@ public class Deck {
         if (objectiveCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        ObjectiveCard toDraw = objectiveCards.getFirst();
-        objectiveCards.removeFirst();
+        ObjectiveCard toDraw = objectiveCards.get(0);
+        objectiveCards.remove(0);
         return toDraw;
     }
 
@@ -166,8 +194,8 @@ public class Deck {
         if (initialCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        InitialCard toDraw = initialCards.getFirst();
-        initialCards.removeFirst();
+        InitialCard toDraw = initialCards.get(0);
+        initialCards.remove(0);
         return toDraw;
     }
 

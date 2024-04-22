@@ -10,6 +10,7 @@ import java.util.Objects;
  * This class represents the board of the game
  */
 public class Board {
+
     private ArrayList<Card> inGameCards = new ArrayList<Card>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
     private ObjectiveCard secretObjective;
