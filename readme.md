@@ -10,10 +10,12 @@
 - [x] crippling depression
 - [x] deck model
 - [x] deck builder
-- [ ] first interface
+- [x] first interface
 - [x] implement message system
 - [x] implement socket communication
-
+- [ ] functioning lobby
+- [ ] setup MVC
+- [ ] (almost) robust socket handling
 
 ## Features
 wip 😊
