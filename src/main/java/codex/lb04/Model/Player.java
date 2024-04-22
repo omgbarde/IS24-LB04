@@ -10,19 +10,18 @@ public class Player {
     private ArrayList<ObjectiveCard> objectives;
     private ObjectiveCard secretObjective;
     private ArrayList<Card> hand;
+    private Board board;
 
     /**
      * default constructor
      *
      * @param username        username
-     * @param objectives      objectives
-     * @param secretObjective secret object
+     *
      */
-    public Player(String username, ArrayList<ObjectiveCard> objectives, ObjectiveCard secretObjective) {
+    public Player(String username, Board board) {
         this.username = username;
-        this.objectives = objectives;
-        this.secretObjective = secretObjective;
         this.hand = new ArrayList<>();
+        this.board = board;
     }
 
     /**
@@ -45,5 +44,10 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
+
+    public Board getBoard() {
+        return board;
+    }
+
 
 }

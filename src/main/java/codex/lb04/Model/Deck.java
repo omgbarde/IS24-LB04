@@ -28,6 +28,9 @@ public class Deck {
         VisibleGoldCards = new ArrayList<>();
         VisibleResourceCards = new ArrayList<>();
         initializeDeck();
+        this.shuffleResources();
+        this.shuffleGold();
+        this.shuffleObjectives();
     }
 
     /**
@@ -103,6 +106,13 @@ public class Deck {
      */
     public void shuffleGold() {
         Collections.shuffle(goldCards);
+    }
+
+    /**
+     * this method shuffles the deck of objective cards
+     */
+    public void shuffleObjectives() {
+        Collections.shuffle(objectiveCards);
     }
 
     /**

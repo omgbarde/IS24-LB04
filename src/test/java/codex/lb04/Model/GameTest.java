@@ -27,11 +27,11 @@ class GameTest {
 
     @BeforeAll
     static void setUp() {
-        player = new Player("test", objectiveCards, SecretobjectiveCard);
+        player = new Player("test", board);
         players.add(player);
         board = new Board();
         deck = Deck.getInstance();
-        game = Game.getInstance(deck, board);
+        game = Game.getInstance();
         game.addPlayer(player);
         game.setGameState(GameState.PLAYING);
     }
@@ -64,11 +64,6 @@ class GameTest {
     @Test
     void getDeck() {
         assertEquals(deck, game.getDeck());
-    }
-
-    @Test
-    void getBoard() {
-        assertEquals(board, game.getBoard());
     }
 
     @Test

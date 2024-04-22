@@ -10,8 +10,8 @@ import java.util.Objects;
  * This class represents the board of the game
  */
 public class Board {
-    private final ArrayList<Card> inGameCards = new ArrayList<Card>();
-    private final ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+    private ArrayList<Card> inGameCards = new ArrayList<Card>();
+    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
     private ObjectiveCard secretObjective;
     private ArrayList<ResourceCard> ResourceCards = new ArrayList<ResourceCard>();
     private ArrayList<GoldCard> GoldCards = new ArrayList<GoldCard>();
@@ -24,7 +24,7 @@ public class Board {
     private Integer Quills;
     private Integer Inkwells;
     private Integer Manuscripts;
-    private final Deck deck;
+    private Deck deck;
     private Integer Points;
     private Integer PointsByGoldCards;
 
@@ -36,7 +36,6 @@ public class Board {
         this.GoldCards = deck.getGoldCards();
         this.ResourceCards = deck.getResourceCards();
         this.VisibleGoldCards = deck.setVisibleGoldCards();
-        //TODO implemetare estrazione carte obiettivo comuni e segrete
         //this.inGameObjectiveCards = deck.getObjectiveCards();
         this.Insects = 0;
         this.Animals = 0;
@@ -164,6 +163,7 @@ public class Board {
             }
             pointsUpdate();
         }
+        //magari uno switch
     }
 
     /**
@@ -172,7 +172,6 @@ public class Board {
      * @param toBePlaced the gold card that has been placed
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced) {
-        //TODO implementare conditioncheck per carte oro (aggiunta punti carte oro quando piazzate) (si aggiungono una sola volta)
         switch (toBePlaced.getID()) {
             case 41:
                 this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();

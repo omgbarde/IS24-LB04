@@ -2,7 +2,10 @@
 package codex.lb04;
 
 import codex.lb04.Message.ErrorMessage;
+import codex.lb04.Message.GenericMessage;
+import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
+import codex.lb04.Model.Game;
 import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
@@ -11,13 +14,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ServerApp implements Runnable {
     //default port
     private static int port = ConnectionUtil.defaultPort;
     private ServerSocket serverSocket;
     //list of all client handlers
-    private List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private static List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private Game game;
+
+    public static boolean checkUsername(String usr) {
+        for(ClientHandler clientHandler : clientHandlerList){
+            if (Objects.equals(clientHandler.getUsername(), usr)) return false;
+        }
+        return true;
+    }
 
     /**
      * creates the server socket and multiple client handlers based on incoming connection requests
@@ -29,7 +41,7 @@ public class ServerApp implements Runnable {
 
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running:\n" + serverSocket);
-
+            createGame();
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("client connected: " + clientSocket.getLocalAddress());
@@ -40,6 +52,10 @@ public class ServerApp implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void createGame() {
+        this.game = Game.getInstance();
     }
 
     /**
@@ -60,8 +76,9 @@ public class ServerApp implements Runnable {
      */
     public void removeClientHandler(ClientHandler clientHandler) {
         clientHandlerList.remove(clientHandler);
-        ErrorMessage errorMessage = new ErrorMessage("server", "client" + clientHandler.getUsername() + "disconnected");
-        broadcast(errorMessage);
+        if(game != null) game.removePlayer(clientHandler.getUsername());
+        GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandler.getUsername() + "disconnected");
+        broadcast(genericMessage);
     }
 
     public static void main(String[] args) {

@@ -14,9 +14,18 @@ public class DeckBuilder {
     /**
      * TODO successivamente una volta che siamo sicuri che il mazzo sia tutto giusto e a posto cambieremo il metodo initalizeDeck in modo che deserializzi il file serializzato di deck e basta
      */
+
+    /**
+     * default constructor
+     */
     public DeckBuilder() {
     }
 
+    /**
+     * this method creates the resource cards of the deck and returns them as a list
+     *
+     * @return the deck of cards
+     */
     public ArrayList<ResourceCard> createResourceCards() {
         ArrayList<ResourceCard> resourceCards = new ArrayList<>();
 
@@ -592,6 +601,11 @@ public class DeckBuilder {
         return resourceCards;
     }
 
+    /**
+     * this method creates all the gold cards and returns them in an array list
+     *
+     * @return an array list of all the gold cards
+     */
     public ArrayList<GoldCard> createGoldCards() {
         ArrayList<GoldCard> goldCards = new ArrayList<GoldCard>();
 
@@ -1163,6 +1177,11 @@ public class DeckBuilder {
     }
 
 
+    /**
+     * Creates the initial cards for the game
+     *
+     * @return an ArrayList of InitialCard objects
+     */
     public ArrayList<InitialCard> createInitialCards() {
         ArrayList<InitialCard> initialCards = new ArrayList<>();
 
@@ -1254,7 +1273,11 @@ public class DeckBuilder {
         return initialCards;
     }
 
-
+    /**
+     * Creates the objective cards for the game
+     *
+     * @return an ArrayList of ObjectiveCard objects
+     */
     public ArrayList<ObjectiveCard> createObjectiveCards() {
         ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
 

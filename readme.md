@@ -7,8 +7,9 @@
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
 ## Tasks
-- [ ] deck model
-- [ ] deck builder
+- [x] crippling depression
+- [x] deck model
+- [x] deck builder
 - [ ] first interface
 - [x] implement message system
 - [x] implement socket communication

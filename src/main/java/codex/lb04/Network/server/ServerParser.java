@@ -20,20 +20,32 @@ public class ServerParser {
     public void handleInput(Message input) {
         //TODO implementare metodo parse e aggiungere casi per gli altri messaggi
 
-        if (input.getMessageType().equals(MessageType.LOGIN_REQUEST) && clientHandler.getUsername() == null) {
-            clientHandler.setUsername(input.getUsername());
-            //server.print("new user wants to play: " + getUsername());
-            //mando al game, risponde lui se accettato
-            clientHandler.sendMessage(new LoginReply(input.getUsername(), true));
-            //risponderà solo con fconferma ricezione
-            clientHandler.sendMessage(new OkMessage());
-        } else if (input.getMessageType().equals(MessageType.LOGOUT_REQUEST)) {
-            //server.print("user wants to logout: " + getUsername());
-            clientHandler.sendMessage(new OkMessage());
-        } else {
-            //server.print("message not recognized");
-            ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
-            clientHandler.sendMessage(error);
+        switch (input.getMessageType()) {
+            case LOGIN_REQUEST:
+                if (clientHandler.getUsername() == null) {
+                    String usr = input.getUsername();
+                    //checks maximum number of clients connected and if username is available
+                    if (ServerApp.getNumClient() <= 4 && ServerApp.checkUsername(usr)) {
+                        clientHandler.setUsername(usr);
+                        clientHandler.sendMessage(new LoginReply(input.getUsername(), true));
+                        //risponderà solo con fconferma ricezione
+                        //clientHandler.sendMessage(new OkMessage())
+                    } else clientHandler.sendMessage(new LoginReply(input.getUsername(), false));
+                }
+                break;
+
+            case LOGOUT_REQUEST:
+                //server.print("user wants to logout: " + getUsername());
+                clientHandler.sendMessage(new OkMessage());
+                break;
+            case PONG:
+
+            case ERROR:
+
+            default:
+                ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
+                clientHandler.sendMessage(error);
+                break;
         }
     }
 }
