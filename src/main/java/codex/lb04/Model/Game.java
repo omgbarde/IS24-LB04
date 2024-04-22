@@ -16,6 +16,23 @@ public class Game {
     private Deck deck;
     private GameState gameState;
     private ArrayList<String> lobby = new ArrayList<String>();
+    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+
+    public void setCommonObjectives(){
+        inGameObjectiveCards = this.deck.setCommonObjectives();
+    }
+
+    public void setCommonObjectivesForallPlayers(){
+      for(Player player : players){
+          player.getBoard().setCommonObjectives(inGameObjectiveCards);
+      }
+    }
+
+    public void setSecretObjectivesForallPlayers(){
+        for(Player player : players){
+            player.getBoard().setSecretObjective();
+        }
+    }
 
 
     /**

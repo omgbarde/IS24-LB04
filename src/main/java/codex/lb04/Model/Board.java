@@ -113,6 +113,20 @@ public class Board {
         return true;
     }
 
+    public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives){
+        this.inGameObjectiveCards = CommonObjectives;
+    }
+// TODO implementare scelta obiettivo segreto
+    public Integer SecretObjectiveChoice(){
+        //input 0 o 1
+        return 0;
+    }
+
+    public void setSecretObjective(){
+        Integer choiche = SecretObjectiveChoice();
+        this.secretObjective = deck.SecretObjectivesChoice(choiche);
+    }
+
     /**
      * This method returns the number of corner you're going to cover placing a card
      */
@@ -164,7 +178,7 @@ public class Board {
             }
             pointsUpdate();
         }
-        //magari uno switch
+
     }
 
     /**

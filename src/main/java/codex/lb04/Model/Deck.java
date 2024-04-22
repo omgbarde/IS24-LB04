@@ -171,6 +171,55 @@ public class Deck {
         return toDraw;
     }
 
+    public void updateVisibleGold(){
+        GoldCard toDraw = drawGold();
+        toDraw.flip();
+        VisibleGoldCards.add(toDraw);
+    }
+    /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleGold, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
+    public GoldCard  drawVisibleGold(Integer choice){
+        if (VisibleGoldCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        GoldCard toDraw;
+        switch(choice) {
+            case 0:
+                toDraw = this.VisibleGoldCards.get(0);
+                this.VisibleGoldCards.remove(0);
+                updateVisibleGold();
+                return toDraw;
+            case 1:
+                toDraw = this.VisibleGoldCards.get(1);
+                this.VisibleGoldCards.remove(1);
+                updateVisibleGold();
+                return toDraw;
+            default:
+                System.out.println("invalid choice");
+                return null;
+        }
+    }
+
+    //TODO implemetare selezione obiettivo segreto - casino al momento - metodo da rifare probabilmente
+    public ObjectiveCard SecretObjectivesChoice(Integer choice){
+        if (objectiveCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        ObjectiveCard toDraw;
+        switch(choice) {
+            case 0:
+                toDraw = this.objectiveCards.get(0);
+                this.objectiveCards.remove(0);
+                return toDraw;
+            case 1:
+                toDraw = this.objectiveCards.get(1);
+                this.objectiveCards.remove(1);
+                return toDraw;
+            default:
+                System.out.println("invalid choice");
+                return null;
+        }
+    }
+
     /**
      * this method draws a card from the deck of objectives
      *
@@ -183,6 +232,13 @@ public class Deck {
         ObjectiveCard toDraw = objectiveCards.get(0);
         objectiveCards.remove(0);
         return toDraw;
+    }
+
+    public ArrayList<ObjectiveCard> setCommonObjectives(){
+        ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<ObjectiveCard>();
+        chosenObjectives.add(this.drawObjective());
+        chosenObjectives.add(this.drawObjective());
+        return chosenObjectives;
     }
 
     /**
@@ -200,11 +256,10 @@ public class Deck {
     }
 
     /**
-     * this method draws the first two cards of the goldcards deck, and shows the front face
+     * this method draws the first two cards of the goldcards deck, and shows the front faces
      *
      * @return the first two cards of the goldcards deck
      */
-
     public ArrayList<GoldCard> setVisibleGoldCards(){
         GoldCard visible_gc1 = drawGold();
         GoldCard visible_gc2 = drawGold();
@@ -215,6 +270,7 @@ public class Deck {
         return VisibleGoldCards;
     }
 
+
     public ArrayList<ResourceCard> setVisibleResourceCards(){
         ResourceCard visible_rc1 = drawResource();
         ResourceCard visible_rc2 = drawResource();
@@ -224,6 +280,8 @@ public class Deck {
         VisibleResourceCards.add(visible_rc2);
         return VisibleResourceCards;
     }
+
+    //TODO update delle carte visibili quando si pesca una carta ( delle visibili )
 
 
 }
