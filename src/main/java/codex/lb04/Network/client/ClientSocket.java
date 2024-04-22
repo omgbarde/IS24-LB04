@@ -5,6 +5,7 @@ import codex.lb04.GuiApp;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
+import codex.lb04.View.View;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.net.SocketException;
  * this class represents a client connection
  */
 public class ClientSocket {
+    private View view;
     private final String username;
     private final Socket socket;
     private final ObjectOutputStream output;
@@ -28,8 +30,9 @@ public class ClientSocket {
      * @param address is the port address
      * @param port    is the desired port
      */
-    public ClientSocket(String username, String address, int port) throws RuntimeException {
+    public ClientSocket(View view, String username, String address, int port) throws RuntimeException {
         try {
+            this.view = view;
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
@@ -51,8 +54,7 @@ public class ClientSocket {
         if (!socket.isClosed()) {
             try {
                 socket.close();
-                //TODO usare classe view
-                GuiApp.switchScene("Hello.fxml");
+                view.switchScene("Hello.fxml");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -94,7 +96,7 @@ public class ClientSocket {
         })).start();
     }
 
-    //TODO fare classe client parser che fa questo
+    //TODO fare classe client parser che fa questo e aggiungere casi per gli altri messaggi
     /**
      * method to parse the message received from the server
      *

@@ -2,10 +2,9 @@ package codex.lb04;
 
 import codex.lb04.Message.Message;
 import codex.lb04.Network.client.ClientSocket;
+import codex.lb04.View.GuiView;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -13,7 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GuiApp extends Application {
+public class GuiApp extends Application{
+    private static GuiView guiView;
     private static ClientSocket clientSocket;
     private static Stage stageReference;
 
@@ -26,7 +26,8 @@ public class GuiApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stageReference = stage;
-        loadScene("Hello.fxml");
+        guiView = new GuiView(stage);
+        guiView.switchScene("Hello.fxml");
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
         } catch (FileNotFoundException e) {
@@ -54,38 +55,6 @@ public class GuiApp extends Application {
         return stageReference;
     }
 
-    /**
-     * this method switches the scene to the one specified in the fxml file
-     *
-     * @param fxml is the name of the fxml file to load
-     */
-    public static void switchScene(String fxml) {
-        Platform.runLater(() -> {
-            try {
-                loadScene(fxml);
-            } catch (IOException e) {
-                System.out.println("Error loading the" + fxml + "scene");
-            }
-        });
-    }
-
-    /**
-     * this method loads the scene from the fxml file
-     *
-     * @param fxml is the fxml file to load
-     * @throws IOException when an error occurs in loading the fxml
-     */
-    private static void loadScene(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CodexClientApp.class.getResource(fxml));
-        Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
-        stageReference.setScene(scene);
-    }
-
-    public static void setTitle(String s) {
-        Platform.runLater(() -> stageReference.setTitle(s));
-
-    }
-
     public static void setMode(String s) {
         if (s.equals("full")) {
             Platform.runLater(() -> stageReference.setFullScreen(true));
@@ -94,12 +63,16 @@ public class GuiApp extends Application {
         }
     }
 
+    public static GuiView getGuiView() {
+        return guiView;
+    }
+
     public static ClientSocket getClientSocket() {
         return clientSocket;
     }
 
     public static void setClientSocket(String usr, String addr, int port) {
-        clientSocket = new ClientSocket(usr, addr, port);
+        clientSocket = new ClientSocket(guiView, usr, addr, port);
     }
 
     public static void disconnect() {

@@ -95,8 +95,8 @@ public class HelloController implements Initializable {
      * method to switch to the lobby view, it calls the switchScene method from the GuiApp class
      */
     public static void switchToLobby(){
-        GuiApp.setTitle("Codex!-Lobby");
-        GuiApp.switchScene("Lobby.fxml");
+        GuiApp.getGuiView().setTitle("Codex!-Lobby");
+        GuiApp.getGuiView().switchScene("Lobby.fxml");
         GuiApp.setMode("fullscreen");
     }
 

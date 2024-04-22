@@ -1,7 +1,6 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.GuiApp;
 import codex.lb04.Observer.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,18 +13,39 @@ import java.io.IOException;
  * class that represents the GUI view
  */
 public class GuiView extends Observable implements View{
-    @Override
-    public void switchToLobby(){
-        //loads the fxml structure and initiates the scene
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CodexClientApp.class.getResource("Lobby.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
-            Stage stage = GuiApp.getStage();
-            stage.setTitle("Codex! - Lobby");
-            Platform.runLater(() -> stage.setScene(scene));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private static Stage stageReference;
+    public GuiView(Stage stage) {
+        stageReference = stage;
     }
 
+    /**
+     * this method switches the scene to the one specified in the fxml file
+     *
+     * @param fxml is the name of the fxml file to load
+     */
+    @Override
+    public void switchScene(String fxml) {
+        Platform.runLater(() -> {
+            try {
+                    loadScene(fxml);
+            } catch (IOException e) {
+                System.out.println("Error loading the" + fxml + "scene");
+            }
+        });
+    }
+    /**
+     * this method loads the scene from the fxml file
+     *
+     * @param fxml is the fxml file to load
+     * @throws IOException when an error occurs in loading the fxml
+     */
+    public static void loadScene(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(CodexClientApp.class.getResource(fxml));
+        Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
+        stageReference.setScene(scene);
+    }
+    public static void setTitle(String s) {
+        Platform.runLater(() -> stageReference.setTitle(s));
+
+    }
 }

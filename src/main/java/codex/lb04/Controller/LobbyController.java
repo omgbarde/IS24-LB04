@@ -15,8 +15,8 @@ public class LobbyController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backButton.setOnAction(actionEvent -> {
             //GuiApp.sendMessage(new LogoutMessage(GuiApp.getClientSocket().getUsername()));
-            GuiApp.setTitle("Codex! - Welcome");
-            GuiApp.switchScene("Hello.fxml");
+            GuiApp.getGuiView().setTitle("Codex! - Welcome");
+            GuiApp.getGuiView().switchScene("Hello.fxml");
             //disconnect from server
             GuiApp.disconnect();
         });

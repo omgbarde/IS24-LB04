@@ -5,10 +5,10 @@ import codex.lb04.Message.*;
 /**
  * class that represents the message parser
  */
-public class Parser {
+public class ServerParser {
     ClientHandler clientHandler;
 
-    public Parser(ClientHandler clientHandler) {
+    public ServerParser(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
     }
 
@@ -18,7 +18,7 @@ public class Parser {
      * @param input is the message passed from the client
      */
     public void handleInput(Message input) {
-        //TODO implementare metodo parse
+        //TODO implementare metodo parse e aggiungere casi per gli altri messaggi
 
         if (input.getMessageType().equals(MessageType.LOGIN_REQUEST) && clientHandler.getUsername() == null) {
             clientHandler.setUsername(input.getUsername());
