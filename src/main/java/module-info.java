@@ -20,6 +20,7 @@ module codex.lb {
     opens codex.lb04.Network.server to javafx.fxml;
     exports codex.lb04.Message;
     opens codex.lb04.Message to javafx.fxml;
-    exports codex.lb04.Controller;
     opens codex.lb04.Controller to javafx.fxml;
+    exports codex.lb04.Controller.SceneController;
+    opens codex.lb04.Controller.SceneController to javafx.fxml;
 }

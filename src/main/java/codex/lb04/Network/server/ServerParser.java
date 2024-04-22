@@ -1,6 +1,10 @@
 package codex.lb04.Network.server;
 
-import codex.lb04.Message.*;
+import codex.lb04.Controller.GameController.PlayerController;
+import codex.lb04.Message.ErrorMessage;
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.Message;
+import codex.lb04.Message.OkMessage;
 import codex.lb04.ServerApp;
 
 /**
@@ -19,8 +23,7 @@ public class ServerParser {
      * @param input is the message passed from the client
      */
     public void handleInput(Message input) {
-        //TODO implementare metodo parse e aggiungere casi per gli altri messaggi
-
+        //TODO aggiungere casi per gli altri messaggi
         switch (input.getMessageType()) {
             case LOGIN_REQUEST:
                 if (clientHandler.getUsername() == null) {
@@ -28,9 +31,9 @@ public class ServerParser {
                     //checks maximum number of clients connected and if username is available
                     if (ServerApp.getNumClient() <= 4 && ServerApp.checkUsername(usr)) {
                         clientHandler.setUsername(usr);
-                        clientHandler.sendMessage(new LoginReply(input.getUsername(), true));
-                        //risponderà solo con fconferma ricezione
-                        //clientHandler.sendMessage(new OkMessage())
+                        clientHandler.sendMessage(new OkMessage());
+                        PlayerController.addPlayer(usr);
+                        //TODO ora manda solo l'ack ma dovrebbe mandare anche la lista dei giocatori, compito dell' observer
                     } else clientHandler.sendMessage(new LoginReply(input.getUsername(), false));
                 }
                 break;
@@ -38,6 +41,8 @@ public class ServerParser {
             case LOGOUT_REQUEST:
                 //server.print("user wants to logout: " + getUsername());
                 clientHandler.sendMessage(new OkMessage());
+                PlayerController.removePlayer(clientHandler.getUsername());
+                //TODO ora manda solo l'ack ma dovrebbe mandare anche la lista dei giocatori, compito dell' observer
                 break;
             case PONG:
 

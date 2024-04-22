@@ -1,12 +1,16 @@
 package codex.lb04;
 
+import codex.lb04.Message.Message;
+import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.GraphicUtil;
+import codex.lb04.View.View;
 import javafx.application.Application;
 
 /**
  * class for the client app launcher
  */
 public class CodexClientApp {
+    private static ClientSocket clientSocket;
 
     /**
      * starts the client application in the desired mode
@@ -22,6 +26,30 @@ public class CodexClientApp {
         } else {
             //defaults to CLI
         }
+    }
+
+    public static View getView() {
+        if (GraphicUtil.mode.equals("GUI")) {
+            return GuiApp.getGuiView();
+        } else {
+            return null;
+        }
+    }
+
+    public static void print(String message) {
+        System.out.println(message);
+    }
+
+
+    public static void setClientSocket(String usr, String addr, int port) {
+        clientSocket = new ClientSocket(usr, addr, port);
+    }
+    public static void disconnect() {
+        clientSocket.disconnect();
+    }
+
+    public static void sendMessage(Message message) {
+        clientSocket.sendMessage(message);
     }
 
 }

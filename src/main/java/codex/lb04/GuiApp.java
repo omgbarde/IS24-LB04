@@ -1,8 +1,7 @@
 package codex.lb04;
 
-import codex.lb04.Message.Message;
-import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.View.GuiView;
+import codex.lb04.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -13,9 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GuiApp extends Application{
-    private static GuiView guiView;
-    private static ClientSocket clientSocket;
-    private static Stage stageReference;
+    private static View guiView;
 
     /**
      * this method starts the GUI
@@ -25,7 +22,6 @@ public class GuiApp extends Application{
      */
     @Override
     public void start(Stage stage) throws IOException {
-        stageReference = stage;
         guiView = new GuiView(stage);
         guiView.switchScene("Hello");
         try {
@@ -46,44 +42,7 @@ public class GuiApp extends Application{
         System.exit(0);
     }
 
-    /**
-     * this method returns the stage reference
-     *
-     * @return the stage reference
-     */
-    public static Stage getStage() {
-        return stageReference;
-    }
-
-    public static void setMode(String s) {
-        if (s.equals("full")) {
-            Platform.runLater(() -> stageReference.setFullScreen(true));
-        } else {
-            Platform.runLater(() -> stageReference.setFullScreen(true));
-        }
-    }
-
-    public static GuiView getGuiView() {
+    public static View getGuiView() {
         return guiView;
-    }
-
-    public static ClientSocket getClientSocket() {
-        return clientSocket;
-    }
-
-    public static void setClientSocket(String usr, String addr, int port) {
-        clientSocket = new ClientSocket(guiView, usr, addr, port);
-    }
-
-    public static void disconnect() {
-        clientSocket.disconnect();
-    }
-
-    public static void sendMessage(Message message) {
-        clientSocket.sendMessage(message);
-    }
-
-    public static void print(String s) {
-        System.out.println(s);
     }
 }

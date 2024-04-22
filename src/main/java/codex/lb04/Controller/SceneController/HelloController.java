@@ -1,6 +1,6 @@
-package codex.lb04.Controller;
+package codex.lb04.Controller.SceneController;
 
-import codex.lb04.GuiApp;
+import codex.lb04.CodexClientApp;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
@@ -47,14 +47,14 @@ public class HelloController implements Initializable {
                     return;
                 }
                 try {
-                    GuiApp.setClientSocket(usr, addr, port);
+                    CodexClientApp.setClientSocket(usr, addr, port);
                 }
                 catch (RuntimeException e){
                     setErrorLabel("Server not available");
                     return;
                 }
                 LoginMessage loginMessage = new LoginMessage(usr);
-                GuiApp.sendMessage(loginMessage);
+                CodexClientApp.sendMessage(loginMessage);
                 disableAll();
 
             }
@@ -95,9 +95,9 @@ public class HelloController implements Initializable {
      * method to switch to the lobby view, it calls the switchScene method from the GuiApp class
      */
     public static void switchToLobby(){
-        GuiApp.getGuiView().setTitle("Codex!-Lobby");
-        GuiApp.getGuiView().switchScene("Lobby");
-        GuiApp.setMode("fullscreen");
+        CodexClientApp.getView().setTitle("Codex!-Lobby");
+        CodexClientApp.getView().switchScene("Lobby");
+        CodexClientApp.getView().setMode("fullscreen");
     }
 
 }

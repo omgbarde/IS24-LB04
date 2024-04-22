@@ -1,9 +1,9 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.Controller.HelloController;
-import codex.lb04.GuiApp;
-import codex.lb04.Message.*;
-import codex.lb04.ServerApp;
+import codex.lb04.CodexClientApp;
+import codex.lb04.Controller.SceneController.HelloController;
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.Message;
 
 public class ClientParser {
 
@@ -25,27 +25,27 @@ public class ClientParser {
                 if (((LoginReply) input).isAccepted()) {
                     HelloController.switchToLobby();
                 } else {
-                    GuiApp.print("login refused");
+                    CodexClientApp.print("login refused");
                     clientSocket.disconnect();
                 }
                 break;
             case LOGOUT_REPLY:
                 //TODO vedere come farlo fare al controller della scena
-                GuiApp.getGuiView().switchScene("Hello");
+                CodexClientApp.getView().switchScene("Hello");
                 break;
             case ERROR:
-                GuiApp.print("error: " + input.toString());
+                CodexClientApp.print("error: " + input.toString());
                 clientSocket.disconnect();
                 break;
             case OK_MESSAGE:
-                GuiApp.print("server: received");
+                CodexClientApp.print("server: received");
                 break;
             case GENERIC_MESSAGE:
-                GuiApp.print(input.toString());
+                CodexClientApp.print(input.toString());
                 break;
 
             default:
-                GuiApp.print("message not recognized");
+                CodexClientApp.print("message not recognized");
                 clientSocket.disconnect();
                 break;
         }

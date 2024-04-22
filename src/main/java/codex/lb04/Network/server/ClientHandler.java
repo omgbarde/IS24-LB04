@@ -14,7 +14,7 @@ import java.net.SocketException;
  * client handler class handles client-server comunication
  */
 public class ClientHandler implements Runnable {
-    //TODO avoid this upward dependency
+    //TODO avoid this upward dependency if possible
     private final ServerApp server;
     private final ServerParser messageParser;
     private final Socket clientSocket;
@@ -26,7 +26,7 @@ public class ClientHandler implements Runnable {
      * the client handler constructor creates a handler for a single client
      *
      * @param socket is the socket of the client
-     * @param server is the serverApp instance that the client is connected to
+     * //@param server is the serverApp instance that the client is connected to
      */
     /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, ServerApp server) {
@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable {
             try {
                 clientSocket.close();
                 //TODO move this in ServerApp
-                this.server.removeClientHandler(this);
+                server.removeClientHandler(this);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

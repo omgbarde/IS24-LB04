@@ -1,6 +1,6 @@
-package codex.lb04.Controller;
+package codex.lb04.Controller.SceneController;
 
-import codex.lb04.GuiApp;
+import codex.lb04.CodexClientApp;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,10 +15,10 @@ public class LobbyController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backButton.setOnAction(actionEvent -> {
             //GuiApp.sendMessage(new LogoutMessage(GuiApp.getClientSocket().getUsername()));
-            GuiApp.getGuiView().setTitle("Codex! - Welcome");
-            GuiApp.getGuiView().switchScene("Hello");
+            CodexClientApp.getView().setTitle("Codex! - Welcome");
+            CodexClientApp.getView().switchScene("Hello");
             //disconnect from server
-            GuiApp.disconnect();
+            CodexClientApp.disconnect();
         });
     }
 }

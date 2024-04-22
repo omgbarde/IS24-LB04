@@ -1,7 +1,6 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.Observer.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,7 +11,7 @@ import java.io.IOException;
 /**
  * class that represents the GUI view
  */
-public class GuiView extends Observable implements View{
+public class GuiView extends View{
     private static Stage stageReference;
     public GuiView(Stage stage) {
         stageReference = stage;
@@ -45,8 +44,16 @@ public class GuiView extends Observable implements View{
         Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
         stageReference.setScene(scene);
     }
-    public static void setTitle(String s) {
-        Platform.runLater(() -> stageReference.setTitle(s));
+    @Override
+    public void setTitle(String title) {
+        Platform.runLater(() -> stageReference.setTitle(title));
 
+    }
+
+    @Override
+    public void setMode(String mode) {
+        if (mode.equals("fullscreen")) {
+            Platform.runLater(() -> stageReference.setFullScreen(true));
+        }
     }
 }
