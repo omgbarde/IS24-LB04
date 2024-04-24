@@ -28,10 +28,11 @@ public class Game {
       }
     }
 
-    public void setSecretObjectivesForallPlayers(){
-        for(Player player : players){
-            player.getBoard().setSecretObjective();
-        }
+
+    public void setSecretObjectives(String username , Integer pick){
+        Player player = getPlayerByName(username);
+        player.getBoard().setSecretObjective(pick);
+
     }
 
 
@@ -80,7 +81,7 @@ public class Game {
                 Player player = new Player(name, new Board());
                 this.addPlayer(player);
             }
-            this.setGameState(GameState.STARTED);
+            this.setGameState(GameState.IN_GAME);
         }
     }
 

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Player {
     private String username;
     private ArrayList<ObjectiveCard> objectives;
-    private ObjectiveCard secretObjective;
     private ArrayList<Card> hand;
     private Board board;
 
@@ -37,9 +36,6 @@ public class Player {
         return objectives;
     }
 
-    public ObjectiveCard getSecretObjective() {
-        return secretObjective;
-    }
 
     public ArrayList<Card> getHand() {
         return hand;
@@ -48,6 +44,7 @@ public class Player {
     public Board getBoard() {
         return board;
     }
+
 
 
 }
