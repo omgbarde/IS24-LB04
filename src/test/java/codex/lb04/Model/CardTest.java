@@ -47,7 +47,7 @@ class CardTest {
 
     @Test
     void flip() {
-        card.flip(card);
+        card.flip();
         assertEquals(back, card.getShownFace());
     }
 

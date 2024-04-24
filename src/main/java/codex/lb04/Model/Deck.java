@@ -281,7 +281,6 @@ public class Deck {
         return VisibleResourceCards;
     }
 
-    //TODO update delle carte visibili quando si pesca una carta ( delle visibili )
 
 
 }

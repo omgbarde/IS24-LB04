@@ -11,17 +11,23 @@ class BoardTest {
     private Board board;
     private Deck deck;
     private Card card;
+   // private Card card1;
+    // private Card card2;
     private Face front;
     private Face back;
+   // private Face BlankFace;
     private Corner corner1;
     private Corner corner2;
     private Corner corner3;
     private Corner corner4;
     private Corner EmptyCorner;
     private Corner CoveredCorner;
+    //private ObjectiveCard cardOb;
+
 
     @BeforeEach
     void setUp() {
+       // this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.deck = Deck.getInstance();
         this.corner1 = new Corner(ResourceType.ANIMAL);
         this.corner2 = new Corner(ResourceType.MUSHROOM);
@@ -31,7 +37,10 @@ class BoardTest {
         this.CoveredCorner = new Corner(true);
         this.front = new Face(corner1, corner2, corner3, corner4);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
-        this.card = new Card(Color.BLUE, front, back);
+        //this.BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+        this.card = new Card(Color.BLUE, front, back, 3);
+        //this.card1 = new Card(Color.BLUE, front, back, 3);
+       // this.card2 = new Card(Color.BLUE, front, back, 3);
         this.board = new Board();
     }
 
@@ -48,6 +57,10 @@ class BoardTest {
         this.back = null;
         this.card = null;
         this.board = null;
+        //this.cardOb = null;
+       // this.BlankFace = null;
+        //this.card1 = null;
+        //this.card2 = null;
     }
 
     @Test
@@ -79,6 +92,12 @@ class BoardTest {
     }
 
     @Test
+    void getCornerCovered(){
+        board.placeCard(card, 0,0);
+        assertEquals(1,board.getCornerCovered(card,1,1));
+    }
+
+    @Test
     void canBePlaced() {
         assertTrue(board.canBePlaced(0, 0 , card));
     }
@@ -87,6 +106,16 @@ class BoardTest {
     void getResourceCards() {
         assertNotNull(board.getResourceCards());
     }
+
+
+    @Test
+    void getCard(){
+        board.placeCard(card, 0, 0);
+        assertEquals(card, board.getCard(0,0));
+    }
+
+    @Test
+    void getIngameCards(){assertNotNull(board.getIngameCards());}
 
     @Test
     void getGoldCards() {
@@ -139,6 +168,22 @@ class BoardTest {
     void getDeck() {
         assertNotNull(board.getDeck());
     }
+
+   /* @Test
+    void getPoints(){
+        board.placeCard(card, 0, 0);
+        assertEquals(3, board.getPoints());
+    }*/
+
+    // TODO test finalpointsupdate
+    //@Test
+    /*void conditionCheckOnPositions(){
+        board.placeCard(card,0,0);
+        board.placeCard(card1,-1,-1);
+        board.placeCard(card2,1,1);
+        assertTrue(board.conditionCheckOnPositions(cardOb,card1));
+    }*/
+
 
 
 }

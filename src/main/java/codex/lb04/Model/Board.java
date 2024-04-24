@@ -613,4 +613,6 @@ public class Board {
     public Deck getDeck() {
         return deck;
     }
+
+    public Integer getPoints(){return Points;}
 }
