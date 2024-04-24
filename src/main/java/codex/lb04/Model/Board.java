@@ -116,15 +116,10 @@ public class Board {
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives){
         this.inGameObjectiveCards = CommonObjectives;
     }
-// TODO implementare scelta obiettivo segreto
-    public Integer SecretObjectiveChoice(){
-        //input 0 o 1
-        return 0;
-    }
 
-    public void setSecretObjective(){
-        Integer choiche = SecretObjectiveChoice();
-        this.secretObjective = deck.SecretObjectivesChoice(choiche);
+
+    public void setSecretObjective(Integer pick){
+        this.secretObjective = deck.SecretObjectivesChoice(pick);
     }
 
     /**

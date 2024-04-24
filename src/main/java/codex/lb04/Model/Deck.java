@@ -1,6 +1,7 @@
 package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.ResourceType;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -128,19 +129,20 @@ public class Deck {
         return toDraw;
     }
 
-    public void updateVisibleResource(){
+    public void updateVisibleResource() {
         ResourceCard toDraw = drawResource();
         toDraw.flip();
         VisibleResourceCards.add(toDraw);
     }
+
     //TODO implentare scelta carte visibile - come le scelgo?
     /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleResource, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
-    public ResourceCard  drawVisibleResource(Integer choice){
+    public ResourceCard drawVisibleResource(Integer choice) {
         if (VisibleResourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
         ResourceCard toDraw;
-        switch(choice) {
+        switch (choice) {
             case 0:
                 toDraw = this.VisibleResourceCards.get(0);
                 this.VisibleResourceCards.remove(0);
@@ -171,18 +173,19 @@ public class Deck {
         return toDraw;
     }
 
-    public void updateVisibleGold(){
+    public void updateVisibleGold() {
         GoldCard toDraw = drawGold();
         toDraw.flip();
         VisibleGoldCards.add(toDraw);
     }
+
     /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleGold, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
-    public GoldCard  drawVisibleGold(Integer choice){
+    public GoldCard drawVisibleGold(Integer choice) {
         if (VisibleGoldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
         GoldCard toDraw;
-        switch(choice) {
+        switch (choice) {
             case 0:
                 toDraw = this.VisibleGoldCards.get(0);
                 this.VisibleGoldCards.remove(0);
@@ -200,12 +203,12 @@ public class Deck {
     }
 
     //TODO implemetare selezione obiettivo segreto - casino al momento - metodo da rifare probabilmente
-    public ObjectiveCard SecretObjectivesChoice(Integer choice){
+    public ObjectiveCard SecretObjectivesChoice(Integer choice) {
         if (objectiveCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
         ObjectiveCard toDraw;
-        switch(choice) {
+        switch (choice) {
             case 0:
                 toDraw = this.objectiveCards.get(0);
                 this.objectiveCards.remove(0);
@@ -234,7 +237,7 @@ public class Deck {
         return toDraw;
     }
 
-    public ArrayList<ObjectiveCard> setCommonObjectives(){
+    public ArrayList<ObjectiveCard> setCommonObjectives() {
         ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<ObjectiveCard>();
         chosenObjectives.add(this.drawObjective());
         chosenObjectives.add(this.drawObjective());
@@ -260,7 +263,7 @@ public class Deck {
      *
      * @return the first two cards of the goldcards deck
      */
-    public ArrayList<GoldCard> setVisibleGoldCards(){
+    public ArrayList<GoldCard> setVisibleGoldCards() {
         GoldCard visible_gc1 = drawGold();
         GoldCard visible_gc2 = drawGold();
         visible_gc1.flip();
@@ -271,7 +274,7 @@ public class Deck {
     }
 
 
-    public ArrayList<ResourceCard> setVisibleResourceCards(){
+    public ArrayList<ResourceCard> setVisibleResourceCards() {
         ResourceCard visible_rc1 = drawResource();
         ResourceCard visible_rc2 = drawResource();
         visible_rc1.flip();
@@ -280,7 +283,4 @@ public class Deck {
         VisibleResourceCards.add(visible_rc2);
         return VisibleResourceCards;
     }
-
-
-
 }
