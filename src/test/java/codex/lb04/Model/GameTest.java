@@ -33,7 +33,7 @@ class GameTest {
         deck = Deck.getInstance();
         game = Game.getInstance();
         game.addPlayer(player);
-        game.setGameState(GameState.PLAYING);
+        game.setGameState(GameState.IN_GAME);
     }
 
     @AfterAll
@@ -46,14 +46,14 @@ class GameTest {
 
     @Test
     void getGameState() {
-        game.setGameState(GameState.PLAYING);
-        assertEquals(GameState.PLAYING, game.getGameState());
+        game.setGameState(GameState.IN_GAME);
+        assertEquals(GameState.IN_GAME, game.getGameState());
     }
 
     @Test
     void setGameState() {
-        game.setGameState(GameState.PAUSED);
-        assertEquals(GameState.PAUSED, game.getGameState());
+        game.setGameState(GameState.LOGIN);
+        assertEquals(GameState.LOGIN, game.getGameState());
     }
 
     @Test

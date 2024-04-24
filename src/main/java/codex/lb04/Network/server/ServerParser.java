@@ -1,6 +1,5 @@
 package codex.lb04.Network.server;
 
-import codex.lb04.Controller.GameController.PlayerController;
 import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;

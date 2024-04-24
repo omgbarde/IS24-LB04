@@ -7,8 +7,6 @@ import java.util.ArrayList;
  */
 public class Player {
     private String username;
-    private ArrayList<ObjectiveCard> objectives;
-    private ArrayList<Card> hand;
     private Board board;
 
     /**
@@ -19,7 +17,6 @@ public class Player {
      */
     public Player(String username, Board board) {
         this.username = username;
-        this.hand = new ArrayList<>();
         this.board = board;
     }
 
@@ -30,15 +27,6 @@ public class Player {
      */
     public String getUsername() {
         return username;
-    }
-
-    public ArrayList<ObjectiveCard> getObjectives() {
-        return objectives;
-    }
-
-
-    public ArrayList<Card> getHand() {
-        return hand;
     }
 
     public Board getBoard() {

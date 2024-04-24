@@ -10,14 +10,16 @@ import java.util.Objects;
  * This class represents the board of the game
  */
 public class Board {
-
-    private ArrayList<Card> inGameCards = new ArrayList<Card>();
-    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+    //cards played
+    private ArrayList<Card> playedCards = new ArrayList<>();
+    //objectives
+    private ArrayList<ObjectiveCard> inGameObjectiveCards;
     private ObjectiveCard secretObjective;
-    private ArrayList<ResourceCard> ResourceCards = new ArrayList<ResourceCard>();
-    private ArrayList<GoldCard> GoldCards = new ArrayList<GoldCard>();
-    private ArrayList<GoldCard> VisibleGoldCards = new ArrayList<>();
-    private ArrayList<ResourceCard> VisibleResourceCards = new ArrayList<>();
+    //cards
+    private ArrayList<GoldCard> VisibleGoldCards;
+    private ArrayList<ResourceCard> VisibleResourceCards;
+    private ArrayList<Card> hand;
+    //resources
     private Integer Insects;
     private Integer Animals;
     private Integer Mushrooms;
@@ -25,7 +27,9 @@ public class Board {
     private Integer Quills;
     private Integer Inkwells;
     private Integer Manuscripts;
+    //deck
     private Deck deck;
+    //points
     private Integer Points;
     private Integer PointsByGoldCards;
 
@@ -34,10 +38,12 @@ public class Board {
      */
     public Board() {
         this.deck = Deck.getInstance();
-        this.GoldCards = deck.getGoldCards();
-        this.ResourceCards = deck.getResourceCards();
-        this.VisibleGoldCards = deck.setVisibleGoldCards();
-        //this.inGameObjectiveCards = deck.getObjectiveCards();
+        //game
+        Game game = Game.getInstance();
+        this.VisibleResourceCards = deck.getVisibleResourceCards();
+        this.VisibleGoldCards = deck.getVisibleGoldCards();
+        this.inGameObjectiveCards = game.getCommonObjectives();
+        this.hand = new ArrayList<>();
         this.Insects = 0;
         this.Animals = 0;
         this.Mushrooms = 0;
@@ -62,7 +68,37 @@ public class Board {
         this.Manuscripts = 0;
     }
 
+    /**
+     * This method places a card on the board
+     *
+     * @param toBePlaced the card to be placed on the board
+     */
+    public void placeCard(Card toBePlaced, Integer x, Integer y) {
+        if (canBePlaced(x, y, toBePlaced)) {
+            for (Card card : playedCards) {
+                if (card.getX() == x + 1 && card.getY() == y + 1) {
+                    card.getShownFace().getLowerLeft().setCovered(toBePlaced);
+                }
+                if (card.getX() == x + 1 && card.getY() == y - 1) {
+                    card.getShownFace().getUpperLeft().setCovered(toBePlaced);
+                }
+                if (card.getX() == x - 1 && card.getY() == y + 1) {
+                    card.getShownFace().getLowerRight().setCovered(toBePlaced);
+                }
+                if (card.getX() == x - 1 && card.getY() == y - 1) {
+                    card.getShownFace().getUpperRight().setCovered(toBePlaced);
+                }
+            }
+            toBePlaced.setCoordinates(x, y);
+            playedCards.add(toBePlaced);
+            updateResources();
+            if (toBePlaced.getClass() == GoldCard.class) {
+                updateGoldCardsPoints((GoldCard) toBePlaced);
+            }
+            pointsUpdate();
+        }
 
+    }
 
     /**
      * This method tells if a card can be placed with certain coordinates
@@ -88,7 +124,7 @@ public class Board {
             }
         }
         //checks if the card can be placed in the specified coordinates
-        for (Card card : inGameCards) {
+        for (Card card : playedCards) {
             if (card.getX() == x + 1 && card.getY() == y + 1) {
                 if (card.getShownFace().getLowerLeft().isCovered()) {
                     return false;
@@ -113,67 +149,79 @@ public class Board {
         return true;
     }
 
-    public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives){
+    /**
+     * sets the common objectives
+     * @param CommonObjectives the common objectives
+     */
+    public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.inGameObjectiveCards = CommonObjectives;
     }
 
 
-    public void setSecretObjective(Integer pick){
+    /**
+     * This method sets the secret objective of the player
+     * @param pick the secret objective to set
+     */
+    public void setSecretObjective(Integer pick) {
         this.secretObjective = deck.SecretObjectivesChoice(pick);
+    }
+
+    /**
+     * draws a gold card between the choices
+     * @param pick the choice of the player
+     */
+    public void drawGoldCard(Integer pick) {
+        switch (pick) {
+            case 0, 1:
+                this.hand.add(this.VisibleGoldCards.get(pick));
+                this.deck.getVisibleGoldCards().remove(pick);
+                this.deck.updateVisibleGold();
+                break;
+            case 2:
+                this.hand.add(this.deck.drawGold());
+                break;
+        }
+
+    }
+
+    /**
+     * draws a resource card between the choices
+     * @param pick the choice of the player
+     */
+    public void drawResourceCard(Integer pick) {
+        switch (pick) {
+            case 0, 1:
+                this.hand.add(this.VisibleResourceCards.get(pick));
+                this.VisibleResourceCards.remove(pick);
+                this.deck.getVisibleResourceCards().remove(pick);
+                this.deck.updateVisibleResource();
+                break;
+            case 2:
+                this.hand.add(this.deck.drawResource());
+                break;
+        }
     }
 
     /**
      * This method returns the number of corner you're going to cover placing a card
      */
-    public Integer getCornerCovered(Card toBePlaced, Integer x, Integer y){
+    public Integer getCornerCovered(Card toBePlaced, Integer x, Integer y) {
         int corner_covered = 0;
-        for (Card card : inGameCards){
-            if(card.getX() == x + 1 && card.getY() == y + 1){
+        for (Card card : playedCards) {
+            if (card.getX() == x + 1 && card.getY() == y + 1) {
                 corner_covered += 1;
             }
-            if(card.getX() == x + 1 && card.getY() == y - 1){
+            if (card.getX() == x + 1 && card.getY() == y - 1) {
                 corner_covered += 1;
             }
-            if(card.getX() == x - 1 && card.getY() == y + 1){
+            if (card.getX() == x - 1 && card.getY() == y + 1) {
                 corner_covered += 1;
             }
-            if (card.getX() == x - 1 && card.getY() == y - 1){
+            if (card.getX() == x - 1 && card.getY() == y - 1) {
                 corner_covered += 1;
             }
         }
         return corner_covered;
-    }
-
-    /**
-     * This method places a card on the board
-     *
-     * @param toBePlaced the card to be placed on the board
-     */
-    public void placeCard(Card toBePlaced, Integer x, Integer y) {
-        if (canBePlaced(x, y, toBePlaced)) {
-            for (Card card : inGameCards) {
-                if (card.getX() == x + 1 && card.getY() == y + 1) {
-                    card.getShownFace().getLowerLeft().setCovered(toBePlaced);
-                }
-                if (card.getX() == x + 1 && card.getY() == y - 1) {
-                    card.getShownFace().getUpperLeft().setCovered(toBePlaced);
-                }
-                if (card.getX() == x - 1 && card.getY() == y + 1) {
-                    card.getShownFace().getLowerRight().setCovered(toBePlaced);
-                }
-                if (card.getX() == x - 1 && card.getY() == y - 1) {
-                    card.getShownFace().getUpperRight().setCovered(toBePlaced);
-                }
-            }
-            toBePlaced.setCoordinates(x, y);
-            inGameCards.add(toBePlaced);
-            updateResources();
-            if (toBePlaced.getClass() == GoldCard.class) {
-                updateGoldCardsPoints((GoldCard) toBePlaced);
-            }
-            pointsUpdate();
-        }
-
     }
 
     /**
@@ -183,124 +231,22 @@ public class Board {
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced) {
         switch (toBePlaced.getID()) {
-            case 41:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
+            case 41, 51, 63, 71:
+                this.PointsByGoldCards += toBePlaced.getPoints() * getQuills();
                 break;
-            case 42:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
+            case 42, 53, 61, 73:
+                this.PointsByGoldCards += toBePlaced.getPoints() * getInkwells();
                 break;
-            case 43:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
+            case 43, 52, 62, 72:
+                this.PointsByGoldCards += toBePlaced.getPoints() * getManuscripts();
                 break;
-            case 44:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
+            case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76:
+                this.PointsByGoldCards += getCornerCovered(toBePlaced, toBePlaced.getX(), toBePlaced.getY()) * 2;
                 break;
-            case 45:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 46:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 47:
+            case 47, 48, 49, 57, 58, 59, 67, 68, 69, 77, 78, 79:
                 this.PointsByGoldCards += 3;
                 break;
-            case 48:
-                this.PointsByGoldCards += 3;
-                break;
-            case 49:
-                this.PointsByGoldCards += 3;
-                break;
-            case 50:
-                this.PointsByGoldCards += 5;
-                break;
-            case 51:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
-                break;
-            case 52:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
-                break;
-            case 53:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
-                break;
-            case 54:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 55:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 56:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 57:
-                this.PointsByGoldCards += 3;
-                break;
-            case 58:
-                this.PointsByGoldCards += 3;
-                break;
-            case 59:
-                this.PointsByGoldCards += 3;
-                break;
-            case 60:
-                this.PointsByGoldCards += 5;
-                break;
-            case 61:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
-                break;
-            case 62:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
-                break;
-            case 63:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
-                break;
-            case 64:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
-                break;
-            case 65:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
-                break;
-            case 66:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(), toBePlaced.getY())*2;
-                break;
-            case 67:
-                this.PointsByGoldCards += 3;
-                break;
-            case 68:
-                this.PointsByGoldCards += 3;
-                break;
-            case 69:
-                this.PointsByGoldCards += 3;
-                break;
-            case 70:
-                this.PointsByGoldCards += 5;
-                break;
-            case 71:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getQuills();
-                break;
-            case 72:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getManuscripts();
-                break;
-            case 73:
-                this.PointsByGoldCards += toBePlaced.getPoints()*getInkwells();
-                break;
-            case 74:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 75:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 76:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced,toBePlaced.getX(),toBePlaced.getY())*2;
-                break;
-            case 77:
-                this.PointsByGoldCards += 3;
-                break;
-            case 78:
-                this.PointsByGoldCards += 3;
-                break;
-            case 79:
-                this.PointsByGoldCards += 3;
-                break;
-            case 80:
+            case 50, 60, 70, 80:
                 this.PointsByGoldCards += 5;
                 break;
         }
@@ -311,7 +257,7 @@ public class Board {
      */
     public void updateResources() {
         setZeroResources();
-        for (Card card : inGameCards) {
+        for (Card card : playedCards) {
             for (ResourceType resource : card.getShownFace().getCentralResources()) {
                 switch (resource) {
                     case ResourceType.ANIMAL:
@@ -375,7 +321,7 @@ public class Board {
      * @return the card at the specified coordinates
      */
     public Card getCard(Integer x, Integer y) {
-        for (Card card : inGameCards) {
+        for (Card card : playedCards) {
             if (Objects.equals(card.getX(), x) && Objects.equals(card.getY(), y)) {
                 return card;
             }
@@ -388,9 +334,9 @@ public class Board {
      */
     public void pointsUpdate() {
         this.Points = this.PointsByGoldCards;
-        for (Card card : inGameCards) {
+        for (Card card : playedCards) {
             if (card.getClass() == ResourceCard.class) {
-                this.Points += ((ResourceCard) card).getPoints();
+                this.Points += card.getPoints();
             }
         }
     }
@@ -403,15 +349,15 @@ public class Board {
      */
     public Integer conditionCheckResources(ObjectiveCard objectiveCard) {
         return switch (objectiveCard.getID()) {
-            case 95 -> (Integer) objectiveCard.getPoints() * this.getMushrooms() / 3;
-            case 96 -> (Integer) objectiveCard.getPoints() * this.getLeaves() / 3;
-            case 97 -> (Integer) objectiveCard.getPoints() * this.getAnimals() / 3;
-            case 98 -> (Integer) objectiveCard.getPoints() * this.getInsects() / 3;
+            case 95 -> objectiveCard.getPoints() * this.getMushrooms() / 3;
+            case 96 -> objectiveCard.getPoints() * this.getLeaves() / 3;
+            case 97 -> objectiveCard.getPoints() * this.getAnimals() / 3;
+            case 98 -> objectiveCard.getPoints() * this.getInsects() / 3;
             case 99 ->
-                    (Integer) objectiveCard.getPoints() * Math.min(this.getManuscripts(), Math.min(this.getInkwells(), this.getQuills()));
-            case 100 -> (Integer) objectiveCard.getPoints() * this.getManuscripts() / 2;
-            case 101 -> (Integer) objectiveCard.getPoints() * this.getInkwells() / 2;
-            case 102 -> (Integer) objectiveCard.getPoints() * this.getQuills() / 2;
+                    objectiveCard.getPoints() * Math.min(this.getManuscripts(), Math.min(this.getInkwells(), this.getQuills()));
+            case 100 -> objectiveCard.getPoints() * this.getManuscripts() / 2;
+            case 101 -> objectiveCard.getPoints() * this.getInkwells() / 2;
+            case 102 -> objectiveCard.getPoints() * this.getQuills() / 2;
             default -> 0;
         };
     }
@@ -490,13 +436,13 @@ public class Board {
      */
     public void finalPointsUpdate() {
         for (ObjectiveCard objectiveCard : inGameObjectiveCards) {
-            for (Card card : inGameCards) {
+            for (Card card : playedCards) {
                 if (this.conditionCheckOnPositions(objectiveCard, card)) {
                     this.Points += objectiveCard.getPoints();
                 }
             }
         }
-        for (Card card : inGameCards) {
+        for (Card card : playedCards) {
             if (this.conditionCheckOnPositions(secretObjective, card)) {
                 this.Points += secretObjective.getPoints();
             }
@@ -511,30 +457,12 @@ public class Board {
     //GETTERS
 
     /**
-     * This method returns the resource cards that can be picked
+     * This method returns the in game cards
      *
-     * @return ResourceCards the resource cards that can be picked
-     */
-    public ArrayList<ResourceCard> getResourceCards() {
-        return ResourceCards;
-    }
-
-    /**
-     * This method returns the ingame cards
-     *
-     * @return ingameCards the cards that are on the board
+     * @return in gameCards the cards that are on the board
      */
     public ArrayList<Card> getIngameCards() {
-        return inGameCards;
-    }
-
-    /**
-     * This method returns the gold cards that can be picked
-     *
-     * @return Goldcards the gold cards that can be picked
-     */
-    public ArrayList<GoldCard> getGoldCards() {
-        return GoldCards;
+        return playedCards;
     }
 
     /**
@@ -609,5 +537,7 @@ public class Board {
         return deck;
     }
 
-    public Integer getPoints(){return Points;}
+    public Integer getPoints() {
+        return Points;
+    }
 }

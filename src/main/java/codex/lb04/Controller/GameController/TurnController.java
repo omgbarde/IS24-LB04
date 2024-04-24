@@ -10,14 +10,22 @@ public class TurnController {
     private ArrayList<String> playersQueue;
     private Game game;
 
-
-    public TurnController(){
+    /**
+     * Constructor for the TurnController class with the players list and the active player
+     */
+    public TurnController() {
         this.game = Game.getInstance();
         this.playersQueue = game.getPlayerNames();
         this.activePlayer = playersQueue.get(0);
     }
 
-    public String getActivePlayer(){
+    /**
+     * getter of the active player
+     * @return the active player
+     */
+    public String getActivePlayer() {
         return activePlayer;
     }
+
+
 }

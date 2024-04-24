@@ -4,8 +4,10 @@ import codex.lb04.Network.server.ClientHandler;
 
 import java.util.ArrayList;
 
-//TODO implementare display delle carte sulla board e come pescarle
-// TODO implementare gestione dei turni e delle fasi di gioco
+//TODO implementare gestione dei turni e delle fasi di gioco
+//TODO implementare piazzamento carta sulla board nei controller
+//TODO scelta faccia carta iniziale
+//TODO test della classe game
 
 /**
  * This class represents the game
@@ -18,23 +20,83 @@ public class Game {
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
 
-    public void setCommonObjectives(){
+    /**
+     * Private constructor to prevent instantiation from outside the class
+     *
+     *
+     */
+    private Game() {
+        this.deck = Deck.getInstance();
+    }
+
+    /**
+     * Singleton instance method
+     *
+     * @return the singleton instance of the Game class
+     */
+    public static Game getInstance() {
+        if (instance == null) {
+            instance = new Game();
+        }
+        return instance;
+    }
+
+    /**
+     * Draws a resource card
+     * @param username the player who draws the card
+     * @param pick the card to pick
+     */
+    public void drawResourceCard(String username, Integer pick) {
+        Player player = getPlayerByName(username);
+        player.getBoard().drawResourceCard(pick);
+    }
+
+    /**
+     * Draws a gold card
+     * @param username the player who draws the card
+     * @param pick the card to pick
+     */
+    public void drawGoldCard(String username, Integer pick) {
+        Player player = getPlayerByName(username);
+        player.getBoard().drawGoldCard(pick);
+    }
+
+    /**
+     * Places a card on the board
+     *
+     * @param card the card to place
+     */
+    public void placeCard(Card card, Integer x, Integer y, Player player) {
+        player.getBoard().placeCard(card, x, y);
+    }
+
+    /**
+     * Sets the common objectives for all players
+     */
+    public void setCommonObjectivesForallPlayers() {
         inGameObjectiveCards = this.deck.setCommonObjectives();
+        for (Player player : players) {
+            player.getBoard().setCommonObjectives(inGameObjectiveCards);
+        }
     }
 
-    public void setCommonObjectivesForallPlayers(){
-      for(Player player : players){
-          player.getBoard().setCommonObjectives(inGameObjectiveCards);
-      }
+    /**
+     * returns the common objectives
+     * @return the common objectives
+     */
+    public ArrayList<ObjectiveCard> getCommonObjectives() {
+        return inGameObjectiveCards;
     }
 
-
-    public void setSecretObjectives(String username , Integer pick){
+    /**
+     * sets the secret objective for a player
+     * @param username the player who picks the card
+     * @param pick the card to pick
+     */
+    public void setSecretObjectives(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().setSecretObjective(pick);
-
     }
-
 
     /**
      * Returns the player names
@@ -60,18 +122,6 @@ public class Game {
         this.lobby.remove(player);
     }
 
-
-    /**
-     * Private constructor to prevent instantiation from outside the class
-     *
-     *
-     */
-    private Game() {
-        this.deck = Deck.getInstance();
-    }
-
-
-
     /**
      * Starts the game ,creates the players and personal boards
      */
@@ -83,18 +133,6 @@ public class Game {
             }
             this.setGameState(GameState.IN_GAME);
         }
-    }
-
-    /**
-     * Singleton instance method
-     *
-     * @return the singleton instance of the Game class
-     */
-    public static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
-        return instance;
     }
 
     /**
@@ -165,17 +203,4 @@ public class Game {
         return deck;
     }
 
-    /**
-     * Places a card on the board
-     *
-     * @param card the card to place
-     */
-    public void placeCard(Card card, Integer x, Integer y, Player player) {
-        player.getBoard().placeCard(card, x, y);
-    }
-
-    //TODO implemetare gestione mano del giocatore
-    public void drawCard(Player player) {
-        //player.addCard(deck.drawCard());
-    }
 }

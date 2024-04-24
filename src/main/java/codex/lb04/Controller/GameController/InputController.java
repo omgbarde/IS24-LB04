@@ -1,7 +1,7 @@
 package codex.lb04.Controller.GameController;
 
 import codex.lb04.Message.Message;
-import codex.lb04.Message.PickSecretObjectiveMessage;
+import codex.lb04.Message.*;
 import codex.lb04.Model.Game;
 
 public class InputController {
@@ -25,15 +25,27 @@ public class InputController {
         switch (message.getMessageType()) {
             case PICK_SECRET_OBJECTIVE:
                 return PickSecretObjectiveCheck(message);
-            default: // Never should reach this statement.
+            case PICK_RESOURCE_CARD:
+                return PickResourceCardCheck(message);
+            case PICK_GOLD_CARD:
+                return PickGoldCardCheck(message);
+            default: // should never reach this statement.
                 return false;
         }
 
     }
 
 
-    public boolean PickSecretObjectiveCheck(Message message){
-        return ((PickSecretObjectiveMessage)message).getCardPick() >= 0 && ((PickSecretObjectiveMessage)message).getCardPick() <= 1;
+    public boolean PickSecretObjectiveCheck(Message message) {
+        return ((PickSecretObjectiveMessage) message).getCardPick() >= 0 && ((PickSecretObjectiveMessage) message).getCardPick() <= 1;
+    }
+
+    public boolean PickResourceCardCheck(Message message) {
+        return ((PickResourceCardMessage) message).getCardPick() >= 0 && ((PickResourceCardMessage) message).getCardPick() <= 2;
+    }
+
+    public boolean PickGoldCardCheck(Message message) {
+        return ((PickGoldCardMessage) message).getCardPick() >= 0 && ((PickGoldCardMessage) message).getCardPick() <= 2;
     }
 
     public boolean checkUser(Message receivedMessage) {

@@ -1,7 +1,5 @@
 package codex.lb04.Model;
 
-import codex.lb04.Model.Enumerations.ResourceType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -124,39 +122,19 @@ public class Deck {
         if (resourceCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        ResourceCard toDraw = resourceCards.get(0);
-        resourceCards.remove(0);
+        ResourceCard toDraw = resourceCards.getFirst();
+        resourceCards.removeFirst();
+        toDraw.flip();
         return toDraw;
     }
 
+    /**
+     * this method updates the visible resource cards
+     */
     public void updateVisibleResource() {
         ResourceCard toDraw = drawResource();
         toDraw.flip();
         VisibleResourceCards.add(toDraw);
-    }
-
-    //TODO implentare scelta carte visibile - come le scelgo?
-    /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleResource, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
-    public ResourceCard drawVisibleResource(Integer choice) {
-        if (VisibleResourceCards.isEmpty()) {
-            throw new IllegalStateException("Deck is empty");
-        }
-        ResourceCard toDraw;
-        switch (choice) {
-            case 0:
-                toDraw = this.VisibleResourceCards.get(0);
-                this.VisibleResourceCards.remove(0);
-                updateVisibleResource();
-                return toDraw;
-            case 1:
-                toDraw = this.VisibleResourceCards.get(1);
-                this.VisibleResourceCards.remove(1);
-                updateVisibleResource();
-                return toDraw;
-            default:
-                System.out.println("invalid choice");
-                return null;
-        }
     }
 
     /**
@@ -168,41 +146,26 @@ public class Deck {
         if (goldCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        GoldCard toDraw = goldCards.get(0);
-        goldCards.remove(0);
+        GoldCard toDraw = goldCards.getFirst();
+        goldCards.removeFirst();
+        toDraw.flip();
         return toDraw;
     }
 
+    /**
+     * this method updates the visible gold cards
+     */
     public void updateVisibleGold() {
         GoldCard toDraw = drawGold();
         toDraw.flip();
         VisibleGoldCards.add(toDraw);
     }
 
-    /*TODO quando peschiamo una delle due carte visibili passiamo un parametro al metodo drawVisibleGold, 0 sarà la prim carta, 1 la seconda. perciò in CLI chiediamo di scegliere tra 0 e 1 per prima o seconda e nella GUI il click su una delle due invocherà il metodo con il parametro già settato a 0 o 1*/
-    public GoldCard drawVisibleGold(Integer choice) {
-        if (VisibleGoldCards.isEmpty()) {
-            throw new IllegalStateException("Deck is empty");
-        }
-        GoldCard toDraw;
-        switch (choice) {
-            case 0:
-                toDraw = this.VisibleGoldCards.get(0);
-                this.VisibleGoldCards.remove(0);
-                updateVisibleGold();
-                return toDraw;
-            case 1:
-                toDraw = this.VisibleGoldCards.get(1);
-                this.VisibleGoldCards.remove(1);
-                updateVisibleGold();
-                return toDraw;
-            default:
-                System.out.println("invalid choice");
-                return null;
-        }
-    }
-
-    //TODO implemetare selezione obiettivo segreto - casino al momento - metodo da rifare probabilmente
+    /**
+     * this method allows the player to choose between two secret objectives
+     * @param choice the choice of the player
+     * @return the card chosen
+     */
     public ObjectiveCard SecretObjectivesChoice(Integer choice) {
         if (objectiveCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
@@ -273,7 +236,10 @@ public class Deck {
         return VisibleGoldCards;
     }
 
-
+    /**
+     * this method draws the first two cards of the resourcecards deck, and shows the front faces
+     * @return the first two cards of the resourcecards deck
+     */
     public ArrayList<ResourceCard> setVisibleResourceCards() {
         ResourceCard visible_rc1 = drawResource();
         ResourceCard visible_rc2 = drawResource();
@@ -281,6 +247,22 @@ public class Deck {
         visible_rc2.flip();
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
+        return VisibleResourceCards;
+    }
+
+    /**
+     * returns the visible gold cards
+     * @return
+     */
+    public ArrayList<GoldCard> getVisibleGoldCards() {
+        return VisibleGoldCards;
+    }
+
+    /**
+     * returns the visible resource cards
+     * @return the visible resource cards
+     */
+    public ArrayList<ResourceCard> getVisibleResourceCards() {
         return VisibleResourceCards;
     }
 }

@@ -5,6 +5,7 @@ package codex.lb04.Message;
  */
 public enum MessageType {
 
+    //network messages
     GENERIC_MESSAGE,    //generic message
     OK_MESSAGE,         //message sent form the server after receiving any message correctly
     PING,               //ping message sent from server to see if client is alive
@@ -16,5 +17,7 @@ public enum MessageType {
     ERROR,               //error message signals a generic error in the game
 
     //game messages
-    PICK_SECRET_OBJECTIVE
+    PICK_SECRET_OBJECTIVE,
+    PICK_RESOURCE_CARD,
+    PICK_GOLD_CARD,
 }
