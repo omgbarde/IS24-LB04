@@ -8,13 +8,22 @@ import codex.lb04.Model.*;
 public class GameController {
 
     private Game game;
+    private GameState gameState;
     private InputController inputController;
     private TurnController turnController;
-    private GameState gameState;
 
-    public GameController(Game game) {
-        this.game = game;
+    public GameController() {
+        createGameController();
+    }
+
+    public void createGameController(){
+        this.game = Game.getInstance();
         this.inputController = new InputController(this, game);
+        setGameState(GameState.LOGIN);
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     /**
@@ -40,6 +49,8 @@ public class GameController {
                 break;
         }
     }
+
+
 
     /**
      * handles the messages received when the game is in progress
