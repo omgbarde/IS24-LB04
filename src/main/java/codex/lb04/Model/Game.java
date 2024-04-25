@@ -7,7 +7,7 @@ import java.util.ArrayList;
 //TODO implementare gestione dei turni e delle fasi di gioco
 //TODO implementare inizio della partita
 //TODO implementare win condition
-//TODO implementare calcolo dei punti di tutti i giocatori e dichiarazione del vincitore
+//TODO implementare ultimo turno
 //TODO test della classe game
 
 /**

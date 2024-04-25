@@ -8,7 +8,6 @@ import codex.lb04.Model.*;
 public class GameController {
 
     private Game game;
-    private GameState gameState;
     private InputController inputController;
     private TurnController turnController;
 
@@ -19,12 +18,9 @@ public class GameController {
     public void createGameController(){
         this.game = Game.getInstance();
         this.inputController = new InputController(this, game);
-        setGameState(GameState.LOGIN);
+        game.setGameState(GameState.LOGIN);
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
 
     /**
      * when a message is received, the controller checks the game state and the message type
@@ -33,7 +29,7 @@ public class GameController {
      */
     public void onMessageReceived(Message receivedMessage) {
 
-        switch (gameState) {
+        switch (game.getGameState()) {
             case LOGIN:
                 //TODO
                 break;
@@ -94,7 +90,6 @@ public class GameController {
                 break;
         }
     }
-
 
     /**
      * sets the secret objective for the player
