@@ -1,16 +1,19 @@
-package codex.lb04.Message;
+package codex.lb04.Message.GameMessage;
 
-public class PickGoldCardMessage extends Message {
+import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
+
+public class PickResourceCardMessage extends Message {
 
     private Integer cardPick;
 
     /**
-     * Constructor for PickGoldCardMessage
+     * constructor for PickResourceCardMessage
      * @param username username of the player
      * @param cardPick choice of the card to pick
      */
-    public PickGoldCardMessage(String username, Integer cardPick) {
-        super(username, MessageType.PICK_GOLD_CARD);
+    public PickResourceCardMessage(String username, Integer cardPick) {
+        super(username, MessageType.PICK_RESOURCE_CARD);
         this.cardPick = cardPick;
     }
 
@@ -32,9 +35,6 @@ public class PickGoldCardMessage extends Message {
 
     @Override
     public String toString() {
-        return "PickGoldCardMessage{" +
-                "nickname=" + getUsername() +
-                ", pick=" + cardPick +
-                '}';
+        return "PickResourceCardMessage{" + "nickname=" + getUsername() + ", pick=" + cardPick + '}';
     }
 }

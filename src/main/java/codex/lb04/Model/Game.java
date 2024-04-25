@@ -5,8 +5,7 @@ import codex.lb04.Network.server.ClientHandler;
 import java.util.ArrayList;
 
 //TODO implementare gestione dei turni e delle fasi di gioco
-//TODO implementare piazzamento carta sulla board nei controller
-//TODO scelta faccia carta iniziale
+//TODO implementare inizio della partita
 //TODO test della classe game
 
 /**
@@ -49,6 +48,20 @@ public class Game {
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().drawResourceCard(pick);
+    }
+
+    public InitialCard getInitialCard(String username){
+        Player player = getPlayerByName(username);
+        return player.getBoard().getInitialCard();
+    }
+
+    /**
+     * draws the initial card for a player
+     * @param username the player who draws the card
+     */
+    public void setInitialCard(String username){
+        Player player = getPlayerByName(username);
+        player.getBoard().setInitialCard();
     }
 
     /**

@@ -13,7 +13,7 @@ public abstract class Message implements Serializable {
     private final String username;
     private final MessageType messageType;
 
-    Message(String username, MessageType messageType) {
+    protected Message(String username, MessageType messageType) {
         this.username = username;
         this.messageType = messageType;
     }

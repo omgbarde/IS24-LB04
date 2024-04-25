@@ -1,16 +1,19 @@
-package codex.lb04.Message;
+package codex.lb04.Message.GameMessage;
 
-public class PickSecretObjectiveMessage extends Message {
+import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
+
+public class PickGoldCardMessage extends Message {
 
     private Integer cardPick;
 
     /**
-     * Constructor for PickSecretObjectiveMessage
+     * Constructor for PickGoldCardMessage
      * @param username username of the player
      * @param cardPick choice of the card to pick
      */
-    public PickSecretObjectiveMessage(String username, Integer cardPick) {
-        super(username, MessageType.PICK_SECRET_OBJECTIVE);
+    public PickGoldCardMessage(String username, Integer cardPick) {
+        super(username, MessageType.PICK_GOLD_CARD);
         this.cardPick = cardPick;
     }
 
@@ -30,10 +33,9 @@ public class PickSecretObjectiveMessage extends Message {
         return super.getUsername();
     }
 
-
     @Override
     public String toString() {
-        return "PickSecretObjectiveMessage{" +
+        return "PickGoldCardMessage{" +
                 "nickname=" + getUsername() +
                 ", pick=" + cardPick +
                 '}';

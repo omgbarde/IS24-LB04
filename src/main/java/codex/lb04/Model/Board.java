@@ -19,6 +19,7 @@ public class Board {
     private ArrayList<GoldCard> VisibleGoldCards;
     private ArrayList<ResourceCard> VisibleResourceCards;
     private ArrayList<Card> hand;
+    private InitialCard initialCard;
     //resources
     private Integer Insects;
     private Integer Animals;
@@ -147,6 +148,21 @@ public class Board {
             }
         }
         return true;
+    }
+
+    /**
+     * This method sets the initial card
+     */
+    public void setInitialCard(){
+        this.initialCard = deck.drawInitialCard();
+    }
+
+    /**
+     * This method returns the initial card
+     * @return the initial card
+     */
+    public InitialCard getInitialCard(){
+        return this.initialCard;
     }
 
     /**
@@ -454,6 +470,27 @@ public class Board {
         this.Points += conditionCheckResources(secretObjective);
     }
 
+    public boolean isInHand(Card card){
+        for(Card hand : hand){
+            if(hand.equals(card)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method flips a card in the hand
+     * @param toFlip the card to flip
+     */
+    public void flipCardInHand(Card toFlip){
+        for(Card card : hand){
+            if(card.equals(toFlip)){
+                card.flip();
+            }
+        }
+    }
+
     //GETTERS
 
     /**
@@ -539,5 +576,33 @@ public class Board {
 
     public Integer getPoints() {
         return Points;
+    }
+
+    public ArrayList<Card> getPlayedCards() {
+        return playedCards;
+    }
+
+    public ArrayList<ObjectiveCard> getInGameObjectiveCards() {
+        return inGameObjectiveCards;
+    }
+
+    public ObjectiveCard getSecretObjective() {
+        return secretObjective;
+    }
+
+    public ArrayList<GoldCard> getVisibleGoldCards() {
+        return VisibleGoldCards;
+    }
+
+    public ArrayList<ResourceCard> getVisibleResourceCards() {
+        return VisibleResourceCards;
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
+    public Integer getPointsByGoldCards() {
+        return PointsByGoldCards;
     }
 }

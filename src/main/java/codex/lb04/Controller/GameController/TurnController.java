@@ -16,7 +16,7 @@ public class TurnController {
     public TurnController() {
         this.game = Game.getInstance();
         this.playersQueue = game.getPlayerNames();
-        this.activePlayer = playersQueue.get(0);
+        this.activePlayer = playersQueue.getFirst();
     }
 
     /**

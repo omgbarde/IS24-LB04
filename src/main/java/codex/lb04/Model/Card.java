@@ -6,7 +6,7 @@ import codex.lb04.Model.Enumerations.Color;
  * This class represents a generic card
  */
 public class Card {
-    public Face ShownFace;
+    private Face ShownFace;
     private final Face front;
     private final Face back;
     private Color color;
@@ -75,12 +75,6 @@ public class Card {
         this.y = y;
     }
 
-    public boolean hasEnoughResources() {
-        return false;
-    }
-
-    ;
-
     public Face getFront() {
         return front;
     }
@@ -104,4 +98,5 @@ public class Card {
     public Integer getY() {
         return y;
     }
+
 }

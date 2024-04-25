@@ -17,7 +17,10 @@ public enum MessageType {
     ERROR,               //error message signals a generic error in the game
 
     //game messages
-    PICK_SECRET_OBJECTIVE,
-    PICK_RESOURCE_CARD,
-    PICK_GOLD_CARD,
+    PICK_SECRET_OBJECTIVE,          //message sent when the player picks a secret objective
+    PICK_RESOURCE_CARD,             //message sent when the player picks a resource card to draw
+    PICK_GOLD_CARD,                 //message sent when the player picks a gold card to draw
+    PICK_INITIAL_CARD_SIDE,         //message sent when the player picks the side of the initial card
+    PLACE_CARD,                     //message sent when the player places a card on the board
+    END_TURN, FLIP_CARD,                       //message sent when the player ends his turn
 }

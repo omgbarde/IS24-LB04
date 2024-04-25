@@ -212,12 +212,12 @@ public class Deck {
      *
      * @return the card drawn
      */
-    public InitialCard drawInitial() {
+    public InitialCard drawInitialCard() {
         if (initialCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        InitialCard toDraw = initialCards.get(0);
-        initialCards.remove(0);
+        InitialCard toDraw = initialCards.getFirst();
+        initialCards.removeFirst();
         return toDraw;
     }
 
