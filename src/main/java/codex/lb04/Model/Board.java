@@ -299,6 +299,7 @@ public class Board {
                         break;
                 }
             }
+            //TODO Debuggare e correggere problema della faccia back
             for (Corner corner : card.getShownFace().getCorners()) {
                 if (!corner.isCovered()) {
                     switch (corner.getResource()) {

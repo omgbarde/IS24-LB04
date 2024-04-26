@@ -1,5 +1,5 @@
 package codex.lb04.Model;
-
+import java.util.ArrayList;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.jupiter.api.AfterEach;
@@ -68,22 +68,134 @@ class DeckTest {
     }
 
     @Test
-    void shuffleResources() {
+    void getObjectiveCards(){assertNotNull(deck.getObjectiveCards());}
 
+    @Test
+    void getInitialCards(){assertNotNull(deck.getInitialCards());}
+
+    @Test
+    void shuffleResources() {
+        ArrayList<ResourceCard> originalOrder = new ArrayList<ResourceCard>(deck.getResourceCards());
+        boolean orderChanged = false;
+        for (int i = 0; i < 10; i++) {
+            deck.shuffleResources();
+            if (!deck.getResourceCards().equals(originalOrder)) {
+                orderChanged = true;
+                break;
+            }
+        }
+        assertTrue(orderChanged);
     }
 
     @Test
     void shuffleGold() {
-
+        ArrayList<GoldCard> originalOrder = new ArrayList<GoldCard>(deck.getGoldCards());
+        boolean orderChanged = false;
+        for (int i = 0; i < 10; i++) {
+            deck.shuffleGold();
+            if (!deck.getGoldCards().equals(originalOrder)) {
+                orderChanged = true;
+                break;
+            }
+        }
+        assertTrue(orderChanged);
     }
 
     @Test
-    void drawResource() {
-        assertNotNull(deck.drawResource());
+    void shuffleObjectives(){
+        ArrayList<ObjectiveCard> originalOrder = new ArrayList<ObjectiveCard>(deck.getObjectiveCards());
+        boolean orderChanged = false;
+        for (int i = 0; i < 10; i++) {
+            deck.shuffleObjectives();
+            if (!deck.getObjectiveCards().equals(originalOrder)) {
+                orderChanged = true;
+                break;
+            }
+        }
+        assertTrue(orderChanged);
     }
+
+    @Test
+    void drawResource() {assertNotNull(deck.drawResource());}
 
 
     @Test
     void initializeDeck() {
+        assertNotNull(deck.getResourceCards());
+        assertNotNull(deck.getInitialCards());
+        assertNotNull(deck.getObjectiveCards());
+        assertNotNull(deck.getGoldCards());
+        assertNotNull(deck.getVisibleGoldCards());
+        assertNotNull(deck.getVisibleResourceCards());
     }
+
+    @Test
+    void updateVisibleResource(){
+        ArrayList<ResourceCard> original = new ArrayList<ResourceCard>(deck.getVisibleResourceCards());
+        boolean changed = false;
+        board.drawResourceCard(1);
+        if(!original.equals(deck.getVisibleResourceCards())){
+            changed = true;
+        }
+        assertTrue(changed);
+    }
+
+    @Test
+    void drawGold(){assertNotNull(deck.drawGold());    }
+
+    @Test
+    void updateVisibleGold(){
+        ArrayList<GoldCard> original = new ArrayList<GoldCard>(deck.getVisibleGoldCards());
+        boolean changed = false;
+        board.drawGoldCard(0);
+        if(!original.equals(deck.getVisibleGoldCards())){
+            changed = true;
+        }
+        assertTrue(changed);
+    }
+
+    @Test
+
+    void SecretObjectivesChoice(){
+        ArrayList<ObjectiveCard> obj_cards = new ArrayList<ObjectiveCard>();
+        ObjectiveCard obj_1 = deck.getObjectiveCards().get(1);
+        obj_cards.add(obj_1);
+        assertEquals(obj_1,deck.SecretObjectivesChoice(1));
+    }
+
+    @Test
+     void drawObjective(){assertNotNull(deck.drawObjective());}
+
+    @Test
+    void setCommonObjectives(){
+
+    }
+
+    @Test
+    void drawInitialCard(){assertNotNull(deck.drawInitialCard());}
+
+    @Test
+    void setVisibleGoldCards(){
+        ArrayList<GoldCard> gc = new ArrayList<GoldCard>();
+        gc.add(deck.getGoldCards().get(0));
+        gc.add(deck.getGoldCards().get(1));
+        assertEquals(gc,deck.setVisibleGoldCards());
+    }
+
+    @Test
+    void setVisibleResourceCards(){
+
+    }
+
+    @Test
+    void getVisibleGoldCards(){
+
+    }
+
+    @Test
+    void getVisibleResourceCards(){
+
+    }
+
+
 }

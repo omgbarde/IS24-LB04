@@ -55,4 +55,12 @@ class FaceTest {
     void getCentralResources() {
         assertEquals(ResourceType.INSECT, face.getCentralResources().getFirst());
     }
+
+    @Test
+    void getCorners() {
+        assertEquals(upperLeft, face.getCorners().get(0));
+        assertEquals(upperRight, face.getCorners().get(1));
+        assertEquals(lowerLeft, face.getCorners().get(2));
+        assertEquals(lowerRight, face.getCorners().get(3));
+    }
 }

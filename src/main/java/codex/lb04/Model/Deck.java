@@ -41,6 +41,8 @@ public class Deck {
         goldCards = deckBuilder.createGoldCards();
         initialCards = deckBuilder.createInitialCards();
         objectiveCards = deckBuilder.createObjectiveCards();
+        VisibleGoldCards = setVisibleGoldCards();
+        VisibleResourceCards = setVisibleResourceCards();
 
     }
 

@@ -27,6 +27,12 @@ public class Player {
         return username;
     }
 
+
+    /**
+     * This method returns the board of the player
+     *
+     * @return the board of the player
+     */
     public Board getBoard() {
         return board;
     }
