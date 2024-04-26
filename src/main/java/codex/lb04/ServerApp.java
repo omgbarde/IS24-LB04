@@ -1,9 +1,9 @@
 
 package codex.lb04;
 
+import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.Message;
-import codex.lb04.Model.Game;
 import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
@@ -23,8 +23,8 @@ public class ServerApp implements Runnable {
     private ServerSocket serverSocket;
     //list of all client handlers
     private static List<ClientHandler> clientHandlerList = new ArrayList<>();
-    //reference to the game object (model)
-    private Game game;
+    //game controller to manage the game
+    private GameController gameController;
 
     /**
      * checks if the username is already taken
@@ -40,6 +40,20 @@ public class ServerApp implements Runnable {
     }
 
     /**
+     * sends a message to a specific client
+     *
+     * @param message is the message to be sent
+     * @param username is the username of the client
+     */
+    public static void sendMessage(Message message, String username) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            if (clientHandler.getUsername().equals(username)) {
+                clientHandler.sendMessage(message);
+            }
+        }
+    }
+
+    /**
      * creates the server socket, game objects and multiple client handlers based on incoming connection requests
      *
      */
@@ -48,28 +62,16 @@ public class ServerApp implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             print("Server is running:\n" + serverSocket);
-            createGame();
+            gameController = new GameController();
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-                /*if(clientHandlerList.size()<=4){
-                    clientHandlerList.add(clientHandler);
-                    game.addPlayerName(clientHandler.getUsername());
-                }*/
                 new Thread(clientHandler).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * gets the game object (singleton)
-     *
-     */
-    public void createGame() {
-        this.game = Game.getInstance();
     }
 
     /**
@@ -90,7 +92,6 @@ public class ServerApp implements Runnable {
      */
     public void removeClientHandler(ClientHandler clientHandler) {
         clientHandlerList.remove(clientHandler);
-        if(game != null) game.removePlayer(clientHandler.getUsername());
         GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandler.getUsername() + "disconnected");
         broadcast(genericMessage);
     }
@@ -112,6 +113,10 @@ public class ServerApp implements Runnable {
         }
 
         new Thread(new ServerApp()).start();
+    }
+
+    public void onMessageReceived(Message receivedMessage) {
+        this.gameController.onMessageReceived(receivedMessage);
     }
 
     /**

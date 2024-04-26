@@ -1,7 +1,5 @@
 package codex.lb04.Model;
 
-import java.util.ArrayList;
-
 /**
  * This class represents a player
  */
@@ -15,9 +13,9 @@ public class Player {
      * @param username        username
      *
      */
-    public Player(String username, Board board) {
+    public Player(String username) {
         this.username = username;
-        this.board = board;
+        this.board = new Board();
     }
 
     /**

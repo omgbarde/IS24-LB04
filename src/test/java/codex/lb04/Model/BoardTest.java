@@ -2,7 +2,9 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,7 +106,7 @@ class BoardTest {
 
     @Test
     void getResourceCards() {
-        assertNotNull(board.getResourceCards());
+        assertNotNull(board.getVisibleResourceCards());
     }
 
 
@@ -119,7 +121,7 @@ class BoardTest {
 
     @Test
     void getGoldCards() {
-        assertNotNull(board.getGoldCards());
+        assertNotNull(board.getVisibleGoldCards());
     }
 
     @Test

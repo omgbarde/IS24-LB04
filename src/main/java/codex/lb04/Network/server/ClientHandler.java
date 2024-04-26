@@ -16,7 +16,6 @@ import java.net.SocketException;
 public class ClientHandler implements Runnable {
     //TODO avoid this upward dependency if possible
     private final ServerApp server;
-    private final ServerParser messageParser;
     private final Socket clientSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
@@ -31,7 +30,6 @@ public class ClientHandler implements Runnable {
     /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
-        this.messageParser = new ServerParser(this);
         this.server = server;
         try {
             input = new ObjectInputStream(clientSocket.getInputStream());
@@ -52,7 +50,7 @@ public class ClientHandler implements Runnable {
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
-                    messageParser.handleInput(message);
+                    server.onMessageReceived(message);
                 }
             }
         } catch (SocketException | EOFException e) {

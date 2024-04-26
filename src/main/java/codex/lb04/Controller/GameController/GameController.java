@@ -1,9 +1,12 @@
 package codex.lb04.Controller.GameController;
 
-import codex.lb04.Message.*;
+import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
-
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.Message;
+import codex.lb04.Message.OkMessage;
 import codex.lb04.Model.*;
+import codex.lb04.ServerApp;
 
 public class GameController {
 
@@ -31,7 +34,9 @@ public class GameController {
 
         switch (game.getGameState()) {
             case LOGIN:
-                //TODO
+                if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
+                    inLoginState(receivedMessage);
+                }
                 break;
             case INIT:
                 //TODO
@@ -45,7 +50,36 @@ public class GameController {
                 break;
         }
     }
+    /**
+     * handles the messages received when the game is in login state
+     * @param receivedMessage Message from a client
+     */
+    private void inLoginState(Message receivedMessage) {
+        String usr = receivedMessage.getUsername();
+        switch (receivedMessage.getMessageType()) {
+            case LOGIN_REQUEST:
+                //checks maximum number of clients connected and if username is available
+                if (game.getPlayers().size() <= 4 && ServerApp.checkUsername(usr)) {
+                    //clientHandler.setUsername(usr);
+                    //clientHandler.sendMessage(new OkMessage());
+                    game.addPlayerName(usr);
+                } else ServerApp.sendMessage(new LoginReply(usr, false), usr);
+                break;
+            case LOGOUT_REQUEST:
+                //server.print("user wants to logout: " + getUsername());
+                ServerApp.sendMessage(new OkMessage(), usr);
+                game.removePlayerName(usr);
+                break;
+            case PONG:
 
+            case ERROR:
+
+            default:
+                ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
+                ServerApp.sendMessage(error, usr);
+                break;
+        }
+    }
 
 
     /**
@@ -53,6 +87,7 @@ public class GameController {
      * @param receivedMessage Message from Active Player.
      */
     private void inGameState(Message receivedMessage) {
+        String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
             case PICK_SECRET_OBJECTIVE:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -85,10 +120,25 @@ public class GameController {
                 break;
             case END_TURN:
                 break;
+            case LOGOUT_REQUEST:
+                //server.print("user wants to logout: " + getUsername());
+                ServerApp.sendMessage(new OkMessage(), usr);
+                game.removePlayerName(usr);
+                break;
 
             default:
                 break;
         }
+    }
+
+    /**
+     * Starts the game ,creates the players and personal boards
+     */
+    public void startGame() {
+        game.setGameState(GameState.INIT);
+        game.createPlayers();
+        game.setGameState(GameState.IN_GAME);
+        turnController = new TurnController();
     }
 
     /**

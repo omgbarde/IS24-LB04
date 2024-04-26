@@ -1,6 +1,6 @@
 package codex.lb04.Model;
 
-import codex.lb04.Network.server.ClientHandler;
+import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
 
@@ -13,11 +13,11 @@ import java.util.ArrayList;
 /**
  * This class represents the game
  */
-public class Game {
+public class Game extends Observable{
     private static Game instance;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Deck deck;
-    private GameState gameState;
+    private GameState gameState ;
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
 
@@ -137,18 +137,6 @@ public class Game {
         this.lobby.remove(player);
     }
 
-    /**
-     * Starts the game ,creates the players and personal boards
-     */
-    public void startGame() {
-        if (lobby.size() >= 2 && lobby.size() <= 4 /*&&  messaggio d'avvio*/) {
-            for (String name : lobby) {
-                Player player = new Player(name, new Board());
-                this.addPlayer(player);
-            }
-            this.setGameState(GameState.IN_GAME);
-        }
-    }
 
     /**
      * Adds a player to the game
@@ -157,6 +145,9 @@ public class Game {
      */
     public void addPlayer(Player player) {
         this.players.add(player);
+        if(this.lobby.size()>=2){
+            //notifyObserver(new Message("game", "able To Start"));
+        }
     }
 
     /**
@@ -218,4 +209,10 @@ public class Game {
         return deck;
     }
 
+    public void createPlayers() {
+        for (String player : lobby) {
+            Player newPlayer = new Player(player);
+            addPlayer(newPlayer);
+        }
+    }
 }

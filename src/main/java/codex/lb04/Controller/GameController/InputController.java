@@ -2,7 +2,6 @@ package codex.lb04.Controller.GameController;
 
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.Message;
-import codex.lb04.Model.Card;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
 
