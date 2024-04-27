@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;

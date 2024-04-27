@@ -27,5 +27,7 @@ public class TurnController {
         return activePlayer;
     }
 
+    //TODO implementare il cambio del turno scorrendo arraylist con %4
+
 
 }

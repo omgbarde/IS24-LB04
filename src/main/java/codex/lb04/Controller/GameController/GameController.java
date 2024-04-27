@@ -5,7 +5,11 @@ import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.OkMessage;
-import codex.lb04.Model.*;
+import codex.lb04.Model.Card;
+import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Model.Face;
+import codex.lb04.Model.Game;
+import codex.lb04.Model.InitialCard;
 import codex.lb04.ServerApp;
 
 public class GameController {
@@ -34,9 +38,7 @@ public class GameController {
 
         switch (game.getGameState()) {
             case LOGIN:
-                if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
                     inLoginState(receivedMessage);
-                }
                 break;
             case INIT:
                 //TODO
@@ -60,23 +62,27 @@ public class GameController {
             case LOGIN_REQUEST:
                 //checks maximum number of clients connected and if username is available
                 if (game.getPlayers().size() <= 4 && ServerApp.checkUsername(usr)) {
-                    //clientHandler.setUsername(usr);
-                    //clientHandler.sendMessage(new OkMessage());
                     game.addPlayerName(usr);
                 } else ServerApp.sendMessage(new LoginReply(usr, false), usr);
                 break;
             case LOGOUT_REQUEST:
-                //server.print("user wants to logout: " + getUsername());
                 ServerApp.sendMessage(new OkMessage(), usr);
                 game.removePlayerName(usr);
                 break;
             case PONG:
-
+                break;
+            case START_GAME:
+                if (game.getPlayers().size() >= 2 && game.getPlayers().size() <= 4){
+                    startGame();
+                }
+                break;
             case ERROR:
-
-            default:
-                ErrorMessage error = new ErrorMessage("server", "message not recognized or double login");
+                ErrorMessage error = new ErrorMessage("server",((ErrorMessage)receivedMessage).getError());
                 ServerApp.sendMessage(error, usr);
+                break;
+            default:
+                ErrorMessage defaultError = new ErrorMessage("server", "message not recognized or double login");
+                ServerApp.sendMessage(defaultError, usr);
                 break;
         }
     }
@@ -136,9 +142,9 @@ public class GameController {
      */
     public void startGame() {
         game.setGameState(GameState.INIT);
+        turnController = new TurnController();
         game.createPlayers();
         game.setGameState(GameState.IN_GAME);
-        turnController = new TurnController();
     }
 
     /**

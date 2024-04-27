@@ -1,6 +1,7 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;
 
 import java.io.EOFException;
@@ -41,7 +42,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * run method for the clientHandler thread:
-     * it reads messages form the input stream and handles them
+     * it reads messages form the input stream and forwards them to the server that will handle them
      */
     @Override
     public void run() {
@@ -50,7 +51,12 @@ public class ClientHandler implements Runnable {
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
+                    //forward the message to the server
                     server.onMessageReceived(message);
+                    //just check if the message is a login request and set the username
+                    if(message.getMessageType() == MessageType.LOGIN_REQUEST && this.username == null){
+                        this.username = message.getUsername();
+                    }
                 }
             }
         } catch (SocketException | EOFException e) {

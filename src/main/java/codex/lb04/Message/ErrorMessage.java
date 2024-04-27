@@ -27,4 +27,5 @@ public class ErrorMessage extends Message {
                 ", error=" + error +
                 '}';
     }
+
 }

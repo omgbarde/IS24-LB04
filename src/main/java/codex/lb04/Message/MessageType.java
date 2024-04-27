@@ -7,6 +7,7 @@ public enum MessageType {
 
     //network messages
     GENERIC_MESSAGE,    //generic message
+    START_GAME,         //message sent from the server to the clients to start the game
     OK_MESSAGE,         //message sent form the server after receiving any message correctly
     PING,               //ping message sent from server to see if client is alive
     PONG,               //pong message sent from client to server to show that it is alive
