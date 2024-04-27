@@ -41,6 +41,7 @@ class BoardTest {
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         //this.BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
         this.card = new Card(Color.BLUE, front, back, 3);
+        card.flip();
         //this.card1 = new Card(Color.BLUE, front, back, 3);
        // this.card2 = new Card(Color.BLUE, front, back, 3);
         this.board = new Board();

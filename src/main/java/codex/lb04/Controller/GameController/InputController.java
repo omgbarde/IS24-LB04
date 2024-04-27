@@ -30,11 +30,11 @@ public class InputController {
 
         switch (message.getMessageType()) {
             case PICK_SECRET_OBJECTIVE:
-                return PickSecretObjectiveCheck(message);
+                return pickSecretObjectiveCheck(message);
             case PICK_RESOURCE_CARD:
-                return PickResourceCardCheck(message);
+                return pickResourceCardCheck(message);
             case PICK_GOLD_CARD:
-                return PickGoldCardCheck(message);
+                return pickGoldCardCheck(message);
             case PICK_INITIAL_CARD_SIDE:
                 return pickInitialCardSideCheck(message);
             case PLACE_CARD:
@@ -52,7 +52,7 @@ public class InputController {
      * @param message Message from Client.
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
-    public boolean PickSecretObjectiveCheck(Message message) {
+    public boolean pickSecretObjectiveCheck(Message message) {
         return ((PickSecretObjectiveMessage) message).getCardPick() >= 0 && ((PickSecretObjectiveMessage) message).getCardPick() <= 1;
     }
 
@@ -61,7 +61,7 @@ public class InputController {
      * @param message Message from Client.
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
-    public boolean PickResourceCardCheck(Message message) {
+    public boolean pickResourceCardCheck(Message message) {
         return ((PickResourceCardMessage) message).getCardPick() >= 0 && ((PickResourceCardMessage) message).getCardPick() <= 2;
     }
 
@@ -70,7 +70,7 @@ public class InputController {
      * @param message Message from Client.
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
-    public boolean PickGoldCardCheck(Message message) {
+    public boolean pickGoldCardCheck(Message message) {
         return ((PickGoldCardMessage) message).getCardPick() >= 0 && ((PickGoldCardMessage) message).getCardPick() <= 2;
     }
 

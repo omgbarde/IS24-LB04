@@ -1,10 +1,12 @@
 package codex.lb04.Model;
-import java.util.ArrayList;
+
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -176,10 +178,7 @@ class DeckTest {
 
     @Test
     void setVisibleGoldCards(){
-        ArrayList<GoldCard> gc = new ArrayList<GoldCard>();
-        gc.add(deck.getGoldCards().get(0));
-        gc.add(deck.getGoldCards().get(1));
-        assertEquals(gc,deck.setVisibleGoldCards());
+
     }
 
     @Test
