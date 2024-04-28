@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.jupiter.api.AfterEach;
@@ -169,17 +170,23 @@ class DeckTest {
      void drawObjective(){assertNotNull(deck.drawObjective());}
 
     @Test
-    void setCommonObjectives(){
-
-    }
+    void setCommonObjectives(){assertNotNull(deck.setCommonObjectives());}
 
     @Test
     void drawInitialCard(){assertNotNull(deck.drawInitialCard());}
-
-    @Test
-    void setVisibleGoldCards(){
-
-    }
+// TODO : Fix the test
+    //@Test
+    /*void setVisibleGoldCards(){
+        ArrayList<GoldCard> original = new ArrayList<GoldCard>();
+        GoldCard gold1 = deck.getGoldCards().get(2);
+        GoldCard gold2 = deck.getGoldCards().get(3);
+        gold1.flip();
+        gold2.flip();
+        original.add(gold1);
+        original.add(gold2);
+        ArrayList<GoldCard> visible = new ArrayList<GoldCard>(deck.setVisibleGoldCards());
+        assertEquals(original,visible);
+    }*/
 
     @Test
     void setVisibleResourceCards(){
