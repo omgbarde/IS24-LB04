@@ -1,5 +1,6 @@
 package codex.lb04.Network.server;
 
+import codex.lb04.Message.DeadClientMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;

@@ -23,6 +23,8 @@ public class ClientParser {
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
                 if (((LoginReply) input).isAccepted()) {
+                    //TODO astrarre view per fare in questo modo e fare view controller
+                    //CodexClientApp.getView().switchToLobby();
                     HelloController.switchToLobby();
                 } else {
                     CodexClientApp.print("login refused");

@@ -4,6 +4,7 @@ package codex.lb04;
 import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
 import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
@@ -97,6 +98,17 @@ public class ServerApp implements Runnable {
     }
 
     /**
+     * remove a client handler from the list
+     *
+     * @param clientHandler is the name of the client handler to be removed
+     */
+    public void removeClientHandler(String clientHandlerName) {
+        clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
+        GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandlerName + "disconnected");
+        broadcast(genericMessage);
+    }
+
+    /**
      * starts the server on a predefined port, if no port is provided in the args, the default port is used
      * @param args expects a port number
      */
@@ -116,6 +128,7 @@ public class ServerApp implements Runnable {
     }
 
     public void onMessageReceived(Message receivedMessage) {
+        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) removeClientHandler(receivedMessage.getUsername());
         this.gameController.onMessageReceived(receivedMessage);
     }
 

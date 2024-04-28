@@ -1,10 +1,7 @@
 package codex.lb04.Controller.GameController;
 
-import codex.lb04.Message.ErrorMessage;
+import codex.lb04.Message.*;
 import codex.lb04.Message.GameMessage.*;
-import codex.lb04.Message.LoginReply;
-import codex.lb04.Message.Message;
-import codex.lb04.Message.OkMessage;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Face;
@@ -125,6 +122,10 @@ public class GameController {
                 }
                 break;
             case END_TURN:
+                ServerApp.sendMessage(new EndTurnMessage(usr), usr);
+                turnController.changeTurn();
+                usr = turnController.getActivePlayer();
+                ServerApp.sendMessage(new StartTurnMessage(usr), usr);
                 break;
             case LOGOUT_REQUEST:
                 //server.print("user wants to logout: " + getUsername());

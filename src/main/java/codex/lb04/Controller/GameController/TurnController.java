@@ -27,7 +27,25 @@ public class TurnController {
         return activePlayer;
     }
 
-    //TODO implementare il cambio del turno scorrendo arraylist con %4
+    /**
+     * method to set the next player active player and change turn
+     */
+    public void changeTurn() {
+        activePlayer = playersQueueIterator.next();
+    }
+
+    public void removePlayer(String username){
+        for (String player : playersQueue){
+            if(player == username){
+                if (player == activePlayer){
+                    changeTurn();
+                }
+                playersQueue.remove(player);
+            }
+        }
+    }
+
+
 
 
 }
