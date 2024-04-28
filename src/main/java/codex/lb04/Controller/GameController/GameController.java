@@ -14,14 +14,26 @@ public class GameController {
     private Game game;
     private InputController inputController;
     private TurnController turnController;
+    private static GameController instance;
 
-    public GameController() {
+
+    public static GameController getInstance(){
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }
+
+    private GameController() {
         createGameController();
     }
 
-    public void createGameController(){
+
+
+    private void createGameController(){
         this.game = Game.getInstance();
         this.inputController = new InputController(this, game);
+        this.turnController = new TurnController();
         game.setGameState(GameState.LOGIN);
     }
 
@@ -32,13 +44,19 @@ public class GameController {
      * @param receivedMessage Message from Active Player.
      */
     public void onMessageReceived(Message receivedMessage) {
+        if(receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
+
+            game.removePlayer(receivedMessage.getUsername());
+            game.removePlayerName(receivedMessage.getUsername());
+            turnController.removePlayer(receivedMessage.getUsername());
+        }
 
         switch (game.getGameState()) {
             case LOGIN:
                     inLoginState(receivedMessage);
                 break;
             case INIT:
-                //TODO
+                ServerApp.sendMessage(new GenericMessage("server", "stai fermo"), receivedMessage.getUsername());
                 break;
             case IN_GAME:
                 if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player

@@ -63,7 +63,7 @@ public class ServerApp implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             print("Server is running:\n" + serverSocket);
-            gameController = new GameController();
+            gameController = GameController.getInstance(); //sono nato per questo
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());

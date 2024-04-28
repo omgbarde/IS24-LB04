@@ -1,6 +1,7 @@
 package codex.lb04.Controller.GameController;
 
 import codex.lb04.Model.Game;
+import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ public class TurnController {
     private String activePlayer;
     private ArrayList<String> playersQueue;
     private Game game;
+    private CircularIterator<String> playersQueueIterator;
 
     /**
      * Constructor for the TurnController class with the players list and the active player
@@ -17,6 +19,7 @@ public class TurnController {
         this.game = Game.getInstance();
         this.playersQueue = game.getPlayerNames();
         this.activePlayer = playersQueue.getFirst();
+        this.playersQueueIterator = new CircularIterator<>(playersQueue);
     }
 
     /**

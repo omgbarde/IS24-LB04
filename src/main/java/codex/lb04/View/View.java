@@ -12,4 +12,5 @@ public abstract class View {
     public abstract void switchScene(String sceneName);
     public abstract void setTitle(String title);
     public abstract void setMode(String mode);
+
 }

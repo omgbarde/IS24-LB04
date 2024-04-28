@@ -69,8 +69,8 @@ public class ClientHandler implements Runnable {
         } finally {
             try {
                 clientSocket.close();
-                //TODO move this in ServerApp
-                server.removeClientHandler(this);
+                server.onMessageReceived(new DeadClientMessage(this.username));
+
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
