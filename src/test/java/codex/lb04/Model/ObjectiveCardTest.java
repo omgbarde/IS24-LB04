@@ -2,13 +2,13 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class ObjectiveCardTest {
+public class ObjectiveCardTest {
 
     private Face front;
     private Face back;
@@ -17,15 +17,15 @@ class ObjectiveCardTest {
     private ResourceType CoveredResource;
 
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.front = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
         this.back = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
         this.objectiveCard = new ObjectiveCard(Color.RED, front, back, 2, 87);
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         front = null;
         back = null;
         objectiveCard = null;
@@ -33,7 +33,7 @@ class ObjectiveCardTest {
     }
 
     @Test
-    void getPoints() {
-        assertEquals(2, objectiveCard.getPoints());
+    public void getPoints() {
+        assertEquals((Integer) 2, objectiveCard.getPoints());
     }
 }

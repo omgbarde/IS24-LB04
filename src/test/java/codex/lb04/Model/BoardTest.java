@@ -2,13 +2,12 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class BoardTest {
+public class BoardTest {
 
     private Board board;
     private Deck deck;
@@ -27,8 +26,8 @@ class BoardTest {
     //private ObjectiveCard cardOb;
 
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
        // this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.deck = Deck.getInstance();
         this.corner1 = new Corner(ResourceType.ANIMAL);
@@ -47,8 +46,8 @@ class BoardTest {
         this.board = new Board();
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         this.deck = null;
         this.corner1 = null;
         this.corner2 = null;
@@ -67,108 +66,108 @@ class BoardTest {
     }
 
     @Test
-    void setZeroResources() {
+    public void setZeroResources() {
         board.setZeroResources();
-        assertEquals(0, board.getInsects());
-        assertEquals(0, board.getAnimals());
-        assertEquals(0, board.getMushrooms());
-        assertEquals(0, board.getLeaves());
-        assertEquals(0, board.getQuills());
-        assertEquals(0, board.getInkwells());
-        assertEquals(0, board.getManuscripts());
+        assertEquals((Integer) 0, board.getInsects());
+        assertEquals((Integer)0, board.getAnimals());
+        assertEquals((Integer)0, board.getMushrooms());
+        assertEquals((Integer)0, board.getLeaves());
+        assertEquals((Integer)0, board.getQuills());
+        assertEquals((Integer)0, board.getInkwells());
+        assertEquals((Integer)0, board.getManuscripts());
     }
 
     @Test
-    void placeCard() {
+    public void placeCard() {
         board.placeCard(card, 0, 0);
         assertEquals(1, board.getIngameCards().size());
     }
 
     @Test
-    void updateResources() {
+    public void updateResources() {
         board.placeCard(card, 0, 0);
         board.updateResources();
-        assertEquals(1, board.getAnimals());
-        assertEquals(1, board.getMushrooms());
-        assertEquals(1, board.getInsects());
-        assertEquals(1, board.getLeaves());
+        assertEquals((Integer)1, board.getAnimals());
+        assertEquals((Integer)1, board.getMushrooms());
+        assertEquals((Integer)1, board.getInsects());
+        assertEquals((Integer)1, board.getLeaves());
     }
 
     @Test
-    void getCornerCovered(){
+    public void getCornerCovered(){
         board.placeCard(card, 0,0);
-        assertEquals(1,board.getCornerCovered(card,1,1));
+        assertEquals((Integer)1,board.getCornerCovered(card,1,1));
     }
 
     @Test
-    void canBePlaced() {
+    public void canBePlaced() {
         assertTrue(board.canBePlaced(0, 0 , card));
     }
 
     @Test
-    void getResourceCards() {
+    public void getResourceCards() {
         assertNotNull(board.getVisibleResourceCards());
     }
 
 
     @Test
-    void getCard(){
+    public void getCard(){
         board.placeCard(card, 0, 0);
         assertEquals(card, board.getCard(0,0));
     }
 
     @Test
-    void getIngameCards(){assertNotNull(board.getIngameCards());}
+    public void getIngameCards(){assertNotNull(board.getIngameCards());}
 
     @Test
-    void getGoldCards() {
+    public void getGoldCards() {
         assertNotNull(board.getVisibleGoldCards());
     }
 
     @Test
-    void getInsects() {
+    public void getInsects() {
         board.placeCard(card, 0, 0);
-        assertEquals(1, board.getInsects());
+        assertEquals((Integer)1, board.getInsects());
     }
 
     @Test
-    void getAnimals() {
+    public void getAnimals() {
         board.placeCard(card, 0, 0);
-        assertEquals(1, board.getAnimals());
+        assertEquals((Integer)1, board.getAnimals());
     }
 
     @Test
-    void getMushrooms() {
+    public void getMushrooms() {
         board.placeCard(card, 0, 0);
-        assertEquals(1, board.getMushrooms());
+        assertEquals((Integer)1, board.getMushrooms());
     }
 
     @Test
-    void getLeaves() {
+    public void getLeaves() {
         board.placeCard(card, 0, 0);
-        assertEquals(1, board.getLeaves());
+        assertEquals((Integer)1, board.getLeaves());
     }
 
     @Test
-    void getQuills() {
+    public void getQuills() {
         board.placeCard(card, 0, 0);
-        assertEquals(0, board.getQuills());
+        assertEquals((Integer)0, board.getQuills());
     }
 
     @Test
-    void getInkwells() {
+    public void getInkwells() {
         board.placeCard(card, 0, 0);
-        assertEquals(0, board.getInkwells());
+        assertEquals((Integer)0, board.getInkwells());
     }
 
     @Test
-    void getManuscripts() {
+    public void getManuscripts() {
         board.placeCard(card, 0, 0);
-        assertEquals(0, board.getManuscripts());
+        assertEquals((Integer)0, board.getManuscripts());
     }
 
     @Test
-    void getDeck() {
+    public void getDeck() {
         assertNotNull(board.getDeck());
     }
 

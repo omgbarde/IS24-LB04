@@ -7,34 +7,35 @@ import codex.lb04.Message.LoginMessage;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Game;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GameControllerTest {
     private GameController gameController;
     private Game game;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.game = Game.getInstance();
         this.gameController = GameController.getInstance();
     }
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         this.gameController = null;
         this.game = null;
     }
 
     @Test
-    void testCreateGameController() {
+    public void testCreateGameController() {
         assertNotNull(GameController.getInstance());
     }
+
+    //TODO doesn't work when starting tests with maven (to debug)
     @Test
-    void testOnMessageReceived() {
+    public void testOnMessageReceived() {
         game.setGameState(GameState.LOGIN);
         gameController.onMessageReceived(new ErrorMessage("test","Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
@@ -57,14 +58,14 @@ public class GameControllerTest {
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
     @Test
-    void startGame() {
+    public void startGame() {
         game.setGameState(GameState.LOGIN);
         game.addPlayerName("test");
         gameController.startGame();
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
     @Test
-    void testGetTurnController() {
+    public void testGetTurnController() {
         game.setGameState(GameState.LOGIN);
         game.addPlayerName("test");
         gameController.startGame();

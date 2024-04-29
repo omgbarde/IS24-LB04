@@ -12,11 +12,19 @@ public class TurnController {
     private ArrayList<String> playersQueue;
     private Game game;
     private CircularIterator<String> playersQueueIterator;
+    private static TurnController instance;
 
+
+    public static TurnController getInstance(){
+        if (instance == null){
+            instance = new TurnController();
+        }
+        return instance;
+    }
     /**
      * Constructor for the TurnController class with the players list and the active player
      */
-    public TurnController() {
+    private TurnController() {
         this.game = Game.getInstance();
         this.playersQueue = game.getPlayerNames();
         this.activePlayer = playersQueue.getFirst();

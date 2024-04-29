@@ -2,13 +2,12 @@ package codex.lb04.Model;
 import java.util.ArrayList;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class GoldCardTest {
+public class GoldCardTest {
     private GoldCard goldCard;
     private Face front;
     private Face back;
@@ -18,8 +17,8 @@ class GoldCardTest {
 
 
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.corner1 = new Corner(ResourceType.QUILL);
         this.EmptyCorner = new Corner(false);
         this.CoveredCorner = new Corner(true);
@@ -29,8 +28,8 @@ class GoldCardTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         front = null;
         back = null;
         goldCard = null;
@@ -40,32 +39,32 @@ class GoldCardTest {
     }
 
     @Test
-    void getPoints(){
-        assertEquals(1, goldCard.getPoints());
+    public void getPoints(){
+        assertEquals((Integer) 1, goldCard.getPoints());
     }
 
     @Test
-    void getMushroom_needed() {
-        assertEquals(2, goldCard.getMushroom_needed());
+    public void getMushroom_needed() {
+        assertEquals((Integer) 2, goldCard.getMushroom_needed());
     }
 
     @Test
-    void getAnimals_needed() {
-        assertEquals(1, goldCard.getAnimals_needed());
+    public void getAnimals_needed() {
+        assertEquals((Integer) 1, goldCard.getAnimals_needed());
     }
 
     @Test
-    void getInsects_needed() {
-        assertEquals(0, goldCard.getInsects_needed());
+    public void getInsects_needed() {
+        assertEquals((Integer) 0, goldCard.getInsects_needed());
     }
 
     @Test
-    void getLeaf_needed() {
-        assertEquals(0, goldCard.getLeaf_needed());
+    public void getLeaf_needed() {
+        assertEquals((Integer) 0, goldCard.getLeaf_needed());
     }
 
     @Test
-    void getID() {
-        assertEquals(41, goldCard.getID());
+    public void getID() {
+        assertEquals((Integer) 41, goldCard.getID());
     }
 }

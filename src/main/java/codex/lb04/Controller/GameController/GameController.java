@@ -168,7 +168,7 @@ public class GameController {
     public void startGame() {
         game.setGameState(GameState.INIT);
         game.createPlayers();
-        turnController = new TurnController();
+        turnController = TurnController.getInstance();
         game.setGameState(GameState.IN_GAME);
     }
 

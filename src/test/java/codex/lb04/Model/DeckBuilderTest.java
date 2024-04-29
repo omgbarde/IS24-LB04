@@ -2,16 +2,12 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import codex.lb04.Model.DeckBuilder;
-import java.util.ArrayList;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class DeckBuilderTest {
+public class DeckBuilderTest {
 
     private Board board;
     private Deck deck;
@@ -26,8 +22,8 @@ class DeckBuilderTest {
     private Corner CoveredCorner;
     private DeckBuilder deckBuilder;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.corner1 = new Corner(ResourceType.ANIMAL);
         this.corner2 = new Corner(ResourceType.MUSHROOM);
         this.corner3 = new Corner(ResourceType.INSECT);
@@ -41,8 +37,8 @@ class DeckBuilderTest {
         this.deckBuilder = new DeckBuilder();
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         this.corner1 = null;
         this.corner2 = null;
         this.corner3 = null;
@@ -55,20 +51,20 @@ class DeckBuilderTest {
         this.board = null;
         this.deckBuilder = null;
     }
-
+    //TODO: Implement tests for the following methods
     @Test
-    void createResourceCards() {
+    public void createResourceCards() {
     }
 
     @Test
-    void createGoldCards() {
+    public void createGoldCards() {
     }
 
     @Test
-    void createInitialCards() {
+    public void createInitialCards() {
     }
 
     @Test
-    void createObjectiveCards() {
+    public void createObjectiveCards() {
     }
 }

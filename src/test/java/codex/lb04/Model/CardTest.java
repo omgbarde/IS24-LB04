@@ -2,13 +2,13 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class CardTest {
+public class CardTest {
     private Card card;
     private Card CardWithPoints;
     private Face front;
@@ -20,8 +20,8 @@ class CardTest {
     private Corner CoveredCorner;
 
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.corner1 = new Corner(ResourceType.ANIMAL);
         this.corner2 = new Corner(ResourceType.MUSHROOM);
         this.corner3 = new Corner(ResourceType.INSECT);
@@ -33,8 +33,8 @@ class CardTest {
         this.CardWithPoints = new Card(Color.BLUE, front, back, 2);
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         front = null;
         back = null;
         card = null;
@@ -46,52 +46,52 @@ class CardTest {
     }
 
     @Test
-    void flip() {
+    public void flip() {
         card.flip();
-        assertEquals(back, card.getShownFace());
-    }
-
-    @Test
-    void getShownFace() {
         assertEquals(front, card.getShownFace());
     }
 
     @Test
-    void setCoordinates() {
-        card.setCoordinates(1, 2);
-        assertEquals(1, card.getX());
-        assertEquals(2, card.getY());
+    public void getShownFace() {
+        assertEquals(back, card.getShownFace());
     }
 
     @Test
-    void getFront() {
+    public void setCoordinates() {
+        card.setCoordinates(1, 2);
+        assertEquals((Integer)1, card.getX());
+        assertEquals( (Integer) 2, card.getY());
+    }
+
+    @Test
+    public void getFront() {
         assertEquals(front, card.getFront());
     }
 
     @Test
-    void getBack() {
+    public void getBack() {
         assertEquals(back, card.getBack());
     }
 
     @Test
-    void getColor() {
+    public void getColor() {
         assertEquals(Color.BLUE, card.getColor());
     }
 
     @Test
-    void getPoints() {
-        assertEquals(2, CardWithPoints.getPoints());
+    public void getPoints() {
+        assertEquals((Integer) 2, CardWithPoints.getPoints());
     }
 
     @Test
-    void getX() {
+    public void getX() {
         card.setCoordinates(1, 2);
-        assertEquals(1, card.getX());
+        assertEquals((Integer) 1, card.getX());
     }
 
     @Test
-    void getY() {
+    public void getY() {
         card.setCoordinates(1, 2);
-        assertEquals(2, card.getY());
+        assertEquals((Integer )2, card.getY());
     }
 }

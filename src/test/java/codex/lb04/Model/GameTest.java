@@ -2,16 +2,14 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class GameTest {
+public class GameTest {
 
     private static Game game;
     private static Corner corner = new Corner(ResourceType.ANIMAL);
@@ -26,8 +24,8 @@ class GameTest {
     private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2 , 87);
 
 
-    @BeforeAll
-    static void setUp() {
+    @Before
+    public void setUp() {
         player = new Player("test");
         players.add(player);
         board = new Board();
@@ -36,8 +34,8 @@ class GameTest {
         game.addPlayer(player);
     }
 
-    @AfterAll
-    static void tearDown() {
+    @After
+    public void tearDown() {
         player = null;
         board = null;
         deck = null;
@@ -45,30 +43,30 @@ class GameTest {
     }
 
 
-
+    //TODO doesn't work when starting tests with maven
     @Test
-    void getPlayer() {
-        assertEquals(player, game.getPlayers().getFirst());
+    public void getPlayers() {
+        assertEquals(players, game.getPlayers());
     }
 
     @Test
-    void getDeck() {
+    public void getDeck() {
         assertEquals(deck, game.getDeck());
     }
 
     @Test
-    void placeCard() {
+    public void placeCard() {
         board.placeCard(card, 0, 0);
         assertEquals(card, board.getCard(0, 0));
     }
 
     @Test
-    void addPlayer() {
+    public void addPlayer() {
         game.addPlayer(player);
         assertEquals(player, game.getPlayers().getLast());
     }
 
     @Test
-    void getInstance(){assertNotNull(game.getInstance());}
+    public void getInstance(){assertNotNull(game.getInstance());}
 
 }

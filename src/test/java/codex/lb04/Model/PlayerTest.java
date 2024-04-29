@@ -1,36 +1,34 @@
 package codex.lb04.Model;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-class PlayerTest {
+public class PlayerTest {
     private Player player;
     private Board board;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.board = new Board();
         this.player = new Player("test");
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         this.player = null;
         this.board = null;
     }
 
     @Test
-    void getUsername() {
+    public void getUsername() {
         assertEquals("test", player.getUsername());
     }
 
     @Test
-    void getBoard() {
+    public void getBoard() {
         assertNotNull(player.getBoard());
     }
 }
