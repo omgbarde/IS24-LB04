@@ -60,11 +60,16 @@ public class Game extends Observable {
 
     /**
      * draws the initial card for a player
-     * @param username the player who draws the card
+     *
      */
-    public void setInitialCard(String username) {
-        Player player = getPlayerByName(username);
-        player.getBoard().setInitialCard();
+    public void setInitialCardForAllPlayers() {
+        for(String player : lobby) {
+            for(Player p : players){
+                if(p.getUsername().equals(player)){
+                    p.getBoard().setInitialCard();
+                }
+            }
+        }
     }
 
     /**

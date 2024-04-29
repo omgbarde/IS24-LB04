@@ -181,6 +181,8 @@ public class GameController {
     public void startGame() {
         game.setGameState(GameState.INIT);
         game.createPlayers();
+        game.setCommonObjectivesForallPlayers();
+        game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
         game.setGameState(GameState.IN_GAME);
     }

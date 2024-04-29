@@ -58,62 +58,7 @@ public class Deck {
         return instance;
     }
 
-    /**
-     * this method returns the deck of resource cards
-     *
-     * @return the deck of resource cards
-     */
-    public ArrayList<ResourceCard> getResourceCards() {
-        return resourceCards;
-    }
 
-    /**
-     * this method returns the deck of gold cards
-     *
-     * @return the deck of gold cards
-     */
-    public ArrayList<GoldCard> getGoldCards() {
-        return goldCards;
-    }
-
-    /**
-     * this method returns the deck of objective cards
-     *
-     * @return the deck of objective cards
-     */
-    public ArrayList<ObjectiveCard> getObjectiveCards() {
-        return objectiveCards;
-    }
-
-    /**
-     * this method returns the deck of initial cards
-     *
-     * @return the deck of initial cards
-     */
-    public ArrayList<InitialCard> getInitialCards() {
-        return initialCards;
-    }
-
-    /**
-     * this method shuffles the deck of resources cards
-     */
-    public void shuffleResources() {
-        Collections.shuffle(resourceCards);
-    }
-
-    /**
-     * this method shuffles the deck of gold cards
-     */
-    public void shuffleGold() {
-        Collections.shuffle(goldCards);
-    }
-
-    /**
-     * this method shuffles the deck of objective cards
-     */
-    public void shuffleObjectives() {
-        Collections.shuffle(objectiveCards);
-    }
 
     /**
      * this method draws a card from the deck of resources
@@ -197,8 +142,9 @@ public class Deck {
         if (objectiveCards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }
-        ObjectiveCard toDraw = objectiveCards.get(0);
-        objectiveCards.remove(0);
+        ObjectiveCard toDraw = objectiveCards.getFirst();
+        toDraw.flip();
+        objectiveCards.removeFirst();
         return toDraw;
     }
 
@@ -219,6 +165,7 @@ public class Deck {
             throw new IllegalStateException("Deck is empty");
         }
         InitialCard toDraw = initialCards.getFirst();
+        toDraw.flip();
         initialCards.removeFirst();
         return toDraw;
     }
@@ -262,5 +209,62 @@ public class Deck {
      */
     public ArrayList<ResourceCard> getVisibleResourceCards() {
         return VisibleResourceCards;
+    }
+
+    /**
+     * this method returns the deck of resource cards
+     *
+     * @return the deck of resource cards
+     */
+    public ArrayList<ResourceCard> getResourceCards() {
+        return resourceCards;
+    }
+
+    /**
+     * this method returns the deck of gold cards
+     *
+     * @return the deck of gold cards
+     */
+    public ArrayList<GoldCard> getGoldCards() {
+        return goldCards;
+    }
+
+    /**
+     * this method returns the deck of objective cards
+     *
+     * @return the deck of objective cards
+     */
+    public ArrayList<ObjectiveCard> getObjectiveCards() {
+        return objectiveCards;
+    }
+
+    /**
+     * this method returns the deck of initial cards
+     *
+     * @return the deck of initial cards
+     */
+    public ArrayList<InitialCard> getInitialCards() {
+        return initialCards;
+    }
+
+    /**
+     * this method shuffles the deck of resources cards
+     */
+    public void shuffleResources() {
+        Collections.shuffle(resourceCards);
+    }
+
+    /**
+     * this method shuffles the deck of gold cards
+     */
+    public void shuffleGold() {
+        Collections.shuffle(goldCards);
+    }
+
+    /**
+     * this method shuffles the deck of objective cards
+     */
+    public void shuffleObjectives() {
+        Collections.shuffle(objectiveCards);
     }
 }

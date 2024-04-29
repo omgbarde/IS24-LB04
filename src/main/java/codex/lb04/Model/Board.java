@@ -13,7 +13,7 @@ public class Board {
     //cards played
     private ArrayList<Card> playedCards = new ArrayList<>();
     //objectives
-    private ArrayList<ObjectiveCard> inGameObjectiveCards;
+    private ArrayList<ObjectiveCard> CommonObjectives;
     private ObjectiveCard secretObjective;
     //cards
     private ArrayList<GoldCard> VisibleGoldCards;
@@ -43,7 +43,7 @@ public class Board {
         Game game = Game.getInstance();
         this.VisibleResourceCards = deck.getVisibleResourceCards();
         this.VisibleGoldCards = deck.getVisibleGoldCards();
-        this.inGameObjectiveCards = game.getCommonObjectives();
+        this.CommonObjectives = game.getCommonObjectives();
         this.hand = new ArrayList<>();
         this.Insects = 0;
         this.Animals = 0;
@@ -155,6 +155,7 @@ public class Board {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
+        //TODO ask player to choose a side of the card
     }
 
     /**
@@ -170,7 +171,7 @@ public class Board {
      * @param CommonObjectives the common objectives
      */
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
-        this.inGameObjectiveCards = CommonObjectives;
+        this.CommonObjectives = CommonObjectives;
     }
 
 
@@ -451,7 +452,7 @@ public class Board {
      * This method calculate the points a player receives with objectives cards
      */
     public void finalPointsUpdate() {
-        for (ObjectiveCard objectiveCard : inGameObjectiveCards) {
+        for (ObjectiveCard objectiveCard : CommonObjectives) {
             for (Card card : playedCards) {
                 if (this.conditionCheckOnPositions(objectiveCard, card)) {
                     this.Points += objectiveCard.getPoints();
@@ -463,7 +464,7 @@ public class Board {
                 this.Points += secretObjective.getPoints();
             }
         }
-        for (ObjectiveCard objectiveCard : inGameObjectiveCards) {
+        for (ObjectiveCard objectiveCard : CommonObjectives) {
             this.Points += conditionCheckResources(objectiveCard);
         }
 
@@ -583,8 +584,8 @@ public class Board {
         return playedCards;
     }
 
-    public ArrayList<ObjectiveCard> getInGameObjectiveCards() {
-        return inGameObjectiveCards;
+    public ArrayList<ObjectiveCard> getCommonObjectives() {
+        return CommonObjectives;
     }
 
     public ObjectiveCard getSecretObjective() {

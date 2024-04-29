@@ -4,6 +4,7 @@ import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
 public class GameObserver implements Observer {
+    //TODO has to update the view based on the message received
     @Override
     public void update(Message message) {
         String usr = message.getUsername();
