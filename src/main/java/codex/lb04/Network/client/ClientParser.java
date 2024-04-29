@@ -1,7 +1,7 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.Controller.SceneController.HelloController;
+import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 
@@ -22,17 +22,15 @@ public class ClientParser {
     public void handleInput(Message input) {
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
+                //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
-                    //TODO astrarre view per fare in questo modo e fare view controller
-                    //CodexClientApp.getView().switchToLobby();
-                    HelloController.switchToLobby();
+                    CodexClientApp.getView().switchScene("Lobby");
                 } else {
                     CodexClientApp.print("login refused");
                     clientSocket.disconnect();
                 }
                 break;
             case LOGOUT_REPLY:
-                //TODO vedere come farlo fare al controller della scena
                 CodexClientApp.getView().switchScene("Hello");
                 break;
             case ERROR:
@@ -45,11 +43,32 @@ public class ClientParser {
             case GENERIC_MESSAGE:
                 CodexClientApp.print(input.toString());
                 break;
+            case GAME_STATE:
+                CodexClientApp.getView().switchScene(sceneMap((GameStateMessage)input)) ;
+                break;
 
             default:
                 CodexClientApp.print("message not recognized");
                 clientSocket.disconnect();
                 break;
         }
+    }
+
+    private String sceneMap(GameStateMessage input) {
+        switch (input.getGameState()) {
+            case LOGIN:
+                return "Hello";
+            case INIT:
+                return "Lobby";
+            case IN_GAME:
+                return "Board";
+            case END_GAME:
+                break;
+            case ENDED:
+                return "Results";
+            default:
+                return "Hello";
+        }
+        return null;
     }
 }

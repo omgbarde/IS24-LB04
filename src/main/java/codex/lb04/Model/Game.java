@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
 
@@ -146,9 +147,6 @@ public class Game extends Observable{
      */
     public void addPlayer(Player player) {
         this.players.add(player);
-        if(this.lobby.size()>=2){
-            //notifyObserver(new Message("game", "able To Start"));
-        }
     }
 
     /**
@@ -190,6 +188,7 @@ public class Game extends Observable{
      */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        notifyObserver(new GameStateMessage("game", this.gameState));
     }
 
     /**
