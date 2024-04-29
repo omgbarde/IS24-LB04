@@ -18,7 +18,7 @@ public class Game extends Observable{
     private static Game instance;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Deck deck;
-    private GameState gameState ;
+    private GameState gameState = GameState.LOGIN;
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
 

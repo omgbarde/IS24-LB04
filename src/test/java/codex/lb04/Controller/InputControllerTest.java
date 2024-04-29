@@ -10,8 +10,8 @@ import codex.lb04.Message.Message;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,17 +24,17 @@ public class InputControllerTest {
     private Face back;
     private InitialCard initialCard;
 
-    @Before
+    @BeforeEach
     void setUp() {
         this.game = Game.getInstance();
-        gameController = GameController.getInstance();
+        gameController =  GameController.getInstance();
         inputController = new InputController(gameController, game);
         front = new Face(null, null, null, null);
         back = new Face(null, null, null, null, null);
         this.initialCard = new InitialCard(front, back,1);
     }
 
-    @After
+    @AfterEach
     void tearDown() {
         this.inputController = null;
         this.gameController = null;

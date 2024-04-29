@@ -41,23 +41,33 @@ public class GameControllerTest {
         game.setGameState(GameState.INIT);
         gameController.onMessageReceived(new ErrorMessage("test","Error"));
         assertEquals(GameState.INIT, game.getGameState());
-        game.setGameState(GameState.IN_GAME);
-        gameController.onMessageReceived(new ErrorMessage("test","Error"));
-        assertEquals(GameState.IN_GAME, game.getGameState());
+
         game.setGameState(GameState.LOGIN);
         gameController.onMessageReceived(new LoginMessage("test"));
         assertEquals(GameState.LOGIN, game.getGameState());
+
         game.setGameState(GameState.LOGIN);
+        game.addPlayerName("test");
+        game.addPlayerName("test2");
         gameController.onMessageReceived(new StartGameMessage("test", MessageType.START_GAME));
+        assertEquals(GameState.IN_GAME, game.getGameState());
+
+        game.setGameState(GameState.IN_GAME);
+        gameController.onMessageReceived(new ErrorMessage("test","Error"));
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
     @Test
     void startGame() {
+        game.setGameState(GameState.LOGIN);
+        game.addPlayerName("test");
         gameController.startGame();
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
     @Test
     void testGetTurnController() {
+        game.setGameState(GameState.LOGIN);
+        game.addPlayerName("test");
+        gameController.startGame();
         assertNotNull(gameController.getTurnController());
     }
 

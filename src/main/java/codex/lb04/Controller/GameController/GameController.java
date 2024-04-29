@@ -29,12 +29,10 @@ public class GameController {
     }
 
 
-
     private void createGameController(){
         this.game = Game.getInstance();
         this.inputController = new InputController(this, game);
-        this.turnController = new TurnController();
-        game.setGameState(GameState.LOGIN);
+        //game.setGameState(GameState.LOGIN);
     }
 
 
@@ -45,7 +43,6 @@ public class GameController {
      */
     public void onMessageReceived(Message receivedMessage) {
         if(receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
-
             game.removePlayer(receivedMessage.getUsername());
             game.removePlayerName(receivedMessage.getUsername());
             turnController.removePlayer(receivedMessage.getUsername());
@@ -56,14 +53,23 @@ public class GameController {
                     inLoginState(receivedMessage);
                 break;
             case INIT:
-                ServerApp.sendMessage(new GenericMessage("server", "stai fermo"), receivedMessage.getUsername());
+                ServerApp.sendMessage(new GenericMessage("server", "invalid in this phase"), receivedMessage.getUsername());
                 break;
             case IN_GAME:
                 if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
                     inGameState(receivedMessage);
                 }
                 break;
+            case END_GAME:
+                if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
+                    //inEndGameState(receivedMessage);
+                }
+                break;
+            case ENDED:
+                ServerApp.sendMessage(new GenericMessage("server", "game is ended, play again or quit"), receivedMessage.getUsername());
+                break;
             default:
+                ServerApp.sendMessage(new ErrorMessage("server", "game state not recognized"), receivedMessage.getUsername());
                 break;
         }
     }
@@ -87,7 +93,7 @@ public class GameController {
             case PONG:
                 break;
             case START_GAME:
-                if (game.getPlayers().size() >= 2 && game.getPlayers().size() <= 4){
+                if (game.getPlayerNames().size() >= 2 && game.getPlayerNames().size() <= 4){
                     startGame();
                 }
                 break;
@@ -161,8 +167,8 @@ public class GameController {
      */
     public void startGame() {
         game.setGameState(GameState.INIT);
-        turnController = new TurnController();
         game.createPlayers();
+        turnController = new TurnController();
         game.setGameState(GameState.IN_GAME);
     }
 

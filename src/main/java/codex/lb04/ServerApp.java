@@ -63,7 +63,7 @@ public class ServerApp implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             print("Server is running:\n" + serverSocket);
-            gameController = GameController.getInstance(); //sono nato per questo
+            gameController = GameController.getInstance();
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());
@@ -100,7 +100,7 @@ public class ServerApp implements Runnable {
     /**
      * remove a client handler from the list
      *
-     * @param clientHandler is the name of the client handler to be removed
+     * @param clientHandlerName is the name of the client handler to be removed
      */
     public void removeClientHandler(String clientHandlerName) {
         clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));

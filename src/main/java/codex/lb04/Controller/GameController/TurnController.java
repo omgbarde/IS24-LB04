@@ -5,6 +5,7 @@ import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
 
+//TODO rendere turn controller singleton
 public class TurnController {
 
     private String activePlayer;
