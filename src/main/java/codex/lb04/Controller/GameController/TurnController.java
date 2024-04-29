@@ -1,6 +1,8 @@
 package codex.lb04.Controller.GameController;
 
+import codex.lb04.Message.GameMessage.StartTurnMessage;
 import codex.lb04.Model.Game;
+import codex.lb04.ServerApp;
 import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class TurnController {
      */
     public void changeTurn() {
         activePlayer = playersQueueIterator.next();
+        ServerApp.sendMessage(new StartTurnMessage(activePlayer), activePlayer);
     }
 
     /**

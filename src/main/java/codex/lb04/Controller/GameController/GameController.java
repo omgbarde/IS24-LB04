@@ -162,10 +162,7 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                ServerApp.sendMessage(new EndTurnMessage(usr), usr);
                 turnController.changeTurn();
-                usr = turnController.getActivePlayer();
-                ServerApp.sendMessage(new StartTurnMessage(usr), usr);
                 break;
             case LOGOUT_REQUEST:
                 //server.print("user wants to logout: " + getUsername());

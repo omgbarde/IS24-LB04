@@ -80,8 +80,8 @@ public class ServerApp implements Runnable {
      *
      * @param message message to be broadcasted
      */
-    public void broadcast(Message message) {
-        for (ClientHandler clientHandler : this.clientHandlerList) {
+    public static void broadcast(Message message) {
+        for (ClientHandler clientHandler : clientHandlerList) {
             clientHandler.sendMessage(message);
         }
     }
@@ -135,7 +135,7 @@ public class ServerApp implements Runnable {
 
     /**
      * print utility method
-     * //TODO: make private if possible
+     *
      * @param s is the string to be printed
      */
     public static void print(String s) {
