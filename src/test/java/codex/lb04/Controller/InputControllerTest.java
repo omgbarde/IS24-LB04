@@ -13,6 +13,7 @@ import codex.lb04.Model.InitialCard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class InputControllerTest {
@@ -26,11 +27,11 @@ public class InputControllerTest {
     @Before
     public void setUp() {
         this.game = Game.getInstance();
-        gameController =  GameController.getInstance();
+        gameController = GameController.getInstance();
         inputController = new InputController(gameController, game);
         front = new Face(null, null, null, null);
         back = new Face(null, null, null, null, null);
-        this.initialCard = new InitialCard(front, back,1);
+        this.initialCard = new InitialCard(front, back, 1);
     }
 
     @After

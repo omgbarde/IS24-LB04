@@ -55,7 +55,7 @@ public class ClientHandler implements Runnable {
                     //forward the message to the server
                     server.onMessageReceived(message);
                     //just check if the message is a login request and set the username
-                    if(message.getMessageType() == MessageType.LOGIN_REQUEST && this.username == null){
+                    if (message.getMessageType() == MessageType.LOGIN_REQUEST && this.username == null) {
                         this.username = message.getUsername();
                     }
                 }

@@ -11,8 +11,9 @@ import java.io.IOException;
 /**
  * class that represents the GUI view
  */
-public class GuiView extends View{
+public class GuiView extends View {
     private static Stage stageReference;
+
     public GuiView(Stage stage) {
         stageReference = stage;
     }
@@ -27,12 +28,13 @@ public class GuiView extends View{
         //in guiview we need to add the .fxml extension to the scene name
         Platform.runLater(() -> {
             try {
-                    loadScene(sceneName+".fxml");
+                loadScene(sceneName + ".fxml");
             } catch (IOException e) {
                 System.out.println("Error loading the" + sceneName + "scene");
             }
         });
     }
+
     /**
      * this method loads the scene from the fxml file
      *
@@ -44,6 +46,7 @@ public class GuiView extends View{
         Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
         stageReference.setScene(scene);
     }
+
     @Override
     public void setTitle(String title) {
         Platform.runLater(() -> stageReference.setTitle(title));

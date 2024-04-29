@@ -26,7 +26,7 @@ public class GoldCard extends Card {
      * @param leaf_needed the number of leafs needed to complete the "objective"
      * @param insects_needed the number of insects needed to complete the "objective"
      */
-    public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed , Integer ID) {
+    public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed, Integer ID) {
         super(color, front, back);
         this.points = points;
         this.mushroom_needed = mushroom_needed;
@@ -56,7 +56,9 @@ public class GoldCard extends Card {
         return leaf_needed;
     }
 
-    public Integer getID(){return ID;}
+    public Integer getID() {
+        return ID;
+    }
 
 
 }

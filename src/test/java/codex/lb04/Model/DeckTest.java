@@ -6,7 +6,9 @@ import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 
@@ -70,10 +72,14 @@ public class DeckTest {
     }
 
     @Test
-    public void getObjectiveCards(){assertNotNull(deck.getObjectiveCards());}
+    public void getObjectiveCards() {
+        assertNotNull(deck.getObjectiveCards());
+    }
 
     @Test
-    public void getInitialCards(){assertNotNull(deck.getInitialCards());}
+    public void getInitialCards() {
+        assertNotNull(deck.getInitialCards());
+    }
 
     @Test
     public void shuffleResources() {
@@ -104,7 +110,7 @@ public class DeckTest {
     }
 
     @Test
-    public void shuffleObjectives(){
+    public void shuffleObjectives() {
         ArrayList<ObjectiveCard> originalOrder = new ArrayList<ObjectiveCard>(deck.getObjectiveCards());
         boolean orderChanged = false;
         for (int i = 0; i < 10; i++) {
@@ -118,7 +124,9 @@ public class DeckTest {
     }
 
     @Test
-    public void drawResource() {assertNotNull(deck.drawResource());}
+    public void drawResource() {
+        assertNotNull(deck.drawResource());
+    }
 
 
     @Test
@@ -132,62 +140,75 @@ public class DeckTest {
     }
 
     @Test
-    public void updateVisibleResource(){
+    public void updateVisibleResource() {
         ArrayList<ResourceCard> original = new ArrayList<ResourceCard>(deck.getVisibleResourceCards());
         boolean changed = false;
         board.drawResourceCard(1);
-        if(!original.equals(deck.getVisibleResourceCards())){
+        if (!original.equals(deck.getVisibleResourceCards())) {
             changed = true;
         }
         assertTrue(changed);
     }
 
     @Test
-    public void drawGold(){assertNotNull(deck.drawGold());    }
+    public void drawGold() {
+        assertNotNull(deck.drawGold());
+    }
 
     @Test
-    public void updateVisibleGold(){
+    public void updateVisibleGold() {
         ArrayList<GoldCard> original = new ArrayList<GoldCard>(deck.getVisibleGoldCards());
         boolean changed = false;
         board.drawGoldCard(0);
-        if(!original.equals(deck.getVisibleGoldCards())){
+        if (!original.equals(deck.getVisibleGoldCards())) {
             changed = true;
         }
         assertTrue(changed);
     }
 
     @Test
-    public void SecretObjectivesChoice(){
+    public void SecretObjectivesChoice() {
         ArrayList<ObjectiveCard> obj_cards = new ArrayList<ObjectiveCard>();
         ObjectiveCard obj_1 = deck.getObjectiveCards().get(1);
         obj_cards.add(obj_1);
-        assertEquals(obj_1,deck.SecretObjectivesChoice(1));
+        assertEquals(obj_1, deck.SecretObjectivesChoice(1));
     }
 
     @Test
-    public void drawObjective(){assertNotNull(deck.drawObjective());}
+    public void drawObjective() {
+        assertNotNull(deck.drawObjective());
+    }
 
     @Test
-    public void setCommonObjectives(){assertNotNull(deck.setCommonObjectives());}
+    public void setCommonObjectives() {
+        assertNotNull(deck.setCommonObjectives());
+    }
 
     @Test
-    public void drawInitialCard(){assertNotNull(deck.drawInitialCard());}
-// TODO testare i metodi per settare le gold e le resource visibili
+    public void drawInitialCard() {
+        assertNotNull(deck.drawInitialCard());
+    }
+
+    // TODO testare i metodi per settare le gold e le resource visibili
     @Test
-    public void setVisibleGoldCards(){
+    public void setVisibleGoldCards() {
 
     }
 
     @Test
-    public void setVisibleResourceCards(){
+    public void setVisibleResourceCards() {
 
     }
 
     @Test
-    public void getVisibleGoldCards(){assertNotNull(deck.getVisibleGoldCards());}
+    public void getVisibleGoldCards() {
+        assertNotNull(deck.getVisibleGoldCards());
+    }
 
     @Test
-    public void getVisibleResourceCards(){assertNotNull(deck.getVisibleResourceCards());}
+    public void getVisibleResourceCards() {
+        assertNotNull(deck.getVisibleResourceCards());
+    }
 
 
 }

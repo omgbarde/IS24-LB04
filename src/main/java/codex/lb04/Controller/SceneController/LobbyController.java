@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 public class LobbyController implements Initializable {
     @FXML
     private Button backButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backButton.setOnAction(actionEvent -> {

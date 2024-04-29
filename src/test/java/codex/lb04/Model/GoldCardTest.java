@@ -1,10 +1,13 @@
 package codex.lb04.Model;
+
 import java.util.ArrayList;
+
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class GoldCardTest {
@@ -14,7 +17,6 @@ public class GoldCardTest {
     private Corner corner1;
     private Corner EmptyCorner;
     private Corner CoveredCorner;
-
 
 
     @Before
@@ -39,7 +41,7 @@ public class GoldCardTest {
     }
 
     @Test
-    public void getPoints(){
+    public void getPoints() {
         assertEquals((Integer) 1, goldCard.getPoints());
     }
 

@@ -153,7 +153,7 @@ public class Board {
     /**
      * This method sets the initial card
      */
-    public void setInitialCard(){
+    public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
     }
 
@@ -161,7 +161,7 @@ public class Board {
      * This method returns the initial card
      * @return the initial card
      */
-    public InitialCard getInitialCard(){
+    public InitialCard getInitialCard() {
         return this.initialCard;
     }
 
@@ -299,7 +299,6 @@ public class Board {
                         break;
                 }
             }
-            //TODO Debuggare e correggere problema della faccia back
             for (Corner corner : card.getShownFace().getCorners()) {
                 if (!corner.isCovered()) {
                     switch (corner.getResource()) {
@@ -471,9 +470,9 @@ public class Board {
         this.Points += conditionCheckResources(secretObjective);
     }
 
-    public boolean isInHand(Card card){
-        for(Card hand : hand){
-            if(hand.equals(card)){
+    public boolean isInHand(Card card) {
+        for (Card hand : hand) {
+            if (hand.equals(card)) {
                 return true;
             }
         }
@@ -484,13 +483,14 @@ public class Board {
      * This method flips a card in the hand
      * @param toFlip the card to flip
      */
-    public void flipCardInHand(Card toFlip){
-        for(Card card : hand){
-            if(card.equals(toFlip)){
+    public void flipCardInHand(Card toFlip) {
+        for (Card card : hand) {
+            if (card.equals(toFlip)) {
                 card.flip();
             }
         }
     }
+
 
     //GETTERS
 
@@ -606,4 +606,6 @@ public class Board {
     public Integer getPointsByGoldCards() {
         return PointsByGoldCards;
     }
+
+
 }

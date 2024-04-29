@@ -1,9 +1,9 @@
 package codex.lb04.Utils;
 
 public class GraphicUtil {
-    public static String mode="GUI";
+    public static String mode = "GUI";
 
-    public static void setModeFromCmdLine(String s){
+    public static void setModeFromCmdLine(String s) {
         mode = s;
     }
 }

@@ -39,7 +39,7 @@ public class HelloController implements Initializable {
             String usr = username.getText();
             String addr = serverAddress.getText();
             int port = ConnectionUtil.defaultPort;
-            if(checkValid(usr, addr, port)){
+            if (checkValid(usr, addr, port)) {
                 try {
                     port = Integer.parseInt(serverPort.getText());
                 } catch (NumberFormatException e) {
@@ -48,8 +48,7 @@ public class HelloController implements Initializable {
                 }
                 try {
                     CodexClientApp.setClientSocket(usr, addr, port);
-                }
-                catch (RuntimeException e){
+                } catch (RuntimeException e) {
                     setErrorLabel("Server not available");
                     return;
                 }
@@ -57,12 +56,12 @@ public class HelloController implements Initializable {
                 CodexClientApp.sendMessage(loginMessage);
                 disableAll();
 
-            }
-            else{
+            } else {
                 setErrorLabel("Enter valid username, address and port");
             }
         });
     }
+
     /**
      * method to check if the input from the view is valid, it uses ConnectionUtil methods
      * @param usr is the username
@@ -88,13 +87,14 @@ public class HelloController implements Initializable {
      * method to set the error label
      * @param error is the error message you want to show
      */
-    public void setErrorLabel(String error){
+    public void setErrorLabel(String error) {
         errorLabel.setText(error);
     }
+
     /**
      * method to switch to the lobby view, it calls the switchScene method from the GuiApp class
      */
-    public static void switchToLobby(){
+    public static void switchToLobby() {
         CodexClientApp.getView().setTitle("Codex!-Lobby");
         CodexClientApp.getView().switchScene("Lobby");
         CodexClientApp.getView().setMode("fullscreen");

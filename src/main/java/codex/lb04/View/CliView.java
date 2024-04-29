@@ -1,6 +1,6 @@
 package codex.lb04.View;
 
-public class CliView extends View{
+public class CliView extends View {
     @Override
     public void switchScene(String sceneName) {
 

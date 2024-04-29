@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GuiApp extends Application{
+public class GuiApp extends Application {
     private static View guiView;
 
     /**

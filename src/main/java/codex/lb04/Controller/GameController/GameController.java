@@ -16,23 +16,31 @@ public class GameController {
     private TurnController turnController;
     private static GameController instance;
 
-
-    public static GameController getInstance(){
+    /**
+     * Singleton instance method
+     * @return the singleton instance of the GameController class
+     */
+    public static GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
         }
         return instance;
     }
 
+    /**
+     * Private constructor to prevent instantiation from outside the class
+     */
     private GameController() {
         createGameController();
     }
 
-
-    private void createGameController(){
+    /**
+     * Creates the game controller
+     */
+    private void createGameController() {
         this.game = Game.getInstance();
         this.inputController = new InputController(this, game);
-        //game.setGameState(GameState.LOGIN);
+        game.setGameState(GameState.LOGIN);
     }
 
 
@@ -42,15 +50,16 @@ public class GameController {
      * @param receivedMessage Message from Active Player.
      */
     public void onMessageReceived(Message receivedMessage) {
-        if(receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
+
+        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
             game.removePlayer(receivedMessage.getUsername());
-            game.removePlayerName(receivedMessage.getUsername());
-            turnController.removePlayer(receivedMessage.getUsername());
+            game.removePlayerFromLobby(receivedMessage.getUsername());
+            turnController.removePlayerFromLobby(receivedMessage.getUsername());
         }
 
         switch (game.getGameState()) {
             case LOGIN:
-                    inLoginState(receivedMessage);
+                inLoginState(receivedMessage);
                 break;
             case INIT:
                 ServerApp.sendMessage(new GenericMessage("server", "invalid in this phase"), receivedMessage.getUsername());
@@ -62,7 +71,9 @@ public class GameController {
                 break;
             case END_GAME:
                 if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
-                    //inEndGameState(receivedMessage);
+                    //TODO implementare condizioni di vittoria e check per fine partita
+                    // usare game.checkWinner per decretare vincitore (magari rivedere come comunica)
+                    // inEndGameState(receivedMessage);
                 }
                 break;
             case ENDED:
@@ -73,6 +84,7 @@ public class GameController {
                 break;
         }
     }
+
     /**
      * handles the messages received when the game is in login state
      * @param receivedMessage Message from a client
@@ -88,17 +100,19 @@ public class GameController {
                 break;
             case LOGOUT_REQUEST:
                 ServerApp.sendMessage(new OkMessage(), usr);
-                game.removePlayerName(usr);
+                game.removePlayerFromLobby(usr);
+                game.removePlayer(usr);
                 break;
             case PONG:
+                //TODO
                 break;
-            case START_GAME:
-                if (game.getPlayerNames().size() >= 2 && game.getPlayerNames().size() <= 4){
+            case START_GAME: //TODO implementare fase in cui viene mandato questo messaggio
+                if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
                     startGame();
                 }
                 break;
             case ERROR:
-                ErrorMessage error = new ErrorMessage("server",((ErrorMessage)receivedMessage).getError());
+                ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
                 ServerApp.sendMessage(error, usr);
                 break;
             default:
@@ -138,6 +152,8 @@ public class GameController {
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
+                } else { //TODO inviare risposte al client in caso d input non valido
+                    ServerApp.sendMessage(new ErrorMessage("server", "invalid card placement"), usr);
                 }
                 break;
             case FLIP_CARD:
@@ -154,7 +170,7 @@ public class GameController {
             case LOGOUT_REQUEST:
                 //server.print("user wants to logout: " + getUsername());
                 ServerApp.sendMessage(new OkMessage(), usr);
-                game.removePlayerName(usr);
+                game.removePlayerFromLobby(usr);
                 break;
 
             default:
@@ -205,11 +221,15 @@ public class GameController {
         game.drawGoldCard(username, pick);
     }
 
+    /**
+     * picks the initial card side for the player
+     * @param pickMessage the message containing the side
+     */
     public void pickInitialCardSideHandler(PickInitialCardSideMessage pickMessage) {
         String username = pickMessage.getUsername();
         Face side = pickMessage.getCardSide();
-        for(InitialCard initialCard : game.getDeck().getInitialCards()){
-            if(!initialCard.getShownFace().equals(side)){
+        for (InitialCard initialCard : game.getDeck().getInitialCards()) {
+            if (!initialCard.getShownFace().equals(side)) {
                 game.getInitialCard(username).flip();
             }
         }

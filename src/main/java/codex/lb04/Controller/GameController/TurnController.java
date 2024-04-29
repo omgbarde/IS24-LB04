@@ -4,31 +4,33 @@ import codex.lb04.Model.Game;
 import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-//TODO rendere turn controller singleton
+
 public class TurnController {
 
     private String activePlayer;
-    private ArrayList<String> playersQueue;
+    private ArrayList<String> lobby;
     private Game game;
     private CircularIterator<String> playersQueueIterator;
     private static TurnController instance;
 
 
-    public static TurnController getInstance(){
-        if (instance == null){
+    public static TurnController getInstance() {
+        if (instance == null) {
             instance = new TurnController();
         }
         return instance;
     }
+
     /**
      * Constructor for the TurnController class with the players list and the active player
      */
     private TurnController() {
         this.game = Game.getInstance();
-        this.playersQueue = game.getPlayerNames();
-        this.activePlayer = playersQueue.getFirst();
-        this.playersQueueIterator = new CircularIterator<>(playersQueue);
+        this.lobby = game.getLobby();
+        this.playersQueueIterator = new CircularIterator<>(lobby);
+        this.activePlayer = lobby.getFirst();
     }
 
     /**
@@ -46,18 +48,18 @@ public class TurnController {
         activePlayer = playersQueueIterator.next();
     }
 
-    public void removePlayer(String username){
-        for (String player : playersQueue){
-            if(player == username){
-                if (player == activePlayer){
+    /**
+     * removes a player from lobby
+     * @param username the player to remove
+     */
+    public void removePlayerFromLobby(String username) {
+        for (String player : lobby) {
+            if (Objects.equals(player, username)) {
+                if (Objects.equals(player, activePlayer)) {
                     changeTurn();
                 }
-                playersQueue.remove(player);
+                lobby.remove(player);
             }
         }
     }
-
-
-
-
 }

@@ -34,7 +34,7 @@ public class ServerApp implements Runnable {
      * @return true if the username is not taken, false otherwise
      */
     public static boolean checkUsername(String usr) {
-        for(ClientHandler clientHandler : clientHandlerList){
+        for (ClientHandler clientHandler : clientHandlerList) {
             if (Objects.equals(clientHandler.getUsername(), usr)) return false;
         }
         return true;
@@ -128,7 +128,8 @@ public class ServerApp implements Runnable {
     }
 
     public void onMessageReceived(Message receivedMessage) {
-        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) removeClientHandler(receivedMessage.getUsername());
+        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT)
+            removeClientHandler(receivedMessage.getUsername());
         this.gameController.onMessageReceived(receivedMessage);
     }
 
@@ -145,7 +146,7 @@ public class ServerApp implements Runnable {
      * get the number of connected clients
      * @return the number of connected clients
      */
-    public static int getNumClient(){
+    public static int getNumClient() {
         return clientHandlerList.size();
     }
 }

@@ -5,6 +5,7 @@ import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class DeckBuilderTest {
@@ -51,6 +52,7 @@ public class DeckBuilderTest {
         this.board = null;
         this.deckBuilder = null;
     }
+
     //TODO: Implement tests for the following methods
     @Test
     public void createResourceCards() {

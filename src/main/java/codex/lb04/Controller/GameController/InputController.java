@@ -2,6 +2,7 @@ package codex.lb04.Controller.GameController;
 
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.Message;
+import codex.lb04.Model.Card;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
 
@@ -44,7 +45,6 @@ public class InputController {
             default: // should never reach this statement.
                 return false;
         }
-
     }
 
     /**
@@ -80,8 +80,8 @@ public class InputController {
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickInitialCardSideCheck(Message message) {
-        for(InitialCard initialCard : game.getDeck().getInitialCards()){
-            if(initialCard.equals(((PickInitialCardSideMessage) message).getInitialCard())){
+        for (InitialCard initialCard : game.getDeck().getInitialCards()) {
+            if (initialCard.equals(((PickInitialCardSideMessage) message).getInitialCard())) {
                 return true;
             }
         }
@@ -94,7 +94,10 @@ public class InputController {
      * @return {code @true} if card can be placed {@code false} otherwise.
      */
     public boolean placeCardCheck(Message message) {
-        return game.getPlayerByName(message.getUsername()).getBoard().canBePlaced(  ((PlaceCardMessage)message).getX() , ((PlaceCardMessage)message).getY() , ((PlaceCardMessage)message).getCard()  );
+        Integer X = ((PlaceCardMessage) message).getX();
+        Integer Y = ((PlaceCardMessage) message).getY();
+        Card card = ((PlaceCardMessage) message).getCard();
+        return game.getPlayerByName(message.getUsername()).getBoard().canBePlaced(X, Y, card);
     }
 
     /**
@@ -102,8 +105,8 @@ public class InputController {
      * @param message Message from Client.
      * @return {code @true} if card can be flipped {@code false} otherwise.
      */
-    public boolean flipCardCheck(Message message){
-        return game.getPlayerByName(message.getUsername()).getBoard().isInHand(((FlipCardMessage)message).getCard());
+    public boolean flipCardCheck(Message message) {
+        return game.getPlayerByName(message.getUsername()).getBoard().isInHand(((FlipCardMessage) message).getCard());
 
     }
 

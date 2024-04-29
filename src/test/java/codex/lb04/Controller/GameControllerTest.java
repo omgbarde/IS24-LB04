@@ -10,6 +10,7 @@ import codex.lb04.Model.Game;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 
@@ -22,6 +23,7 @@ public class GameControllerTest {
         this.game = Game.getInstance();
         this.gameController = GameController.getInstance();
     }
+
     @After
     public void tearDown() {
         this.gameController = null;
@@ -37,10 +39,10 @@ public class GameControllerTest {
     @Test
     public void testOnMessageReceived() {
         game.setGameState(GameState.LOGIN);
-        gameController.onMessageReceived(new ErrorMessage("test","Error"));
+        gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
         game.setGameState(GameState.INIT);
-        gameController.onMessageReceived(new ErrorMessage("test","Error"));
+        gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.INIT, game.getGameState());
 
         game.setGameState(GameState.LOGIN);
@@ -54,9 +56,10 @@ public class GameControllerTest {
         assertEquals(GameState.IN_GAME, game.getGameState());
 
         game.setGameState(GameState.IN_GAME);
-        gameController.onMessageReceived(new ErrorMessage("test","Error"));
+        gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
+
     @Test
     public void startGame() {
         game.setGameState(GameState.LOGIN);
@@ -64,6 +67,7 @@ public class GameControllerTest {
         gameController.startGame();
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
+
     @Test
     public void testGetTurnController() {
         game.setGameState(GameState.LOGIN);

@@ -2,10 +2,13 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+
 import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 
@@ -21,7 +24,7 @@ public class GameTest {
     private static Deck deck;
     private static ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
     private static ArrayList<Card> cards = new ArrayList<>();
-    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2 , 87);
+    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
 
 
     @Before
@@ -67,6 +70,8 @@ public class GameTest {
     }
 
     @Test
-    public void getInstance(){assertNotNull(game.getInstance());}
+    public void getInstance() {
+        assertNotNull(game.getInstance());
+    }
 
 }

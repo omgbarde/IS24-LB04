@@ -44,6 +44,7 @@ public class CodexClientApp {
     public static void setClientSocket(String usr, String addr, int port) {
         clientSocket = new ClientSocket(usr, addr, port);
     }
+
     public static void disconnect() {
         clientSocket.disconnect();
     }

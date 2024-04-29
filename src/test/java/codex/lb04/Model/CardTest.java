@@ -5,6 +5,7 @@ import codex.lb04.Model.Enumerations.ResourceType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 
@@ -59,8 +60,8 @@ public class CardTest {
     @Test
     public void setCoordinates() {
         card.setCoordinates(1, 2);
-        assertEquals((Integer)1, card.getX());
-        assertEquals( (Integer) 2, card.getY());
+        assertEquals((Integer) 1, card.getX());
+        assertEquals((Integer) 2, card.getY());
     }
 
     @Test
@@ -92,6 +93,6 @@ public class CardTest {
     @Test
     public void getY() {
         card.setCoordinates(1, 2);
-        assertEquals((Integer )2, card.getY());
+        assertEquals((Integer) 2, card.getY());
     }
 }

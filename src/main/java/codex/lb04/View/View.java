@@ -10,7 +10,9 @@ public abstract class View {
      * @param sceneName is the name of the scene to load
      */
     public abstract void switchScene(String sceneName);
+
     public abstract void setTitle(String title);
+
     public abstract void setMode(String mode);
 
 }

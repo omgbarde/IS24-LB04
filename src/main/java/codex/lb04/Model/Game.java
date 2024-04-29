@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * This class represents the game
  */
-public class Game extends Observable{
+public class Game extends Observable {
     private static Game instance;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Deck deck;
@@ -53,7 +53,7 @@ public class Game extends Observable{
         player.getBoard().drawResourceCard(pick);
     }
 
-    public InitialCard getInitialCard(String username){
+    public InitialCard getInitialCard(String username) {
         Player player = getPlayerByName(username);
         return player.getBoard().getInitialCard();
     }
@@ -62,7 +62,7 @@ public class Game extends Observable{
      * draws the initial card for a player
      * @param username the player who draws the card
      */
-    public void setInitialCard(String username){
+    public void setInitialCard(String username) {
         Player player = getPlayerByName(username);
         player.getBoard().setInitialCard();
     }
@@ -118,7 +118,7 @@ public class Game extends Observable{
      * Returns the player names
      * @return the player names
      */
-    public ArrayList<String> getPlayerNames() {
+    public ArrayList<String> getLobby() {
         return lobby;
     }
 
@@ -134,7 +134,7 @@ public class Game extends Observable{
      * Removes a player name from the list
      * @param player the player name to remove
      */
-    public void removePlayerName(String player) {
+    public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
     }
 
@@ -146,7 +146,7 @@ public class Game extends Observable{
      */
     public void addPlayer(Player player) {
         this.players.add(player);
-        if(this.lobby.size()>=2){
+        if (this.lobby.size() >= 2) {
             //notifyObserver(new Message("game", "able To Start"));
         }
     }
@@ -210,10 +210,29 @@ public class Game extends Observable{
         return deck;
     }
 
+    /**
+     * creates the players from the arraylist of usernames of the players
+     */
     public void createPlayers() {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
             addPlayer(newPlayer);
         }
+    }
+
+    /**
+     * check for victory conditions
+     */
+    public void checkWinner() {
+        Integer max = 0;
+        String winner;
+        for (Player player : players) {
+            if (player.getBoard().getPoints() > max) {
+                winner = player.getUsername();
+                max = player.getBoard().getPoints();
+            }
+            //TODO caso pari punti
+        }
+        //notifyObserver(new WinnerMessage(winner));
     }
 }
