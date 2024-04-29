@@ -158,7 +158,6 @@ class DeckTest {
     }
 
     @Test
-
     void SecretObjectivesChoice(){
         ArrayList<ObjectiveCard> obj_cards = new ArrayList<ObjectiveCard>();
         ObjectiveCard obj_1 = deck.getObjectiveCards().get(1);
@@ -174,19 +173,11 @@ class DeckTest {
 
     @Test
     void drawInitialCard(){assertNotNull(deck.drawInitialCard());}
-// TODO : Fix the test
-    //@Test
-    /*void setVisibleGoldCards(){
-        ArrayList<GoldCard> original = new ArrayList<GoldCard>();
-        GoldCard gold1 = deck.getGoldCards().get(2);
-        GoldCard gold2 = deck.getGoldCards().get(3);
-        gold1.flip();
-        gold2.flip();
-        original.add(gold1);
-        original.add(gold2);
-        ArrayList<GoldCard> visible = new ArrayList<GoldCard>(deck.setVisibleGoldCards());
-        assertEquals(original,visible);
-    }*/
+// TODO testare i metodi per settare le gold e le resource visibili
+    @Test
+    void setVisibleGoldCards(){
+
+    }
 
     @Test
     void setVisibleResourceCards(){
@@ -194,14 +185,10 @@ class DeckTest {
     }
 
     @Test
-    void getVisibleGoldCards(){
-
-    }
+    void getVisibleGoldCards(){assertNotNull(deck.getVisibleGoldCards());}
 
     @Test
-    void getVisibleResourceCards(){
-
-    }
+    void getVisibleResourceCards(){assertNotNull(deck.getVisibleResourceCards());}
 
 
 }

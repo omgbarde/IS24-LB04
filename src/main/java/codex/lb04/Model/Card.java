@@ -21,7 +21,7 @@ public class Card {
      * @param color the color of the card
      */
     public Card(Color color, Face front, Face back) {
-        this.ShownFace = front;
+        this.ShownFace = back;
         this.color = color;
         this.back = back;
         this.front = front;

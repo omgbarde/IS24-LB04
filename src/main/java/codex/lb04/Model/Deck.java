@@ -231,8 +231,6 @@ public class Deck {
     public ArrayList<GoldCard> setVisibleGoldCards() {
         GoldCard visible_gc1 = drawGold();
         GoldCard visible_gc2 = drawGold();
-        visible_gc1.flip();
-        visible_gc2.flip();
         VisibleGoldCards.add(visible_gc1);
         VisibleGoldCards.add(visible_gc2);
         return VisibleGoldCards;
@@ -245,8 +243,6 @@ public class Deck {
     public ArrayList<ResourceCard> setVisibleResourceCards() {
         ResourceCard visible_rc1 = drawResource();
         ResourceCard visible_rc2 = drawResource();
-        visible_rc1.flip();
-        visible_rc2.flip();
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
         return VisibleResourceCards;

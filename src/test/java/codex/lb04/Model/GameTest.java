@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GameTest {
 
@@ -66,4 +67,8 @@ class GameTest {
         game.addPlayer(player);
         assertEquals(player, game.getPlayers().getLast());
     }
+
+    @Test
+    void getInstance(){assertNotNull(game.getInstance());}
+
 }
