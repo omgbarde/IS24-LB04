@@ -126,8 +126,8 @@ public class Deck {
         ObjectiveCard toDraw;
         switch (choice) {
             case 0:
-                toDraw = this.objectiveCards.get(0);
-                this.objectiveCards.remove(0);
+                toDraw = this.objectiveCards.getFirst();
+                this.objectiveCards.removeFirst();
                 return toDraw;
             case 1:
                 toDraw = this.objectiveCards.get(1);
