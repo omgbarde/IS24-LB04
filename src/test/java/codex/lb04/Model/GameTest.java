@@ -74,4 +74,65 @@ public class GameTest {
         assertNotNull(Game.getInstance());
     }
 
+    @Test
+    public void drawResourceCard(){
+        game.drawResourceCard("test", 0);
+        assertNotNull(player.getBoard().getHand());
+    }
+
+    @Test
+    public void drawGoldCard(){
+        game.drawGoldCard("test", 0);
+        assertNotNull(player.getBoard().getHand());
+    }
+
+    @Test
+    public void getInitialCard(){
+        game.getPlayerByName("test").getBoard().setInitialCard();
+        assertNotNull(game.getInitialCard("test"));
+    }
+    //TODO doesn't work
+    @Test
+    public void setInitialCardForAllPlayers(){
+        game.setInitialCardForAllPlayers();
+        for(Player p :players){
+            assertNotNull(p.getBoard().getInitialCard());
+        }
+    }
+
+    @Test
+    public void setCommonObjectivesForallPlayers(){
+        game.setCommonObjectivesForallPlayers();
+        for(Player p :players){
+            assertEquals(p.getBoard().getCommonObjectives(), game.getCommonObjectives());
+        }
+    }
+
+    @Test
+    public void getCommonObjectives(){
+        assertNotNull(game.getCommonObjectives());
+    }
+    //TODO fix it, it doesn't set the secret objective to the player
+    @Test
+    public void setSecretObjectives(){
+        Player player1 = new Player("test1");
+        ObjectiveCard card1 = deck.getObjectiveCards().get(0);
+        ObjectiveCard card2 = deck.getObjectiveCards().get(1);
+        game.setSecretObjectives("test", 0);
+        game.setSecretObjectives("test1", 0);
+        assertEquals(card1,player.getBoard().getSecretObjective());
+        assertEquals(card2,player1.getBoard().getSecretObjective());
+    }
+
+    @Test
+    public void getLobby(){assertNotNull(game.getLobby());}
+
+
+    @Test
+    public void removePlayerFromLobby(){
+        game.removePlayerFromLobby("test");
+        assertFalse(game.getLobby().contains("test"));
+    }
+
+
 }

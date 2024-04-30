@@ -30,6 +30,7 @@ public class Deck {
         this.shuffleResources();
         this.shuffleGold();
         this.shuffleObjectives();
+        this.shuffleInitial();
     }
 
     /**
@@ -272,4 +273,6 @@ public class Deck {
     public void shuffleObjectives() {
         Collections.shuffle(objectiveCards);
     }
+
+    public void shuffleInitial(){ Collections.shuffle(initialCards);}
 }
