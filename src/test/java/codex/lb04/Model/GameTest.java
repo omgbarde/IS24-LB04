@@ -14,35 +14,35 @@ import static org.junit.Assert.*;
 
 public class GameTest {
 
-    private static Game game;
-    private static Corner corner = new Corner(ResourceType.ANIMAL);
-    private static Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
-    private static Card card = new Card(Color.BLUE, face, face);
-    private static Player player;
-    private static ArrayList<Player> players = new ArrayList<Player>();
-    private static Board board;
-    private static Deck deck;
-    private static ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-    private static ArrayList<Card> cards = new ArrayList<>();
-    private static ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
+    private Game game;
+    private Corner corner = new Corner(ResourceType.ANIMAL);
+    private Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
+    private Card card = new Card(Color.BLUE, face, face);
+    private Player player;
+    private ArrayList<Player> players = new ArrayList<Player>();
+    private Board board;
+    private Deck deck;
+    private ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+    private ArrayList<Card> cards = new ArrayList<>();
+    private ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
 
 
     @Before
     public void setUp() {
-        player = new Player("test");
-        players.add(player);
-        board = new Board();
-        deck = Deck.getInstance();
-        game = Game.getInstance();
-        game.addPlayer(player);
+        this.player = new Player("test");
+        this.players.add(player);
+        this.board = new Board();
+        this.deck = Deck.getInstance();
+        this.game = Game.getInstance();
+        this.game.addPlayer(player);
     }
 
     @After
     public void tearDown() {
-        player = null;
-        board = null;
-        deck = null;
-        game = null;
+        this.player = null;
+        this.board = null;
+        this.game.resetInstance();
+
     }
 
 
@@ -71,7 +71,7 @@ public class GameTest {
 
     @Test
     public void getInstance() {
-        assertNotNull(game.getInstance());
+        assertNotNull(Game.getInstance());
     }
 
 }

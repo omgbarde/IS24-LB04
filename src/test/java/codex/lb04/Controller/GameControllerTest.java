@@ -27,7 +27,7 @@ public class GameControllerTest {
     @After
     public void tearDown() {
         this.gameController = null;
-        this.game = null;
+        this.game.resetInstance();
     }
 
     @Test

@@ -6,8 +6,7 @@ import codex.lb04.Model.Enumerations.Color;
  * This class represents initial cards
  */
 public class InitialCard extends Card {
-    private Face front;
-    private Face back;
+
     private Integer ID;
 
 

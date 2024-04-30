@@ -43,6 +43,11 @@ public class Game extends Observable {
         return instance;
     }
 
+    public void resetInstance() {
+        this.deck.resetInstance();
+        instance = null;
+    }
+
     /**
      * Draws a resource card
      * @param username the player who draws the card

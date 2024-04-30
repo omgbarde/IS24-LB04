@@ -43,7 +43,7 @@ public class DeckTest {
 
     @After
     public void tearDown() {
-        this.deck = null;
+        this.deck.resetInstance();
         this.corner1 = null;
         this.corner2 = null;
         this.corner3 = null;

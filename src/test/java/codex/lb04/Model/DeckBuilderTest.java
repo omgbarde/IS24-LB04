@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 public class DeckBuilderTest {
 
     private Board board;
-    private Deck deck;
     private Card card;
     private Face front;
     private Face back;

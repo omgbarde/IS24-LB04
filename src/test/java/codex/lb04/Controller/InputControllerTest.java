@@ -19,16 +19,14 @@ import static org.junit.Assert.*;
 public class InputControllerTest {
     private InputController inputController;
     private GameController gameController;
-    private Game game;
     private Face front;
     private Face back;
     private InitialCard initialCard;
 
     @Before
     public void setUp() {
-        this.game = Game.getInstance();
         gameController = GameController.getInstance();
-        inputController = new InputController(gameController, game);
+        inputController = new InputController(gameController, Game.getInstance());
         front = new Face(null, null, null, null);
         back = new Face(null, null, null, null, null);
         this.initialCard = new InitialCard(front, back, 1);
@@ -38,7 +36,6 @@ public class InputControllerTest {
     public void tearDown() {
         this.inputController = null;
         this.gameController = null;
-        this.game = null;
     }
 
     @Test

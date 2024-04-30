@@ -58,6 +58,10 @@ public class Deck {
         return instance;
     }
 
+    public void resetInstance() {
+        instance = null;
+    }
+
 
 
     /**
