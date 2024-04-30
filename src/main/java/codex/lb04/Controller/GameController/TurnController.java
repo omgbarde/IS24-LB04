@@ -25,6 +25,10 @@ public class TurnController {
         return instance;
     }
 
+    public void resetInstance() {
+        instance = null;
+    }
+
     /**
      * Constructor for the TurnController class with the players list and the active player
      */

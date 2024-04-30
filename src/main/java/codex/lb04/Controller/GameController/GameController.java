@@ -8,7 +8,7 @@ import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
 import codex.lb04.ServerApp;
-
+//TODO implementare distribuzione carte risorsa iniziali in mano ai player
 public class GameController {
 
     private Game game;
@@ -25,6 +25,14 @@ public class GameController {
             instance = new GameController();
         }
         return instance;
+    }
+
+    public void resetInstance() {
+        this.game.resetInstance();
+        if(this.turnController != null){
+            this.turnController.resetInstance();
+        }
+        instance = null;
     }
 
     /**
@@ -95,7 +103,7 @@ public class GameController {
             case LOGIN_REQUEST:
                 //checks maximum number of clients connected and if username is available
                 if (game.getPlayers().size() <= 4 && ServerApp.checkUsername(usr)) {
-                    game.addPlayerName(usr);
+                    game.addPlayerToLobby(usr);
                 } else ServerApp.sendMessage(new LoginReply(usr, false), usr);
                 break;
             case LOGOUT_REQUEST:
@@ -171,6 +179,7 @@ public class GameController {
                 break;
 
             default:
+                ServerApp.sendMessage(new ErrorMessage("server", "message not recognized"), usr);
                 break;
         }
     }

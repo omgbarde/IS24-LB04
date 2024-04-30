@@ -26,32 +26,34 @@ public class GameControllerTest {
 
     @After
     public void tearDown() {
-        this.gameController = null;
-        this.game.resetInstance();
+        this.gameController.resetInstance();
     }
+
+
 
     @Test
     public void testCreateGameController() {
         assertNotNull(GameController.getInstance());
     }
 
-    //TODO doesn't work when starting tests with maven (to debug)
+
     @Test
     public void testOnMessageReceived() {
-        game.setGameState(GameState.LOGIN);
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
+
         game.setGameState(GameState.INIT);
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.INIT, game.getGameState());
+
 
         game.setGameState(GameState.LOGIN);
         gameController.onMessageReceived(new LoginMessage("test"));
         assertEquals(GameState.LOGIN, game.getGameState());
 
         game.setGameState(GameState.LOGIN);
-        game.addPlayerName("test");
-        game.addPlayerName("test2");
+        game.addPlayerToLobby("test");
+        game.addPlayerToLobby("test2");
         gameController.onMessageReceived(new StartGameMessage("test", MessageType.START_GAME));
         assertEquals(GameState.IN_GAME, game.getGameState());
 
@@ -63,7 +65,8 @@ public class GameControllerTest {
     @Test
     public void startGame() {
         game.setGameState(GameState.LOGIN);
-        game.addPlayerName("test");
+        game.addPlayerToLobby("test");
+        game.addPlayerToLobby("test2");
         gameController.startGame();
         assertEquals(GameState.IN_GAME, game.getGameState());
     }
@@ -71,10 +74,14 @@ public class GameControllerTest {
     @Test
     public void testGetTurnController() {
         game.setGameState(GameState.LOGIN);
-        game.addPlayerName("test");
+        game.addPlayerToLobby("test");
+        game.addPlayerToLobby("test2");
         gameController.startGame();
         assertNotNull(gameController.getTurnController());
     }
+
+    @Test
+    public void simulationGame(){}
 
 
 }

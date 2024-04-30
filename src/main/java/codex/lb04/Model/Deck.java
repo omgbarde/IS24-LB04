@@ -18,6 +18,7 @@ public class Deck {
     /**
      * Default constructor
      */
+    //TODO shuffle doesnt' work
     private Deck() {
         resourceCards = new ArrayList<>();
         goldCards = new ArrayList<>();

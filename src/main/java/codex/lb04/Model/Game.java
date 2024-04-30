@@ -136,7 +136,7 @@ public class Game extends Observable {
      * Adds a player name to the list
      * @param player the player name to add
      */
-    public void addPlayerName(String player) {
+    public void addPlayerToLobby(String player) {
         this.lobby.add(player);
     }
 

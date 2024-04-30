@@ -37,13 +37,14 @@ public class Board {
     /**
      * Default constructor
      */
+    //TODO pescare le carte per la mano iniziale
     public Board() {
         this.deck = Deck.getInstance();
         //game
         Game game = Game.getInstance();
         this.VisibleResourceCards = deck.getVisibleResourceCards();
         this.VisibleGoldCards = deck.getVisibleGoldCards();
-        this.CommonObjectives = game.getCommonObjectives();
+        this.CommonObjectives = game.getCommonObjectives(); //TODO doesn't give objectives
         this.hand = new ArrayList<>();
         this.Insects = 0;
         this.Animals = 0;
