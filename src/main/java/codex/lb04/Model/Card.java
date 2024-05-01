@@ -12,6 +12,15 @@ public class Card {
     private Color color;
     private Integer points;
     private Integer x, y;
+    private boolean usedForPositionalObjectives = false;
+
+    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
+    }
+
+    public boolean isUsedForPositionalObjectives() {
+        return usedForPositionalObjectives;
+    }
 
     /**
      * Default constructor

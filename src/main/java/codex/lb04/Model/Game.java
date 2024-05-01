@@ -9,11 +9,8 @@ import codex.lb04.ServerApp;
 import java.util.ArrayList;
 import java.util.Objects;
 
-//TODO implementare gestione dei turni e delle fasi di gioco
-//TODO implementare inizio della partita
 //TODO implementare win condition
 //TODO implementare ultimo turno
-//TODO test della classe game
 
 /**
  * This class represents the game

@@ -189,7 +189,7 @@ public class Board {
         switch (pick) {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
-                this.deck.getVisibleGoldCards().remove((int)pick);
+                this.deck.getVisibleGoldCards().remove((int) pick);
                 this.deck.updateVisibleGold();
                 break;
             case 2:
@@ -206,8 +206,8 @@ public class Board {
     public void drawResourceCard(Integer pick) {
         switch (pick) {
             case 0, 1:
-                this.hand.add(this.deck.getVisibleResourceCards().get((int)pick));
-                this.deck.getVisibleResourceCards().remove((int)pick);
+                this.hand.add(this.deck.getVisibleResourceCards().get((int) pick));
+                this.deck.getVisibleResourceCards().remove((int) pick);
                 this.deck.updateVisibleResource();
                 break;
             case 2:
@@ -272,7 +272,7 @@ public class Board {
     public void updateResources() {
         setZeroResources();
         for (Card card : playedCards) {
-            if(card.getShownFace().getCentralResources() != null) {
+            if (card.getShownFace().getCentralResources() != null) {
                 for (ResourceType resource : card.getShownFace().getCentralResources()) {
                     switch (resource) {
                         case ResourceType.ANIMAL:
@@ -304,7 +304,7 @@ public class Board {
             }
             for (Corner corner : card.getShownFace().getCorners()) {
                 if (!corner.isCovered()) {
-                    if(corner.getResource()!= null) {
+                    if (corner.getResource() != null) {
                         switch (corner.getResource()) {
                             case ResourceType.ANIMAL:
                                 this.Animals++;
@@ -359,7 +359,7 @@ public class Board {
         this.Points = this.PointsByGoldCards;
         for (Card card : playedCards) {
             if (card.getClass() == ResourceCard.class || card.getClass() == Card.class) {
-                if(card.getPoints() != null) {
+                if (card.getPoints() != null) {
                     this.Points += card.getPoints();
                 }
             }
@@ -387,6 +387,7 @@ public class Board {
         };
     }
 // TODO sistemare il medotodo in quanto da errore quando viene chiamato il metodo getColor in una posizione in cui non c'é una carta
+
     /**
      * This method checks if the conditions of the objective cards regarding the positions of the cards are met
      *
@@ -394,60 +395,68 @@ public class Board {
      * @param card          the card to check
      * @return true if the conditions are met, false otherwise
      */
-    public boolean conditionCheckOnPositions(ObjectiveCard objectiveCard, Card card) {
+    public boolean conditionCheckOnPositionRelatedObjectives(ObjectiveCard objectiveCard, Card card) {
         switch (objectiveCard.getID()) {
             case 87:
                 if (card.getColor() == Color.RED) {
-                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED) {
+                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 88:
                 if (card.getColor() == Color.GREEN) {
-                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN) {
+                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 89:
                 if (card.getColor() == Color.BLUE) {
-                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE) {
-                            return true;
-                        }
+                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
+                        return true;
+                    }
                 }
                 break;
             case 90:
                 if (card.getColor() == Color.PURPLE) {
-                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE) {
+                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 91:
                 if (card.getColor() == Color.RED) {
-                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 2).getColor() == Color.GREEN) {
+                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 2).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 92:
                 if (card.getColor() == Color.GREEN) {
-                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 2).getColor() == Color.PURPLE) {
+                    if (getCard(card.getX(), card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 2).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 93:
                 if (card.getColor() == Color.BLUE) {
-                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 2).getColor() == Color.RED) {
+                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 2).getColor() == Color.RED && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
                 break;
             case 94:
                 if (card.getColor() == Color.PURPLE) {
-                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 2).getColor() == Color.BLUE) {
+                    if (getCard(card.getX(), card.getY() + 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 2).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
+                        card.setUsedForPositionalObjectives(true);
                         return true;
                     }
                 }
@@ -456,19 +465,21 @@ public class Board {
         return false;
     }
 
+    //TODO test this method
+
     /**
      * This method calculate the points a player receives with objectives cards
      */
     public void finalPointsUpdate() {
         for (ObjectiveCard objectiveCard : CommonObjectives) {
             for (Card card : playedCards) {
-                if (this.conditionCheckOnPositions(objectiveCard, card)) {
+                if (this.conditionCheckOnPositionRelatedObjectives(objectiveCard, card)) {
                     this.Points += objectiveCard.getPoints();
                 }
             }
         }
         for (Card card : playedCards) {
-            if (this.conditionCheckOnPositions(secretObjective, card)) {
+            if (this.conditionCheckOnPositionRelatedObjectives(secretObjective, card)) {
                 this.Points += secretObjective.getPoints();
             }
         }
@@ -507,17 +518,17 @@ public class Board {
     public Integer checkNumberObjectives() {
         Integer cnt = 0;
         for (Card card : getIngameCards()) {
-            if (conditionCheckOnPositions(this.getSecretObjective(), card )){
-                cnt+=1;
+            if (conditionCheckOnPositionRelatedObjectives(this.getSecretObjective(), card)) {
+                cnt += 1;
                 break;
             }
         }
-        if(conditionCheckResources(this.getSecretObjective())>0){
-            cnt+=1;
+        if (conditionCheckResources(this.getSecretObjective()) > 0) {
+            cnt += 1;
         }
         for (ObjectiveCard objectiveCard : CommonObjectives) {
             for (Card card : getIngameCards()) {
-                if (conditionCheckOnPositions(objectiveCard, card)) {
+                if (conditionCheckOnPositionRelatedObjectives(objectiveCard, card)) {
                     cnt += 1;
                     break;
                 }

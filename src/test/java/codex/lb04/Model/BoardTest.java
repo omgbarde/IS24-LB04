@@ -186,12 +186,12 @@ public class BoardTest {
     // TODO test finalpointsupdate - conviene usare carte specifiche per i test (resource card o gold) al posto della card generica xchè certi metodi sono implementati apposta per gestire casi particolari
     // TODO il test funziona solo partendo dalla carta in posizione 0,0
     @Test
-    public void conditionCheckOnPositions(){
+    public void conditionCheckOnPositionRelatedObjectives(){
         board.setCommonObjectives(comm_obj);
         board.placeCard(card,0,0);
         board.placeCard(card1,-1,-1);
         board.placeCard(card2,1,1);
-        assertTrue(board.conditionCheckOnPositions(cardOb,card));
+        assertTrue(board.conditionCheckOnPositionRelatedObjectives(cardOb,card));
     }
 
     @Test
