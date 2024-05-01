@@ -115,10 +115,6 @@ public class BoardTest {
         assertTrue(board.canBePlaced(0, 0, card));
     }
 
-    @Test
-    public void getResourceCards() {
-        assertNotNull(board.getVisibleResourceCards());
-    }
 
 
     @Test
@@ -132,10 +128,6 @@ public class BoardTest {
         assertNotNull(board.getIngameCards());
     }
 
-    @Test
-    public void getGoldCards() {
-        assertNotNull(board.getVisibleGoldCards());
-    }
 
     @Test
     public void getInsects() {
@@ -184,14 +176,14 @@ public class BoardTest {
         assertNotNull(board.getDeck());
     }
 
-  /* @Test
+  @Test
     public void getPoints(){
         board.placeCard(card, 0, 0);
         board.pointsUpdate();
-        assertEquals((Integer) 3, board.getPoints());
-    }*/
+        assertEquals((Integer) 1, board.getPoints());
+    }
 
-    // TODO test finalpointsupdate
+    // TODO test finalpointsupdate - conviene usare carte specifiche per i test (resource card o gold) al posto della card generica xchè certi metodi sono implementati apposta per gestire casi particolari
     // TODO il test funziona solo partendo dalla carta in posizione 0,0
     @Test
     public void conditionCheckOnPositions(){

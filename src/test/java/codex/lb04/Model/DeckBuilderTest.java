@@ -52,7 +52,6 @@ public class DeckBuilderTest {
         this.deckBuilder = null;
     }
 
-    //TODO: Implement tests for the following methods
     @Test
     public void createResourceCards() {
     }

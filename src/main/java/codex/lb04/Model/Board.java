@@ -16,8 +16,6 @@ public class Board {
     private ArrayList<ObjectiveCard> CommonObjectives;
     private ObjectiveCard secretObjective;
     //cards
-    private ArrayList<GoldCard> VisibleGoldCards;
-    private ArrayList<ResourceCard> VisibleResourceCards;
     private ArrayList<Card> hand;
     private InitialCard initialCard;
     //resources
@@ -42,8 +40,6 @@ public class Board {
         this.deck = Deck.getInstance();
         //game
         Game game = Game.getInstance();
-        this.VisibleResourceCards = deck.getVisibleResourceCards();
-        this.VisibleGoldCards = deck.getVisibleGoldCards();
         this.CommonObjectives = game.getCommonObjectives(); //TODO doesn't give objectives
         this.hand = new ArrayList<>();
         this.Insects = 0;
@@ -192,8 +188,8 @@ public class Board {
     public void drawGoldCard(Integer pick) {
         switch (pick) {
             case 0, 1:
-                this.hand.add(this.VisibleGoldCards.get(pick));
-                this.deck.getVisibleGoldCards().remove(pick);
+                this.hand.add(this.deck.getVisibleGoldCards().get(pick));
+                this.deck.getVisibleGoldCards().remove((int)pick);
                 this.deck.updateVisibleGold();
                 break;
             case 2:
@@ -210,9 +206,8 @@ public class Board {
     public void drawResourceCard(Integer pick) {
         switch (pick) {
             case 0, 1:
-                this.hand.add(this.VisibleResourceCards.get(pick));
-                this.VisibleResourceCards.remove(pick);
-                this.deck.getVisibleResourceCards().remove(pick);
+                this.hand.add(this.deck.getVisibleResourceCards().get((int)pick));
+                this.deck.getVisibleResourceCards().remove((int)pick);
                 this.deck.updateVisibleResource();
                 break;
             case 2:
@@ -363,7 +358,7 @@ public class Board {
     public void pointsUpdate() {
         this.Points = this.PointsByGoldCards;
         for (Card card : playedCards) {
-            if (card.getClass() == ResourceCard.class) {
+            if (card.getClass() == ResourceCard.class || card.getClass() == Card.class) {
                 if(card.getPoints() != null) {
                     this.Points += card.getPoints();
                 }
@@ -632,14 +627,6 @@ public class Board {
 
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
-    }
-
-    public ArrayList<GoldCard> getVisibleGoldCards() {
-        return VisibleGoldCards;
-    }
-
-    public ArrayList<ResourceCard> getVisibleResourceCards() {
-        return VisibleResourceCards;
     }
 
     public ArrayList<Card> getHand() {

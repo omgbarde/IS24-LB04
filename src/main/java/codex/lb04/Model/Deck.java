@@ -82,15 +82,6 @@ public class Deck {
     }
 
     /**
-     * this method updates the visible resource cards
-     */
-    public void updateVisibleResource() {
-        ResourceCard toDraw = drawResource();
-        toDraw.flip();
-        VisibleResourceCards.add(toDraw);
-    }
-
-    /**
      * this method draws a card from the deck of gold
      *
      * @return the card drawn
@@ -187,6 +178,15 @@ public class Deck {
         VisibleGoldCards.add(visible_gc1);
         VisibleGoldCards.add(visible_gc2);
         return VisibleGoldCards;
+    }
+
+    /**
+     * this method updates the visible resource cards
+     */
+    public void updateVisibleResource() {
+        ResourceCard toDraw = drawResource();
+        toDraw.flip();
+        VisibleResourceCards.add(toDraw);
     }
 
     /**
