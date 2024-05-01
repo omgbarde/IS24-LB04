@@ -72,12 +72,8 @@ public class Game extends Observable {
      *
      */
     public void setInitialCardForAllPlayers() {
-        for(String player : lobby) {
-            for(Player p : players){
-                if(p.getUsername().equals(player)){
-                    p.getBoard().setInitialCard();
-                }
-            }
+        for(Player p : players){
+            p.getBoard().setInitialCard();
         }
     }
 
@@ -235,6 +231,14 @@ public class Game extends Observable {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
             addPlayer(newPlayer);
+        }
+    }
+
+    public void drawHandForAllPlayers(){
+        for(Player player : players){
+            player.getBoard().drawGoldCard(2);
+            player.getBoard().drawResourceCard(2);
+            player.getBoard().drawResourceCard(2);
         }
     }
 

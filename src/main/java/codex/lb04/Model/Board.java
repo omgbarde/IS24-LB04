@@ -37,7 +37,7 @@ public class Board {
     /**
      * Default constructor
      */
-    //TODO pescare le carte per la mano iniziale
+
     public Board() {
         this.deck = Deck.getInstance();
         //game
@@ -93,6 +93,7 @@ public class Board {
             }
             toBePlaced.setCoordinates(x, y);
             playedCards.add(toBePlaced);
+            hand.remove(toBePlaced);
             updateResources();
             if (toBePlaced.getClass() == GoldCard.class) {
                 updateGoldCardsPoints((GoldCard) toBePlaced);
@@ -363,7 +364,9 @@ public class Board {
         this.Points = this.PointsByGoldCards;
         for (Card card : playedCards) {
             if (card.getClass() == ResourceCard.class) {
-                this.Points += card.getPoints();
+                if(card.getPoints() != null) {
+                    this.Points += card.getPoints();
+                }
             }
         }
     }

@@ -2,10 +2,14 @@ package codex.lb04.Controller;
 
 import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Message.ErrorMessage;
+import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
+import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Message.MessageType;
+import codex.lb04.Model.Card;
+import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +21,8 @@ import static org.junit.Assert.*;
 public class GameControllerTest {
     private GameController gameController;
     private Game game;
+
+
 
     @Before
     public void setUp() {
@@ -82,7 +88,57 @@ public class GameControllerTest {
     }
 
     @Test//TODO
-    public void simulationGame(){}
+    public void simulationGame(){
+        String player1 = "Pitesse";
+        String player2 = "Barde";
+        String player3 = "AlexIlLeone2";
+        String player4 = "Brio";
+        String player5 = "Rafa Leao";
+        Face randomFace = new Face(null,null,null,null);
+
+
+
+        LoginMessage login1 = new LoginMessage(player1);
+        gameController.onMessageReceived(login1);
+
+        LoginMessage login2 = new LoginMessage(player2);
+        gameController.onMessageReceived(login2);
+
+        LoginMessage login3 = new LoginMessage(player3);
+        gameController.onMessageReceived(login3);
+
+        LoginMessage login4 = new LoginMessage(player4);
+        gameController.onMessageReceived(login4);
+
+        StartGameMessage start = new StartGameMessage(player1);
+        gameController.onMessageReceived(start);
+
+        Game game = Game.getInstance();
+
+        String activePlayer = gameController.getTurnController().getActivePlayer();
+        PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer , game.getPlayerByName(activePlayer).getBoard().getInitialCard());
+        gameController.onMessageReceived(pick1);
+        assertEquals(pick1.getInitialCard() , game.getPlayerByName(activePlayer).getBoard().getCard(0,0));
+
+        PickInitialCardSideMessage pick2 = new PickInitialCardSideMessage(player2 , game.getPlayerByName(player2).getBoard().getInitialCard());
+        gameController.onMessageReceived(pick2);
+        assertNotEquals(pick2.getInitialCard() , game.getPlayerByName(player2).getBoard().getCard(0,0));
+
+
+        Card noSense = new Card(Color.BLUE,randomFace,randomFace);
+        PlaceCardMessage external = new PlaceCardMessage(player5 , 0 , 0 , noSense);
+        gameController.onMessageReceived(external);
+        assertNotEquals(noSense , game.getPlayerByName(activePlayer).getBoard().getCard(0,0));
+
+        Card toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        PlaceCardMessage correct = new PlaceCardMessage(activePlayer , 1 , 1 , toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace , game.getPlayerByName(activePlayer).getBoard().getCard(1,1));
+
+
+        System.out.println("zao");
+
+    }
 
 
 }

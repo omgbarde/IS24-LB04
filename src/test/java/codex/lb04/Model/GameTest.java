@@ -2,12 +2,11 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -47,7 +46,6 @@ public class GameTest {
     }
 
 
-    //TODO doesn't work when starting tests with maven
     @Test
     public void getPlayers() {
         assertEquals(players, game.getPlayers());
@@ -92,7 +90,7 @@ public class GameTest {
         game.getPlayerByName("test").getBoard().setInitialCard();
         assertNotNull(game.getInitialCard("test"));
     }
-    //TODO doesn't work
+
     @Test
     public void setInitialCardForAllPlayers(){
         game.setInitialCardForAllPlayers();

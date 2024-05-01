@@ -37,7 +37,7 @@ public class InputController {
             case PICK_GOLD_CARD:
                 return pickGoldCardCheck(message);
             case PICK_INITIAL_CARD_SIDE:
-                return pickInitialCardSideCheck(message);
+                return true;
             case PLACE_CARD:
                 return placeCardCheck(message);
             case FLIP_CARD:

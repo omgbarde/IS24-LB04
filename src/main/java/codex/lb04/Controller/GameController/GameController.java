@@ -1,14 +1,16 @@
 package codex.lb04.Controller.GameController;
 
-import codex.lb04.Message.*;
+import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
+import codex.lb04.Message.GenericMessage;
+import codex.lb04.Message.Message;
+import codex.lb04.Message.OkMessage;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
-import codex.lb04.Model.InitialCard;
+import codex.lb04.Observer.GameObserver;
 import codex.lb04.ServerApp;
-//TODO implementare distribuzione carte risorsa iniziali in mano ai player
 public class GameController {
 
     private Game game;
@@ -105,7 +107,7 @@ public class GameController {
             case PONG:
                 //TODO
                 break;
-            case START_GAME: //TODO implementare fase in cui viene mandato questo messaggio
+            case START_GAME:
                 if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
                     startGame();
                 }
@@ -134,33 +136,43 @@ public class GameController {
             case PICK_SECRET_OBJECTIVE:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);
+                }else {
+                    ServerApp.sendMessage(new ErrorMessage("server", "invalid input"), usr);
                 }
                 break;
             case PICK_RESOURCE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
+                }else {
+                    ServerApp.sendMessage(new ErrorMessage("server", "invalid input"), usr);
                 }
                 break;
             case PICK_GOLD_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
+                }else {
+                    ServerApp.sendMessage(new ErrorMessage("server", "invalid input"), usr);
                 }
                 break;
             case PICK_INITIAL_CARD_SIDE:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);
+                }else {
+                    ServerApp.sendMessage(new ErrorMessage("server", "invalid card placement"), usr);
                 }
                 break;
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
-                } else { //TODO inviare risposte al client in caso d input non valido
+                } else {
                     ServerApp.sendMessage(new ErrorMessage("server", "invalid card placement"), usr);
                 }
                 break;
             case FLIP_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     flipCardHandler((FlipCardMessage) receivedMessage);
+                }else {
+                    ServerApp.sendMessage(new ErrorMessage("server", "can't be flipped"), usr);
                 }
                 break;
             case END_TURN:
@@ -186,6 +198,7 @@ public class GameController {
     public void startGame() {
         game.setGameState(GameState.INIT);
         game.createPlayers();
+        game.drawHandForAllPlayers();
         game.setCommonObjectivesForallPlayers();
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
@@ -232,10 +245,11 @@ public class GameController {
     public void pickInitialCardSideHandler(PickInitialCardSideMessage pickMessage) {
         String username = pickMessage.getUsername();
         Face side = pickMessage.getCardSide();
-        for (InitialCard initialCard : game.getDeck().getInitialCards()) {
-            if (!initialCard.getShownFace().equals(side)) {
-                game.getInitialCard(username).flip();
-            }
+        if(!game.getPlayerByName(username).getBoard().getInitialCard().getShownFace().equals(side)){
+            game.getPlayerByName(username).getBoard().getInitialCard().flip();
+            game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard() , 0 , 0);
+        }else{
+            game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard() , 0 , 0);
         }
     }
 
