@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class BoardTest {
@@ -13,23 +15,24 @@ public class BoardTest {
     private Board board;
     private Deck deck;
     private Card card;
-    // private Card card1;
-    // private Card card2;
+    private Card card1;
+    private Card card2;
     private Face front;
     private Face back;
-    // private Face BlankFace;
+    private Face BlankFace;
     private Corner corner1;
     private Corner corner2;
     private Corner corner3;
     private Corner corner4;
     private Corner EmptyCorner;
     private Corner CoveredCorner;
-    //private ObjectiveCard cardOb;
+    private ObjectiveCard cardOb;
+    private ObjectiveCard cardOb2;
+    private ArrayList<ObjectiveCard> comm_obj;
 
 
     @Before
     public void setUp() {
-        // this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.deck = Deck.getInstance();
         this.corner1 = new Corner(ResourceType.ANIMAL);
         this.corner2 = new Corner(ResourceType.MUSHROOM);
@@ -39,11 +42,18 @@ public class BoardTest {
         this.CoveredCorner = new Corner(true);
         this.front = new Face(corner1, corner2, corner3, corner4);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
-        //this.BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
-        this.card = new Card(Color.BLUE, front, back, 3);
+        this.BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+        this.card = new Card(Color.BLUE, front, back, 1);
+        this.card1 = new Card(Color.BLUE, front, back, 1);
+        this.card2 = new Card(Color.BLUE, front, back, 1);
+        this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
+        this.cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         card.flip();
-        //this.card1 = new Card(Color.BLUE, front, back, 3);
-        //this.card2 = new Card(Color.BLUE, front, back, 3);
+        card1.flip();
+        card2.flip();
+        this.comm_obj = new ArrayList<ObjectiveCard>();
+        comm_obj.add(cardOb);
+        comm_obj.add(cardOb2);
         this.board = new Board();
     }
 
@@ -60,10 +70,10 @@ public class BoardTest {
         this.back = null;
         this.card = null;
         this.board = null;
-        //this.cardOb = null;
-        // this.BlankFace = null;
-        //this.card1 = null;
-        //this.card2 = null;
+        this.cardOb = null;
+        this.BlankFace = null;
+        this.card1 = null;
+        this.card2 = null;
     }
 
     @Test
@@ -174,20 +184,28 @@ public class BoardTest {
         assertNotNull(board.getDeck());
     }
 
-   /* @Test
-    void getPoints(){
+  /* @Test
+    public void getPoints(){
         board.placeCard(card, 0, 0);
-        assertEquals(3, board.getPoints());
+        board.pointsUpdate();
+        assertEquals((Integer) 3, board.getPoints());
     }*/
 
     // TODO test finalpointsupdate
-    //@Test
-    /*void conditionCheckOnPositions(){
+    // TODO il test funziona solo partendo dalla carta in posizione 0,0
+    @Test
+    public void conditionCheckOnPositions(){
+        board.setCommonObjectives(comm_obj);
         board.placeCard(card,0,0);
         board.placeCard(card1,-1,-1);
         board.placeCard(card2,1,1);
-        assertTrue(board.conditionCheckOnPositions(cardOb,card1));
-    }*/
+        assertTrue(board.conditionCheckOnPositions(cardOb,card));
+    }
+
+    @Test
+    public void checkNumberObjectives(){
+
+    }
 
 
 }

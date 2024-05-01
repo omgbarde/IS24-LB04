@@ -379,7 +379,7 @@ public class Board {
             default -> 0;
         };
     }
-
+// TODO sistemare il medotodo in quanto da errore quando viene chiamato il metodo getColor in una posizione in cui non c'é una carta
     /**
      * This method checks if the conditions of the objective cards regarding the positions of the cards are met
      *
@@ -405,9 +405,9 @@ public class Board {
                 break;
             case 89:
                 if (card.getColor() == Color.BLUE) {
-                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE) {
-                        return true;
-                    }
+                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE) {
+                            return true;
+                        }
                 }
                 break;
             case 90:
@@ -491,6 +491,35 @@ public class Board {
                 card.flip();
             }
         }
+    }
+
+    /**
+     * this method checks how many objectives a player has completed
+     */
+    //TODO metodo per contare il numero di obiettivi, controllare con test
+    public Integer checkNumberObjectives() {
+        Integer cnt = 0;
+        for (Card card : getIngameCards()) {
+            if (conditionCheckOnPositions(this.getSecretObjective(), card )){
+                cnt+=1;
+                break;
+            }
+        }
+        if(conditionCheckResources(this.getSecretObjective())>0){
+            cnt+=1;
+        }
+        for (ObjectiveCard objectiveCard : CommonObjectives) {
+            for (Card card : getIngameCards()) {
+                if (conditionCheckOnPositions(objectiveCard, card)) {
+                    cnt += 1;
+                    break;
+                }
+            }
+            if (conditionCheckResources(objectiveCard) > 0) {
+                cnt += 1;
+            }
+        }
+        return cnt;
     }
 
 

@@ -4,6 +4,7 @@ import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 //TODO implementare gestione dei turni e delle fasi di gioco
 //TODO implementare inizio della partita
@@ -232,17 +233,37 @@ public class Game extends Observable {
 
     /**
      * check for victory conditions
+     * if there is more than one player, the player with the most objectives completed wins
      */
-    public void checkWinner() {
+    // TODO controllare se va bene il metodo con test
+    public ArrayList<String> checkWinner() {
         Integer max = 0;
-        String winner;
+        ArrayList<String> winners = new ArrayList<>();
         for (Player player : players) {
             if (player.getBoard().getPoints() > max) {
-                winner = player.getUsername();
+                winners.clear();
+                winners.add(player.getUsername());
                 max = player.getBoard().getPoints();
             }
-            //TODO caso pari punti
+            if(Objects.equals(player.getBoard().getPoints(), max)){
+                winners.add(player.getUsername());
+            }
         }
-        //notifyObserver(new WinnerMessage(winner));
+        ArrayList<String> obj_winners = new ArrayList<>();
+        Integer obj = 0;
+        for(String p : winners){
+            if(getPlayerByName(p).getBoard().checkNumberObjectives() > obj){
+                obj_winners.clear();
+                obj_winners.add(p);
+                obj = getPlayerByName(p).getBoard().checkNumberObjectives();
+            }
+            if(Objects.equals(getPlayerByName(p).getBoard().getPoints(), obj)){
+                obj_winners.add(p);
+            }
+        }
+        return obj_winners;
+       // notifyObserver(new WinnerMessage(obj_winners));
     }
+
+
 }
