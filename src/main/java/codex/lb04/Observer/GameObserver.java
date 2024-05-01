@@ -9,6 +9,12 @@ public class GameObserver implements Observer {
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
+            case LOGIN_REPLY:
+                ServerApp.sendMessage(message,usr);
+                break;
+            case PLAYERS_CONNECTED:
+                ServerApp.sendMessage(message,usr);
+                break;
             case GAME_STATE:
                 ServerApp.broadcast(message);
                 break;

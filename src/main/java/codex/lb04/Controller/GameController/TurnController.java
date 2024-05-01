@@ -6,7 +6,6 @@ import codex.lb04.ServerApp;
 import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class TurnController {
@@ -53,20 +52,5 @@ public class TurnController {
     public void changeTurn() {
         activePlayer = playersQueueIterator.next();
         ServerApp.sendMessage(new StartTurnMessage(activePlayer), activePlayer);
-    }
-
-    /**
-     * removes a player from lobby
-     * @param username the player to remove
-     */
-    public void removePlayerFromLobby(String username) {
-        for (String player : lobby) {
-            if (Objects.equals(player, username)) {
-                if (Objects.equals(player, activePlayer)) {
-                    changeTurn();
-                }
-                lobby.remove(player);
-            }
-        }
     }
 }

@@ -47,6 +47,7 @@ public class GameController {
      */
     private void createGameController() {
         this.game = Game.getInstance();
+        game.addObserver(new GameObserver());
         this.inputController = new InputController(this, game);
         game.setGameState(GameState.LOGIN);
     }
@@ -58,12 +59,6 @@ public class GameController {
      * @param receivedMessage Message from Active Player.
      */
     public void onMessageReceived(Message receivedMessage) {
-
-        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
-            game.removePlayer(receivedMessage.getUsername());
-            game.removePlayerFromLobby(receivedMessage.getUsername());
-            turnController.removePlayerFromLobby(receivedMessage.getUsername());
-        }
 
         switch (game.getGameState()) {
             case LOGIN:
@@ -101,15 +96,11 @@ public class GameController {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
             case LOGIN_REQUEST:
-                //checks maximum number of clients connected and if username is available
-                if (game.getPlayers().size() <= 4 && ServerApp.checkUsername(usr)) {
-                    game.addPlayerToLobby(usr);
-                } else ServerApp.sendMessage(new LoginReply(usr, false), usr);
+                game.addPlayerToLobby(usr);
                 break;
             case LOGOUT_REQUEST:
                 ServerApp.sendMessage(new OkMessage(), usr);
                 game.removePlayerFromLobby(usr);
-                game.removePlayer(usr);
                 break;
             case PONG:
                 //TODO
@@ -123,6 +114,8 @@ public class GameController {
                 ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
                 ServerApp.sendMessage(error, usr);
                 break;
+            case DEAD_CLIENT:
+                game.removePlayerFromLobby(usr);
             default:
                 ErrorMessage defaultError = new ErrorMessage("server", "message not recognized or double login");
                 ServerApp.sendMessage(defaultError, usr);
@@ -157,6 +150,7 @@ public class GameController {
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);
                 }
+                break;
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
@@ -175,9 +169,11 @@ public class GameController {
             case LOGOUT_REQUEST:
                 //server.print("user wants to logout: " + getUsername());
                 ServerApp.sendMessage(new OkMessage(), usr);
-                game.removePlayerFromLobby(usr);
+                game.removePlayer(usr);
                 break;
-
+            case DEAD_CLIENT:
+                game.removePlayer(usr);
+                break;
             default:
                 ServerApp.sendMessage(new ErrorMessage("server", "message not recognized"), usr);
                 break;

@@ -22,6 +22,7 @@ public class GameControllerTest {
     public void setUp() {
         this.game = Game.getInstance();
         this.gameController = GameController.getInstance();
+
     }
 
     @After
@@ -54,7 +55,7 @@ public class GameControllerTest {
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
-        gameController.onMessageReceived(new StartGameMessage("test", MessageType.START_GAME));
+        gameController.onMessageReceived(new StartGameMessage("test"));
         assertEquals(GameState.IN_GAME, game.getGameState());
 
         game.setGameState(GameState.IN_GAME);

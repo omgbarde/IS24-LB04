@@ -276,34 +276,9 @@ public class Board {
     public void updateResources() {
         setZeroResources();
         for (Card card : playedCards) {
-            for (ResourceType resource : card.getShownFace().getCentralResources()) {
-                switch (resource) {
-                    case ResourceType.ANIMAL:
-                        this.Animals++;
-                        break;
-                    case ResourceType.INSECT:
-                        this.Insects++;
-                        break;
-                    case ResourceType.LEAF:
-                        this.Leaves++;
-                        break;
-                    case ResourceType.MUSHROOM:
-                        this.Mushrooms++;
-                        break;
-                    case ResourceType.QUILL:
-                        this.Quills++;
-                        break;
-                    case ResourceType.INKWELL:
-                        this.Inkwells++;
-                        break;
-                    case ResourceType.MANUSCRIPT:
-                        this.Manuscripts++;
-                        break;
-                }
-            }
-            for (Corner corner : card.getShownFace().getCorners()) {
-                if (!corner.isCovered()) {
-                    switch (corner.getResource()) {
+            if(card.getShownFace().getCentralResources() != null) {
+                for (ResourceType resource : card.getShownFace().getCentralResources()) {
+                    switch (resource) {
                         case ResourceType.ANIMAL:
                             this.Animals++;
                             break;
@@ -325,6 +300,40 @@ public class Board {
                         case ResourceType.MANUSCRIPT:
                             this.Manuscripts++;
                             break;
+                        default:
+                            break;
+
+                    }
+                }
+            }
+            for (Corner corner : card.getShownFace().getCorners()) {
+                if (!corner.isCovered()) {
+                    if(corner.getResource()!= null) {
+                        switch (corner.getResource()) {
+                            case ResourceType.ANIMAL:
+                                this.Animals++;
+                                break;
+                            case ResourceType.INSECT:
+                                this.Insects++;
+                                break;
+                            case ResourceType.LEAF:
+                                this.Leaves++;
+                                break;
+                            case ResourceType.MUSHROOM:
+                                this.Mushrooms++;
+                                break;
+                            case ResourceType.QUILL:
+                                this.Quills++;
+                                break;
+                            case ResourceType.INKWELL:
+                                this.Inkwells++;
+                                break;
+                            case ResourceType.MANUSCRIPT:
+                                this.Manuscripts++;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }

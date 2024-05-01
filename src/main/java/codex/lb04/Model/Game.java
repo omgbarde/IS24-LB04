@@ -1,7 +1,10 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
+import codex.lb04.ServerApp;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -138,7 +141,14 @@ public class Game extends Observable {
      * @param player the player name to add
      */
     public void addPlayerToLobby(String player) {
-        this.lobby.add(player);
+        //checks maximum number of clients connected and if username is available
+        if (this.lobby.size() <= 4 && ServerApp.checkUsername(player)) {
+            this.lobby.add(player);
+            notifyObserver(new LoginReply(player, true));
+            notifyObserver(new PlayersConnectedMessage("server",getLobby()));
+        } else {
+            notifyObserver(new LoginReply(player, false));
+        }
     }
 
     /**
@@ -157,9 +167,6 @@ public class Game extends Observable {
      */
     public void addPlayer(Player player) {
         this.players.add(player);
-        if (this.lobby.size() >= 2) {
-            //notifyObserver(new Message("game", "able To Start"));
-        }
     }
 
     /**

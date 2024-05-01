@@ -14,10 +14,10 @@ import java.net.SocketException;
  * this class represents a client connection
  */
 public class ClientSocket {
-    private final String username;
-    private final Socket socket;
-    private final ObjectOutputStream output;
-    private final ObjectInputStream input;
+    private String username;
+    private Socket socket;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private ClientParser messageParser;
 
     /**
@@ -35,7 +35,7 @@ public class ClientSocket {
             this.messageParser = new ClientParser(this);
             readMessage();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,7 @@
 package codex.lb04.View;
 
+import java.util.ArrayList;
+
 public class CliView extends View {
     @Override
     public void switchScene(String sceneName) {
@@ -13,6 +15,10 @@ public class CliView extends View {
 
     @Override
     public void setMode(String mode) {
+
+    }
+    @Override
+    public void updateList(ArrayList<String> names) {
 
     }
 }

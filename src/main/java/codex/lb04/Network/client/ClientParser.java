@@ -4,6 +4,7 @@ import codex.lb04.CodexClientApp;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
+import codex.lb04.Message.PlayersConnectedMessage;
 
 public class ClientParser {
 
@@ -29,6 +30,9 @@ public class ClientParser {
                     CodexClientApp.print("login refused");
                     clientSocket.disconnect();
                 }
+                break;
+            case PLAYERS_CONNECTED:
+                CodexClientApp.getView().updateList(((PlayersConnectedMessage)input).getLobby());
                 break;
             case LOGOUT_REPLY:
                 CodexClientApp.getView().switchScene("Hello");

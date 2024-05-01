@@ -1,12 +1,14 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Controller.SceneController.LobbyController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * class that represents the GUI view
@@ -58,5 +60,10 @@ public class GuiView extends View {
         if (mode.equals("fullscreen")) {
             Platform.runLater(() -> stageReference.setFullScreen(true));
         }
+    }
+
+    @Override
+    public void updateList(ArrayList<String> names) {
+        Platform.runLater(()->LobbyController.updateList(names));
     }
 }

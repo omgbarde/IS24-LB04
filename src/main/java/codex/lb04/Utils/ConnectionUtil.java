@@ -2,7 +2,7 @@ package codex.lb04.Utils;
 
 public class ConnectionUtil {
     public static String host = "localhost";
-    public static int defaultPort = 49152;
+    public static int defaultPort = 49153;
 
     /**
      * checks if the ip address is valid

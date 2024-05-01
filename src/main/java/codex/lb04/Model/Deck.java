@@ -255,6 +255,7 @@ public class Deck {
 
     /**
      * this method shuffles the deck of resources cards
+     *
      */
     public void shuffleResources() {
         Collections.shuffle(resourceCards);

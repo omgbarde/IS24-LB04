@@ -91,13 +91,5 @@ public class HelloController implements Initializable {
         errorLabel.setText(error);
     }
 
-    /**
-     * method to switch to the lobby view, it calls the switchScene method from the GuiApp class
-     */
-    public static void switchToLobby() {
-        CodexClientApp.getView().setTitle("Codex!-Lobby");
-        CodexClientApp.getView().switchScene("Lobby");
-        CodexClientApp.getView().setMode("fullscreen");
-    }
 
 }
