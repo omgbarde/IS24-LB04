@@ -14,7 +14,7 @@
 - [x] implement message system
 - [x] implement socket communication
 - [ ] functioning lobby
-- [ ] setup MVC
+- [x] setup MVC
 - [ ] (almost) robust socket handling
 
 ## Features
