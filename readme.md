@@ -6,6 +6,13 @@
 - Alex Hathaway 10829946 `alex.hathaway@mail.polimi.it`
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
+## Features
+- [ ] complete ruleset 
+- [ ] robust socket communication 
+- [ ] GUI interface 
+- [ ] CLI interface
+- [ ] ingame chat 
+
 ## Tasks
 - [x] crippling depression
 - [x] deck model
@@ -14,8 +21,5 @@
 - [x] implement message system
 - [x] implement socket communication
 - [ ] functioning lobby
-- [ ] setup MVC
+- [x] setup MVC
 - [ ] (almost) robust socket handling
-
-## Features
-wip 😊
