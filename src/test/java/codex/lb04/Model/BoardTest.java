@@ -192,6 +192,8 @@ public class BoardTest {
         board.placeCard(card1,-1,-1);
         board.placeCard(card2,1,1);
         assertTrue(board.conditionCheckOnPositionRelatedObjectives(cardOb,card));
+        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb,card1));
+        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb,card2));
     }
 
     @Test

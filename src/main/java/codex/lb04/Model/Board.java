@@ -414,10 +414,12 @@ public class Board {
                 break;
             case 89:
                 if (card.getColor() == Color.BLUE) {
-                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
-                        card.setUsedForPositionalObjectives(true);
-                        return true;
-                    }
+                    if (getCard(card.getX() + 1, card.getY() + 1) != null && getCard(card.getX() - 1, card.getY() - 1) != null) {
+                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
+                            card.setUsedForPositionalObjectives(true);
+                            return true;
+                        }
+                }
                 }
                 break;
             case 90:
