@@ -8,10 +8,26 @@
 
 ## Features
 - [ ] complete ruleset 
-- [ ] robust socket communication 
+- [x] robust socket communication 
 - [ ] GUI interface 
 - [ ] CLI interface
 - [ ] ingame chat 
+
+## Progress
+- test model:
+
+  ✅✅✅✅✅✅✅✅✅🔲 93% 
+- test controller:
+
+  ✅✅✅✅✅✅🔲🔲🔲🔲 69%
+
+- test observer:
+
+  ✅✅✅✅✅✅✅✅🔲🔲 80%
+
+- overall testing and report:
+
+  ✅✅✅✅✅✅🔲🔲🔲🔲 63%
 
 ## Tasks
 - [x] crippling depression
@@ -22,8 +38,8 @@
 - [x] implement socket communication
 - [ ] functioning lobby
 - [x] setup MVC
-- [ ] (almost) robust socket handling
-- [ ] test model
-- [ ] test controller
-- [ ] test observer
-- [ ] final testing and report
+- [x] robust socket handling
+- [ ] check complete ruleset
+- [ ] testing
+- [ ] make gui interfaces
+- [ ] make cli interfaces
