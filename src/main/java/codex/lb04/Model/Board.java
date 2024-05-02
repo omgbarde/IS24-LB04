@@ -515,7 +515,6 @@ public class Board {
     /**
      * this method checks how many objectives a player has completed
      */
-    //TODO metodo per contare il numero di obiettivi, controllare con test
     public Integer checkNumberObjectives() {
         Integer cnt = 0;
         for (Card card : getIngameCards()) {
@@ -539,6 +538,12 @@ public class Board {
             }
         }
         return cnt;
+    }
+    /**
+     * this method set num points to the board of a player
+     */
+    public void setPoints(Integer num){
+        this.Points = num;
     }
 
 

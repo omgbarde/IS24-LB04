@@ -244,7 +244,6 @@ public class Game extends Observable {
      * check for victory conditions
      * if there is more than one player, the player with the most objectives completed wins
      */
-    // TODO controllare se va bene il metodo con test
     public ArrayList<String> checkWinner() {
         Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
@@ -255,8 +254,8 @@ public class Game extends Observable {
                 winners.add(player.getUsername());
                 max = player.getBoard().getPoints();
             }
-            if(Objects.equals(player.getBoard().getPoints(), max)){
-                winners.add(player.getUsername()); //facendo così si aggiunge due volte un giocatore all'arraylist, perchè appena aggiorni max nell'if sopra entri in questo e di sicuro i max saranno uguali
+            if(Objects.equals(player.getBoard().getPoints(), max) && !winners.contains(player.getUsername())){
+                winners.add(player.getUsername());
             }
         }
         ArrayList<String> obj_winners = new ArrayList<>();

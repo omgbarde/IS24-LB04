@@ -28,6 +28,7 @@ public class BoardTest {
     private Corner CoveredCorner;
     private ObjectiveCard cardOb;
     private ObjectiveCard cardOb2;
+    //private ObjectiveCard secrOb;
     private ArrayList<ObjectiveCard> comm_obj;
 
 
@@ -48,10 +49,11 @@ public class BoardTest {
         this.card2 = new Card(Color.BLUE, front, back, 1);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
+        //this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);
         card.flip();
         card1.flip();
         card2.flip();
-        this.comm_obj = new ArrayList<ObjectiveCard>();
+        this.comm_obj = new ArrayList<>();
         comm_obj.add(cardOb);
         comm_obj.add(cardOb2);
         this.board = new Board();
@@ -183,7 +185,6 @@ public class BoardTest {
     }
 
     // TODO test finalpointsupdate - conviene usare carte specifiche per i test (resource card o gold) al posto della card generica xchè certi metodi sono implementati apposta per gestire casi particolari
-    // TODO il test funziona solo partendo dalla carta in posizione 0,0
     @Test
     public void conditionCheckOnPositionRelatedObjectives() {
         board.setCommonObjectives(comm_obj);
@@ -197,7 +198,12 @@ public class BoardTest {
 
     @Test
     public void checkNumberObjectives() {
-
+        board.setCommonObjectives(comm_obj);
+        board.setSecretObjective(0);
+        board.placeCard(card,0,0);
+        board.placeCard(card1,-1,-1);
+        board.placeCard(card2,1,1);
+        assertEquals((Integer)1,board.checkNumberObjectives());
     }
 
     @Test

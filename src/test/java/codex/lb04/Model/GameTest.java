@@ -18,9 +18,14 @@ public class GameTest {
     private Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
     private Card card = new Card(Color.BLUE, face, face);
     private Player player;
+    private Player player1;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Board board;
     private Deck deck;
+    private Corner CoveredCorner = new Corner(true);
+    private Face BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+    private ObjectiveCard cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
+    private ObjectiveCard cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
     private ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
     private ArrayList<Card> cards = new ArrayList<>();
     private ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
@@ -29,17 +34,26 @@ public class GameTest {
     @Before
     public void setUp() {
         this.player = new Player("test");
+        this.player1 = new Player("test1");
         this.players.add(player);
+        this.players.add(player1);
         this.board = new Board();
         this.deck = Deck.getInstance();
         this.game = Game.getInstance();
+        this.cardOb = cardOb;
+        this.cardOb2 = cardOb2;
+        objectiveCards.add(cardOb);
+        objectiveCards.add(cardOb2);
         this.game.addPlayerToLobby(player.getUsername());
+        this.game.addPlayerToLobby(player1.getUsername());
         this.game.addPlayer(player);
+        this.game.addPlayer(player1);
     }
 
     @After
     public void tearDown() {
         this.player = null;
+        this.player1 = null;
         this.board = null;
         this.game.resetInstance();
 
@@ -132,6 +146,16 @@ public class GameTest {
         game.removePlayerFromLobby("test");
         assertFalse(game.getLobby().contains("test"));
     }
+//TODO mettere a posto il test
+   /* @Test
+    public void checkWinner(){
+        player.getBoard().setSecretObjective(0);
+        player1.getBoard().setSecretObjective(1);
+        game.setCommonObjectivesForallPlayers();
+        player.getBoard().setPoints(10);
+        player1.getBoard().setPoints(5);
+        assertTrue(game.checkWinner().contains(player.getUsername()));
+    }*/
 
 
 }
