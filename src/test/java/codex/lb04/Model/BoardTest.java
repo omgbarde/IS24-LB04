@@ -28,7 +28,7 @@ public class BoardTest {
     private Corner CoveredCorner;
     private ObjectiveCard cardOb;
     private ObjectiveCard cardOb2;
-    //private ObjectiveCard secrOb;
+    private ObjectiveCard secrOb;
     private ArrayList<ObjectiveCard> comm_obj;
 
 
@@ -49,7 +49,7 @@ public class BoardTest {
         this.card2 = new Card(Color.BLUE, front, back, 1);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.cardOb2 = new ObjectiveCard(Color.PURPLE, BlankFace, BlankFace, 2, 90);
-        //this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);
+        this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);
         card.flip();
         card1.flip();
         card2.flip();
@@ -76,6 +76,7 @@ public class BoardTest {
         this.BlankFace = null;
         this.card1 = null;
         this.card2 = null;
+        this.secrOb = null;
     }
 
     @Test
@@ -111,10 +112,14 @@ public class BoardTest {
         board.placeCard(card, 0, 0);
         assertEquals((Integer) 1, board.getCornerCovered(card, 1, 1));
     }
-
+//TODO fix the method for the test
     @Test
     public void canBePlaced() {
-        assertTrue(board.canBePlaced(0, 0, card));
+        board.placeCard(card, 0, 0);
+        board.placeCard(card1, 1, 1);
+        assertFalse(board.canBePlaced(1, 1, card2));
+        //assertFalse(board.canBePlaced(5, 5, card2));
+        //assertTrue(board.canBePlaced(2, 2, card2));
     }
 
 
@@ -184,7 +189,7 @@ public class BoardTest {
         assertEquals((Integer) 1, board.getPoints());
     }
 
-    // TODO test finalpointsupdate - conviene usare carte specifiche per i test (resource card o gold) al posto della card generica xchè certi metodi sono implementati apposta per gestire casi particolari
+
     @Test
     public void conditionCheckOnPositionRelatedObjectives() {
         board.setCommonObjectives(comm_obj);
@@ -224,6 +229,26 @@ public class BoardTest {
         board.setInitialCard();
         assertNotNull(board.getInitialCard());
     }
+
+    @Test
+    public void getInitialCard() {
+        board.setInitialCard();
+        assertNotNull(board.getInitialCard());
+    }
+
+    @Test
+    public void finalPointsUpdate() {
+        board.setCommonObjectives(comm_obj);
+        board.setSecretObjective(0);
+        board.placeCard(card,0,0);
+        board.placeCard(card1,-1,-1);
+        board.placeCard(card2,1,1);
+        board.pointsUpdate();
+        board.finalPointsUpdate();
+        assertEquals((Integer) 5, board.getPoints());
+    }
+
+
 
 
 

@@ -98,7 +98,7 @@ public class Board {
         }
 
     }
-
+//TODO fix the canBePlaced method
     /**
      * This method tells if a card can be placed with certain coordinates
      *
@@ -123,6 +123,9 @@ public class Board {
             }
         }
         //checks if the card can be placed in the specified coordinates
+        if(getCard(x,y)!=null){
+            return false;
+        }
         for (Card card : playedCards) {
             if (card.getX() == x + 1 && card.getY() == y + 1) {
                 if (card.getShownFace().getLowerLeft().isCovered()) {
@@ -144,6 +147,9 @@ public class Board {
                     return false;
                 }
             }
+            //if(x!= card.getX()+1 && y!= card.getY()+1 && x!= card.getX()-1 && y!= card.getY()-1){
+             //   return false;
+            //}
         }
         return true;
     }
@@ -385,7 +391,6 @@ public class Board {
             default -> 0;
         };
     }
-// TODO sistemare il medotodo in quanto da errore quando viene chiamato il metodo getColor in una posizione in cui non c'é una carta
 
     /**
      * This method checks if the conditions of the objective cards regarding the positions of the cards are met
@@ -466,7 +471,6 @@ public class Board {
         return false;
     }
 
-    //TODO test this method
 
     /**
      * This method calculate the points a player receives with objectives cards

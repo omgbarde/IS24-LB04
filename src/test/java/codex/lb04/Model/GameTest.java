@@ -146,7 +146,7 @@ public class GameTest {
         game.removePlayerFromLobby("test");
         assertFalse(game.getLobby().contains("test"));
     }
-//TODO mettere a posto il test
+
    @Test
     public void checkWinner(){
         player.getBoard().setSecretObjective(0);
