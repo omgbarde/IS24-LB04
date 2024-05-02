@@ -10,8 +10,8 @@
 - [ ] complete ruleset 
 - [ ] robust socket communication 
 - [ ] GUI interface 
-- [ ] CLI interface 
-– [ ] ingame chat
+- [ ] CLI interface
+- [ ] ingame chat 
 
 ## Tasks
 - [x] crippling depression
