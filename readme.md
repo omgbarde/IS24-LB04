@@ -7,10 +7,10 @@
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
 ## Features
-- [ ] complete ruleset
+- [ ] complete ruleset 
 - [ ] robust socket communication 
-– [ ] GUI interface
-- [ ] CLI interface
+- [ ] GUI interface 
+- [ ] CLI interface 
 – [ ] ingame chat
 
 ## Tasks
