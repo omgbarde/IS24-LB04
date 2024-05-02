@@ -13,7 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * ServerApp class that represents the server side of the game.
@@ -26,19 +25,6 @@ public class ServerApp implements Runnable {
     private static List<ClientHandler> clientHandlerList = new ArrayList<>();
     //game controller to manage the game
     private GameController gameController;
-
-    /**
-     * checks if the username is already taken
-     *
-     * @param usr is the username to be checked
-     * @return true if the username is not taken, false otherwise
-     */
-    public static boolean checkUsername(String usr) {
-        for (ClientHandler clientHandler : clientHandlerList) {
-            if (Objects.equals(clientHandler.getUsername(), usr)) return false;
-        }
-        return true;
-    }
 
     /**
      * sends a message to a specific client
@@ -68,6 +54,7 @@ public class ServerApp implements Runnable {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
+                clientHandlerList.add(clientHandler);
                 new Thread(clientHandler).start();
             }
         } catch (IOException e) {

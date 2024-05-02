@@ -26,6 +26,7 @@ public class ClientParser {
                 //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
                     CodexClientApp.getView().switchScene("Lobby");
+                    //CodexClientApp.getView().setMode("fullscreen");
                 } else {
                     CodexClientApp.print("login refused");
                     clientSocket.disconnect();

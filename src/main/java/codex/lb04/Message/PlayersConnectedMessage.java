@@ -12,4 +12,11 @@ public class PlayersConnectedMessage extends Message {
     public ArrayList<String> getLobby() {
         return lobby;
     }
+
+    @Override
+    public String toString() {
+        return "PlayersConnectedMessage{" +
+                "lobby=" + lobby +
+                '}';
+    }
 }

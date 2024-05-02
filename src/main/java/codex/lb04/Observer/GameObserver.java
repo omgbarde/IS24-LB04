@@ -13,7 +13,7 @@ public class GameObserver implements Observer {
                 ServerApp.sendMessage(message,usr);
                 break;
             case PLAYERS_CONNECTED:
-                ServerApp.sendMessage(message,usr);
+                ServerApp.broadcast(message);
                 break;
             case GAME_STATE:
                 ServerApp.broadcast(message);

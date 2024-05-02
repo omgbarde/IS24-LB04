@@ -39,7 +39,7 @@ public class HelloController implements Initializable {
             String usr = username.getText();
             String addr = serverAddress.getText();
             int port = ConnectionUtil.defaultPort;
-            if (checkValid(usr, addr, port)) {
+            if (checkValid(usr, addr, port)){
                 try {
                     port = Integer.parseInt(serverPort.getText());
                 } catch (NumberFormatException e) {
@@ -77,10 +77,12 @@ public class HelloController implements Initializable {
      * method to disable all the input fields while awaiting server response
      */
     private void disableAll() {
-        username.setDisable(true);
-        serverAddress.setDisable(true);
-        serverPort.setDisable(true);
-        playButton.setDisable(true);
+        if (CodexClientApp.isConnected()) {
+            username.setDisable(true);
+            serverAddress.setDisable(true);
+            serverPort.setDisable(true);
+            playButton.setDisable(true);
+        }
     }
 
     /**
@@ -90,6 +92,5 @@ public class HelloController implements Initializable {
     public void setErrorLabel(String error) {
         errorLabel.setText(error);
     }
-
 
 }

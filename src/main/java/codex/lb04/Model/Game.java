@@ -1,10 +1,10 @@
 package codex.lb04.Model;
 
 import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
-import codex.lb04.ServerApp;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -136,7 +136,7 @@ public class Game extends Observable {
      */
     public void addPlayerToLobby(String player) {
         //checks maximum number of clients connected and if username is available
-        if (this.lobby.size() <= 4 && ServerApp.checkUsername(player)) {
+        if (this.lobby.size() <= 4 && checkUsername(player)) {
             this.lobby.add(player);
             notifyObserver(new LoginReply(player, true));
             notifyObserver(new PlayersConnectedMessage("server",getLobby()));
@@ -151,6 +151,7 @@ public class Game extends Observable {
      */
     public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
+        notifyObserver(new LogoutReply(player));
     }
 
 
@@ -282,5 +283,17 @@ public class Game extends Observable {
        // notifyObserver(new WinnerMessage(obj_winners));
     }
 
+    /**
+     * checks if the username is already taken
+     *
+     * @param usr is the username to be checked
+     * @return true if the username is not taken, false otherwise
+     */
+    public boolean checkUsername(String usr) {
+        for (String alreadyInLobby : this.lobby) {
+            if (alreadyInLobby.equals(usr)) return false;
+        }
+        return true;
+    }
 
 }

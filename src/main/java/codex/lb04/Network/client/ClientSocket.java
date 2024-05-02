@@ -26,17 +26,14 @@ public class ClientSocket {
      * @param address is the port address
      * @param port    is the desired port
      */
-    public ClientSocket(String username, String address, int port) throws RuntimeException {
-        try {
+    public ClientSocket(String username, String address, int port) throws IOException {
+
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
             this.messageParser = new ClientParser(this);
             readMessage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getUsername() {

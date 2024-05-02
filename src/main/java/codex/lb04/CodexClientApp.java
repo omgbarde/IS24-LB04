@@ -6,6 +6,8 @@ import codex.lb04.Utils.GraphicUtil;
 import codex.lb04.View.View;
 import javafx.application.Application;
 
+import java.io.IOException;
+
 /**
  * class for the client app launcher
  */
@@ -42,15 +44,29 @@ public class CodexClientApp {
 
 
     public static void setClientSocket(String usr, String addr, int port) {
-        clientSocket = new ClientSocket(usr, addr, port);
+        try {
+            clientSocket = new ClientSocket(usr, addr, port);
+        }catch (IOException e){
+            System.out.println("Connection refused");
+        }
     }
 
     public static void disconnect() {
         clientSocket.disconnect();
     }
 
+    public static boolean isConnected() {
+        return clientSocket != null;
+    }
+
     public static void sendMessage(Message message) {
-        clientSocket.sendMessage(message);
+        try {
+            clientSocket.sendMessage(message);
+
+        }
+        catch (NullPointerException e){
+            System.out.println("No connection available");
+        }
     }
 
 }

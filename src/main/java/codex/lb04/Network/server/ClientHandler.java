@@ -52,12 +52,12 @@ public class ClientHandler implements Runnable {
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
-                    //forward the message to the server
-                    server.onMessageReceived(message);
                     //just check if the message is a login request and set the username
                     if (message.getMessageType() == MessageType.LOGIN_REQUEST && this.username == null) {
                         this.username = message.getUsername();
                     }
+                    //forward the message to the server
+                    server.onMessageReceived(message);
                 }
             }
         } catch (SocketException | EOFException e) {

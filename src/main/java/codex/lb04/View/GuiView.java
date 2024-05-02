@@ -1,6 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Controller.SceneController.HelloController;
 import codex.lb04.Controller.SceneController.LobbyController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +16,13 @@ import java.util.ArrayList;
  */
 public class GuiView extends View {
     private static Stage stageReference;
+    private HelloController helloController;
+    private LobbyController lobbyController;
 
-    public GuiView(Stage stage) {
+    public GuiView(Stage stage ) {
         stageReference = stage;
+        this.helloController =  new HelloController();
+        this.lobbyController = new LobbyController();
     }
 
     /**
@@ -64,6 +69,6 @@ public class GuiView extends View {
 
     @Override
     public void updateList(ArrayList<String> names) {
-        Platform.runLater(()->LobbyController.updateList(names));
+        Platform.runLater(()->lobbyController.updateList(names));
     }
 }
