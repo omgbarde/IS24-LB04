@@ -23,3 +23,7 @@
 - [ ] functioning lobby
 - [x] setup MVC
 - [ ] (almost) robust socket handling
+- [ ] test model
+- [ ] test controller
+- [ ] test observer
+- [ ] final testing and report
