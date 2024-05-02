@@ -42,7 +42,7 @@ public class BoardTest {
         this.CoveredCorner = new Corner(true);
         this.front = new Face(corner1, corner2, corner3, corner4);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
-        this.BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+        this.BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
         this.card = new Card(Color.BLUE, front, back, 1);
         this.card1 = new Card(Color.BLUE, front, back, 1);
         this.card2 = new Card(Color.BLUE, front, back, 1);
@@ -116,7 +116,6 @@ public class BoardTest {
     }
 
 
-
     @Test
     public void getCard() {
         board.placeCard(card, 0, 0);
@@ -176,8 +175,8 @@ public class BoardTest {
         assertNotNull(board.getDeck());
     }
 
-  @Test
-    public void getPoints(){
+    @Test
+    public void getPoints() {
         board.placeCard(card, 0, 0);
         board.pointsUpdate();
         assertEquals((Integer) 1, board.getPoints());
@@ -186,20 +185,40 @@ public class BoardTest {
     // TODO test finalpointsupdate - conviene usare carte specifiche per i test (resource card o gold) al posto della card generica xchè certi metodi sono implementati apposta per gestire casi particolari
     // TODO il test funziona solo partendo dalla carta in posizione 0,0
     @Test
-    public void conditionCheckOnPositionRelatedObjectives(){
+    public void conditionCheckOnPositionRelatedObjectives() {
         board.setCommonObjectives(comm_obj);
-        board.placeCard(card,0,0);
-        board.placeCard(card1,-1,-1);
-        board.placeCard(card2,1,1);
-        assertTrue(board.conditionCheckOnPositionRelatedObjectives(cardOb,card));
-        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb,card1));
-        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb,card2));
+        board.placeCard(card, 0, 0);
+        board.placeCard(card1, -1, -1);
+        board.placeCard(card2, 1, 1);
+        assertTrue(board.conditionCheckOnPositionRelatedObjectives(cardOb, card));
+        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb, card1));
+        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb, card2));
     }
 
     @Test
-    public void checkNumberObjectives(){
+    public void checkNumberObjectives() {
 
     }
+
+    @Test
+    public void isInHand() {
+        board.getHand().add(card);
+        assertTrue(board.isInHand(card));
+        board.getHand().remove(card);
+        assertFalse(board.isInHand(card));
+    }
+
+    @Test
+    public void getHand() {
+        assertNotNull(board.getHand());
+    }
+
+    @Test
+    public void setInitialCard() {
+        board.setInitialCard();
+        assertNotNull(board.getInitialCard());
+    }
+
 
 
 }
