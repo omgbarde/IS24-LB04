@@ -11,6 +11,7 @@ import java.util.Objects;
 
 //TODO implementare win condition
 //TODO implementare ultimo turno
+//TODO notify observer dove necessario
 
 /**
  * This class represents the game
@@ -248,13 +249,14 @@ public class Game extends Observable {
         Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
         for (Player player : players) {
+            player.getBoard().finalPointsUpdate();
             if (player.getBoard().getPoints() > max) {
                 winners.clear();
                 winners.add(player.getUsername());
                 max = player.getBoard().getPoints();
             }
             if(Objects.equals(player.getBoard().getPoints(), max)){
-                winners.add(player.getUsername());
+                winners.add(player.getUsername()); //facendo così si aggiunge due volte un giocatore all'arraylist, perchè appena aggiorni max nell'if sopra entri in questo e di sicuro i max saranno uguali
             }
         }
         ArrayList<String> obj_winners = new ArrayList<>();

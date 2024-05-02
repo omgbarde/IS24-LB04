@@ -40,7 +40,7 @@ public class Board {
         this.deck = Deck.getInstance();
         //game
         Game game = Game.getInstance();
-        this.CommonObjectives = game.getCommonObjectives(); //TODO doesn't give objectives
+        this.CommonObjectives = game.getCommonObjectives();
         this.hand = new ArrayList<>();
         this.Insects = 0;
         this.Animals = 0;
@@ -153,7 +153,6 @@ public class Board {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
-        //TODO ask player to choose a side of the card
     }
 
     /**
