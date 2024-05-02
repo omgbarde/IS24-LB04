@@ -48,7 +48,7 @@ public class BoardTest {
         this.card1 = new Card(Color.BLUE, front, back, 1);
         this.card2 = new Card(Color.BLUE, front, back, 1);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
-        this.cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
+        this.cardOb2 = new ObjectiveCard(Color.PURPLE, BlankFace, BlankFace, 2, 90);
         //this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);
         card.flip();
         card1.flip();

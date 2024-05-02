@@ -247,8 +247,10 @@ public class Game extends Observable {
     public ArrayList<String> checkWinner() {
         Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
+        ArrayList<String> obj_winners = new ArrayList<>();
         for (Player player : players) {
             player.getBoard().finalPointsUpdate();
+            //System.out.println("Player " + player.getUsername() + " points after update: " + player.getBoard().getPoints());
             if (player.getBoard().getPoints() > max) {
                 winners.clear();
                 winners.add(player.getUsername());
@@ -258,18 +260,24 @@ public class Game extends Observable {
                 winners.add(player.getUsername());
             }
         }
-        ArrayList<String> obj_winners = new ArrayList<>();
-        Integer obj = 0;
-        for(String p : winners){
-            if(getPlayerByName(p).getBoard().checkNumberObjectives() > obj){
-                obj_winners.clear();
-                obj_winners.add(p);
-                obj = getPlayerByName(p).getBoard().checkNumberObjectives();
+        // cosí facendo se ho un solo vincitore non faccio il controllo
+        if (winners.size() > 1) {
+            Integer obj = 0;
+            for (String p : winners) {
+                //System.out.println("Player " + p + " number of objectives: " + getPlayerByName(p).getBoard().checkNumberObjectives());
+                if (getPlayerByName(p).getBoard().checkNumberObjectives() > obj) {
+                    obj_winners.clear();
+                    obj_winners.add(p);
+                    obj = getPlayerByName(p).getBoard().checkNumberObjectives();
+                }
+                if (Objects.equals(getPlayerByName(p).getBoard().getPoints(), obj)) {
+                    obj_winners.add(p);
+                }
             }
-            if(Objects.equals(getPlayerByName(p).getBoard().getPoints(), obj)){
-                obj_winners.add(p);
-            }
+        }else{
+            obj_winners = winners;
         }
+        //System.out.println("Winners: " + obj_winners);
         return obj_winners;
        // notifyObserver(new WinnerMessage(obj_winners));
     }

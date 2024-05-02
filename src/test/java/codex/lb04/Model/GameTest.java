@@ -147,7 +147,7 @@ public class GameTest {
         assertFalse(game.getLobby().contains("test"));
     }
 //TODO mettere a posto il test
-   /* @Test
+   @Test
     public void checkWinner(){
         player.getBoard().setSecretObjective(0);
         player1.getBoard().setSecretObjective(1);
@@ -155,7 +155,7 @@ public class GameTest {
         player.getBoard().setPoints(10);
         player1.getBoard().setPoints(5);
         assertTrue(game.checkWinner().contains(player.getUsername()));
-    }*/
+    }
 
 
 }
