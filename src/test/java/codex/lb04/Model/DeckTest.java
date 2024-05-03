@@ -166,13 +166,6 @@ public class DeckTest {
         assertTrue(changed);
     }
 
-    @Test
-    public void SecretObjectivesChoice() {
-        ArrayList<ObjectiveCard> obj_cards = new ArrayList<ObjectiveCard>();
-        ObjectiveCard obj_1 = deck.getObjectiveCards().get(1);
-        obj_cards.add(obj_1);
-        assertEquals(obj_1, deck.SecretObjectivesChoice(1));
-    }
 
     @Test
     public void drawObjective() {

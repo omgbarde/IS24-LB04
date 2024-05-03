@@ -60,6 +60,7 @@ public class Game extends Observable {
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().drawResourceCard(pick);
+
     }
 
     public InitialCard getInitialCard(String username) {
@@ -285,7 +286,7 @@ public class Game extends Observable {
         }
         //System.out.println("Winners: " + obj_winners);
         return obj_winners;
-       // notifyObserver(new WinnerMessage(obj_winners));
+        // notifyObserver(new WinnerMessage(obj_winners));
     }
 
     /**

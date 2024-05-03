@@ -15,6 +15,7 @@ public class Board {
     //objectives
     private ArrayList<ObjectiveCard> CommonObjectives;
     private ObjectiveCard secretObjective;
+    private ArrayList<ObjectiveCard> secretObjectiveToPick;
     //cards
     private ArrayList<Card> hand;
     private InitialCard initialCard;
@@ -41,6 +42,9 @@ public class Board {
         //game
         Game game = Game.getInstance();
         this.CommonObjectives = game.getCommonObjectives();
+        this.secretObjectiveToPick = new ArrayList<>();
+        this.secretObjectiveToPick.add(this.deck.drawObjective());
+        this.secretObjectiveToPick.add(this.deck.drawObjective());
         this.hand = new ArrayList<>();
         this.Insects = 0;
         this.Animals = 0;
@@ -185,13 +189,25 @@ public class Board {
         this.CommonObjectives = CommonObjectives;
     }
 
-
     /**
      * This method sets the secret objective of the player
      * @param pick the secret objective to set
      */
     public void setSecretObjective(Integer pick) {
-        this.secretObjective = deck.SecretObjectivesChoice(pick);
+        if (secretObjectiveToPick.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        switch (pick) {
+            case 0:
+                this.secretObjective = this.secretObjectiveToPick.get(0);
+                break;
+            case 1:
+                this.secretObjective = this.secretObjectiveToPick.get(1);
+                break;
+            default:
+                System.out.println("invalid choice");
+                break;
+        }
     }
 
     /**
@@ -667,5 +683,8 @@ public class Board {
         return PointsByGoldCards;
     }
 
+    public ArrayList<ObjectiveCard> getSecretObjectiveToPick() {
+        return secretObjectiveToPick;
+    }
 
 }

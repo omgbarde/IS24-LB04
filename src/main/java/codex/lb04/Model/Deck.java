@@ -104,30 +104,6 @@ public class Deck {
         VisibleGoldCards.add(toDraw);
     }
 
-    /**
-     * this method allows the player to choose between two secret objectives
-     * @param choice the choice of the player
-     * @return the card chosen
-     */
-    public ObjectiveCard SecretObjectivesChoice(Integer choice) {
-        if (objectiveCards.isEmpty()) {
-            throw new IllegalStateException("Deck is empty");
-        }
-        ObjectiveCard toDraw;
-        switch (choice) {
-            case 0:
-                toDraw = this.objectiveCards.getFirst();
-                this.objectiveCards.removeFirst();
-                return toDraw;
-            case 1:
-                toDraw = this.objectiveCards.get(1);
-                this.objectiveCards.remove(1);
-                return toDraw;
-            default:
-                System.out.println("invalid choice");
-                return null;
-        }
-    }
 
     /**
      * this method draws a card from the deck of objectives
