@@ -27,10 +27,6 @@ public class Deck {
         VisibleGoldCards = new ArrayList<>();
         VisibleResourceCards = new ArrayList<>();
         initializeDeck();
-        this.shuffleResources();
-        this.shuffleGold();
-        this.shuffleObjectives();
-        this.shuffleInitial();
     }
 
     /**
@@ -45,7 +41,10 @@ public class Deck {
         objectiveCards = deckBuilder.createObjectiveCards();
         VisibleGoldCards = setVisibleGoldCards();
         VisibleResourceCards = setVisibleResourceCards();
-
+        //this.shuffleResources();
+        //this.shuffleGold();
+        //this.shuffleObjectives();
+        //this.shuffleInitial();
     }
 
     /**

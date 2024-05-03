@@ -24,7 +24,7 @@ public class Game extends Observable {
     private GameState gameState = GameState.LOGIN;
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
-    private int numPlayers;
+    private int numPlayers = 4;
 
     /**
      * Private constructor to prevent instantiation from outside the class
