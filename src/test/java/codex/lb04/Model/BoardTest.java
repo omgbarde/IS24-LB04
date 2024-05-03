@@ -258,7 +258,7 @@ public class BoardTest {
         assertEquals((Integer) 5, board.getPoints());
     }
 
-
+    
 
 
 

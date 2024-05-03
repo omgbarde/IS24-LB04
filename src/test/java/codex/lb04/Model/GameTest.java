@@ -129,12 +129,9 @@ public class GameTest {
 
     @Test
     public void setSecretObjectives(){
-        ObjectiveCard card1 = deck.getObjectiveCards().getFirst();
-        ObjectiveCard card2 = deck.getObjectiveCards().get(1);
+        ObjectiveCard card1 = player.getBoard().getSecretObjectiveToPick().get(0);
         game.setSecretObjectives("test", 0);
         assertEquals(card1,player.getBoard().getSecretObjective());
-        game.setSecretObjectives("test", 0); //to zero because first card was removed before by the same method
-        assertEquals(card2,player.getBoard().getSecretObjective());
     }
 
     @Test
