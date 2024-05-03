@@ -284,4 +284,9 @@ public class GameController {
     public TurnController getTurnController() {
         return turnController;
     }
+
+    public GameController setNumPlayers(int numPlayers) {
+        this.game.setNumPlayers(numPlayers);
+        return this;
+    }
 }

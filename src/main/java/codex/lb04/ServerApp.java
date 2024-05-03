@@ -11,6 +11,7 @@ import codex.lb04.Utils.ConnectionUtil;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,10 @@ import java.util.List;
  */
 public class ServerApp implements Runnable {
     //default port
-    private static int port = ConnectionUtil.defaultPort;
+    private int port;
+    private String address;
     private ServerSocket serverSocket;
+    private int numPlayers;
     //list of all client handlers
     private static List<ClientHandler> clientHandlerList = new ArrayList<>();
     //game controller to manage the game
@@ -47,9 +50,18 @@ public class ServerApp implements Runnable {
     @Override
     public void run() {
         try {
-            serverSocket = new ServerSocket(port);
+            //TODO: dice sempre already bound e non mi fa scegliere l'indirizzo
+            serverSocket = new ServerSocket(ConnectionUtil.defaultPort);
+            serverSocket.setReuseAddress(true);
+            try {
+                serverSocket.bind(new java.net.InetSocketAddress(address, port));
+
+            }
+            catch (SocketException e){
+                print("Port already in use, using default port");
+            }
             print("Server is running:\n" + serverSocket);
-            gameController = GameController.getInstance();
+            gameController = GameController.getInstance().setNumPlayers(numPlayers);
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());
@@ -97,21 +109,24 @@ public class ServerApp implements Runnable {
 
     /**
      * starts the server on a predefined port, if no port is provided in the args, the default port is used
-     * @param args expects a port number
+     *
+     * @param address is the address of the server
+     * @param port is the port of the server
+     * @param numPlayers is the number of players
      */
-    public static void main(String[] args) {
-        try {
-            port = Integer.parseInt(args[0]);
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            print("port reading error, default port is used");
-        }
-        if (ConnectionUtil.isValidPort(port)) {
-            System.out.println("using port " + port);
+    public ServerApp(String address, int port, int numPlayers) {
+        if (checkValid(port, numPlayers)){
+            this.address = address;
+            this.port = port;
+            this.numPlayers = numPlayers;
+            new Thread(this).start();
         } else {
-            print("invalid port, default port is used");
+            print("not valid port or number of players");
         }
+    }
 
-        new Thread(new ServerApp()).start();
+    private boolean checkValid(int port, int numPlayers) {
+        return (ConnectionUtil.isValidPort(port) &&  numPlayers >= 2 && numPlayers <= 4);
     }
 
     public void onMessageReceived(Message receivedMessage) {

@@ -1,10 +1,11 @@
 package codex.lb04.Controller.SceneController;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Message.GameMessage.StartGameMessage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ public class LobbyController implements Initializable {
     private Button playButton;
     @FXML
     private Button backButton;
-    //TODO: vede sempre nameList nullo :(
+
+    //TODO: vede sempre lobbylabel nullo :(
     @FXML
-    private ListView<String> nameList;
+    private Label lobbyLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -28,10 +30,16 @@ public class LobbyController implements Initializable {
             //disconnect from server
             CodexClientApp.disconnect();
         });
+        playButton.setOnAction(actionEvent -> {
+            CodexClientApp.sendMessage(new StartGameMessage(""));
+        });
 
     }
 
     public void updateList(ArrayList<String> names){
-        nameList.getItems().setAll(names);
+        lobbyLabel.setText("");
+        for (String name : names) {
+            lobbyLabel.setText(lobbyLabel.getText() + "\n" + name);
+        }
     }
 }

@@ -5,6 +5,6 @@ import codex.lb04.Message.MessageType;
 
 public class StartGameMessage extends Message {
     public StartGameMessage(String username) {
-        super(username, MessageType.START_GAME);
+        super(" ", MessageType.START_GAME);
     }
 }

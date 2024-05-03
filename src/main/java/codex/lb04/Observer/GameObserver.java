@@ -1,5 +1,6 @@
 package codex.lb04.Observer;
 
+import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
@@ -32,6 +33,7 @@ public class GameObserver implements Observer {
             case PICK_SECRET_OBJECTIVE:
                 break;
             case START_GAME:
+                GameController.getInstance().onMessageReceived(message);
                 break;
             case END_TURN:
                 break;

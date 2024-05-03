@@ -14,6 +14,7 @@
 - [ ] ingame chat 
 
 ## Progress
+(methods covered)
 - test model:
 
   ✅✅✅✅✅✅✅✅✅🔲 93% 

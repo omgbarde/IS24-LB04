@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -23,6 +24,7 @@ public class Game extends Observable {
     private GameState gameState = GameState.LOGIN;
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+    private int numPlayers;
 
     /**
      * Private constructor to prevent instantiation from outside the class
@@ -136,10 +138,13 @@ public class Game extends Observable {
      */
     public void addPlayerToLobby(String player) {
         //checks maximum number of clients connected and if username is available
-        if (this.lobby.size() <= 4 && checkUsername(player)) {
+        if (this.lobby.size() < numPlayers && checkUsername(player)) {
             this.lobby.add(player);
             notifyObserver(new LoginReply(player, true));
             notifyObserver(new PlayersConnectedMessage("server",getLobby()));
+            if(this.lobby.size() == numPlayers){
+                notifyObserver(new StartGameMessage("server"));
+            }
         } else {
             notifyObserver(new LoginReply(player, false));
         }
@@ -296,4 +301,11 @@ public class Game extends Observable {
         return true;
     }
 
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
 }

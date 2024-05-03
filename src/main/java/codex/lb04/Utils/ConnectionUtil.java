@@ -1,7 +1,9 @@
 package codex.lb04.Utils;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class ConnectionUtil {
-    public static String host = "localhost";
     public static int defaultPort = 49153;
 
     /**
@@ -22,5 +24,15 @@ public class ConnectionUtil {
     public static boolean isValidPort(int port) {
         //ports from 49152 to 65535 are cosidered free to use
         return port >= 49152 && port <= 65535;
+    }
+
+    public static String getLocalHost() {
+        String localhost = null;
+        try {
+            localhost = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+        return localhost;
     }
 }
