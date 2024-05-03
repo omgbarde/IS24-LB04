@@ -99,6 +99,7 @@ public class Board {
 
     }
 //TODO fix the canBePlaced method
+
     /**
      * This method tells if a card can be placed with certain coordinates
      *
@@ -123,35 +124,42 @@ public class Board {
             }
         }
         //checks if the card can be placed in the specified coordinates
-        if(getCard(x,y)!=null){
+        if (getCard(x, y) == null) {
+            if(playedCards.isEmpty()){
+                return true;
+            }
+            if (getCard(x + 1, y + 1) == null && getCard(x + 1, y - 1) == null && getCard(x - 1, y + 1) == null && getCard(x - 1, y - 1) == null) {
+                return false;
+            }
+            for (Card card : playedCards) {
+                if (card.getX() == x + 1 && card.getY() == y + 1) {
+                    if (card.getShownFace().getLowerLeft().isCovered()) {
+                        return false;
+                    }
+                }
+                if (card.getX() == x + 1 && card.getY() == y - 1) {
+                    if (card.getShownFace().getUpperLeft().isCovered()) {
+                        return false;
+                    }
+                }
+                if (card.getX() == x - 1 && card.getY() == y + 1) {
+                    if (card.getShownFace().getLowerRight().isCovered()) {
+                        return false;
+                    }
+                }
+                if (card.getX() == x - 1 && card.getY() == y - 1) {
+                    if (card.getShownFace().getUpperRight().isCovered()) {
+                        return false;
+                    }
+                }
+                //if(x!= card.getX()+1 && y!= card.getY()+1 && x!= card.getX()-1 && y!= card.getY()-1){
+                //   return false;
+                //}
+            }
+            return true;
+        } else {
             return false;
         }
-        for (Card card : playedCards) {
-            if (card.getX() == x + 1 && card.getY() == y + 1) {
-                if (card.getShownFace().getLowerLeft().isCovered()) {
-                    return false;
-                }
-            }
-            if (card.getX() == x + 1 && card.getY() == y - 1) {
-                if (card.getShownFace().getUpperLeft().isCovered()) {
-                    return false;
-                }
-            }
-            if (card.getX() == x - 1 && card.getY() == y + 1) {
-                if (card.getShownFace().getLowerRight().isCovered()) {
-                    return false;
-                }
-            }
-            if (card.getX() == x - 1 && card.getY() == y - 1) {
-                if (card.getShownFace().getUpperRight().isCovered()) {
-                    return false;
-                }
-            }
-            //if(x!= card.getX()+1 && y!= card.getY()+1 && x!= card.getX()-1 && y!= card.getY()-1){
-             //   return false;
-            //}
-        }
-        return true;
     }
 
     /**
@@ -424,7 +432,7 @@ public class Board {
                             card.setUsedForPositionalObjectives(true);
                             return true;
                         }
-                }
+                    }
                 }
                 break;
             case 90:
@@ -543,10 +551,11 @@ public class Board {
         }
         return cnt;
     }
+
     /**
      * this method set num points to the board of a player
      */
-    public void setPoints(Integer num){
+    public void setPoints(Integer num) {
         this.Points = num;
     }
 

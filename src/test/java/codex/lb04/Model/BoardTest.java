@@ -18,12 +18,17 @@ public class BoardTest {
     private Card card1;
     private Card card2;
     private Face front;
+    private Face front2;
     private Face back;
     private Face BlankFace;
     private Corner corner1;
     private Corner corner2;
     private Corner corner3;
     private Corner corner4;
+    private Corner corner5;
+    private Corner corner6;
+    private Corner corner7;
+    private Corner corner8;
     private Corner EmptyCorner;
     private Corner CoveredCorner;
     private ObjectiveCard cardOb;
@@ -39,13 +44,18 @@ public class BoardTest {
         this.corner2 = new Corner(ResourceType.MUSHROOM);
         this.corner3 = new Corner(ResourceType.INSECT);
         this.corner4 = new Corner(ResourceType.LEAF);
+        this.corner5 = new Corner(ResourceType.ANIMAL);
+        this.corner6 = new Corner(ResourceType.MUSHROOM);
+        this.corner7 = new Corner(ResourceType.INSECT);
+        this.corner8 = new Corner(ResourceType.LEAF);
         this.EmptyCorner = new Corner(false);
         this.CoveredCorner = new Corner(true);
         this.front = new Face(corner1, corner2, corner3, corner4);
+        this.front2 = new Face(corner5, corner6, corner7, corner8);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         this.BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
         this.card = new Card(Color.BLUE, front, back, 1);
-        this.card1 = new Card(Color.BLUE, front, back, 1);
+        this.card1 = new Card(Color.BLUE, front2, back, 1);
         this.card2 = new Card(Color.BLUE, front, back, 1);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.cardOb2 = new ObjectiveCard(Color.PURPLE, BlankFace, BlankFace, 2, 90);
@@ -112,14 +122,14 @@ public class BoardTest {
         board.placeCard(card, 0, 0);
         assertEquals((Integer) 1, board.getCornerCovered(card, 1, 1));
     }
-//TODO fix the method for the test
+
     @Test
     public void canBePlaced() {
         board.placeCard(card, 0, 0);
         board.placeCard(card1, 1, 1);
         assertFalse(board.canBePlaced(1, 1, card2));
-        //assertFalse(board.canBePlaced(5, 5, card2));
-        //assertTrue(board.canBePlaced(2, 2, card2));
+        assertFalse(board.canBePlaced(5, 5, card2));
+        assertTrue(board.canBePlaced(2, 2, card2));
     }
 
 
