@@ -9,9 +9,9 @@ import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +20,12 @@ import java.util.List;
  */
 public class ServerApp implements Runnable {
     //default port
-    private int port;
-    private String address;
+    private static int port;
     private ServerSocket serverSocket;
-    private int numPlayers;
     //list of all client handlers
     private static List<ClientHandler> clientHandlerList = new ArrayList<>();
-    //game controller to manage the game
-    private GameController gameController;
+
+    private GameController gameController = GameController.getInstance();
 
     /**
      * sends a message to a specific client
@@ -50,18 +48,8 @@ public class ServerApp implements Runnable {
     @Override
     public void run() {
         try {
-            //TODO: dice sempre already bound e non mi fa scegliere l'indirizzo
-            serverSocket = new ServerSocket(ConnectionUtil.defaultPort);
-            serverSocket.setReuseAddress(true);
-            try {
-                serverSocket.bind(new java.net.InetSocketAddress(address, port));
-
-            }
-            catch (SocketException e){
-                print("Port already in use, using default port");
-            }
+            serverSocket = new ServerSocket(port, 4, InetAddress.getLocalHost());
             print("Server is running:\n" + serverSocket);
-            gameController = GameController.getInstance().setNumPlayers(numPlayers);
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());
@@ -102,27 +90,27 @@ public class ServerApp implements Runnable {
      * @param clientHandlerName is the name of the client handler to be removed
      */
     public void removeClientHandler(String clientHandlerName) {
-        clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
-        GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandlerName + "disconnected");
-        broadcast(genericMessage);
+        if(clientHandlerList != null) {
+            clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
+            GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandlerName + "disconnected");
+            broadcast(genericMessage);
+        }
     }
 
     /**
      * starts the server on a predefined port, if no port is provided in the args, the default port is used
      *
-     * @param address is the address of the server
-     * @param port is the port of the server
-     * @param numPlayers is the number of players
      */
-    public ServerApp(String address, int port, int numPlayers) {
-        if (checkValid(port, numPlayers)){
-            this.address = address;
-            this.port = port;
-            this.numPlayers = numPlayers;
-            new Thread(this).start();
-        } else {
-            print("not valid port or number of players");
+    public static void main(String[] args) {
+        port = ConnectionUtil.defaultPort;
+        if (args.length > 0) {
+            try {
+                port = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                print("Invalid port, using default port");
+            }
         }
+        new Thread(new ServerApp()).start();
     }
 
     private boolean checkValid(int port, int numPlayers) {

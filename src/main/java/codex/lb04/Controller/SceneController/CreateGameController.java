@@ -1,7 +1,7 @@
 package codex.lb04.Controller.SceneController;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.ServerApp;
+import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,13 +11,13 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-public class ServerSettingsController implements Initializable {
+public class CreateGameController implements Initializable {
     @FXML
     private Label localHostLabel;
     @FXML
-    private TextField serverPortChoice;
-    @FXML
     private TextField numPlayersChoice;
+    @FXML
+    private TextField usernameField;
     @FXML
     private Button startServerButton;
     @FXML
@@ -26,12 +26,6 @@ public class ServerSettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         localHostLabel.setText(ConnectionUtil.getLocalHost().toString());
         startServerButton.setOnAction(actionEvent -> {
-            int port = ConnectionUtil.defaultPort;
-            try {
-                port = Integer.parseInt(serverPortChoice.getText());
-            } catch (NumberFormatException e) {
-                setErrorLabel("Using default port");
-            }
             int num = 0;
             try {
                 num = Integer.parseInt(numPlayersChoice.getText());
@@ -39,27 +33,31 @@ public class ServerSettingsController implements Initializable {
                 setErrorLabel("Enter a valid number of players");
                 return;
             }
-            if (checkValid(port, num)) {
-                new ServerApp(ConnectionUtil.getLocalHost(),port, num);
+                String usr = usernameField.getText();
+            if (checkValid(num,usr)) {
                 disableAll();
-                CodexClientApp.getView().setTitle("Codex!");
-                CodexClientApp.getView().switchScene("login");
+                try {
+                    CodexClientApp.setClientSocket(usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
+                } catch (RuntimeException e) {
+                    setErrorLabel("Server not available");
+                    return;
                 }
-                else {
-                    setErrorLabel("Enter a free port");
-                }
-            });
+                CodexClientApp.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+            }
+            else {
+                setErrorLabel("Invalid input");
+            }
+        });
 
     }
 
     private void disableAll() {
-        serverPortChoice.setDisable(true);
         numPlayersChoice.setDisable(true);
         startServerButton.setDisable(true);
     }
 
-    private boolean checkValid(int port, int num) {
-        return (ConnectionUtil.isValidPort(port) &&  num >= 2 && num <= 4);
+    private boolean checkValid(int num, String usr) {
+        return (usr != null &&  num >= 2 && num <= 4);
     }
 
     private void setErrorLabel(String message) {

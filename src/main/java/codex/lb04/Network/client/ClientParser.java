@@ -33,7 +33,7 @@ public class ClientParser {
                 }
                 break;
             case PLAYERS_CONNECTED:
-                CodexClientApp.getView().updateList(((PlayersConnectedMessage)input).getLobby());
+                CodexClientApp.getView().updateListLater(((PlayersConnectedMessage)input).getLobby());
                 break;
             case LOGOUT_REPLY:
                 CodexClientApp.getView().switchScene("Hello");

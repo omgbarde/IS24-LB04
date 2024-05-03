@@ -97,6 +97,10 @@ public class GameController {
     private void inLoginState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
+            case CREATE_GAME:
+                game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
+                game.addPlayerToLobby(usr);
+                break;
             case LOGIN_REQUEST:
                 game.addPlayerToLobby(usr);
                 break;
