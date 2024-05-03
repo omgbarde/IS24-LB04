@@ -19,4 +19,5 @@ public abstract class View {
 
     public abstract void updateList(ArrayList<String> names);
 
+    public abstract void updateListLater(ArrayList<String> names);
 }

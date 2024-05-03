@@ -23,7 +23,7 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createGameButton.setOnAction(actionEvent -> {
             CodexClientApp.getView().setTitle("Codex! - Create Game");
-            CodexClientApp.getView().switchScene("ServerSettings");
+            CodexClientApp.getView().switchScene("CreateGame");
         });
 
         joinGameButton.setOnAction(actionEvent -> {

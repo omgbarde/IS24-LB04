@@ -16,8 +16,6 @@ public class LobbyController implements Initializable {
     private Button playButton;
     @FXML
     private Button backButton;
-
-    //TODO: vede sempre lobbylabel nullo :(
     @FXML
     private Label lobbyLabel;
 
@@ -37,9 +35,13 @@ public class LobbyController implements Initializable {
     }
 
     public void updateList(ArrayList<String> names){
-        lobbyLabel.setText("");
+
+        assert this.lobbyLabel != null;
         for (String name : names) {
-            lobbyLabel.setText(lobbyLabel.getText() + "\n" + name);
+            String txt = this.lobbyLabel.getText();
+            assert txt != null;
+            txt+=  "\n" + name;
+            lobbyLabel.setText(txt);
         }
     }
 }

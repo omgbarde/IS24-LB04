@@ -21,4 +21,8 @@ public class CliView extends View {
     public void updateList(ArrayList<String> names) {
 
     }
+    @Override
+    public void updateListLater(ArrayList<String> names) {
+
+    }
 }
