@@ -143,6 +143,13 @@ public class GameController {
     private void inGameState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
+            case PICK_INITIAL_CARD_SIDE:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);
+                } else {
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input"), usr);
+                }
+                break;
             case PICK_SECRET_OBJECTIVE:
                 if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr)) {
                     setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);
@@ -153,6 +160,7 @@ public class GameController {
             case PICK_RESOURCE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
+                    turnController.setDrawnCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input or initial card side/secret objective not chosen"), usr);
                 }
@@ -160,20 +168,15 @@ public class GameController {
             case PICK_GOLD_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
+                    turnController.setDrawnCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input or initial card side/secret objective not chosen"), usr);
-                }
-                break;
-            case PICK_INITIAL_CARD_SIDE:
-                if (inputController.verifyReceivedData(receivedMessage)) {
-                    pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);
-                } else {
-                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input"), usr);
                 }
                 break;
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
+                    turnController.setPlacedCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid card placement or initial card side/secret objective not chosen"), usr);
                 }
@@ -186,7 +189,7 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (turnController.isDrawnCard() && turnController.isPlacedCard()) {
+                if (turnController.isDrawnCard() && turnController.isPlacedCard()) { //TODO try to end turn when the player hasn't placed a card or drawn a card ye in simulation game test
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
                         endGame = true;

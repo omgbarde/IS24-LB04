@@ -108,16 +108,18 @@ public class GameControllerTest {
 
         Game game = Game.getInstance();
 
-        //first player picks his secret objective
+        //first player picks the side of the initial card
         String activePlayer = gameController.getTurnController().getActivePlayer();
+        PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
+        gameController.onMessageReceived(pick1);
+        assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+
+        //first player picks his secret objective
         PickSecretObjectiveMessage secret = new PickSecretObjectiveMessage(activePlayer, 0);
         gameController.onMessageReceived(secret);
         assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
 
-        //first player picks the side of the initial card
-        PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
-        gameController.onMessageReceived(pick1);
-        assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
 
         //message from non-active player doesn't modify his board
         PickInitialCardSideMessage pick2 = new PickInitialCardSideMessage(player2, game.getPlayerByName(player2).getBoard().getInitialCard());
@@ -159,15 +161,15 @@ public class GameControllerTest {
         activePlayer = player2;
 
         //second player turn
-        //second player picks his secret objective
-        secret = new PickSecretObjectiveMessage(activePlayer, 0);
-        gameController.onMessageReceived(secret);
-        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
-
         //second player picks the side of the initial card
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+        //second player picks his secret objective
+        secret = new PickSecretObjectiveMessage(activePlayer, 0);
+        gameController.onMessageReceived(secret);
+        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
 
         //second player places a card
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
@@ -189,15 +191,15 @@ public class GameControllerTest {
         activePlayer = player3;
 
         //third player turn
-        //third player picks his secret objective
-        secret = new PickSecretObjectiveMessage(activePlayer, 0);
-        gameController.onMessageReceived(secret);
-        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
-
         //third player picks the side of the initial card
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+        //third player picks his secret objective
+        secret = new PickSecretObjectiveMessage(activePlayer, 0);
+        gameController.onMessageReceived(secret);
+        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
 
         //third player places a card
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
@@ -219,15 +221,15 @@ public class GameControllerTest {
         activePlayer = player4;
 
         //fourth player turn
-        //fourth player picks his secret objective
-        secret = new PickSecretObjectiveMessage(activePlayer, 0);
-        gameController.onMessageReceived(secret);
-        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
-
         //fourth player picks the side of the initial card
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+        //fourth player picks his secret objective
+        secret = new PickSecretObjectiveMessage(activePlayer, 0);
+        gameController.onMessageReceived(secret);
+        assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
 
         //fourth player places a card
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);

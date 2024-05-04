@@ -69,6 +69,8 @@ public class TurnController {
      * method to set the next player active player and change turn
      */
     public void changeTurn() {
+        setDrawnCard(false);
+        setPlacedCard(false);
         activePlayer = playersQueueIterator.next();
         ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);
     }
