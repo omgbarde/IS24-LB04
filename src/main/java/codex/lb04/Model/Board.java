@@ -32,6 +32,12 @@ public class Board {
     //points
     private Integer Points;
     private Integer PointsByGoldCards;
+    //boolean to check if the player chose the secret objective
+    private boolean secretObjectiveChosen = false;
+    //boolean to check if the player chose the initial card
+    private boolean initialCardChosen = false;
+
+
 
     /**
      * Default constructor
@@ -39,7 +45,6 @@ public class Board {
 
     public Board() {
         this.deck = Deck.getInstance();
-        //game
         Game game = Game.getInstance();
         this.CommonObjectives = game.getCommonObjectives();
         this.secretObjectiveToPick = new ArrayList<>();
@@ -155,9 +160,6 @@ public class Board {
                         return false;
                     }
                 }
-                //if(x!= card.getX()+1 && y!= card.getY()+1 && x!= card.getX()-1 && y!= card.getY()-1){
-                //   return false;
-                //}
             }
             return true;
         } else {
@@ -199,9 +201,11 @@ public class Board {
         switch (pick) {
             case 0:
                 this.secretObjective = this.secretObjectiveToPick.get(0);
+                secretObjectiveChosen = true;
                 break;
             case 1:
                 this.secretObjective = this.secretObjectiveToPick.get(1);
+                secretObjectiveChosen = true;
                 break;
             default:
                 System.out.println("invalid choice");
@@ -686,4 +690,15 @@ public class Board {
         return secretObjectiveToPick;
     }
 
+    public boolean isInitialCardChosen() {
+        return initialCardChosen;
+    }
+
+    public boolean isSecretObjectiveChosen() {
+        return secretObjectiveChosen;
+    }
+
+    public void setInitialCardChosen(boolean initialCardChosen) {
+        this.initialCardChosen = initialCardChosen;
+    }
 }

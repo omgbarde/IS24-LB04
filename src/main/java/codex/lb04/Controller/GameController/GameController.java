@@ -24,6 +24,7 @@ public class GameController {
     private boolean endGame = false;
     private int countDown = -1;
     private ArrayList<String> winners;
+    private boolean EndGame = false;
 
     /**
      * Singleton instance method
@@ -136,63 +137,67 @@ public class GameController {
 
 
     /**
-     * handles the messages received when the game is in progress
+     * handles the messages received only from the active player when the game is in progress
      * @param receivedMessage Message from Active Player.
      */
     private void inGameState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
             case PICK_SECRET_OBJECTIVE:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr)) {
                     setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "choose the initial card face first"), usr);
                 }
                 break;
             case PICK_RESOURCE_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input or initial card side/secret objective not chosen"), usr);
                 }
                 break;
             case PICK_GOLD_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input or initial card side/secret objective not chosen"), usr);
                 }
                 break;
             case PICK_INITIAL_CARD_SIDE:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid card placement"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input"), usr);
                 }
                 break;
             case PLACE_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid card placement"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid card placement or initial card side/secret objective not chosen"), usr);
                 }
                 break;
             case FLIP_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     flipCardHandler((FlipCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "can't be flipped"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "can't be flipped"), usr);
                 }
                 break;
             case END_TURN:
-                if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
-                    game.setGameState(GameState.END_GAME);
-                    triggerEndGame();
+                if (turnController.isDrawnCard() && turnController.isPlacedCard()) {
+                    if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
+                        game.setGameState(GameState.END_GAME);
+                        endGame = true;
+                        triggerEndGame();
+                    }
+                    turnController.changeTurn();
+                }else {
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "finish turn actions first (place & draw a card)"), usr);
                 }
-                turnController.changeTurn();
                 break;
             case LOGOUT_REQUEST:
-                //server.print("user wants to logout: " + getUsername());
                 ServerApp.sendMessageToClient(new OkMessage(), usr);
                 game.removePlayer(usr);
                 break;
@@ -206,21 +211,20 @@ public class GameController {
     }
 
 
+    /**
+     * handles the messages received only from the active player when the game is in end game state
+     * @param receivedMessage Message from Active Player.
+     */
     private void inEndGameState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
+
+        //no need to check if initial card is placed or secret objective is chosen because they have to in order to get to endgame state
         switch (receivedMessage.getMessageType()) {
-            case PICK_SECRET_OBJECTIVE:
-                if (inputController.verifyReceivedData(receivedMessage)) {
-                    setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);
-                } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
-                }
-                break;
             case PICK_RESOURCE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "invalid input"), usr);
                 }
                 break;
             case PICK_GOLD_CARD:
@@ -283,6 +287,13 @@ public class GameController {
         endGame = true;
     }
 
+    public boolean isInitCardPlaced(String player) {
+        return game.getPlayerByName(player).getBoard().isInitialCardChosen();
+    }
+
+    public boolean isSecretObjectiveChosen(String player) {
+        return game.getPlayerByName(player).getBoard().isSecretObjectiveChosen();
+    }
 
     /**
      * Starts the game ,creates the players and personal boards
@@ -340,8 +351,10 @@ public class GameController {
         if (!game.getPlayerByName(username).getBoard().getInitialCard().getShownFace().equals(side)) {
             game.getPlayerByName(username).getBoard().getInitialCard().flip();
             game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard(), 0, 0);
+            game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
         } else {
             game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard(), 0, 0);
+            game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
         }
     }
 

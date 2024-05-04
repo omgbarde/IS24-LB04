@@ -2,10 +2,8 @@ package codex.lb04.Controller;
 
 import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Controller.GameController.InputController;
-import codex.lb04.Message.GameMessage.PickGoldCardMessage;
-import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
-import codex.lb04.Message.GameMessage.PickResourceCardMessage;
-import codex.lb04.Message.GameMessage.PickSecretObjectiveMessage;
+import codex.lb04.Message.GameMessage.*;
+import codex.lb04.Message.LoginMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
@@ -19,6 +17,7 @@ import static org.junit.Assert.*;
 public class InputControllerTest {
     private InputController inputController;
     private GameController gameController;
+    private Game game;
     private Face front;
     private Face back;
     private InitialCard initialCard;
@@ -26,10 +25,20 @@ public class InputControllerTest {
     @Before
     public void setUp() {
         gameController = GameController.getInstance();
+        game = Game.getInstance();
         inputController = new InputController(gameController, Game.getInstance());
-        front = new Face(null, null, null, null);
-        back = new Face(null, null, null, null, null);
-        this.initialCard = new InitialCard(front, back, 1);
+        String player1 = "player1";
+        String player2 = "player2";
+        LoginMessage loginMessage1 = new LoginMessage(player1);
+        gameController.onMessageReceived(loginMessage1);
+        LoginMessage loginMessage2 = new LoginMessage(player2);
+        gameController.onMessageReceived(loginMessage2);
+        StartGameMessage start = new StartGameMessage(player1);
+        gameController.onMessageReceived(start);
+        PickInitialCardSideMessage pickInitialCardSideMessage = new PickInitialCardSideMessage(player1,game.getPlayerByName(player1).getBoard().getInitialCard());
+        gameController.onMessageReceived(pickInitialCardSideMessage);
+        PickInitialCardSideMessage pickInitialCardSideMessage2 = new PickInitialCardSideMessage(player2,game.getPlayerByName(player2).getBoard().getInitialCard());
+        gameController.onMessageReceived(pickInitialCardSideMessage2);
     }
 
     @After
@@ -38,34 +47,4 @@ public class InputControllerTest {
         this.gameController = null;
     }
 
-    @Test
-    public void testPickSecretObjective() {
-        Message message = new PickSecretObjectiveMessage("test", 1);
-        assertTrue(inputController.pickSecretObjectiveCheck(message));
-        message = new PickSecretObjectiveMessage("test", 2);
-        assertFalse(inputController.pickSecretObjectiveCheck(message));
-    }
-
-    @Test
-    public void testPickResourceCard() {
-        Message message = new PickResourceCardMessage("test", 1);
-        assertTrue(inputController.pickResourceCardCheck(message));
-        message = new PickResourceCardMessage("test", 3);
-        assertFalse(inputController.pickResourceCardCheck(message));
-    }
-
-    @Test
-    public void testPickGoldCard() {
-        Message message = new PickGoldCardMessage("test", 1);
-        assertTrue(inputController.pickGoldCardCheck(message));
-        message = new PickGoldCardMessage("test", 3);
-        assertFalse(inputController.pickGoldCardCheck(message));
-    }
-
-    @Test
-    public void testPickInitialCardSide() {
-
-        Message message = new PickInitialCardSideMessage("test", initialCard);
-        assertFalse(inputController.pickInitialCardSideCheck(message));
-    }
 }

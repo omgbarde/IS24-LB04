@@ -15,8 +15,24 @@ public class TurnController {
     private Game game;
     private CircularIterator<String> playersQueueIterator;
     private static TurnController instance;
+    private boolean placedCard = false;
+    private boolean drawnCard = false;
 
+    public void setDrawnCard(boolean drawnCard) {
+        this.drawnCard = drawnCard;
+    }
 
+    public void setPlacedCard(boolean placedCard) {
+        this.placedCard = placedCard;
+    }
+
+    public boolean isDrawnCard() {
+        return drawnCard;
+    }
+
+    public boolean isPlacedCard() {
+        return placedCard;
+    }
 
     public static TurnController getInstance() {
         if (instance == null) {

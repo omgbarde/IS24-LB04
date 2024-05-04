@@ -23,5 +23,5 @@ public enum MessageType {
     PICK_GOLD_CARD,                 //message sent when the player picks a gold card to draw
     PICK_INITIAL_CARD_SIDE,         //message sent when the player picks the side of the initial card
     PLACE_CARD,                     //message sent when the player places a card on the board
-    END_TURN, FLIP_CARD, DEAD_CLIENT, START_TURN, GAME_STATE, PLAYERS_CONNECTED, CREATE_GAME,                       //message sent when the player ends his turn
+    END_TURN, FLIP_CARD, DEAD_CLIENT, START_TURN, GAME_STATE, PLAYERS_CONNECTED, CREATE_GAME,INVALID_INPUT                    //message sent when the player ends his turn
 }

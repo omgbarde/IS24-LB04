@@ -20,7 +20,7 @@ public class ClientParser {
      *
      * @param input is the message passed from the client
      */
-    public void handleInput(Message input) {
+    public void handleInput(Message input) {//TODO handle messages from wrong inputs (see gamecontroller)
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
                 //potrebbe essere inutile ora che manda game state
