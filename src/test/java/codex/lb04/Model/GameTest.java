@@ -151,7 +151,7 @@ public class GameTest {
         game.setCommonObjectivesForallPlayers();
         player.getBoard().setPoints(10);
         player1.getBoard().setPoints(5);
-        assertTrue(game.checkWinner().contains(player.getUsername()));
+        assertTrue(game.getWinners().contains(player.getUsername()));
     }
 
 
