@@ -11,7 +11,7 @@ public class GameObserver implements Observer {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
             case LOGIN_REPLY:
-                ServerApp.sendMessage(message,usr);
+                ServerApp.sendMessageToClient(message,usr);
                 break;
             case PLAYERS_CONNECTED:
                 ServerApp.broadcast(message);
@@ -20,7 +20,7 @@ public class GameObserver implements Observer {
                 ServerApp.broadcast(message);
                 break;
             case FLIP_CARD:
-                ServerApp.sendMessage(message,usr);
+                ServerApp.sendMessageToClient(message,usr);
                 break;
             case PLACE_CARD:
                 break;

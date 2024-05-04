@@ -17,6 +17,7 @@ public class TurnController {
     private static TurnController instance;
 
 
+
     public static TurnController getInstance() {
         if (instance == null) {
             instance = new TurnController();
@@ -46,11 +47,17 @@ public class TurnController {
         return activePlayer;
     }
 
+
+
     /**
      * method to set the next player active player and change turn
      */
     public void changeTurn() {
         activePlayer = playersQueueIterator.next();
-        ServerApp.sendMessage(new StartTurnMessage(activePlayer), activePlayer);
+        ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);
+    }
+
+    public ArrayList<String> getLobby() {
+        return lobby;
     }
 }

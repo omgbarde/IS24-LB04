@@ -33,7 +33,7 @@ public class ServerApp implements Runnable {
      * @param message is the message to be sent
      * @param username is the username of the client
      */
-    public static void sendMessage(Message message, String username) {
+    public static void sendMessageToClient(Message message, String username) {
         for (ClientHandler clientHandler : clientHandlerList) {
             if (clientHandler.getUsername().equals(username)) {
                 clientHandler.sendMessage(message);

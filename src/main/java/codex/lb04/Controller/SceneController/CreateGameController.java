@@ -42,7 +42,7 @@ public class CreateGameController implements Initializable {
                     setErrorLabel("Server not available");
                     return;
                 }
-                CodexClientApp.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+                CodexClientApp.sendMessageToServer(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
             }
             else {
                 setErrorLabel("Invalid input");

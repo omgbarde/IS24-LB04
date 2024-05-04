@@ -102,7 +102,6 @@ public class Board {
         }
 
     }
-//TODO fix the canBePlaced method
 
     /**
      * This method tells if a card can be placed with certain coordinates

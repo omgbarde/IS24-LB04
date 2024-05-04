@@ -59,10 +59,9 @@ public class CodexClientApp {
         return clientSocket != null;
     }
 
-    public static void sendMessage(Message message) {
+    public static void sendMessageToServer(Message message) {
         try {
             clientSocket.sendMessage(message);
-
         }
         catch (NullPointerException e){
             System.out.println("No connection available");

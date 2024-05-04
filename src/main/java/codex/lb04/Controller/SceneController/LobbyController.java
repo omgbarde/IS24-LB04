@@ -29,7 +29,7 @@ public class LobbyController implements Initializable {
             CodexClientApp.disconnect();
         });
         playButton.setOnAction(actionEvent -> {
-            CodexClientApp.sendMessage(new StartGameMessage(""));
+            CodexClientApp.sendMessageToServer(new StartGameMessage(""));
         });
 
     }

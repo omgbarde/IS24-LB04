@@ -55,7 +55,7 @@ public class LoginController implements Initializable {
                     return;
                 }
                 LoginMessage loginMessage = new LoginMessage(usr);
-                CodexClientApp.sendMessage(loginMessage);
+                CodexClientApp.sendMessageToServer(loginMessage);
                 disableAll();
 
             } else {

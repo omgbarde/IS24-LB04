@@ -10,8 +10,6 @@ import codex.lb04.Observer.Observable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-//TODO implementare win condition
-//TODO implementare ultimo turno
 //TODO notify observer dove necessario
 
 /**
@@ -251,7 +249,7 @@ public class Game extends Observable {
      * check for victory conditions
      * if there is more than one player, the player with the most objectives completed wins
      */
-    public ArrayList<String> checkWinner() {
+    public ArrayList<String> getWinners() {
         Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
         ArrayList<String> obj_winners = new ArrayList<>();
