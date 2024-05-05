@@ -108,18 +108,22 @@ public class GameControllerTest {
 
         Game game = Game.getInstance();
 
-        //first player picks the side of the initial card
+        //first player tries to end his turn without choosing an initial card and a secret objective
         String activePlayer = gameController.getTurnController().getActivePlayer();
+        EndTurnMessage EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+
+        //first player picks the side of the initial card
         PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
-
 
         //first player picks his secret objective
         PickSecretObjectiveMessage secret = new PickSecretObjectiveMessage(activePlayer, 0);
         gameController.onMessageReceived(secret);
         assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
-
 
         //message from non-active player doesn't modify his board
         PickInitialCardSideMessage pick2 = new PickInitialCardSideMessage(player2, game.getPlayerByName(player2).getBoard().getInitialCard());
@@ -144,9 +148,8 @@ public class GameControllerTest {
         gameController.onMessageReceived(resource);
         assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
 
-
         //test if circularIterator works
-        EndTurnMessage EndFirstTurn = new EndTurnMessage(activePlayer);
+        EndFirstTurn = new EndTurnMessage(activePlayer);
         gameController.onMessageReceived(EndFirstTurn);
         assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
         assertEquals(player2, gameController.getTurnController().getActivePlayer());
@@ -161,10 +164,23 @@ public class GameControllerTest {
         activePlayer = player2;
 
         //second player turn
+
+        //second player tries to place a card without choosing an initial card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, 0, 0, toPlace);
+        gameController.onMessageReceived(correct);
+        assertNull(game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
         //second player picks the side of the initial card
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+        //second player tries to end his turn before choosing his secret objective
+        EndTurnMessage EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
 
         //second player picks his secret objective
         secret = new PickSecretObjectiveMessage(activePlayer, 0);
@@ -184,7 +200,7 @@ public class GameControllerTest {
         assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
 
         //second player end his turn
-        EndTurnMessage EndSecondTurn = new EndTurnMessage(activePlayer);
+        EndSecondTurn = new EndTurnMessage(activePlayer);
         gameController.onMessageReceived(EndSecondTurn);
         assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
         assertEquals(player3, gameController.getTurnController().getActivePlayer());
@@ -195,6 +211,12 @@ public class GameControllerTest {
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
+
+        //third player tries to place a card without picking the secret objective
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, 1, 1, toPlace);
+        gameController.onMessageReceived(correct);
+        assertNull(game.getPlayerByName(activePlayer).getBoard().getCard(1, 1));
 
         //third player picks his secret objective
         secret = new PickSecretObjectiveMessage(activePlayer, 0);
@@ -207,6 +229,12 @@ public class GameControllerTest {
         gameController.onMessageReceived(correct);
         assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(1, 1));
 
+        //third player tries to end his turn without drawing a card
+        EndTurnMessage EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+
         //third player draws a resource card
         resource = new PickResourceCardMessage(activePlayer, 1);
         resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleResourceCards().get(1);
@@ -214,7 +242,7 @@ public class GameControllerTest {
         assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
 
         //third player end his turn
-        EndTurnMessage EndThirdTurn = new EndTurnMessage(activePlayer);
+        EndThirdTurn = new EndTurnMessage(activePlayer);
         gameController.onMessageReceived(EndThirdTurn);
         assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
         assertEquals(player4, gameController.getTurnController().getActivePlayer());
@@ -231,6 +259,12 @@ public class GameControllerTest {
         gameController.onMessageReceived(secret);
         assertEquals(game.getPlayerByName(activePlayer).getBoard().getSecretObjectiveToPick().get(0), game.getPlayerByName(activePlayer).getBoard().getSecretObjective());
 
+        //fourth player tries to end his turn without placing and drawing a card
+        EndTurnMessage EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+
         //fourth player places a card
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
         correct = new PlaceCardMessage(activePlayer, 1, 1, toPlace);
@@ -244,12 +278,13 @@ public class GameControllerTest {
         assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
 
         //fourth player end his turn
-        EndTurnMessage EndFourthTurn = new EndTurnMessage(activePlayer);
+        EndFourthTurn = new EndTurnMessage(activePlayer);
         gameController.onMessageReceived(EndFourthTurn);
         assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
         activePlayer = player1;
 
+        //starting of the second turn
         //first player's second turn
         //player1 places a card, but it can't be placed because of the position
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
