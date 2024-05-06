@@ -100,7 +100,6 @@ public class Deck {
      */
     public void updateVisibleGold() {
         GoldCard toDraw = drawGold();
-        toDraw.flip();
         VisibleGoldCards.add(toDraw);
     }
 
@@ -160,13 +159,12 @@ public class Deck {
      */
     public void updateVisibleResource() {
         ResourceCard toDraw = drawResource();
-        toDraw.flip();
         VisibleResourceCards.add(toDraw);
     }
 
     /**
-     * this method draws the first two cards of the resourcecards deck, and shows the front faces
-     * @return the first two cards of the resourcecards deck
+     * this method draws the first two cards of the resource cards deck, and shows the front faces
+     * @return the first two cards of the resource cards deck
      */
     public ArrayList<ResourceCard> setVisibleResourceCards() {
         ResourceCard visible_rc1 = drawResource();

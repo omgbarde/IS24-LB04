@@ -19,7 +19,7 @@ public class ResourceCard extends Card {
      * @param points the points of the card
      */
     public ResourceCard(Color color, Face front, Face back, int points, Integer ID) {
-        super(color, front, back);
+        super(color, front, back, points);
         this.points = points;
         this.ID = ID;
     }

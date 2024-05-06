@@ -96,9 +96,7 @@ public class Card {
         return color;
     }
 
-    public Integer getPoints() {
-        return points;
-    }
+    public Integer getPoints() {return points;}
 
     public Integer getX() {
         return x;

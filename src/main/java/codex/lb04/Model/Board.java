@@ -118,16 +118,16 @@ public class Board {
     public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
         //if it's a gold card checks if we have enough resources
         if (toBePlaced.getClass() == GoldCard.class) {
-            if (Insects <= ((GoldCard) toBePlaced).getInsects_needed()) {
+            if (Insects < ((GoldCard) toBePlaced).getInsects_needed()) {
                 return false;
             }
-            if (Animals <= ((GoldCard) toBePlaced).getAnimals_needed()) {
+            if (Animals < ((GoldCard) toBePlaced).getAnimals_needed()) {
                 return false;
             }
-            if (Leaves <= ((GoldCard) toBePlaced).getLeaf_needed()) {
+            if (Leaves < ((GoldCard) toBePlaced).getLeaf_needed()) {
                 return false;
             }
-            if (Mushrooms <= ((GoldCard) toBePlaced).getMushroom_needed()) {
+            if (Mushrooms < ((GoldCard) toBePlaced).getMushroom_needed()) {
                 return false;
             }
         }
