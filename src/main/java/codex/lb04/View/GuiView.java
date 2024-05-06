@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
@@ -74,8 +75,6 @@ public class GuiView extends View {
     }
 
 
-
-
     public void drawLoginScene() {
         //creating elements
         stageReference.setTitle("Codex! - Login");
@@ -109,9 +108,9 @@ public class GuiView extends View {
             } catch (NumberFormatException e) {
                 errorLabel.setText("Using default port");
             }
-            if (ConnectionUtil.checkValid(usr, addr, port)){
+            if (ConnectionUtil.checkValid(usr, addr, port)) {
                 try {
-                    clientSocket = new ClientSocket(this,usr, addr, port);
+                    clientSocket = new ClientSocket(this, usr, addr, port);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
@@ -155,7 +154,6 @@ public class GuiView extends View {
     }
 
 
-
     public void drawLobbyScene() {
         stageReference.setTitle("Codex! - Lobby");
         StackPane root = new StackPane();
@@ -189,7 +187,7 @@ public class GuiView extends View {
     }
 
 
-    public void updateLobby(ArrayList<String>names){
+    public void updateLobby(ArrayList<String> names) {
         Parent root = stageReference.getScene().getRoot();
 
         StringBuilder sb = new StringBuilder();
@@ -198,7 +196,7 @@ public class GuiView extends View {
         }
         Label nameList = new Label(sb.toString());
 
-        ((StackPane)root).getChildren().add(nameList);
+        ((StackPane) root).getChildren().add(nameList);
     }
 
     public void drawCreateGameScene() {
@@ -226,12 +224,12 @@ public class GuiView extends View {
             int num = 0;
             try {
                 num = Integer.parseInt(numPlayersChoice.getText());
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 errorLabel.setText("Enter a valid number of players");
                 return;
             }
             String usr = usernameField.getText();
-            if (ConnectionUtil.checkValid(num,usr)) {
+            if (ConnectionUtil.checkValid(num, usr)) {
                 confirmButton.setDisable(true);
                 try {
                     clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
@@ -240,8 +238,7 @@ public class GuiView extends View {
                     return;
                 }
                 clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
-            }
-            else {
+            } else {
                 errorLabel.setText("Invalid input");
             }
         });
@@ -266,13 +263,21 @@ public class GuiView extends View {
         stageReference.show();
     }
 
-    public void drawBoardScene(){
+    public void drawBoardScene() {
         stageReference.setTitle("Codex! - your board");
         Group root = new Group();
 
-        // Create a rectangle to represent an object in the scene
+        // Load the image
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
+
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Create the rectangle and set the fill to the pattern
         Rectangle rect = new Rectangle(100, 100, 200, 200);
-        rect.setFill(Color.BLUE.getPaint());
+        rect.setFill(imagePattern);
+
         root.getChildren().add(rect);
 
         // Create a translate transformation for the group
