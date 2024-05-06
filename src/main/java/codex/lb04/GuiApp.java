@@ -35,7 +35,9 @@ public class GuiApp extends Application {
             System.out.println("window icon not found");
         }
         stage.setTitle("Codex! - Welcome");
-        stage.setResizable(true);
+        stage.setHeight(600);
+        stage.setWidth(1000);
+        stage.setResizable(false);
     }
 
     /**

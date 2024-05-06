@@ -8,6 +8,8 @@ import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,6 +39,9 @@ public class GuiView extends View {
     Map<Rectangle, Card> cardMap = new HashMap<>();
 
     public GuiView(Stage stage) {
+        stage.setHeight(600);
+        stage.setWidth(1000);
+        stage.setResizable(false);
         stageReference = stage;
         //this.helloController =  new LoginController();
         //this.lobbyController = new LobbyController();
@@ -276,8 +281,11 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
-        double centerX = 1400 / 2.0;
-        double centerY = 900 / 2.0;
+        double centerX = 1000 / 2.0;
+        double centerY = 600 / 2.0;
+        double cardWidth = 124;
+        double cardHeight = 82.5;
+
 
         stageReference.setTitle("Codex! - your board");
 
@@ -288,6 +296,17 @@ public class GuiView extends View {
         // Create a group for movable elements
         Group movableRoot = new Group();
 
+        // Create a group to hold both the static and movable groups
+        Group root = new Group();
+        root.getChildren().addAll(movableRoot, staticRoot);
+
+        double stageWidth = 1000;
+        double stageHeigth = 600;
+
+
+        /**
+         * random image for debug
+         */
         // Load the image
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         Image image = new Image(is);
@@ -296,7 +315,7 @@ public class GuiView extends View {
         ImagePattern imagePattern = new ImagePattern(image);
 
         // Create the rectangle and set the fill to the pattern
-        Rectangle rect = new Rectangle(centerX - 124, centerY - 82.5, 248, 165); // Subtract half the width and height of the rectangle to center it
+        Rectangle rect = new Rectangle(centerX - 124, centerY - 82.5, 124, 82.5); // Subtract half the width and height of the rectangle to center it
         rect.setFill(imagePattern);
 
 
@@ -307,10 +326,82 @@ public class GuiView extends View {
 
         movableRoot.getChildren().add(rect);
 
+        /**
+         * STATIC PART OF THE STAGE
+         */
+        //TODO implementare selected card
+
+        // BOX THAT CONTAINS RESOURCE CARDS THAT CAN BE DRAWN
+        double rectangleWidthOfResourceCardPicker = 130;
+        double rectangleHeightOfResourceCardPicker = 259.5;
+        Rectangle ResourceCardsBox = new Rectangle(stageWidth - rectangleWidthOfResourceCardPicker, 0, rectangleWidthOfResourceCardPicker, rectangleHeightOfResourceCardPicker);
+        ResourceCardsBox.setFill(Color.BLACK.getPaint());
+
+        //Display of the resource cards that can be drawn
+        Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
+        ResourceCard1.setFill(Color.RED.getPaint());
+
+        Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
+        ResourceCard2.setFill(Color.RED.getPaint());
+
+        Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        ResourceCard3.setFill(Color.RED.getPaint());
+
+        // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
+        double rectangleWidthOfGoldCardPicker = 130;
+        double rectangleHeightOfGoldCardPicker = 259.5;
+        Rectangle GoldCardsBox = new Rectangle(stageWidth - rectangleWidthOfGoldCardPicker, 270, rectangleWidthOfGoldCardPicker, rectangleHeightOfGoldCardPicker);
+        GoldCardsBox.setFill(Color.BLACK.getPaint());
+
+        //Display of the resource cards that can be drawn
+        Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
+        GoldCard1.setFill(Color.RED.getPaint());
+
+        Rectangle GoldCar2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
+        GoldCar2.setFill(Color.RED.getPaint());
+
+        Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        GoldCard3.setFill(Color.RED.getPaint());
+
+        // HAND BOX
+        double rectangleWidthHand = 130;
+        double rectangleHeightHand = 259.5;
+        Rectangle HandBox = new Rectangle(0, 0, rectangleWidthHand, rectangleHeightHand);
+        HandBox.setFill(Color.BLACK.getPaint());
+
+        //cards in hand
+        Rectangle HandCard1 = new Rectangle(3, 3, cardWidth, cardHeight);
+        HandCard1.setFill(Color.RED.getPaint());
+
+        Rectangle HandCard2 = new Rectangle(3, 3 + cardHeight + 3, cardWidth, cardHeight);
+        HandCard2.setFill(Color.RED.getPaint());
+
+        Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        HandCard3.setFill(Color.RED.getPaint());
+
+
+        // Add the static rectangle to the staticRoot group
+        staticRoot.getChildren().add(ResourceCardsBox);
+        staticRoot.getChildren().add(GoldCardsBox);
+        staticRoot.getChildren().add(ResourceCard1);
+        staticRoot.getChildren().add(ResourceCard2);
+        staticRoot.getChildren().add(ResourceCard3);
+        staticRoot.getChildren().add(GoldCard1);
+        staticRoot.getChildren().add(GoldCar2);
+        staticRoot.getChildren().add(GoldCard3);
+        staticRoot.getChildren().add(HandBox);
+        staticRoot.getChildren().add(HandCard1);
+        staticRoot.getChildren().add(HandCard2);
+        staticRoot.getChildren().add(HandCard3);
+
+
+        /**
+         * THE GRID
+         */
         // Create a grid of barely visible rectangles
         int gridSize = 20;
-        double rectangleWidth = 100;
-        double rectangleHeight = 58.5;
+        double rectangleWidth = cardWidth - 24;
+        double rectangleHeight = cardHeight - 24;
         double opacity = 0.3;
 
         for (int i = 0; i < gridSize; i++) {
@@ -335,11 +426,13 @@ public class GuiView extends View {
                 // Add a mouse click event handler to the rectangle
                 int finalJ = gridSize / 2 - j; // Invert the y-coordinate
                 int finalI = i - gridSize / 2;
-                if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ)%2 == 0)) {
+                if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ) % 2 == 0)) {
                     gridRectangle.setOnMouseClicked(e -> {
                         System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
 
                         // TODO Send a message to the server with the card selected and the position
+                        //TODO capire come usare questo sotto
+                        //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::drawCard);
                     });
 
                     movableRoot.getChildren().addAll(gridRectangle, label);
@@ -348,14 +441,13 @@ public class GuiView extends View {
 
         }
 
+
+        /**
+         * THE CAMERA
+         */
         // Create a translate transformation for the movable group
         Translate cameraTranslate = new Translate();
         movableRoot.getTransforms().add(cameraTranslate);
-
-        // Create a group to hold both the static and movable groups
-        Group root = new Group();
-        root.getChildren().addAll(staticRoot, movableRoot);
-
 
         Scene scene = new Scene(root, 1400, 900);
 
@@ -396,6 +488,13 @@ public class GuiView extends View {
         // Create the rectangle and set the fill to the pattern
         Rectangle rect = new Rectangle(100, 100, 200, 200);
         rect.setFill(imagePattern);
+    }
+
+    //TODO
+    private void onGridClick(MouseEvent event) {
+        Node clickedNode = event.getPickResult().getIntersectedNode();
 
     }
+
+
 }
