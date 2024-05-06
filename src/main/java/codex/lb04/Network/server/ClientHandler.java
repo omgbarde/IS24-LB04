@@ -60,6 +60,7 @@ public class ClientHandler implements Runnable {
                     server.onMessageReceived(message);
                 }
             }
+            server.removeClientHandler(this.username);
         } catch (SocketException | EOFException e) {
             System.out.println("client disconnected: " + getUsername());
 
@@ -70,7 +71,6 @@ public class ClientHandler implements Runnable {
             try {
                 clientSocket.close();
                 server.onMessageReceived(new DeadClientMessage(this.username));
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

@@ -4,7 +4,11 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Card;
 
+import java.io.Serial;
+
 public class FlipCardMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 12;
 
     private Card card;
 

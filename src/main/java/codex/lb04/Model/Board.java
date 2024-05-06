@@ -42,7 +42,6 @@ public class Board {
     /**
      * Default constructor
      */
-
     public Board() {
         this.deck = Deck.getInstance();
         Game game = Game.getInstance();
@@ -427,9 +426,12 @@ public class Board {
      * @return true if the conditions are met, false otherwise
      */
     public boolean conditionCheckOnPositionRelatedObjectives(ObjectiveCard objectiveCard, Card card) {
-        switch (objectiveCard.getID()) {
+        int cardId = objectiveCard.getID();
+        Color cardColor = card.getColor();
+
+        switch (cardId) {
             case 87:
-                if (card.getColor() == Color.RED) {
+                if (cardColor == Color.RED) {
                     if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -437,7 +439,7 @@ public class Board {
                 }
                 break;
             case 88:
-                if (card.getColor() == Color.GREEN) {
+                if (cardColor == Color.GREEN) {
                     if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -445,7 +447,7 @@ public class Board {
                 }
                 break;
             case 89:
-                if (card.getColor() == Color.BLUE) {
+                if (cardColor == Color.BLUE) {
                     if (getCard(card.getX() + 1, card.getY() + 1) != null && getCard(card.getX() - 1, card.getY() - 1) != null) {
                         if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -455,7 +457,7 @@ public class Board {
                 }
                 break;
             case 90:
-                if (card.getColor() == Color.PURPLE) {
+                if (cardColor == Color.PURPLE) {
                     if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -463,7 +465,7 @@ public class Board {
                 }
                 break;
             case 91:
-                if (card.getColor() == Color.RED) {
+                if (cardColor == Color.RED) {
                     if (getCard(card.getX(), card.getY() - 1).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 2).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -471,7 +473,7 @@ public class Board {
                 }
                 break;
             case 92:
-                if (card.getColor() == Color.GREEN) {
+                if (cardColor == Color.GREEN) {
                     if (getCard(card.getX(), card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 2).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -479,7 +481,7 @@ public class Board {
                 }
                 break;
             case 93:
-                if (card.getColor() == Color.BLUE) {
+                if (cardColor == Color.BLUE) {
                     if (getCard(card.getX(), card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 2).getColor() == Color.RED && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;
@@ -487,7 +489,7 @@ public class Board {
                 }
                 break;
             case 94:
-                if (card.getColor() == Color.PURPLE) {
+                if (cardColor == Color.PURPLE) {
                     if (getCard(card.getX(), card.getY() + 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 2).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives()) {
                         card.setUsedForPositionalObjectives(true);
                         return true;

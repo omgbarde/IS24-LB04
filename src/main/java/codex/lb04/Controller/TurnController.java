@@ -1,4 +1,4 @@
-package codex.lb04.Controller.GameController;
+package codex.lb04.Controller;
 
 import codex.lb04.Message.GameMessage.StartTurnMessage;
 import codex.lb04.Model.Game;
@@ -34,6 +34,10 @@ public class TurnController {
         return placedCard;
     }
 
+    /**
+     * Singleton pattern for the TurnController class
+     * @return the instance of the TurnController
+     */
     public static TurnController getInstance() {
         if (instance == null) {
             instance = new TurnController();
@@ -41,6 +45,9 @@ public class TurnController {
         return instance;
     }
 
+    /**
+     * Method to reset the instance of the TurnController
+     */
     public void resetInstance() {
         instance = null;
     }
@@ -75,6 +82,10 @@ public class TurnController {
         ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);
     }
 
+    /**
+     * getter of the lobby
+     * @return the name list of clients in the lobby
+     */
     public ArrayList<String> getLobby() {
         return lobby;
     }

@@ -1,6 +1,6 @@
 package codex.lb04.Observer;
 
-import codex.lb04.Controller.GameController.GameController;
+import codex.lb04.Controller.GameController;
 import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 

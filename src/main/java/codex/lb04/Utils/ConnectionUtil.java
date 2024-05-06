@@ -3,6 +3,9 @@ package codex.lb04.Utils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * This class contains utility methods for the connection
+ */
 public class ConnectionUtil {
     public static int defaultPort = 49153;
 

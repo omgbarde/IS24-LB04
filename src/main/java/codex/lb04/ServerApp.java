@@ -1,7 +1,7 @@
 
 package codex.lb04;
 
-import codex.lb04.Controller.GameController.GameController;
+import codex.lb04.Controller.GameController;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
@@ -35,7 +35,8 @@ public class ServerApp implements Runnable {
      */
     public static void sendMessageToClient(Message message, String username) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            if (clientHandler.getUsername().equals(username)) {
+            String clientName = clientHandler.getUsername();
+            if (clientName.equals(username)) {
                 clientHandler.sendMessage(message);
             }
         }
@@ -58,7 +59,7 @@ public class ServerApp implements Runnable {
                 new Thread(clientHandler).start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            print("Server error on port " + port);
         }
     }
 
@@ -71,17 +72,6 @@ public class ServerApp implements Runnable {
         for (ClientHandler clientHandler : clientHandlerList) {
             clientHandler.sendMessage(message);
         }
-    }
-
-    /**
-     * remove a client handler from the list
-     *
-     * @param clientHandler is the client handler to be removed
-     */
-    public void removeClientHandler(ClientHandler clientHandler) {
-        clientHandlerList.remove(clientHandler);
-        GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandler.getUsername() + "disconnected");
-        broadcast(genericMessage);
     }
 
     /**
@@ -118,8 +108,9 @@ public class ServerApp implements Runnable {
     }
 
     public void onMessageReceived(Message receivedMessage) {
-        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT)
+        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
             removeClientHandler(receivedMessage.getUsername());
+        }
         this.gameController.onMessageReceived(receivedMessage);
     }
 
@@ -130,14 +121,6 @@ public class ServerApp implements Runnable {
      */
     public static void print(String s) {
         System.out.println(s);
-    }
-
-    /**
-     * get the number of connected clients
-     * @return the number of connected clients
-     */
-    public static int getNumClient() {
-        return clientHandlerList.size();
     }
 
 }

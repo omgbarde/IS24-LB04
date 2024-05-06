@@ -1,4 +1,4 @@
-package codex.lb04.Controller.GameController;
+package codex.lb04.Controller;
 
 import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
@@ -36,6 +36,9 @@ public class GameController {
         return instance;
     }
 
+    /**
+     * Resets the instance of the game controller
+     */
     public void resetInstance() {
         this.game.resetInstance();
         if (this.turnController != null) {

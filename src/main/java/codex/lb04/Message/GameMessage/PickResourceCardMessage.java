@@ -3,7 +3,11 @@ package codex.lb04.Message.GameMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
+import java.io.Serial;
+
 public class PickResourceCardMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 17;
 
     private Integer cardPick;
 

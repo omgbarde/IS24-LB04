@@ -7,7 +7,7 @@ import java.io.Serial;
  */
 public class OkMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 5;
+    private static final long serialVersionUID = 8;
     public OkMessage() {
         super("Server", MessageType.OK_MESSAGE);
     }

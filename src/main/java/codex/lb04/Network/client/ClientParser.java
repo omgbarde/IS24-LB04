@@ -3,20 +3,21 @@ package codex.lb04.Network.client;
 import codex.lb04.CodexClientApp;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.View.View;
 import javafx.application.Platform;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
+/**
+ * This class parses messages client side
+ */
 public class ClientParser {
     ClientSocket clientSocket;
 
     View view;
 
-    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    //ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public ClientParser(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
@@ -52,10 +53,15 @@ public class ClientParser {
                 Platform.runLater(()->view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
                 break;
             case LOGOUT_REPLY:
-                Platform.runLater(()->view.drawHelloScene());
+                if(((LogoutReply) input).isAccepted()) {
+                    clientSocket.disconnect();
+                    Platform.runLater(() -> view.drawHelloScene());
+                } else {
+                    view.print("logout refused");
+                }
                 break;
             case ERROR:
-                view.print("error: " + input.toString());
+                view.print("error: " + input);
                 clientSocket.disconnect();
                 break;
             case OK_MESSAGE:
@@ -95,9 +101,5 @@ public class ClientParser {
                 view.drawHelloScene();
                 break;
         }
-    }
-
-    public void setClientSocket(ClientSocket clientSocket) {
-        this.clientSocket = clientSocket;
     }
 }

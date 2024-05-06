@@ -5,7 +5,11 @@ import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.InitialCard;
 
+import java.io.Serial;
+
 public class PickInitialCardSideMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 16;
 
     private Face cardSide;
     private InitialCard initialCard;

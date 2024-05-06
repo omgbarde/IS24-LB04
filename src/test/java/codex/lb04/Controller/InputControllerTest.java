@@ -1,18 +1,13 @@
 package codex.lb04.Controller;
 
-import codex.lb04.Controller.GameController.GameController;
-import codex.lb04.Controller.GameController.InputController;
-import codex.lb04.Message.GameMessage.*;
+import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
+import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Message.Message;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class InputControllerTest {
     private InputController inputController;

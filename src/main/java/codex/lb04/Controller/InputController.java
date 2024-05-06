@@ -1,4 +1,4 @@
-package codex.lb04.Controller.GameController;
+package codex.lb04.Controller;
 
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.Message;

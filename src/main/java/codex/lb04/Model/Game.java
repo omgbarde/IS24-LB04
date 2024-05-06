@@ -155,7 +155,7 @@ public class Game extends Observable {
      */
     public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
-        notifyObserver(new LogoutReply(player));
+        notifyObserver(new LogoutReply(player, true));
         notifyObserver(new PlayersConnectedMessage("server",getLobby()));
 
     }

@@ -3,7 +3,11 @@ package codex.lb04.Message.GameMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
+import java.io.Serial;
+
 public class WinnersMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 22;
 
     private String winner;
 
@@ -12,10 +16,10 @@ public class WinnersMessage extends Message {
         this.winner = winner;
     }
 
-    public String getUsername() {
-        return super.getUsername();
-    }
-
+    /**
+     * Getter for winner
+     * @return winner
+     */
     public String getWinner() {
         return winner;
     }

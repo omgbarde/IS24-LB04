@@ -15,7 +15,10 @@ public class ErrorMessage extends Message {
         super(username, MessageType.ERROR);
         this.error = error;
     }
-
+    /**
+     * Getter for error
+     * @return error
+     */
     public String getError() {
         return error;
     }
