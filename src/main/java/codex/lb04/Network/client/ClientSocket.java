@@ -1,6 +1,7 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.View.View;
 
@@ -34,8 +35,8 @@ public class ClientSocket {
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
-            this.clientParser = new ClientParser(this);
-            readMessage();
+            this.clientParser = new ClientParser( this,view);
+            readmessage();
     }
 
     public String getUsername() {
@@ -65,14 +66,14 @@ public class ClientSocket {
             output.writeObject(message);
             output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            disconnect();
         }
     }
 
     /**
      * starts a new thread to listen for incoming messages
      */
-    public void readMessage() {
+    public void readmessage() {
         (new Thread(() -> {
             while (!socket.isClosed()) {
                 try {
@@ -81,6 +82,7 @@ public class ClientSocket {
                     clientParser.handleInput(message);
                 } catch (SocketException | EOFException e) {
                     CodexClientApp.print("server disconnected");
+                    clientParser.handleInput(new ErrorMessage("server", "server disconnected"));
                     disconnect();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

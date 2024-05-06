@@ -37,6 +37,7 @@ import java.util.Map;
 public class GuiView extends View {
     private static Stage stageReference;
     private static ClientSocket clientSocket;
+    private static final Label lobbyLabel = new Label();
 
     Map<Rectangle, Card> cardMap = new HashMap<>(); //TODO legare le carte in gioco ai rettangoli
 
@@ -174,16 +175,15 @@ public class GuiView extends View {
         StackPane root = new StackPane();
 
         Label titleLabel = new Label("Players in the lobby");
-        Label nameList = new Label();
 
         Button playButton = new Button("Play");
         Button backButton = new Button("Back");
         root.getChildren().add(titleLabel);
 
         titleLabel.setTranslateY(-200);
-        nameList.setTranslateY(-100);
+        lobbyLabel.setTranslateY(-100);
 
-        root.getChildren().add(nameList);
+        root.getChildren().add(lobbyLabel);
 
         playButton.setTranslateY(50);
         playButton.setTranslateX(50);
@@ -191,7 +191,8 @@ public class GuiView extends View {
         backButton.setTranslateX(-50);
 
         backButton.setOnAction(actionEvent -> {
-            clientSocket.sendMessage(new LogoutMessage(clientSocket.getUsername()));
+            clientSocket.disconnect();
+            drawHelloScene();
         });
 
         root.getChildren().add(playButton);
@@ -210,9 +211,7 @@ public class GuiView extends View {
         for (String name : names) {
             sb.append(name).append("\n");
         }
-        Label nameList = new Label(sb.toString());
-
-        ((StackPane) root).getChildren().add(nameList);
+        lobbyLabel.setText(sb.toString());
     }
 
     @Override

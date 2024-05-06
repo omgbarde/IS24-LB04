@@ -1,8 +1,5 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.CodexClientApp;
-import codex.lb04.GuiApp;
-import codex.lb04.Message.GameMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
@@ -15,16 +12,16 @@ import javafx.application.Platform;
 /**
  * This class parses messages client side
  */
-public class ClientParser {
+public class ClientParser{
     ClientSocket clientSocket;
 
     View view;
 
     //ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    public ClientParser(ClientSocket clientSocket) {
+    public ClientParser(ClientSocket clientSocket, View view) {
         this.clientSocket = clientSocket;
-        this.view = CodexClientApp.getView();
+        this.view = view;
     }
 
     /**
@@ -53,13 +50,13 @@ public class ClientParser {
                     }
                 };*/
                 //executorService.schedule(updateListTask,2000, TimeUnit.MILLISECONDS);
-                //Platform.runLater(()-> view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
-                Platform.runLater(()-> GuiApp.updateAllStages(view ->view.updateLobby(((PlayersConnectedMessage)input).getLobby())));
+                Platform.runLater(()-> view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
                 break;
             case LOGOUT_REPLY:
                 if(((LogoutReply) input).isAccepted()) {
                     clientSocket.disconnect();
                     Platform.runLater(() -> view.drawHelloScene());
+                    clientSocket.disconnect();
                 } else {
                     view.print("logout refused");
                 }
@@ -72,6 +69,7 @@ public class ClientParser {
             case ERROR:
                 view.print("error: " + input);
                 clientSocket.disconnect();
+                Platform.runLater(() -> view.drawHelloScene());
                 break;
             case OK_MESSAGE:
                 view.print("server: received");

@@ -1,6 +1,7 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Message.DeadClientMessage;
+import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;
@@ -47,7 +48,6 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        //send message back to client
         try {
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
@@ -60,7 +60,6 @@ public class ClientHandler implements Runnable {
                     server.onMessageReceived(message);
                 }
             }
-            server.removeClientHandler(this.username);
         } catch (SocketException | EOFException e) {
             System.out.println("client disconnected: " + getUsername());
 
@@ -82,10 +81,15 @@ public class ClientHandler implements Runnable {
      *
      * @param message is the message passed from the server
      */
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         try {
             output.writeObject(message);
             output.flush();
+            if(message.getMessageType()==MessageType.LOGOUT_REPLY){
+                if (((LogoutReply) message).isAccepted()) {
+                    server.removeClientHandler(this.username);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

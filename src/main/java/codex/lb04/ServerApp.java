@@ -2,7 +2,7 @@
 package codex.lb04;
 
 import codex.lb04.Controller.GameController;
-import codex.lb04.Message.GenericMessage;
+import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Network.server.ClientHandler;
@@ -24,7 +24,6 @@ public class ServerApp implements Runnable {
     private ServerSocket serverSocket;
     //list of all client handlers
     private static List<ClientHandler> clientHandlerList = new ArrayList<>();
-
     private GameController gameController = GameController.getInstance();
 
     /**
@@ -80,10 +79,10 @@ public class ServerApp implements Runnable {
      * @param clientHandlerName is the name of the client handler to be removed
      */
     public void removeClientHandler(String clientHandlerName) {
-        if(!clientHandlerList.isEmpty()) {
+        if (!clientHandlerList.isEmpty()) {
             clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
-            GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandlerName + "disconnected");
-            broadcast(genericMessage);
+            ErrorMessage message = new ErrorMessage("server", "client " + clientHandlerName + " disconnected");
+            broadcast(message);
         }
     }
 

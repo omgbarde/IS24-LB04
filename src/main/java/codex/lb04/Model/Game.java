@@ -141,7 +141,11 @@ public class Game extends Observable {
         if (this.lobby.size() < numPlayers && checkUsername(player)) {
             this.lobby.add(player);
             notifyObserver(new LoginReply(player, true));
-            notifyObserver(new PlayersConnectedMessage("server",getLobby()));
+
+            //creates a clone to avoid discarding serialized messages
+            ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
+
+            notifyObserver(new PlayersConnectedMessage("server",lobbyClone));
             if(this.lobby.size() == numPlayers){
                 notifyObserver(new StartGameMessage("server"));
             }
@@ -158,7 +162,6 @@ public class Game extends Observable {
         this.lobby.remove(player);
         notifyObserver(new LogoutReply(player, true));
         notifyObserver(new PlayersConnectedMessage("server",getLobby()));
-
     }
 
 
@@ -178,6 +181,7 @@ public class Game extends Observable {
      */
     public void removePlayer(String player) {
         this.players.remove(getPlayerByName(player));
+        notifyObserver(new LogoutReply(player, true));
     }
 
     /**
