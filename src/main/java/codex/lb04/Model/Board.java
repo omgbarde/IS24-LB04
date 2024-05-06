@@ -230,6 +230,10 @@ public class Board {
 
     }
 
+    public Card getLastDrawnCard(){
+        return hand.getLast();
+    }
+
     /**
      * draws a resource card between the choices
      * @param pick the choice of the player

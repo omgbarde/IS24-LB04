@@ -10,6 +10,7 @@ public enum Color {
     GREEN(javafx.scene.paint.Color.GREEN),
     PURPLE(javafx.scene.paint.Color.PURPLE),
     RED(javafx.scene.paint.Color.RED),
+    GREY(javafx.scene.paint.Color.GREY),
     YELLOW(javafx.scene.paint.Color.YELLOW);
 
     private final Paint paint;

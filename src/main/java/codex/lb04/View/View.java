@@ -1,6 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Model.Card;
 import codex.lb04.Network.client.ClientParser;
 
 import java.util.ArrayList;
@@ -22,5 +23,6 @@ public abstract class View {
     public abstract void drawCreateGameScene();
     public abstract void drawBoardScene();
     public abstract void updateLobby(ArrayList<String> names);
+    public abstract void drawCard(Card card);
 
 }

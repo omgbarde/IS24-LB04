@@ -2,11 +2,13 @@ package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
 import codex.lb04.GuiApp;
+import codex.lb04.Message.GameMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
+import codex.lb04.Model.Card;
 import codex.lb04.View.View;
 import javafx.application.Platform;
 
@@ -61,6 +63,11 @@ public class ClientParser {
                 } else {
                     view.print("logout refused");
                 }
+                break;
+            case DRAW_CARD:
+                DrawCardMessage message = (DrawCardMessage) input;
+                Card card = message.getCard();
+                Platform.runLater(()->view.drawCard(card));
                 break;
             case ERROR:
                 view.print("error: " + input);

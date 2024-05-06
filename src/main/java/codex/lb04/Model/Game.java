@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.GameMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
@@ -58,7 +59,7 @@ public class Game extends Observable {
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().drawResourceCard(pick);
-
+        notifyObserver(new DrawCardMessage(username, player.getBoard().getLastDrawnCard()));
     }
 
     public InitialCard getInitialCard(String username) {

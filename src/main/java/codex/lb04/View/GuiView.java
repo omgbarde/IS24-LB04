@@ -3,6 +3,7 @@ package codex.lb04.View;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Message.LogoutMessage;
+import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
@@ -23,6 +24,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * class that represents the GUI view
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 public class GuiView extends View {
     private static Stage stageReference;
     private static ClientSocket clientSocket;
+
+    Map<Rectangle, Card> cardMap = new HashMap<>();
 
     public GuiView(Stage stage) {
         stageReference = stage;
@@ -43,6 +48,7 @@ public class GuiView extends View {
     }
 
 
+    @Override
     public void drawHelloScene() {
         //creating elements
         StackPane root = new StackPane();
@@ -75,6 +81,7 @@ public class GuiView extends View {
     }
 
 
+    @Override
     public void drawLoginScene() {
         //creating elements
         stageReference.setTitle("Codex! - Login");
@@ -154,6 +161,7 @@ public class GuiView extends View {
     }
 
 
+    @Override
     public void drawLobbyScene() {
         stageReference.setTitle("Codex! - Lobby");
         StackPane root = new StackPane();
@@ -187,6 +195,7 @@ public class GuiView extends View {
     }
 
 
+    @Override
     public void updateLobby(ArrayList<String> names) {
         Parent root = stageReference.getScene().getRoot();
 
@@ -199,6 +208,7 @@ public class GuiView extends View {
         ((StackPane) root).getChildren().add(nameList);
     }
 
+    @Override
     public void drawCreateGameScene() {
         //creating elements
         stageReference.setTitle("Codex! - Create Game");
@@ -263,9 +273,20 @@ public class GuiView extends View {
         stageReference.show();
     }
 
+    @Override
     public void drawBoardScene() {
+
+        double centerX = 1400 / 2.0;
+        double centerY = 900 / 2.0;
+
         stageReference.setTitle("Codex! - your board");
-        Group root = new Group();
+
+        // Create a group for static elements
+        Group staticRoot = new Group();
+        // Add static elements to staticRoot here
+
+        // Create a group for movable elements
+        Group movableRoot = new Group();
 
         // Load the image
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
@@ -275,16 +296,68 @@ public class GuiView extends View {
         ImagePattern imagePattern = new ImagePattern(image);
 
         // Create the rectangle and set the fill to the pattern
-        Rectangle rect = new Rectangle(100, 100, 200, 200);
+        Rectangle rect = new Rectangle(centerX - 124, centerY - 82.5, 248, 165); // Subtract half the width and height of the rectangle to center it
         rect.setFill(imagePattern);
 
-        root.getChildren().add(rect);
 
-        // Create a translate transformation for the group
+        rect.setOnMouseClicked(e -> {
+            System.out.println("Rectangle was clicked!");
+            // Add your code here to perform the action when the rectangle is clicked
+        });
+
+        movableRoot.getChildren().add(rect);
+
+        // Create a grid of barely visible rectangles
+        int gridSize = 20;
+        double rectangleWidth = 100;
+        double rectangleHeight = 58.5;
+        double opacity = 0.3;
+
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                // Subtract half the grid size from the x and y coordinates to center the grid
+
+                double x = (i - gridSize / 2.0) * rectangleWidth;
+                double y = (j - gridSize / 2.0) * rectangleHeight; // Invert the y-coordinate
+
+                Rectangle gridRectangle = new Rectangle(x, y, rectangleWidth + 24, rectangleHeight + 24);
+                gridRectangle.setFill(Color.GREY.getPaint());
+                gridRectangle.setOpacity(opacity);
+                // Add an outline to the rectangle
+                gridRectangle.setStroke(javafx.scene.paint.Color.LIGHTGRAY);
+                gridRectangle.setStrokeWidth(2);
+
+                // Create a label for the rectangle's coordinates
+                Label label = new Label("(" + (i - gridSize / 2) + ", " + (gridSize / 2 - j) + ")"); // Invert the y-coordinate in the label
+                label.setTranslateX(x);
+                label.setTranslateY(y);
+
+                // Add a mouse click event handler to the rectangle
+                int finalJ = gridSize / 2 - j; // Invert the y-coordinate
+                int finalI = i - gridSize / 2;
+                if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ)%2 == 0)) {
+                    gridRectangle.setOnMouseClicked(e -> {
+                        System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
+
+                        // TODO Send a message to the server with the card selected and the position
+                    });
+
+                    movableRoot.getChildren().addAll(gridRectangle, label);
+                }
+            }
+
+        }
+
+        // Create a translate transformation for the movable group
         Translate cameraTranslate = new Translate();
-        root.getTransforms().add(cameraTranslate);
+        movableRoot.getTransforms().add(cameraTranslate);
 
-        Scene scene = new Scene(root, 1520, 850);
+        // Create a group to hold both the static and movable groups
+        Group root = new Group();
+        root.getChildren().addAll(staticRoot, movableRoot);
+
+
+        Scene scene = new Scene(root, 1400, 900);
 
         // Add key listeners to the scene to move the camera
         scene.setOnKeyPressed(e -> {
@@ -305,8 +378,24 @@ public class GuiView extends View {
         });
 
         stageReference.setScene(scene);
+        stageReference.sizeToScene();
         stageReference.show();
+
     }
 
+    @Override
+    public void drawCard(Card card) {
+        Card cardToDraw = card;
+        // Load the image
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
 
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Create the rectangle and set the fill to the pattern
+        Rectangle rect = new Rectangle(100, 100, 200, 200);
+        rect.setFill(imagePattern);
+
+    }
 }

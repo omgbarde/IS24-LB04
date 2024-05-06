@@ -26,6 +26,9 @@ public class GameObserver implements Observer {
                 break;
             case PLACE_CARD:
                 break;
+            case DRAW_CARD:
+                ServerApp.sendMessageToClient(message,usr);
+                break;
             case PICK_GOLD_CARD:
                 break;
             case PICK_INITIAL_CARD_SIDE:
