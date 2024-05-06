@@ -84,7 +84,8 @@ public class ClientParser {
                 Platform.runLater(()->view.drawLobbyScene());
                 break;
             case IN_GAME:
-                return "Board";
+                Platform.runLater(()->view.drawBoardScene());
+                break;
             case END_GAME:
                 break;
             case ENDED:
