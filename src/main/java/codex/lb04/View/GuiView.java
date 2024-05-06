@@ -3,8 +3,10 @@ package codex.lb04.View;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Message.LogoutMessage;
+import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -264,9 +268,39 @@ public class GuiView extends View {
 
     public void drawBoardScene(){
         stageReference.setTitle("Codex! - your board");
-        StackPane root = new StackPane();
+        Group root = new Group();
 
+        // Create a rectangle to represent an object in the scene
+        Rectangle rect = new Rectangle(100, 100, 200, 200);
+        rect.setFill(Color.BLUE.getPaint());
+        root.getChildren().add(rect);
 
+        // Create a translate transformation for the group
+        Translate cameraTranslate = new Translate();
+        root.getTransforms().add(cameraTranslate);
+
+        Scene scene = new Scene(root, 1520, 850);
+
+        // Add key listeners to the scene to move the camera
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case W:
+                    cameraTranslate.setY(cameraTranslate.getY() + 20);
+                    break;
+                case S:
+                    cameraTranslate.setY(cameraTranslate.getY() - 20);
+                    break;
+                case A:
+                    cameraTranslate.setX(cameraTranslate.getX() + 20);
+                    break;
+                case D:
+                    cameraTranslate.setX(cameraTranslate.getX() - 20);
+                    break;
+            }
+        });
+
+        stageReference.setScene(scene);
+        stageReference.show();
     }
 
 

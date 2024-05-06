@@ -39,6 +39,8 @@ public class GameControllerTest {
 
     @Test
     public void testOnMessageReceived() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
 
@@ -54,6 +56,7 @@ public class GameControllerTest {
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
         gameController.onMessageReceived(new StartGameMessage("test"));
         assertEquals(GameState.IN_GAME, game.getGameState());
 
@@ -64,6 +67,8 @@ public class GameControllerTest {
 
     @Test
     public void startGame() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
@@ -73,6 +78,8 @@ public class GameControllerTest {
 
     @Test
     public void testGetTurnController() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
@@ -89,6 +96,8 @@ public class GameControllerTest {
         String player5 = "Rafa Leao";
         Face randomFace = new Face(null, null, null, null);
 
+        CreateGameMessage createGameMessage = new CreateGameMessage(player1 , 49153 , 4);
+        gameController.onMessageReceived(createGameMessage);
 
         LoginMessage login1 = new LoginMessage(player1);
         gameController.onMessageReceived(login1);
