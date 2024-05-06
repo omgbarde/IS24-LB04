@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -36,7 +38,7 @@ public class GuiView extends View {
     private static Stage stageReference;
     private static ClientSocket clientSocket;
 
-    Map<Rectangle, Card> cardMap = new HashMap<>();
+    Map<Rectangle, Card> cardMap = new HashMap<>(); //TODO legare le carte in gioco ai rettangoli
 
     public GuiView(Stage stage) {
         stage.setHeight(600);
@@ -285,6 +287,8 @@ public class GuiView extends View {
         double centerY = 600 / 2.0;
         double cardWidth = 124;
         double cardHeight = 82.5;
+        double resourceWidth = 50;
+        double resourceHeigth = 50;
 
 
         stageReference.setTitle("Codex! - your board");
@@ -379,21 +383,116 @@ public class GuiView extends View {
         Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         HandCard3.setFill(Color.RED.getPaint());
 
+        // COMMON OBJECTIVES BOX
+        double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
+        double rectangleHeightCommonObjectives = cardHeight + 6;
+        Rectangle CommonObjectivesBox = new Rectangle(0, stageHeigth - rectangleHeightCommonObjectives, rectangleWidthCommonObjectives, rectangleHeightCommonObjectives);
+        CommonObjectivesBox.setFill(Color.BLACK.getPaint());
+
+        //common objectives
+        Rectangle CommonObjective1 = new Rectangle(3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        CommonObjective1.setFill(Color.RED.getPaint());
+
+        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        CommonObjective2.setFill(Color.RED.getPaint());
+
+        // SECRET OBJECTIVE BOX
+        double rectangleWidthSecretObjective = cardWidth + 6;
+        double rectangleHeightSecretObjective = cardHeight + 6;
+        Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeigth - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);
+        SecretObjectiveBox.setFill(Color.BLACK.getPaint());
+
+        //secret objective
+        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        SecretObjective.setFill(Color.RED.getPaint());
+
+        //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        Button flipButton = new Button("flip card");
+        flipButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        flipButton.setLayoutX(10);
+        flipButton.setLayoutY(265);
+        flipButton.setMaxHeight(10);
+        flipButton.setMaxWidth(75);
+        flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+
+        //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        Button endTurnButton = new Button("end turn");
+        endTurnButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        endTurnButton.setLayoutX(centerX - 37.5);
+        endTurnButton.setLayoutY(5);
+        endTurnButton.setMaxHeight(10);
+        endTurnButton.setMaxWidth(75);
+        endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+
+
+        //resources & points box
+        double rectangleWidthPointsBox = 422.5;
+        double rectangleHeightPointsBox = cardHeight + 6;
+        Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeigth - rectangleHeightSecretObjective, rectangleWidthPointsBox, rectangleHeightSecretObjective);
+        PointsBox.setFill(Color.BLACK.getPaint());
+
+        //resources
+        //TODO settare immagini delle risorse
+        Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        mushrooms.setFill(Color.RED.getPaint());
+
+        Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        animals.setFill(Color.RED.getPaint());
+
+        Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        insect.setFill(Color.RED.getPaint());
+
+        Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        leaves.setFill(Color.RED.getPaint());
+
+        Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        quills.setFill(Color.RED.getPaint());
+
+        Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        inkwells.setFill(Color.RED.getPaint());
+
+        Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        manuscript.setFill(Color.RED.getPaint());
+
+        Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        points.setFill(Color.RED.getPaint());
 
         // Add the static rectangle to the staticRoot group
         staticRoot.getChildren().add(ResourceCardsBox);
         staticRoot.getChildren().add(GoldCardsBox);
+        staticRoot.getChildren().add(CommonObjectivesBox);
+        staticRoot.getChildren().add(SecretObjectiveBox);
+        staticRoot.getChildren().add(HandBox);
+        staticRoot.getChildren().add(PointsBox);
+
         staticRoot.getChildren().add(ResourceCard1);
         staticRoot.getChildren().add(ResourceCard2);
         staticRoot.getChildren().add(ResourceCard3);
+
         staticRoot.getChildren().add(GoldCard1);
         staticRoot.getChildren().add(GoldCar2);
         staticRoot.getChildren().add(GoldCard3);
-        staticRoot.getChildren().add(HandBox);
+
         staticRoot.getChildren().add(HandCard1);
         staticRoot.getChildren().add(HandCard2);
         staticRoot.getChildren().add(HandCard3);
 
+        staticRoot.getChildren().add(CommonObjective1);
+        staticRoot.getChildren().add(CommonObjective2);
+
+        staticRoot.getChildren().add(SecretObjective);
+
+        staticRoot.getChildren().add(flipButton);
+        staticRoot.getChildren().add(endTurnButton);
+
+        staticRoot.getChildren().add(mushrooms);
+        staticRoot.getChildren().add(leaves);
+        staticRoot.getChildren().add(insect);
+        staticRoot.getChildren().add(manuscript);
+        staticRoot.getChildren().add(inkwells);
+        staticRoot.getChildren().add(animals);
+        staticRoot.getChildren().add(quills);
+        staticRoot.getChildren().add(points);
 
         /**
          * THE GRID
@@ -412,6 +511,8 @@ public class GuiView extends View {
                 double y = (j - gridSize / 2.0) * rectangleHeight; // Invert the y-coordinate
 
                 Rectangle gridRectangle = new Rectangle(x, y, rectangleWidth + 24, rectangleHeight + 24);
+
+
                 gridRectangle.setFill(Color.GREY.getPaint());
                 gridRectangle.setOpacity(opacity);
                 // Add an outline to the rectangle
@@ -427,12 +528,16 @@ public class GuiView extends View {
                 int finalJ = gridSize / 2 - j; // Invert the y-coordinate
                 int finalI = i - gridSize / 2;
                 if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ) % 2 == 0)) {
+                    ArrayList<Integer> coordinates = new ArrayList<>();
+                    coordinates.add(finalI);
+                    coordinates.add(finalJ);
+                    gridRectangle.setUserData(coordinates); // TODO vedere se funziona
                     gridRectangle.setOnMouseClicked(e -> {
                         System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
 
                         // TODO Send a message to the server with the card selected and the position
                         //TODO capire come usare questo sotto
-                        //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::drawCard);
+                        //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
                     });
 
                     movableRoot.getChildren().addAll(gridRectangle, label);
@@ -493,7 +598,8 @@ public class GuiView extends View {
     //TODO
     private void onGridClick(MouseEvent event) {
         Node clickedNode = event.getPickResult().getIntersectedNode();
-
+        ArrayList<Integer> coordinates = new ArrayList<>();
+        coordinates = (ArrayList<Integer>) clickedNode.getUserData();
     }
 
 
