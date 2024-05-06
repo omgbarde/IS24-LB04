@@ -1,6 +1,7 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.GuiApp;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
@@ -50,7 +51,8 @@ public class ClientParser {
                     }
                 };*/
                 //executorService.schedule(updateListTask,2000, TimeUnit.MILLISECONDS);
-                Platform.runLater(()->view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
+                //Platform.runLater(()-> view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
+                Platform.runLater(()-> GuiApp.updateAllStages(view ->view.updateLobby(((PlayersConnectedMessage)input).getLobby())));
                 break;
             case LOGOUT_REPLY:
                 if(((LogoutReply) input).isAccepted()) {

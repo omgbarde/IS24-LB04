@@ -1,5 +1,6 @@
 package codex.lb04;
 
+import java.util.function.Consumer;
 import codex.lb04.View.GuiView;
 import codex.lb04.View.View;
 import javafx.application.Application;
@@ -10,9 +11,12 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiApp extends Application {
     private static View guiView;
+    private static List<Stage> stages = new ArrayList<>();
 
     /**
      * this method starts the GUI
@@ -22,6 +26,7 @@ public class GuiApp extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
+        stages.add(stage);
         guiView = new GuiView(stage);
         Platform.runLater(()->guiView.drawHelloScene());
         try {
@@ -43,5 +48,12 @@ public class GuiApp extends Application {
 
     public static View getGuiView() {
         return guiView;
+    }
+
+    public static void updateAllStages(Consumer<View> viewUpdater){
+        for(Stage stage : stages){
+            viewUpdater.accept(getGuiView());
+            stage.show();
+        }
     }
 }
