@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
  * This class contains utility methods for the connection
  */
 public class ConnectionUtil {
-    public static int defaultPort = 49153;
+    public static int defaultPort = 49152;
 
     /**
      * checks if the ip address is valid

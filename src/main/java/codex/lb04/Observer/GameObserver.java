@@ -15,6 +15,7 @@ public class GameObserver implements Observer {
                 break;
             case LOGOUT_REPLY:
                 ServerApp.sendMessageToClient(message, usr);
+                break;
             case PLAYERS_CONNECTED:
                 ServerApp.broadcast(message);
                 break;

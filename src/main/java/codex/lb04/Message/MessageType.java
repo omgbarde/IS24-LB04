@@ -34,5 +34,5 @@ public enum MessageType {
     GAME_STATE,                     //message sent when an update in the game state occurs
     PLAYERS_CONNECTED,              //message that contains the clients connected sent when a client connects to the game
     CREATE_GAME,                    //message sent when a client creates a game or automatically when the max number of players is reached
-    INVALID_INPUT                   //message sent when the input is invalid
+    QUIT, INVALID_INPUT                   //message sent when the input is invalid
 }
