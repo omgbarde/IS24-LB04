@@ -90,7 +90,7 @@ public class ServerApp implements Runnable {
      * @param clientHandlerName is the name of the client handler to be removed
      */
     public void removeClientHandler(String clientHandlerName) {
-        if(clientHandlerList != null) {
+        if(!clientHandlerList.isEmpty()) {
             clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
             GenericMessage genericMessage = new GenericMessage("server", "client" + clientHandlerName + "disconnected");
             broadcast(genericMessage);

@@ -35,4 +35,25 @@ public class ConnectionUtil {
         }
         return localhost;
     }
+
+    /**
+     *
+     * @param usr
+     * @param addr
+     * @param port
+     * @return
+     */
+    public static boolean checkValid(String usr, String addr, int port) {
+        return !usr.isEmpty() && ConnectionUtil.isValidAddr(addr) && ConnectionUtil.isValidPort(port);
+    }
+
+    /**
+     *
+     * @param num
+     * @param usr
+     * @return
+     */
+    public static boolean checkValid(int num, String usr) {
+        return (!usr.isEmpty() &&  num >= 2 && num <= 4);
+    }
 }

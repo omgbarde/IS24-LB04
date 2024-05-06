@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.Controller.SceneController.LobbyController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codex.lb04.Controller.SceneController.LobbyController">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffda3" height="1114.0" layoutX="-8.0" layoutY="-18.0" stroke="BLACK" strokeType="INSIDE" width="1984.0" />
    <Label layoutX="846.0" layoutY="166.0" text="Codex Lobby" textAlignment="CENTER">
       <font>
@@ -26,5 +27,4 @@
          <Font size="24.0" />
       </font>
    </Button>
-   <Label fx:id="lobbyLabel" alignment="CENTER" layoutX="846.0" layoutY="347.0" prefHeight="403.0" prefWidth="287.0" textAlignment="CENTER" />
 </AnchorPane>

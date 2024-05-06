@@ -2,6 +2,7 @@ package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
 import codex.lb04.Message.Message;
+import codex.lb04.View.View;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -18,7 +19,8 @@ public class ClientSocket {
     private Socket socket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private ClientParser messageParser;
+    private ClientParser clientParser;
+    private View view;
 
     /**
      * generates a client socket with the parameters in input
@@ -26,13 +28,13 @@ public class ClientSocket {
      * @param address is the port address
      * @param port    is the desired port
      */
-    public ClientSocket(String username, String address, int port) throws IOException {
-
+    public ClientSocket(View view,String username, String address, int port) throws IOException {
+            this.view = view;
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
-            this.messageParser = new ClientParser(this);
+            this.clientParser = new ClientParser(this);
             readMessage();
     }
 
@@ -47,7 +49,6 @@ public class ClientSocket {
         if (!socket.isClosed()) {
             try {
                 socket.close();
-                CodexClientApp.getView().switchScene("Hello");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -77,7 +78,7 @@ public class ClientSocket {
                 try {
                     Message message = (Message) input.readObject();
                     //CodexClientApp.print(message.toString());
-                    messageParser.handleInput(message);
+                    clientParser.handleInput(message);
                 } catch (SocketException | EOFException e) {
                     CodexClientApp.print("server disconnected");
                     disconnect();

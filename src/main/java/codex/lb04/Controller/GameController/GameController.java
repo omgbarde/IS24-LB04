@@ -9,7 +9,6 @@ import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
-import codex.lb04.Model.Player;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.ServerApp;
 
@@ -128,6 +127,7 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 game.removePlayerFromLobby(usr);
+                break;
             default:
                 ErrorMessage defaultError = new ErrorMessage("server", "message not recognized or double login");
                 ServerApp.sendMessageToClient(defaultError, usr);

@@ -5,15 +5,23 @@ import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
+import codex.lb04.View.View;
+import javafx.application.Platform;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class ClientParser {
-
     ClientSocket clientSocket;
+
+    View view;
+
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public ClientParser(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
+        this.view = CodexClientApp.getView();
     }
-
 
     /**
      * this method parses messages from the client and invokes methods based on the type and parameters of those messages
@@ -25,55 +33,70 @@ public class ClientParser {
             case LOGIN_REPLY:
                 //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
-                    CodexClientApp.getView().switchScene("Lobby");
-                    //CodexClientApp.getView().setMode("fullscreen");
+                    Platform.runLater(()->view.drawLobbyScene());
                 } else {
-                    CodexClientApp.print("login refused");
+                    view.print("login refused");
                     clientSocket.disconnect();
+                    Platform.runLater(()->view.drawHelloScene());
                 }
                 break;
             case PLAYERS_CONNECTED:
-                CodexClientApp.getView().updateListLater(((PlayersConnectedMessage)input).getLobby());
+                /*Task updateListTask = new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        view.updateLobby(((PlayersConnectedMessage)input).getLobby());
+                        return null;
+                    }
+                };*/
+                //executorService.schedule(updateListTask,2000, TimeUnit.MILLISECONDS);
+                Platform.runLater(()->view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
                 break;
             case LOGOUT_REPLY:
-                CodexClientApp.getView().switchScene("Hello");
+                Platform.runLater(()->view.drawHelloScene());
                 break;
             case ERROR:
-                CodexClientApp.print("error: " + input.toString());
+                view.print("error: " + input.toString());
                 clientSocket.disconnect();
                 break;
             case OK_MESSAGE:
-                CodexClientApp.print("server: received");
+                view.print("server: received");
                 break;
             case GENERIC_MESSAGE:
-                CodexClientApp.print(input.toString());
+                view.print(input.toString());
                 break;
             case GAME_STATE:
-                CodexClientApp.getView().switchScene(sceneMap((GameStateMessage)input)) ;
+                sceneMap((GameStateMessage)input);
                 break;
 
             default:
-                CodexClientApp.print("message not recognized");
+                view.print("message not recognized");
                 clientSocket.disconnect();
                 break;
         }
     }
 
-    private String sceneMap(GameStateMessage input) {
+    private void sceneMap(GameStateMessage input) {
         switch (input.getGameState()) {
             case LOGIN:
-                return "Hello";
+                Platform.runLater(()->view.drawHelloScene());
+                break;
             case INIT:
-                return "Lobby";
+                Platform.runLater(()->view.drawLobbyScene());
+                break;
             case IN_GAME:
                 return "Board";
             case END_GAME:
                 break;
             case ENDED:
-                return "Results";
+                //view.drawResults();
+                break;
             default:
-                return "Hello";
+                view.drawHelloScene();
+                break;
         }
-        return null;
+    }
+
+    public void setClientSocket(ClientSocket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 }

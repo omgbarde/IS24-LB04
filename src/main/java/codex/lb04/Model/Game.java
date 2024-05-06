@@ -22,7 +22,7 @@ public class Game extends Observable {
     private GameState gameState = GameState.LOGIN;
     private ArrayList<String> lobby = new ArrayList<String>();
     private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
-    private int numPlayers = 4;
+    private int numPlayers = 0;
 
     /**
      * Private constructor to prevent instantiation from outside the class
@@ -156,6 +156,8 @@ public class Game extends Observable {
     public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
         notifyObserver(new LogoutReply(player));
+        notifyObserver(new PlayersConnectedMessage("server",getLobby()));
+
     }
 
 

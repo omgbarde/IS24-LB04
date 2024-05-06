@@ -1,18 +1,17 @@
 package codex.lb04;
 
-import codex.lb04.Message.Message;
+import codex.lb04.Network.client.ClientParser;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.GraphicUtil;
 import codex.lb04.View.View;
 import javafx.application.Application;
-
-import java.io.IOException;
 
 /**
  * class for the client app launcher
  */
 public class CodexClientApp {
     private static ClientSocket clientSocket;
+    private static ClientParser clientParser;
 
     /**
      * starts the client application in the desired mode
@@ -42,30 +41,5 @@ public class CodexClientApp {
         System.out.println(message);
     }
 
-
-    public static void setClientSocket(String usr, String addr, int port) {
-        try {
-            clientSocket = new ClientSocket(usr, addr, port);
-        }catch (IOException e){
-            System.out.println("Connection refused");
-        }
-    }
-
-    public static void disconnect() {
-        clientSocket.disconnect();
-    }
-
-    public static boolean isConnected() {
-        return clientSocket != null;
-    }
-
-    public static void sendMessageToServer(Message message) {
-        try {
-            clientSocket.sendMessage(message);
-        }
-        catch (NullPointerException e){
-            System.out.println("No connection available");
-        }
-    }
 
 }

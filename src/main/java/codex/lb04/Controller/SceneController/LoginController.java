@@ -1,6 +1,5 @@
 package codex.lb04.Controller.SceneController;
 
-import codex.lb04.CodexClientApp;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
@@ -49,13 +48,13 @@ public class LoginController implements Initializable {
             if (checkValid(usr, addr, port)){
 
                 try {
-                    CodexClientApp.setClientSocket(usr, addr, port);
+                    //CodexClientApp.setClientSocket(usr, addr, port);
                 } catch (RuntimeException e) {
                     setErrorLabel("Server not available");
                     return;
                 }
                 LoginMessage loginMessage = new LoginMessage(usr);
-                CodexClientApp.sendMessageToServer(loginMessage);
+                //CodexClientApp.sendMessageToServer(loginMessage);
                 disableAll();
 
             } else {
@@ -79,12 +78,12 @@ public class LoginController implements Initializable {
      * method to disable all the input fields while awaiting server response
      */
     private void disableAll() {
-        if (CodexClientApp.isConnected()) {
+        /*if (CodexClientApp.isConnected()) {
             username.setDisable(true);
             serverAddress.setDisable(true);
             serverPort.setDisable(true);
             playButton.setDisable(true);
-        }
+        }*/
     }
 
     /**

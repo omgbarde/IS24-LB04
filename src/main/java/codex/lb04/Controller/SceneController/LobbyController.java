@@ -1,11 +1,13 @@
 package codex.lb04.Controller.SceneController;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.Message.GameMessage.StartGameMessage;
+import codex.lb04.View.GuiView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,8 +18,6 @@ public class LobbyController implements Initializable {
     private Button playButton;
     @FXML
     private Button backButton;
-    @FXML
-    private Label lobbyLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -26,22 +26,24 @@ public class LobbyController implements Initializable {
             CodexClientApp.getView().setTitle("Codex! - Welcome");
             CodexClientApp.getView().switchScene("Hello");
             //disconnect from server
-            CodexClientApp.disconnect();
+            //CodexClientApp.disconnect();
         });
         playButton.setOnAction(actionEvent -> {
-            CodexClientApp.sendMessageToServer(new StartGameMessage(""));
+            //CodexClientApp.sendMessageToServer(new StartGameMessage(""));
         });
 
     }
 
     public void updateList(ArrayList<String> names){
-
-        assert this.lobbyLabel != null;
+        Label nameList = new Label();
+        StringBuilder sb = new StringBuilder();
         for (String name : names) {
-            String txt = this.lobbyLabel.getText();
-            assert txt != null;
-            txt+=  "\n" + name;
-            lobbyLabel.setText(txt);
+            sb.append(name).append("\n");
         }
+        nameList.setText(sb.toString());
+        StackPane root = new StackPane();
+        root.getChildren().add(nameList);
+        GuiView.getStageReference().setScene(new Scene(root, 1520, 850));
+        GuiView.getStageReference().show();
     }
 }

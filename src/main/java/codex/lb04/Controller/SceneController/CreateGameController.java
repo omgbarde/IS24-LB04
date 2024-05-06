@@ -1,7 +1,5 @@
 package codex.lb04.Controller.SceneController;
 
-import codex.lb04.CodexClientApp;
-import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,12 +35,12 @@ public class CreateGameController implements Initializable {
             if (checkValid(num,usr)) {
                 disableAll();
                 try {
-                    CodexClientApp.setClientSocket(usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
+                    //CodexClientApp.setClientSocket(usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
                 } catch (RuntimeException e) {
                     setErrorLabel("Server not available");
                     return;
                 }
-                CodexClientApp.sendMessageToServer(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+                //CodexClientApp.sendMessageToServer(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
             }
             else {
                 setErrorLabel("Invalid input");

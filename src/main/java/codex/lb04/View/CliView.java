@@ -25,4 +25,28 @@ public class CliView extends View {
     public void updateListLater(ArrayList<String> names) {
 
     }
+    @Override
+    public void drawHelloScene() {
+
+    }
+    @Override
+    public void drawLoginScene() {
+
+    }
+    @Override
+    public void drawLobbyScene() {
+
+    }
+    @Override
+    public void drawCreateGameScene() {
+
+    }
+    @Override
+    public void drawBoardScene() {
+
+    }
+    @Override
+    public void updateLobby(ArrayList<String> names) {
+
+    }
 }
