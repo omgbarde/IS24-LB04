@@ -31,7 +31,7 @@ public class CardTest {
         this.front = new Face(corner1, corner2, corner3, CoveredCorner);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         this.card = new Card(Color.BLUE, front, back);
-        this.CardWithPoints = new Card(Color.BLUE, front, back, 2);
+        this.CardWithPoints = new Card(Color.BLUE, front, back, 2,0);
     }
 
     @After

@@ -243,6 +243,7 @@ public class Game extends Observable {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
             addPlayer(newPlayer);
+            newPlayer.getBoard().setUsername(player);
         }
     }
 

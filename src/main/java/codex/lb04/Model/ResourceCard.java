@@ -25,7 +25,7 @@ public class ResourceCard extends Card implements Serializable {
      * @param points the points of the card
      */
     public ResourceCard(Color color, Face front, Face back, int points, Integer ID) {
-        super(color, front, back);
+        super(color, front, back , points , ID);
         this.points = points;
         this.ID = ID;
     }

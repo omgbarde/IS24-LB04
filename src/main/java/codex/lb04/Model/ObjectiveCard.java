@@ -27,7 +27,7 @@ public class ObjectiveCard extends Card implements Serializable {
      * @param back  the face of the card
      */
     public ObjectiveCard(Color color, Face front, Face back, int points, int ID) {
-        super(color, front, back);
+        super(color, front, back , points , ID);
         this.points = points;
         this.inGame = false;
         this.ID = ID;

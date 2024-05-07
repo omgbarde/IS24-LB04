@@ -35,10 +35,10 @@ import java.util.Map;
  * class that represents the GUI view
  */
 public class GuiView extends View {
-    private static Stage stageReference;
-    private static ClientSocket clientSocket;
-    private static final Label lobbyLabel = new Label();
-    BoardSceneController bsc = new BoardSceneController();
+    private  Stage stageReference;
+    private  ClientSocket clientSocket;
+    private   Label lobbyLabel = new Label();
+    BoardSceneController bsc = new BoardSceneController(this);
 
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
@@ -354,14 +354,17 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
         ResourceCard1.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(ResourceCard1);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard2.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(ResourceCard2);
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(ResourceCard3);
 
-        bsc.setUpDrawableResources(ResourceCard1,ResourceCard2,ResourceCard3);
+        bsc.startGame();
 
 
         // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
@@ -373,12 +376,15 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
         GoldCard1.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(GoldCard1);
 
-        Rectangle GoldCar2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
-        GoldCar2.setFill(Color.RED.getPaint());
+        Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
+        GoldCard2.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(GoldCard2);
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         GoldCard3.setFill(Color.RED.getPaint());
+        bsc.addRectangleToMap(GoldCard3);
 
         // HAND BOX
         double rectangleWidthHand = 130;
@@ -483,7 +489,7 @@ public class GuiView extends View {
         staticRoot.getChildren().add(ResourceCard3);
 
         staticRoot.getChildren().add(GoldCard1);
-        staticRoot.getChildren().add(GoldCar2);
+        staticRoot.getChildren().add(GoldCard2);
         staticRoot.getChildren().add(GoldCard3);
 
         staticRoot.getChildren().add(HandCard1);
@@ -552,11 +558,10 @@ public class GuiView extends View {
                         //TODO capire come usare questo sotto
                         //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
                     });
-
+                    bsc.addRectangleToMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle, label);
                 }
             }
-
         }
 
 
@@ -597,17 +602,7 @@ public class GuiView extends View {
 
     @Override
     public void drawCard(Card card) {
-        Card cardToDraw = card;
-        // Load the image
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
-        Image image = new Image(is);
-
-        // Create the pattern
-        ImagePattern imagePattern = new ImagePattern(image);
-
-        // Create the rectangle and set the fill to the pattern
-        Rectangle rect = new Rectangle(100, 100, 200, 200);
-        rect.setFill(imagePattern);
+        bsc.drawCard(card);
     }
 
     //TODO
@@ -625,4 +620,12 @@ public class GuiView extends View {
          */
     }
 
+
+    public Stage getStageReference() {
+        return this.stageReference;
+    }
+
+    public ClientSocket getClientSocket() {
+        return this.clientSocket;
+    }
 }

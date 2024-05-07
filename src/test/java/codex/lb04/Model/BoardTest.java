@@ -54,9 +54,9 @@ public class BoardTest {
         this.front2 = new Face(corner5, corner6, corner7, corner8);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         this.BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
-        this.card = new Card(Color.BLUE, front, back, 1);
-        this.card1 = new Card(Color.BLUE, front2, back, 1);
-        this.card2 = new Card(Color.BLUE, front, back, 1);
+        this.card = new Card(Color.BLUE, front, back, 1,0);
+        this.card1 = new Card(Color.BLUE, front2, back, 1,0);
+        this.card2 = new Card(Color.BLUE, front, back, 1,0);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.cardOb2 = new ObjectiveCard(Color.PURPLE, BlankFace, BlankFace, 2, 90);
         this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);

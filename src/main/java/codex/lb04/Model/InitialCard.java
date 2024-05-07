@@ -24,7 +24,7 @@ public class InitialCard extends Card implements Serializable {
      * @param back  the face of the card
      */
     public InitialCard(Face front, Face back, Integer ID) {
-        super(Color.YELLOW, front, back);
+        super(Color.YELLOW, front, back ,0 , ID);
         this.ID = ID;
     }
 

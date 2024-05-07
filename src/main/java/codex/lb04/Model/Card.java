@@ -14,6 +14,7 @@ public class Card implements Serializable {
     private Color color;
     private Integer points;
     private Integer x, y;
+    private Integer ID;
     private boolean usedForPositionalObjectives = false;
 
     public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
@@ -40,6 +41,7 @@ public class Card implements Serializable {
         this.back = back;
         this.front = front;
         this.points = null;
+
         this.x = null;
         this.y = null;
     }
@@ -51,12 +53,13 @@ public class Card implements Serializable {
      * @param back  the face of the card
      * @param color the color of the card
      */
-    public Card(Color color, Face front, Face back, Integer points) {
+    public Card(Color color, Face front, Face back, Integer points , Integer ID) {
         this.ShownFace = back;
         this.color = color;
         this.back = back;
         this.front = front;
         this.points = points;
+        this.ID = ID;
         this.x = null;
         this.y = null;
     }
@@ -79,6 +82,14 @@ public class Card implements Serializable {
      */
     public Face getShownFace() {
         return ShownFace;
+    }
+
+    public boolean iShowingFront(){
+        if(this.ShownFace == this.front){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -111,6 +122,10 @@ public class Card implements Serializable {
 
     public Integer getY() {
         return y;
+    }
+
+    public Integer getID() {
+        return ID;
     }
 
 }

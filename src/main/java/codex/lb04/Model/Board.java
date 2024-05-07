@@ -1,7 +1,9 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -9,7 +11,7 @@ import java.util.Objects;
 /**
  * This class represents the board of the game
  */
-public class Board {
+public class Board extends Observable {
     //cards played
     private ArrayList<Card> playedCards = new ArrayList<>();
     //objectives
@@ -36,6 +38,8 @@ public class Board {
     private boolean secretObjectiveChosen = false;
     //boolean to check if the player chose the initial card
     private boolean initialCardChosen = false;
+    //username of the player
+    private String username;
 
 
 
@@ -72,6 +76,10 @@ public class Board {
         this.Quills = 0;
         this.Inkwells = 0;
         this.Manuscripts = 0;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     /**
@@ -171,6 +179,7 @@ public class Board {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
+        notifyObserver(new DrawCardMessage(username , this.initialCard));
     }
 
     /**
@@ -187,6 +196,9 @@ public class Board {
      */
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
+        for(ObjectiveCard commonObjective : CommonObjectives){
+            notifyObserver(new DrawCardMessage(username , commonObjective));
+        }
     }
 
     /**
@@ -201,10 +213,12 @@ public class Board {
             case 0:
                 this.secretObjective = this.secretObjectiveToPick.get(0);
                 secretObjectiveChosen = true;
+                notifyObserver(new DrawCardMessage(username , secretObjective));
                 break;
             case 1:
                 this.secretObjective = this.secretObjectiveToPick.get(1);
                 secretObjectiveChosen = true;
+                notifyObserver(new DrawCardMessage(username , secretObjective));
                 break;
             default:
                 System.out.println("invalid choice");
@@ -220,18 +234,16 @@ public class Board {
         switch (pick) {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
-                this.deck.getVisibleGoldCards().remove((int) pick);
-                this.deck.updateVisibleGold();
+                this.deck.updateVisibleGold(pick);
+                notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawGold());
+                this.deck.updateVisibleGold(pick);
+                notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
 
-    }
-
-    public Card getLastDrawnCard(){
-        return hand.getLast();
     }
 
     /**
@@ -242,14 +254,22 @@ public class Board {
         switch (pick) {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleResourceCards().get((int) pick));
-                this.deck.getVisibleResourceCards().remove((int) pick);
-                this.deck.updateVisibleResource();
+                this.deck.updateVisibleResource((int)pick);
+                notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
+                this.deck.updateVisibleResource((int)pick);
+                notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
     }
+
+    public Card getLastDrawnCard(){
+        return hand.getLast();
+    }
+
+
 
     /**
      * This method returns the number of corner you're going to cover placing a card
