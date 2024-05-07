@@ -1,13 +1,10 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.GameStateMessage;
-import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
-import codex.lb04.Model.Card;
 import codex.lb04.View.View;
 import javafx.application.Platform;
 
@@ -64,6 +61,7 @@ public class ClientParser {
                     view.print("logout refused");
                 }
                 break;
+                //Todo: renderlo view independent
             case DRAW_CARD:
                 Platform.runLater(() -> view.update(input));
                 break;

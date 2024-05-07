@@ -7,7 +7,6 @@ import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
-import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 import codex.lb04.Observer.Observer;
 
@@ -157,6 +156,9 @@ public class Game extends Observable {
             notifyObserver(new PlayersConnectedMessage("server",lobbyClone));
         } else {
             notifyObserver(new LoginReply(player, false));
+        }
+        if (this.lobby.size() == numPlayers) {
+            notifyObserver(new DrawBoardMessage("server"));
         }
     }
 

@@ -109,6 +109,9 @@ public class GameController {
             case CREATE_GAME:
                 game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
                 game.addPlayerToLobby(usr);
+                if (game.getLobby().size() == game.getNumPlayers()) {
+                    game.drawBoard();
+                }
                 break;
             case LOGIN_REQUEST:
                 game.addPlayerToLobby(usr);
@@ -323,7 +326,7 @@ public class GameController {
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
         game.setGameState(GameState.IN_GAME);
-        game.notifyGameStarting();
+        //game.notifyGameStarting();
     }
 
     /**

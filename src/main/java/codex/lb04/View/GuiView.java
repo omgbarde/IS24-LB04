@@ -3,7 +3,6 @@ package codex.lb04.View;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
-import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
@@ -12,7 +11,6 @@ import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,8 +28,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * class that represents the GUI view
@@ -222,8 +218,6 @@ public class GuiView extends View {
 
     @Override
     public void updateLobby(ArrayList<String> names) {
-        Parent root = stageReference.getScene().getRoot();
-
         StringBuilder sb = new StringBuilder();
         for (String name : names) {
             sb.append(name).append("\n");
@@ -371,19 +365,19 @@ public class GuiView extends View {
         double rectangleWidthOfGoldCardPicker = 130;
         double rectangleHeightOfGoldCardPicker = 259.5;
         Rectangle GoldCardsBox = new Rectangle(stageWidth - rectangleWidthOfGoldCardPicker, 270, rectangleWidthOfGoldCardPicker, rectangleHeightOfGoldCardPicker);
-        GoldCardsBox.setFill(Color.BLACK.getPaint());
+        //GoldCardsBox.setFill(Color.BLACK.getPaint());
 
         //Display of the resource cards that can be drawn
         Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
-        GoldCard1.setFill(Color.RED.getPaint());
+        //GoldCard1.setFill(Color.RED.getPaint());
 
 
         Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
-        GoldCard2.setFill(Color.RED.getPaint());
+        //GoldCard2.setFill(Color.RED.getPaint());
 
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
-        GoldCard3.setFill(Color.RED.getPaint());
+        //GoldCard3.setFill(Color.RED.getPaint());
         bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX

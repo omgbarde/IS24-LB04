@@ -10,7 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,6 +44,8 @@ public class BoardSceneController {
         switch (message.getMessageType()) {
             case UPDATE_GOLD:
                 updateGold((UpdateGoldMessage) message);
+                break;
+            case DRAW_CARD:
                 break;
         }
     }
