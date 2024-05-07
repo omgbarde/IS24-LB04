@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.w3c.dom.css.Rect;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -48,10 +49,10 @@ public class BoardSceneController {
     }
 
     private void updateGold(UpdateGoldMessage message) {
-        drawableGold.clear();
         ArrayList<GoldCard> goldCards = message.getGold();
         for (int i = 0; i < goldCards.size(); i++) {
             GoldCard goldCard = goldCards.get(i);
+            drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
             Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
             addCardDrawableGoldToMap(rectangle, goldCard);
         }
@@ -68,8 +69,6 @@ public class BoardSceneController {
         for (Map.Entry<Rectangle, Card> entry : gridMap.entrySet()) {
             if (card.equals(entry.getValue())) {
                 Rectangle rectangle = entry.getKey();
-
-
             }
         }
     }
@@ -131,6 +130,18 @@ public class BoardSceneController {
     public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
         secretObjective.put(rectangle, null);
     }
+    public void testImage(){
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
+
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Set the fill of the rectangle to the pattern
+
+        Rectangle rectangle = (Rectangle) secretObjective.keySet().toArray()[0];
+        rectangle.setFill(imagePattern);
+    }
 
     /**
      * adds a card to the map
@@ -139,13 +150,15 @@ public class BoardSceneController {
     public void addCardDrawableGoldToMap(Rectangle rectangle, Card card) {
         // Load the image for the card
         // initialized for view debug purposes
-        InputStream is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
-        ;
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+
+
         if (card.iShowingFront()) {
             is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
         } else {
             is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_back/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
         }
+
         Image image = new Image(is);
 
         // Create the pattern
@@ -161,6 +174,17 @@ public class BoardSceneController {
         addRectangleToDrawableGoldMap(Top);
         addRectangleToDrawableGoldMap(v1);
         addRectangleToDrawableGoldMap(v2);
+
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
+
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Set the fill of the rectangle to the pattern
+
+        Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[0];
+        rectangle.setFill(imagePattern);
     }
 
     public void setUpDrawableResources(Rectangle top, Rectangle v1, Rectangle v2) {
@@ -184,6 +208,8 @@ public class BoardSceneController {
     public void setSecretObjectiveMap(Rectangle secret) {
         addRectangleToSecretObjectiveMap(secret);
     }
+
+
 
     // Method to select a card
     public void selectCard(Card card, Rectangle rectangle) {

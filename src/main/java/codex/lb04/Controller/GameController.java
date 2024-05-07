@@ -24,6 +24,7 @@ public class GameController {
     private int countDown = -1;
     private ArrayList<String> winners;
     private boolean EndGame = false;
+    GameObserver gameObserver = new GameObserver();
 
     /**
      * Singleton instance method
@@ -59,7 +60,7 @@ public class GameController {
      */
     private void createGameController() {
         this.game = Game.getInstance();
-        game.addObserver(new GameObserver());
+        game.addObserver(gameObserver);
         this.inputController = new InputController(this, game);
         game.setGameState(GameState.LOGIN);
     }
@@ -314,6 +315,8 @@ public class GameController {
      */
     public void startGame() {
         game.setGameState(GameState.INIT);
+
+        game.setDeck(gameObserver);
         game.createPlayers();
         game.drawHandForAllPlayers();
         game.setCommonObjectivesForallPlayers();

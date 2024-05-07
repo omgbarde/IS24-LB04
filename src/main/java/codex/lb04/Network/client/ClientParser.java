@@ -87,7 +87,12 @@ public class ClientParser {
             case START_GAME:
                 break;
             case DRAW_BOARD:
-                Platform.runLater(() -> view.drawBoardScene());
+                Platform.runLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        view.drawBoardScene();
+                    }
+                });
                 break;
             default:
                 view.print("message not recognized");

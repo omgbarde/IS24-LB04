@@ -33,7 +33,10 @@ public class Game extends Observable {
      *
      */
     private Game() {
-        this.deck = Deck.getInstance();
+    }
+
+    public void setDeck(Observer observer){
+        this.deck = Deck.getInstance(observer);
     }
 
     /**
@@ -244,6 +247,7 @@ public class Game extends Observable {
     public void createPlayers() {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
+            newPlayer.getBoard().addObserverList(getObservers());
             addPlayer(newPlayer);
             newPlayer.getBoard().setUsername(player);
         }

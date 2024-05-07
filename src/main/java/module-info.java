@@ -7,6 +7,7 @@ module codex.lb {
     requires java.desktop;
     requires java.logging;
     requires java.naming;
+    requires jdk.xml.dom;
 
     opens codex.lb04 to javafx.fxml;
     exports codex.lb04;

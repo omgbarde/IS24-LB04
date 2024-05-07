@@ -429,6 +429,9 @@ public class GuiView extends View {
         //secret objective
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
+        bsc.setSecretObjectiveMap(SecretObjective);
+        bsc.testImage();
+
         //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
 
 

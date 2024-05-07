@@ -13,7 +13,7 @@ public class UpdateGoldMessage extends Message {
 
     public UpdateGoldMessage(ArrayList<GoldCard> goldCards) {
         super("" , MessageType.UPDATE_GOLD);
-        this.gold = gold;
+        this.gold = goldCards;
     }
 
     public ArrayList<GoldCard> getGold() {
