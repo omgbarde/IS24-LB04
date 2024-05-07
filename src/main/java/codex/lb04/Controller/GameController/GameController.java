@@ -189,7 +189,7 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (turnController.isDrawnCard() && turnController.isPlacedCard()) { //TODO try to end turn when the player hasn't placed a card or drawn a card ye in simulation game test
+                if (turnController.isDrawnCard() && turnController.isPlacedCard()) {
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
                         endGame = true;
@@ -252,11 +252,12 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
-                    if (endGame && countDown != -1) {
+                //if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
+                //for(p:game.getPlayers()){
+                if (endGame && countDown != -1) {
                         countDown--;
                     }
-                    if (endGame && countDown == 0) {
+                if (endGame && countDown == 0) {
                         game.setGameState(GameState.ENDED);
                         winners = game.getWinners();
                         for (String winner : winners) {
@@ -265,10 +266,10 @@ public class GameController {
                             }
                         }
                     }
-                    if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
-                        countDown = 3;
+                if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
+                        countDown = game.getLobby().size() - 1; //3;
                     }
-                }
+                //}
                 turnController.changeTurn();
                 break;
             case LOGOUT_REQUEST:
