@@ -2,6 +2,7 @@ package codex.lb04.Network.client;
 
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.GameStateMessage;
+import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
@@ -15,6 +16,7 @@ import javafx.application.Platform;
  */
 public class ClientParser {
     ClientSocket clientSocket;
+
 
     View view;
 
@@ -68,7 +70,6 @@ public class ClientParser {
             case UPDATE_GOLD:
                 Platform.runLater(() -> view.update(input));
                 break;
-
             case ERROR:
                 view.print("error: " + input);
                 clientSocket.disconnect();
@@ -84,6 +85,8 @@ public class ClientParser {
                 sceneMap((GameStateMessage) input);
                 break;
             case START_GAME:
+                break;
+            case DRAW_BOARD:
                 Platform.runLater(() -> view.drawBoardScene());
                 break;
             default:
@@ -114,4 +117,6 @@ public class ClientParser {
                 break;
         }
     }
+
+
 }

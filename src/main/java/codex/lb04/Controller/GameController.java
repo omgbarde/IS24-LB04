@@ -128,6 +128,16 @@ public class GameController {
                 ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
                 ServerApp.sendMessageToClient(error, usr);
                 break;
+            case DRAW_BOARD:
+                game.drawBoard();
+                break;
+            case READY:
+                if(game.checkReplies()) {
+                    if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
+                        startGame();
+                    }
+                }
+                break;
             case DEAD_CLIENT:
                 game.removePlayerFromLobby(usr);
                 break;

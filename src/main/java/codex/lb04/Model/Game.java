@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
@@ -308,6 +309,18 @@ public class Game extends Observable {
             if (alreadyInLobby.equals(usr)) return false;
         }
         return true;
+    }
+
+    public void drawBoard(){
+        notifyObserver(new DrawBoardMessage("server"));
+    }
+
+    public boolean checkReplies(){
+        replies += 1;
+        if(replies == numPlayers){
+            return true;
+        }
+        else return false;
     }
 
     public void setNumPlayers(int numPlayers) {

@@ -111,9 +111,9 @@ public class Board extends Observable {
                 updateGoldCardsPoints((GoldCard) toBePlaced);
             }
             pointsUpdate();
-            notifyObserver(new DrawPlacedCardMessage(username , toBePlaced));
-            notifyObserver(new updateResourcesMessage(username , getResources());
-            notifyObserver(new updatePointsMessage(username , this.getPoints()));
+            //notifyObserver(new DrawPlacedCardMessage(username , toBePlaced));
+            //notifyObserver(new updateResourcesMessage(username , getResources());
+            //notifyObserver(new updatePointsMessage(username , this.getPoints()));
         }
 
     }
@@ -216,12 +216,12 @@ public class Board extends Observable {
             case 0:
                 this.secretObjective = this.secretObjectiveToPick.get(0);
                 secretObjectiveChosen = true;
-                notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
+                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
                 break;
             case 1:
                 this.secretObjective = this.secretObjectiveToPick.get(1);
                 secretObjectiveChosen = true;
-                notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
+                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
                 break;
             default:
                 System.out.println("invalid choice");
@@ -238,12 +238,12 @@ public class Board extends Observable {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
                 this.deck.updateVisibleGold(pick);
-                notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawGold());
                 this.deck.updateVisibleGold(pick);
-                notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
 
@@ -258,12 +258,12 @@ public class Board extends Observable {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleResourceCards().get((int) pick));
                 this.deck.updateVisibleResource((int)pick);
-                notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
                 this.deck.updateVisibleResource((int)pick);
-                notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
     }

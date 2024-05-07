@@ -41,4 +41,6 @@ public enum MessageType {
      */
     DRAW_CARD,
     UPDATE_GOLD,
+    DRAW_BOARD,
+    READY
 }

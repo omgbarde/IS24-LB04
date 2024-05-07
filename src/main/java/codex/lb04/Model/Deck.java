@@ -117,7 +117,7 @@ public class Deck extends Observable {
         ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<ObjectiveCard>();
         chosenObjectives.add(this.drawObjective());
         chosenObjectives.add(this.drawObjective());
-        notifyObserver(new UpdateCommonObjectivesMessage(chosenObjectives)); // broadcast
+        //notifyObserver(new UpdateCommonObjectivesMessage(chosenObjectives)); // broadcast
         return chosenObjectives;
     }
 
@@ -162,7 +162,7 @@ public class Deck extends Observable {
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
         VisibleResourceCards.add(getTopResource());
-        notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
+        //notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
         return VisibleResourceCards;
     }
 
@@ -201,7 +201,7 @@ public class Deck extends Observable {
                 VisibleResourceCards.add(getTopResource());
                 break;
         }
-        notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
+        //notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
     }
 
 

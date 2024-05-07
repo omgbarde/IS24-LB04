@@ -1,5 +1,7 @@
 package codex.lb04.View;
 
+import codex.lb04.Message.DrawMessage.DrawBoardMessage;
+import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
@@ -38,7 +40,7 @@ public class GuiView extends View {
     private  Stage stageReference;
     private  ClientSocket clientSocket;
     private   Label lobbyLabel = new Label();
-    BoardSceneController bsc = new BoardSceneController(this);
+    BoardSceneController bsc;
 
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
@@ -54,6 +56,7 @@ public class GuiView extends View {
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
         stageReference = stage;
+        bsc = new BoardSceneController(this);
     }
 
 
@@ -203,8 +206,7 @@ public class GuiView extends View {
         });
 
         playButton.setOnMouseClicked(actionEvent ->{
-            clientSocket.sendMessage(new StartGameMessage(clientSocket.getUsername()));
-            drawBoardScene();
+            clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()));
         });
 
         root.getChildren().add(playButton);
@@ -563,7 +565,7 @@ public class GuiView extends View {
                         //TODO capire come usare questo sotto
                         //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
                     });
-                    bsc.addRectangleToMap(gridRectangle);
+                    //bsc.addRectangleToMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle, label);
                 }
             }
@@ -584,15 +586,19 @@ public class GuiView extends View {
             switch (e.getCode()) {
                 case W:
                     cameraTranslate.setY(cameraTranslate.getY() + 20);
+                    bsc.updateView();
                     break;
                 case S:
                     cameraTranslate.setY(cameraTranslate.getY() - 20);
+                    bsc.updateView();
                     break;
                 case A:
                     cameraTranslate.setX(cameraTranslate.getX() + 20);
+                    bsc.updateView();
                     break;
                 case D:
                     cameraTranslate.setX(cameraTranslate.getX() - 20);
+                    bsc.updateView();
                     break;
             }
         });
@@ -602,7 +608,7 @@ public class GuiView extends View {
         stageReference.setHeight(stageHeigth+37);
         stageReference.setWidth(stageWidth);
         stageReference.show();
-
+        clientSocket.sendMessage(new ReadyMessage("ready"));
     }
 
     @Override

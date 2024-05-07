@@ -1,10 +1,8 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
-import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
-import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.GoldCard;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -50,11 +48,12 @@ public class BoardSceneController {
     }
 
     private void updateGold(UpdateGoldMessage message) {
+        drawableGold.clear();
         ArrayList<GoldCard> goldCards = message.getGold();
         for (int i = 0; i < goldCards.size(); i++) {
             GoldCard goldCard = goldCards.get(i);
             Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
-            addCardToMap(rectangle, goldCard);
+            addCardDrawableGoldToMap(rectangle, goldCard);
         }
         updateView();
     }
@@ -90,7 +89,7 @@ public class BoardSceneController {
             ArrayList<Integer> coordinates = (ArrayList<Integer>) clickedRectangle.getUserData();
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
-            clientsocket.send(new PlaceCardMessage(selectedCard, clickedRectangle));
+            //clientsocket.send(new PlaceCardMessage(selectedCard, clickedRectangle));
         }
 
         // Now you can use the correspondingCard object
@@ -137,7 +136,7 @@ public class BoardSceneController {
      * adds a card to the map
      * @param card the card
      */
-    public void addCardToMap(Rectangle rectangle, Card card) {
+    public void addCardDrawableGoldToMap(Rectangle rectangle, Card card) {
         // Load the image for the card
         // initialized for view debug purposes
         InputStream is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
@@ -155,8 +154,7 @@ public class BoardSceneController {
         // Set the fill of the rectangle to the pattern
         rectangle.setFill(imagePattern);
         // Set other properties of the rectangle
-        gridMap.put(rectangle, card);
-        updateView();
+        drawableGold.put(rectangle, card);
     }
 
     public void setUpDrawableGold(Rectangle Top, Rectangle v1, Rectangle v2) {
@@ -177,10 +175,9 @@ public class BoardSceneController {
         addRectangleToHandMap(hand3);
     }
 
-    public void setUpCommonObjectivesMap(Rectangle common1, Rectangle common2, Rectangle common3) {
+    public void setUpCommonObjectivesMap(Rectangle common1, Rectangle common2) {
         addRectangleToCommonObjectivesMap(common1);
         addRectangleToCommonObjectivesMap(common2);
-        addRectangleToCommonObjectivesMap(common3);
     }
 
 
