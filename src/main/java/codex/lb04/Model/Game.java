@@ -1,6 +1,6 @@
 package codex.lb04.Model;
 
-import codex.lb04.Message.GameMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
@@ -74,7 +74,9 @@ public class Game extends Observable {
     public void setInitialCardForAllPlayers() {
         for(Player p : players){
             p.getBoard().setInitialCard();
+            notifyObserver(new DrawCardMessage(p.getUsername(), p.getBoard().getInitialCard()));
         }
+
     }
 
     /**
@@ -146,9 +148,6 @@ public class Game extends Observable {
             ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
 
             notifyObserver(new PlayersConnectedMessage("server",lobbyClone));
-            if(this.lobby.size() == numPlayers){
-                notifyObserver(new StartGameMessage("server"));
-            }
         } else {
             notifyObserver(new LoginReply(player, false));
         }
@@ -216,6 +215,9 @@ public class Game extends Observable {
         this.gameState = gameState;
     }
 
+    public void notifyGameStarting(){
+        notifyObserver(new StartGameMessage("starting"));
+    }
     /**
      * returns the players
      *

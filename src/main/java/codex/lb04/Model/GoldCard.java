@@ -2,17 +2,22 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serializable;
+
 /**
  * Class that represents a Gold Card
  */
-public class GoldCard extends Card {
+public class GoldCard extends Card implements Serializable {
     //number of points you gain from the "objective"
-    private final int points;
-    private final int mushroom_needed;
-    private final int animals_needed;
-    private final int insects_needed;
-    private final int leaf_needed;
+    private int points;
+    private int mushroom_needed;
+    private int animals_needed;
+    private int insects_needed;
+    private int leaf_needed;
     private Integer ID;
+
+    public GoldCard(){
+    }
 
     /**
      * Default constructor

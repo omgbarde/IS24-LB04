@@ -39,5 +39,5 @@ public enum MessageType {
     /**
      * messages for the view
      */
-    DRAW_CARD
+    DRAW_CARD,
 }

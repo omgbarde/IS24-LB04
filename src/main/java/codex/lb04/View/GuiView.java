@@ -1,7 +1,9 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.GameMessage.CreateGameMessage;
+import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
+import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
@@ -36,13 +38,21 @@ public class GuiView extends View {
     private static Stage stageReference;
     private static ClientSocket clientSocket;
     private static final Label lobbyLabel = new Label();
+    BoardSceneController bsc = new BoardSceneController();
 
-    Map<Rectangle, Card> cardMap = new HashMap<>(); //TODO legare le carte in gioco ai rettangoli
+    double centerX = 1000 / 2.0;
+    double centerY = 600 / 2.0;
+    double cardWidth = 124;
+    double cardHeight = 82.5;
+    double resourceWidth = 50;
+    double resourceHeigth = 50;
+    double stageWidth = 1000;
+    double stageHeigth = 600;
 
     public GuiView(Stage stage) {
         stage.setHeight(600);
         stage.setWidth(1000);
-        stage.setResizable(true);
+        stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
         stageReference = stage;
     }
 
@@ -192,10 +202,15 @@ public class GuiView extends View {
             drawHelloScene();
         });
 
+        playButton.setOnMouseClicked(actionEvent ->{
+            clientSocket.sendMessage(new StartGameMessage(clientSocket.getUsername()));
+            drawBoardScene();
+        });
+
         root.getChildren().add(playButton);
         root.getChildren().add(backButton);
 
-        Scene scene = new Scene(root, 1520, 850);
+        Scene scene = new Scene(root, stageWidth, stageHeigth);
         scene.getStylesheets().add("/codexTheme.css");
         stageReference.setScene(scene);
         stageReference.show();
@@ -286,13 +301,6 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
-        double centerX = 1000 / 2.0;
-        double centerY = 600 / 2.0;
-        double cardWidth = 124;
-        double cardHeight = 82.5;
-        double resourceWidth = 50;
-        double resourceHeigth = 50;
-
 
         stageReference.setTitle("Codex! - your board");
 
@@ -307,8 +315,7 @@ public class GuiView extends View {
         Group root = new Group();
         root.getChildren().addAll(movableRoot, staticRoot);
 
-        double stageWidth = 1000;
-        double stageHeigth = 600;
+
 
 
         /**
@@ -353,6 +360,9 @@ public class GuiView extends View {
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
+
+        bsc.setUpDrawableResources(ResourceCard1,ResourceCard2,ResourceCard3);
+
 
         // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
         double rectangleWidthOfGoldCardPicker = 130;
@@ -579,7 +589,8 @@ public class GuiView extends View {
 
         scene.getStylesheets().add("/codexTheme.css");
         stageReference.setScene(scene);
-        stageReference.sizeToScene();
+        stageReference.setHeight(stageHeigth+37);
+        stageReference.setWidth(stageWidth);
         stageReference.show();
 
     }
@@ -606,5 +617,12 @@ public class GuiView extends View {
         coordinates = (ArrayList<Integer>) clickedNode.getUserData();
     }
 
+
+    @Override
+    public void update(Message message){
+        /**
+         * nel caso in cui ricevo message draw qualcosa allora chiamo metodo di boardSceneController
+         */
+    }
 
 }

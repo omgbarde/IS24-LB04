@@ -312,6 +312,7 @@ public class GameController {
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
         game.setGameState(GameState.IN_GAME);
+        game.notifyGameStarting();
     }
 
     /**

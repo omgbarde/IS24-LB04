@@ -1,5 +1,6 @@
 package codex.lb04.View;
 
+import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ public class CliView extends View {
 
     @Override
     public void drawCard(Card card) {
+
+    }
+
+    @Override
+    public void update(Message message){
 
     }
 }

@@ -2,13 +2,15 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serializable;
+
 /**
  * This class represents a generic card
  */
-public class Card {
+public class Card implements Serializable {
     private Face ShownFace;
-    private final Face front;
-    private final Face back;
+    private Face front;
+    private Face back;
     private Color color;
     private Integer points;
     private Integer x, y;
@@ -20,6 +22,9 @@ public class Card {
 
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
+    }
+
+    public Card(){
     }
 
     /**

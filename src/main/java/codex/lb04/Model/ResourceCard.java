@@ -2,14 +2,20 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serializable;
+
 /**
  * This class represents a resource card
  */
-public class ResourceCard extends Card {
+public class ResourceCard extends Card implements Serializable {
 
     private int points;
     private Integer ID;
 
+
+    public ResourceCard(){
+        super();
+    }
     /**
      * Default constructor
      *

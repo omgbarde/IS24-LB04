@@ -24,4 +24,6 @@ module codex.lb {
     opens codex.lb04.Controller to javafx.fxml;
     exports codex.lb04.Message.GameMessage;
     opens codex.lb04.Message.GameMessage to javafx.fxml;
+    exports codex.lb04.Message.DrawMessage;
+    opens codex.lb04.Message.DrawMessage to javafx.fxml;
 }

@@ -2,17 +2,23 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a face of a card.
  */
-public class Face {
-    private final Corner UpperLeft;
-    private final Corner UpperRight;
-    private final Corner LowerLeft;
-    private final Corner LowerRight;
+public class Face implements Serializable {
+    private Corner UpperLeft;
+    private Corner UpperRight;
+    private Corner LowerLeft;
+    private Corner LowerRight;
     private final ArrayList<ResourceType> CentralResources = new ArrayList<>();
+
+    public Face(){
+
+    }
 
     /**
      * Default constructor for a face with no central resources

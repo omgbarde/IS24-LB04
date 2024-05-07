@@ -10,25 +10,13 @@ public class GameObserver implements Observer {
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
-            case LOGIN_REPLY:
+            case LOGIN_REPLY, LOGOUT_REPLY, FLIP_CARD, DRAW_CARD:
                 ServerApp.sendMessageToClient(message,usr);
                 break;
-            case LOGOUT_REPLY:
-                ServerApp.sendMessageToClient(message, usr);
-                break;
-            case PLAYERS_CONNECTED:
+            case PLAYERS_CONNECTED, GAME_STATE, START_GAME:
                 ServerApp.broadcast(message);
-                break;
-            case GAME_STATE:
-                ServerApp.broadcast(message);
-                break;
-            case FLIP_CARD:
-                ServerApp.sendMessageToClient(message,usr);
                 break;
             case PLACE_CARD:
-                break;
-            case DRAW_CARD:
-                ServerApp.sendMessageToClient(message,usr);
                 break;
             case PICK_GOLD_CARD:
                 break;
@@ -37,9 +25,6 @@ public class GameObserver implements Observer {
             case PICK_RESOURCE_CARD:
                 break;
             case PICK_SECRET_OBJECTIVE:
-                break;
-            case START_GAME:
-                GameController.getInstance().onMessageReceived(message);
                 break;
             case END_TURN:
                 break;

@@ -1,4 +1,4 @@
-package codex.lb04.Message.GameMessage;
+package codex.lb04.Message.DrawMessage;
 
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;

@@ -32,7 +32,7 @@ public class GuiApp extends Application {
         stage.setTitle("Codex! - Welcome");
         stage.setHeight(600);
         stage.setWidth(1000);
-        stage.setResizable(true);
+        stage.setResizable(false);
     }
 
     /**

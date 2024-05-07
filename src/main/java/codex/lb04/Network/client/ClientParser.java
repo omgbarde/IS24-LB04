@@ -1,6 +1,6 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.Message.GameMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.GameMessage.GameStateMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
@@ -65,7 +65,7 @@ public class ClientParser{
             case DRAW_CARD:
                 DrawCardMessage message = (DrawCardMessage) input;
                 Card card = message.getCard();
-                Platform.runLater(()->view.drawCard(card));
+                Platform.runLater(()->view.drawCard(card));//TODO vedere come fare meglio questa comunicazione
                 break;
             case ERROR:
                 view.print("error: " + input);
@@ -81,7 +81,9 @@ public class ClientParser{
             case GAME_STATE:
                 sceneMap((GameStateMessage)input);
                 break;
-
+            case START_GAME:
+                Platform.runLater(()->view.drawBoardScene());
+                break;
             default:
                 view.print("message not recognized");
                 clientSocket.disconnect();
