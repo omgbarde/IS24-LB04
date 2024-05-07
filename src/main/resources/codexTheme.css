@@ -1,0 +1,25 @@
+.root {
+    -fx-background-color: #F5F5DC; /* Light Beige */
+}
+
+.button {
+    -fx-background-color: #333333; /* Dark Grey */
+    -fx-text-fill: #FFFFFF; /* White */
+}
+
+.label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-background-color: #F5F5DC; /* Light Beige */
+    -fx-text-fill: #000000 /* Black */;
+}
+
+.text-field {
+    -fx-background-color: #333333; /* Dark Grey */
+    -fx-text-fill: #FFFFFF; /* White */
+}
+
+.text-area {
+    -fx-background-color: #333333; /* Dark Grey */
+    -fx-text-fill: #FFFFFF; /* White */
+}

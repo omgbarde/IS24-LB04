@@ -2,14 +2,12 @@ package codex.lb04.View;
 
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Message.LogoutMessage;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,8 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -44,15 +42,8 @@ public class GuiView extends View {
     public GuiView(Stage stage) {
         stage.setHeight(600);
         stage.setWidth(1000);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stageReference = stage;
-        //this.helloController =  new LoginController();
-        //this.lobbyController = new LobbyController();
-        //this.createGameController = new CreateGameController();
-    }
-
-    public static Stage getStageReference() {
-        return stageReference;
     }
 
 
@@ -62,11 +53,14 @@ public class GuiView extends View {
         StackPane root = new StackPane();
         InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_1080.jpg");
         Image image = new Image(is);
+
         ImageView imageView = new ImageView(image);
         imageView.setImage(image);
         imageView.setPreserveRatio(true);
+
         imageView.setFitWidth(root.computeAreaInScreen());
-        //adding listeners
+        imageView.setFitHeight(root.computeAreaInScreen());
+
         Button createGameButton = new Button("Create Game");
         createGameButton.setOnAction(actionEvent -> {
             drawCreateGameScene();
@@ -82,9 +76,11 @@ public class GuiView extends View {
         titleLabel.setTranslateY(-200);
         joinGameButton.setTranslateY(50);
         root.getChildren().add(createGameButton);
-        root.getChildren().add(joinGameButton);
 
-        stageReference.setScene(new Scene(root, 1520, 850));
+        root.getChildren().add(joinGameButton);
+        Scene scene = new Scene(root, 1520, 850);
+        scene.getStylesheets().add("/codexTheme.css");
+        stageReference.setScene(scene);
         stageReference.show();
     }
 
@@ -101,16 +97,16 @@ public class GuiView extends View {
 
         TextField serverAddressField = new TextField();
         serverAddressField.setPromptText("server address");
-        usernameField.setMaxWidth(200);
+        serverAddressField.setMaxWidth(200);
 
         TextField serverPortField = new TextField();
         serverPortField.setPromptText("server port");
-        usernameField.setMaxWidth(200);
+        serverPortField.setMaxWidth(200);
 
         Button loginButton = new Button("Login");
         Button backButton = new Button("Back");
 
-        Label titleLabel = new Label("insert your username, server address and server port plis");
+        Label titleLabel = new Label("insert your username, server address and server port");
         Label errorLabel = new Label();
 
         //adding listeners
@@ -163,8 +159,9 @@ public class GuiView extends View {
         root.getChildren().add(backButton);
         root.getChildren().add(errorLabel);
 
-
-        stageReference.setScene(new Scene(root, 1520, 850));
+        Scene scene = new Scene(root, 1520, 850);
+        scene.getStylesheets().add("/codexTheme.css");
+        stageReference.setScene(scene);
         stageReference.show();
     }
 
@@ -197,7 +194,10 @@ public class GuiView extends View {
 
         root.getChildren().add(playButton);
         root.getChildren().add(backButton);
-        stageReference.setScene(new Scene(root, 1520, 850));
+
+        Scene scene = new Scene(root, 1520, 850);
+        scene.getStylesheets().add("/codexTheme.css");
+        stageReference.setScene(scene);
         stageReference.show();
 
     }
@@ -263,19 +263,23 @@ public class GuiView extends View {
         });
         root.getChildren().add(localHostLabel);
         localHostLabel.setTranslateY(-200);
-        numPlayersChoice.setTranslateY(-100);
-        usernameField.setTranslateY(-50);
+        numPlayersChoice.setTranslateY(-50);
+        usernameField.setTranslateY(-100);
         confirmButton.setTranslateY(50);
         backButton.setTranslateY(50);
         errorLabel.setTranslateY(100);
         errorLabel.setTranslateX(50);
-        confirmButton.setTranslateX(-50);
-        root.getChildren().add(numPlayersChoice);
+        confirmButton.setTranslateX(50);
+        backButton.setTranslateX(-50);
         root.getChildren().add(usernameField);
+        root.getChildren().add(numPlayersChoice);
         root.getChildren().add(confirmButton);
         root.getChildren().add(errorLabel);
         root.getChildren().add(backButton);
-        stageReference.setScene(new Scene(root, 1520, 850));
+
+        Scene scene = new Scene(root, 1520, 850);
+        scene.getStylesheets().add("/codexTheme.css");
+        stageReference.setScene(scene);
         stageReference.show();
     }
 
@@ -414,7 +418,7 @@ public class GuiView extends View {
         flipButton.setMaxWidth(75);
         flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
 
-        //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        //Button end turn //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
         Button endTurnButton = new Button("end turn");
         endTurnButton.setTextFill(javafx.scene.paint.Color.WHITE);
         endTurnButton.setLayoutX(centerX - 37.5);
@@ -573,6 +577,7 @@ public class GuiView extends View {
             }
         });
 
+        scene.getStylesheets().add("/codexTheme.css");
         stageReference.setScene(scene);
         stageReference.sizeToScene();
         stageReference.show();

@@ -1,15 +1,10 @@
 package codex.lb04.Utils;
 
-import codex.lb04.GuiApp;
 import codex.lb04.View.GuiView;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class SceneLauncher extends Application{
@@ -40,6 +35,7 @@ public class SceneLauncher extends Application{
                 System.out.println("cheffai");
                 break;
         }
+        //this.guiView.getStageReference().getScene().getStylesheets().add("src/main/resources/codexTheme.css");
     }
 
     public static void main(String[] args) {
