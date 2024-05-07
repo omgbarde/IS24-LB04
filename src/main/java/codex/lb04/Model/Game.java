@@ -7,7 +7,9 @@ import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
+import codex.lb04.Observer.Observer;
 
 import java.util.ArrayList;
 import java.util.Objects;

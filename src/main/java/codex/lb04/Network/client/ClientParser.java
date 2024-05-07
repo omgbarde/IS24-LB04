@@ -68,7 +68,7 @@ public class ClientParser {
                 Platform.runLater(() -> view.update(input));
                 break;
             case UPDATE_GOLD:
-                Platform.runLater(() -> view.update(input));
+                view.update(input);
                 break;
             case ERROR:
                 view.print("error: " + input);

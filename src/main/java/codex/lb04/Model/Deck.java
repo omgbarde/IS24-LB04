@@ -160,7 +160,8 @@ public class Deck extends Observable {
         VisibleGoldCards.add(visible_gc1);
         VisibleGoldCards.add(visible_gc2);
         VisibleGoldCards.add(getTopGold());
-        notifyObserver(new UpdateGoldMessage(VisibleGoldCards)); // broadcast
+        ArrayList<GoldCard> toSend = ((ArrayList<GoldCard>) VisibleGoldCards.clone());
+        notifyObserver(new UpdateGoldMessage(toSend)); // broadcast
         return VisibleGoldCards;
     }
 

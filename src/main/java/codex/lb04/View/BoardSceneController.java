@@ -4,6 +4,7 @@ import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
@@ -54,9 +55,9 @@ public class BoardSceneController {
             GoldCard goldCard = goldCards.get(i);
             drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
             Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
-            addCardDrawableGoldToMap(rectangle, goldCard);
+            Platform.runLater(()->addCardDrawableGoldToMap(rectangle, goldCard));
         }
-        updateView();
+        //updateView();
     }
 
 
@@ -154,9 +155,9 @@ public class BoardSceneController {
 
 
         if (card.iShowingFront()) {
-            is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+            is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
         } else {
-            is = getClass().getResourceAsStream("cards_images/CODEX_cards_gold_back/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+            is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
         }
 
         Image image = new Image(is);
