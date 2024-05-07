@@ -120,9 +120,7 @@ public class GameController {
                 //TODO
                 break;
             case START_GAME:
-                if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
-                    startGame();
-                }
+
                 break;
             case ERROR:
                 ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
