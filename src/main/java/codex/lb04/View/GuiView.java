@@ -176,7 +176,7 @@ public class GuiView extends View {
 
         Label titleLabel = new Label("Players in the lobby");
 
-        Button playButton = new Button("Play");
+        Button playButton = new Button("Play");//TODO implementare start del game
         Button backButton = new Button("Back");
         root.getChildren().add(titleLabel);
 
