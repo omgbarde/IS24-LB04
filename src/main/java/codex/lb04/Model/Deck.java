@@ -1,5 +1,6 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class Deck extends Observable {
         //this.shuffleGold();
         //this.shuffleObjectives();
         //this.shuffleInitial();
+        //TODO uncomment the above when the view works
     }
 
     /**
@@ -199,7 +201,7 @@ public class Deck extends Observable {
                 VisibleResourceCards.add(getTopResource());
                 break;
         }
-        notifyObserver(new UpdateGoldMessage(VisibleResourceCards)); // broadcast
+        notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
     }
 
 

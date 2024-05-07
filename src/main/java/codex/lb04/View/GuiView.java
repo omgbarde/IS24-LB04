@@ -354,17 +354,15 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
         ResourceCard1.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(ResourceCard1);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard2.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(ResourceCard2);
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(ResourceCard3);
 
-        bsc.startGame();
+        bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
+
 
 
         // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
@@ -376,15 +374,15 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
         GoldCard1.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(GoldCard1);
+
 
         Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
         GoldCard2.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(GoldCard2);
+
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         GoldCard3.setFill(Color.RED.getPaint());
-        bsc.addRectangleToMap(GoldCard3);
+        bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX
         double rectangleWidthHand = 130;
@@ -402,6 +400,8 @@ public class GuiView extends View {
         Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         HandCard3.setFill(Color.RED.getPaint());
 
+        bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);
+
         // COMMON OBJECTIVES BOX
         double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
         double rectangleHeightCommonObjectives = cardHeight + 6;
@@ -415,15 +415,20 @@ public class GuiView extends View {
         Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         CommonObjective2.setFill(Color.RED.getPaint());
 
+        bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
+
         // SECRET OBJECTIVE BOX
         double rectangleWidthSecretObjective = cardWidth + 6;
         double rectangleHeightSecretObjective = cardHeight + 6;
         Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeigth - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);
         SecretObjectiveBox.setFill(Color.BLACK.getPaint());
 
+
         //secret objective
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
+        //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
+
 
         //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
         Button flipButton = new Button("flip card");
@@ -615,9 +620,7 @@ public class GuiView extends View {
 
     @Override
     public void update(Message message){
-        /**
-         * nel caso in cui ricevo message draw qualcosa allora chiamo metodo di boardSceneController
-         */
+        bsc.onMessageReceived(message);
     }
 
 
@@ -628,4 +631,5 @@ public class GuiView extends View {
     public ClientSocket getClientSocket() {
         return this.clientSocket;
     }
+
 }

@@ -16,6 +16,8 @@ public class GameObserver implements Observer {
             case PLAYERS_CONNECTED, GAME_STATE, START_GAME:
                 ServerApp.broadcast(message);
                 break;
+             case UPDATE_GOLD:
+                 ServerApp.broadcast(message);
             case PLACE_CARD:
                 break;
             case PICK_GOLD_CARD:

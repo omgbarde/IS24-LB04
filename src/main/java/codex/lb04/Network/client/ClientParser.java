@@ -13,7 +13,7 @@ import javafx.application.Platform;
 /**
  * This class parses messages client side
  */
-public class ClientParser{
+public class ClientParser {
     ClientSocket clientSocket;
 
     View view;
@@ -35,11 +35,11 @@ public class ClientParser{
             case LOGIN_REPLY:
                 //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
-                    Platform.runLater(()->view.drawLobbyScene());
+                    Platform.runLater(() -> view.drawLobbyScene());
                 } else {
                     view.print("login refused");
                     clientSocket.disconnect();
-                    Platform.runLater(()->view.drawHelloScene());
+                    Platform.runLater(() -> view.drawHelloScene());
                 }
                 break;
             case PLAYERS_CONNECTED:
@@ -51,10 +51,10 @@ public class ClientParser{
                     }
                 };*/
                 //executorService.schedule(updateListTask,2000, TimeUnit.MILLISECONDS);
-                Platform.runLater(()-> view.updateLobby(((PlayersConnectedMessage)input).getLobby()));
+                Platform.runLater(() -> view.updateLobby(((PlayersConnectedMessage) input).getLobby()));
                 break;
             case LOGOUT_REPLY:
-                if(((LogoutReply) input).isAccepted()) {
+                if (((LogoutReply) input).isAccepted()) {
                     clientSocket.disconnect();
                     Platform.runLater(() -> view.drawHelloScene());
                     clientSocket.disconnect();
@@ -63,10 +63,12 @@ public class ClientParser{
                 }
                 break;
             case DRAW_CARD:
-                DrawCardMessage message = (DrawCardMessage) input;
-                Card card = message.getCard();
-                Platform.runLater(()->view.drawCard(card));//TODO vedere come fare meglio questa comunicazione
+                Platform.runLater(() -> view.update(input));
                 break;
+            case UPDATE_GOLD:
+                Platform.runLater(() -> view.update(input));
+                break;
+
             case ERROR:
                 view.print("error: " + input);
                 clientSocket.disconnect();
@@ -79,10 +81,10 @@ public class ClientParser{
                 view.print(input.toString());
                 break;
             case GAME_STATE:
-                sceneMap((GameStateMessage)input);
+                sceneMap((GameStateMessage) input);
                 break;
             case START_GAME:
-                Platform.runLater(()->view.drawBoardScene());
+                Platform.runLater(() -> view.drawBoardScene());
                 break;
             default:
                 view.print("message not recognized");
@@ -94,13 +96,13 @@ public class ClientParser{
     private void sceneMap(GameStateMessage input) {
         switch (input.getGameState()) {
             case LOGIN:
-                Platform.runLater(()->view.drawHelloScene());
+                Platform.runLater(() -> view.drawHelloScene());
                 break;
             case INIT:
-                Platform.runLater(()->view.drawLobbyScene());
+                Platform.runLater(() -> view.drawLobbyScene());
                 break;
             case IN_GAME:
-                Platform.runLater(()->view.drawBoardScene());
+                Platform.runLater(() -> view.drawBoardScene());
                 break;
             case END_GAME:
                 break;

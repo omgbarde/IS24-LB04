@@ -40,4 +40,5 @@ public enum MessageType {
      * messages for the view
      */
     DRAW_CARD,
+    UPDATE_GOLD,
 }
