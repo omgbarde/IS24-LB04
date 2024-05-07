@@ -748,7 +748,7 @@ public class GameControllerTest {
         gameController.onMessageReceived(correct);
         assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(4, 4));
 
-        //player1 draws a gold card from the pile
+        //player2 draws a gold card from the pile
         gold = new PickGoldCardMessage(activePlayer, 2);
         goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
         gameController.onMessageReceived(gold);
@@ -801,8 +801,408 @@ public class GameControllerTest {
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
         activePlayer = player1;
 
+        //start of the eighth turn
+        //player1 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().getFirst();
+        correct = new PlaceCardMessage(activePlayer, 2, 6, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(2, 6));
 
+        //player1 draws a gold card from the visible gold card
+        gold = new PickGoldCardMessage(activePlayer, 1);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleGoldCards().get(1);
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
 
+        //player1 ends his sixth turn
+        EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
+        activePlayer = player2;
+
+        //player2's eighth turn
+        //player2 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 3, 1, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(3, 1));
+
+        //player2 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player2 ends his eighth turn
+        EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        activePlayer = player3;
+
+        //third player's eighth turn
+        //player3 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, -2, -2, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-2, -2));
+
+        //player3 draws a resource card from the pile
+        resource = new PickResourceCardMessage(activePlayer, 2);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player3 ends his turn
+        EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+        activePlayer = player4;
+
+        //fourth player's eighth turn
+        //player4 places a card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, -1, 1, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-1, 1));
+
+        //player4 draws a resource card from the visible resourceCards
+        resource = new PickResourceCardMessage(activePlayer, 0);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player4 end his turn
+        EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+        activePlayer = player1;
+
+        //start of the ninth turn
+        //player1 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, -2, 2, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-2, 2));
+
+        //player1 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player1 ends his ninth turn
+        EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
+        activePlayer = player2;
+
+        //player2's ninth turn
+        //player2 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, -1, 1, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-1, 1));
+
+        //player2 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player2 ends his eighth turn
+        EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        activePlayer = player3;
+
+        //third player's ninth turn
+        //player3 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, -1, -3, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-1, -3));
+
+        //player3 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player3 ends his turn
+        EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+        activePlayer = player4;
+
+        //fourth player's ninth turn
+        //player4 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, -1, -3, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-1, -3));
+
+        //player4 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player4 end his turn
+        EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+        activePlayer = player1;
+
+        //start of the 10th turn
+        //player1 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().getFirst();
+        correct = new PlaceCardMessage(activePlayer, 1, 7, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(1, 7));
+
+        //player1 draws a resource card from the pile
+        resource = new PickResourceCardMessage(activePlayer, 2);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player1 ends his ninth turn
+        EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
+        activePlayer = player2;
+
+        //player2's ninth turn
+        //player2 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 5, 5, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(5, 5));
+
+        //player2 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player2 ends his eighth turn
+        EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        activePlayer = player3;
+
+        //third player's 10th turn
+        //player3 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 2, 4, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(2, 4));
+
+        //player3 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player3 ends his turn
+        EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+        activePlayer = player4;
+
+        //fourth player's 10th turn
+        //player4 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 0, -4, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(0, -4));
+
+        //player4 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player4 end his turn
+        EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+        activePlayer = player1;
+
+        //start of the 11th turn
+        //player1 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 0, 6, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(0, 6));
+
+        //player1 draws a resource card from the pile
+        resource = new PickResourceCardMessage(activePlayer, 2);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player1 ends his 11th turn
+        EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
+        activePlayer = player2;
+
+        //player2's 11th turn
+        //player2 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, -2, 2, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-2, 2));
+
+        //player2 draws a visible gold card
+        gold = new PickGoldCardMessage(activePlayer, 1);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleGoldCards().get(1);
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player2 ends his 11th turn
+        EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        activePlayer = player3;
+
+        //third player's 11th turn
+        //player3 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
+        correct = new PlaceCardMessage(activePlayer, -1, 3, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-1, 3));
+
+        //player3 draws a visible resource card
+        resource = new PickResourceCardMessage(activePlayer, 0);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player3 ends his turn
+        EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+        activePlayer = player4;
+
+        //fourth player's 11th turn
+        //player4 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, -2, 0, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-2, 0));
+
+        //player4 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player4 end his turn
+        EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+        activePlayer = player1;
+
+        //start of the 11th turn, in this turn the second and fourth player will reach at least 20 points
+        //player1 flips a gold card and then places it
+        Card toFlip = game.getPlayerByName(activePlayer).getBoard().getHand().getFirst();
+        FlipCardMessage flipCardMessage = new FlipCardMessage(activePlayer, toFlip);
+        gameController.onMessageReceived(flipCardMessage);
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().getFirst();
+        correct = new PlaceCardMessage(activePlayer, -3, 3, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-3, 3));
+
+        //player1 draws a resource card from the pile
+        resource = new PickResourceCardMessage(activePlayer, 2);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player1 ends his 11th turn
+        EndFirstTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFirstTurn);
+        assertNotEquals(player1, gameController.getTurnController().getActivePlayer());
+        assertEquals(player2, gameController.getTurnController().getActivePlayer());
+        activePlayer = player2;
+
+        //player2's 12th turn, in this turn he reaches 21 points
+        //player2 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 2, 0, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(2, 0));
+
+        //player2 draws a visible gold card
+        gold = new PickGoldCardMessage(activePlayer, 1);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleGoldCards().get(1);
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player2 ends his 12th turn
+        EndSecondTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndSecondTurn);
+        assertNotEquals(player2, gameController.getTurnController().getActivePlayer());
+        assertEquals(player3, gameController.getTurnController().getActivePlayer());
+        activePlayer = player3;
+
+        //third player's 12th turn
+        //player3 places a resource card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, -2, 4, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(-2, 4));
+
+        //player3 draws a visible resource card
+        resource = new PickResourceCardMessage(activePlayer, 0);
+        resourceCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getVisibleResourceCards().getFirst();
+        gameController.onMessageReceived(resource);
+        assertEquals(resourceCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player3 ends his turn
+        EndThirdTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndThirdTurn);
+        assertNotEquals(player3, gameController.getTurnController().getActivePlayer());
+        assertEquals(player4, gameController.getTurnController().getActivePlayer());
+        activePlayer = player4;
+
+        //fourth player's 11th turn, in this turn he reaches 20 points
+        //player4 places a gold card
+        toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(2);
+        correct = new PlaceCardMessage(activePlayer, 4, 0, toPlace);
+        gameController.onMessageReceived(correct);
+        assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(4, 0));
+
+        //player4 draws a gold card from the pile
+        gold = new PickGoldCardMessage(activePlayer, 2);
+        goldCard = game.getPlayerByName(activePlayer).getBoard().getDeck().getGoldCards().getFirst();
+        gameController.onMessageReceived(gold);
+        assertEquals(goldCard, game.getPlayerByName(activePlayer).getBoard().getHand().get(2));
+
+        //player4 end his turn
+        EndFourthTurn = new EndTurnMessage(activePlayer);
+        gameController.onMessageReceived(EndFourthTurn);
+        assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
+        assertEquals(player1, gameController.getTurnController().getActivePlayer());
+        activePlayer = player1;
 
         //TODO finish this game simulation
 

@@ -117,7 +117,7 @@ public class Board {
      */
     public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
         //if it's a gold card checks if we have enough resources
-        if (toBePlaced.getClass() == GoldCard.class) {
+        if (toBePlaced.getClass() == GoldCard.class && toBePlaced.getShownFace()==toBePlaced.getFront()) {
             if (Insects < ((GoldCard) toBePlaced).getInsects_needed()) {
                 return false;
             }
