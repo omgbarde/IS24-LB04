@@ -104,6 +104,15 @@ public class Deck extends Observable {
     }
 
     /**
+     * this method updates the visible gold cards
+     */
+    public void updateVisibleGold() {
+        GoldCard toDraw = drawGold();
+        VisibleGoldCards.add(toDraw);
+    }
+
+
+    /**
      * this method draws a card from the deck of objectives
      *
      * @return the card drawn
@@ -159,8 +168,16 @@ public class Deck extends Observable {
     }
 
     /**
-     * this method draws the first three cards of the resourcecards deck, and shows the front faces
-     * @return the first two cards of the resourcecards deck
+     * this method updates the visible resource cards
+     */
+    public void updateVisibleResource() {
+        ResourceCard toDraw = drawResource();
+        VisibleResourceCards.add(toDraw);
+    }
+
+    /**
+     * this method draws the first two cards of the resource cards deck, and shows the front faces
+     * @return the first two cards of the resource cards deck
      */
     public ArrayList<ResourceCard> setVisibleResourceCards() {
         ResourceCard visible_rc1 = drawResource();
@@ -264,8 +281,6 @@ public class Deck extends Observable {
     public ArrayList<InitialCard> getInitialCards() {
         return initialCards;
     }
-
-    //SHUFFLE METHODS
 
     /**
      * this method shuffles the deck of resources cards

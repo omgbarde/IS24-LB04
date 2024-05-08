@@ -255,11 +255,12 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
-                    if (endGame && countDown != -1) {
+                //if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
+                //for(p:game.getPlayers()){
+                if (endGame && countDown != -1) {
                         countDown--;
                     }
-                    if (endGame && countDown == 0) {
+                if (endGame && countDown == 0) {
                         game.setGameState(GameState.ENDED);
                         winners = game.getWinners();
                         for (String winner : winners) {
@@ -268,10 +269,10 @@ public class GameController {
                             }
                         }
                     }
-                    if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
-                        countDown = 3;
+                if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
+                        countDown = game.getLobby().size() - 1; //3;
                     }
-                }
+                //}
                 turnController.changeTurn();
                 break;
             case DEAD_CLIENT:

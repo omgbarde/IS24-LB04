@@ -3,7 +3,6 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
-import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ public class Board extends Observable {
     public Board() {
         this.deck = Deck.getInstance();
         Game game = Game.getInstance();
-        addObserver(new GameObserver());
         this.CommonObjectives = game.getCommonObjectives();
         this.secretObjectiveToPick = new ArrayList<>();
         this.secretObjectiveToPick.add(this.deck.drawObjective());
@@ -125,17 +123,17 @@ public class Board extends Observable {
      */
     public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
         //if it's a gold card checks if we have enough resources
-        if (toBePlaced.getClass() == GoldCard.class) {
-            if (Insects <= ((GoldCard) toBePlaced).getInsects_needed()) {
+        if (toBePlaced.getClass() == GoldCard.class && toBePlaced.getShownFace()==toBePlaced.getFront()) {
+            if (Insects < ((GoldCard) toBePlaced).getInsects_needed()) {
                 return false;
             }
-            if (Animals <= ((GoldCard) toBePlaced).getAnimals_needed()) {
+            if (Animals < ((GoldCard) toBePlaced).getAnimals_needed()) {
                 return false;
             }
-            if (Leaves <= ((GoldCard) toBePlaced).getLeaf_needed()) {
+            if (Leaves < ((GoldCard) toBePlaced).getLeaf_needed()) {
                 return false;
             }
-            if (Mushrooms <= ((GoldCard) toBePlaced).getMushroom_needed()) {
+            if (Mushrooms < ((GoldCard) toBePlaced).getMushroom_needed()) {
                 return false;
             }
         }
@@ -300,25 +298,27 @@ public class Board extends Observable {
      * @param toBePlaced the gold card that has been placed
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced) {
-        switch (toBePlaced.getID()) {
-            case 41, 51, 63, 71:
-                this.PointsByGoldCards += toBePlaced.getPoints() * getQuills();
-                break;
-            case 42, 53, 61, 73:
-                this.PointsByGoldCards += toBePlaced.getPoints() * getInkwells();
-                break;
-            case 43, 52, 62, 72:
-                this.PointsByGoldCards += toBePlaced.getPoints() * getManuscripts();
-                break;
-            case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76:
-                this.PointsByGoldCards += getCornerCovered(toBePlaced, toBePlaced.getX(), toBePlaced.getY()) * 2;
-                break;
-            case 47, 48, 49, 57, 58, 59, 67, 68, 69, 77, 78, 79:
-                this.PointsByGoldCards += 3;
-                break;
-            case 50, 60, 70, 80:
-                this.PointsByGoldCards += 5;
-                break;
+        if(toBePlaced.getShownFace()==toBePlaced.getFront()){
+            switch (toBePlaced.getID()) {
+                case 41, 51, 63, 71:
+                    this.PointsByGoldCards += toBePlaced.getPoints() * getQuills();
+                    break;
+                case 42, 53, 61, 73:
+                    this.PointsByGoldCards += toBePlaced.getPoints() * getInkwells();
+                    break;
+                case 43, 52, 62, 72:
+                    this.PointsByGoldCards += toBePlaced.getPoints() * getManuscripts();
+                    break;
+                case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76:
+                    this.PointsByGoldCards += getCornerCovered(toBePlaced, toBePlaced.getX(), toBePlaced.getY()) * 2;
+                    break;
+                case 47, 48, 49, 57, 58, 59, 67, 68, 69, 77, 78, 79:
+                    this.PointsByGoldCards += 3;
+                    break;
+                case 50, 60, 70, 80:
+                    this.PointsByGoldCards += 5;
+                    break;
+            }
         }
     }
 
@@ -456,18 +456,26 @@ public class Board extends Observable {
 
         switch (cardId) {
             case 87:
-                if (cardColor == Color.RED) {
-                    if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives()) {
-                        card.setUsedForPositionalObjectives(true);
-                        return true;
+                if (cardColor== Color.RED) {
+                    if(getCard(card.getX() + 1, card.getY() + 1)!=null && getCard(card.getX() - 1, card.getY() - 1)!=null) {
+                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()){
+                            card.setUsedForPositionalObjectives(true);
+                            getCard(card.getX() + 1, card.getY() + 1).setUsedForPositionalObjectives(true);
+                            getCard(card.getX() - 1, card.getY() - 1).setUsedForPositionalObjectives(true);
+                            return true;
+                        }
                     }
                 }
                 break;
             case 88:
                 if (cardColor == Color.GREEN) {
-                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives()) {
-                        card.setUsedForPositionalObjectives(true);
-                        return true;
+                    if(getCard(card.getX() + 1, card.getY() - 1)!=null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
+                        if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
+                            card.setUsedForPositionalObjectives(true);
+                            getCard(card.getX() + 1, card.getY() - 1).setUsedForPositionalObjectives(true);
+                            getCard(card.getX() - 1, card.getY() + 1).setUsedForPositionalObjectives(true);
+                            return true;
+                        }
                     }
                 }
                 break;
@@ -476,6 +484,8 @@ public class Board extends Observable {
                     if (getCard(card.getX() + 1, card.getY() + 1) != null && getCard(card.getX() - 1, card.getY() - 1) != null) {
                         if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
+                            getCard(card.getX() + 1, card.getY() + 1).setUsedForPositionalObjectives(true);
+                            getCard(card.getX() - 1, card.getY() - 1).setUsedForPositionalObjectives(true);
                             return true;
                         }
                     }
@@ -483,9 +493,13 @@ public class Board extends Observable {
                 break;
             case 90:
                 if (cardColor == Color.PURPLE) {
-                    if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives()) {
-                        card.setUsedForPositionalObjectives(true);
-                        return true;
+                    if(getCard(card.getX() + 1, card.getY() - 1)!= null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
+                        if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
+                            card.setUsedForPositionalObjectives(true);
+                            getCard(card.getX() + 1, card.getY() - 1).setUsedForPositionalObjectives(true);
+                            getCard(card.getX() - 1, card.getY() + 1).setUsedForPositionalObjectives(true);
+                            return true;
+                        }
                     }
                 }
                 break;
@@ -526,7 +540,7 @@ public class Board extends Observable {
                 }
                 break;
             case 94:
-                if (cardColor== Color.PURPLE) {
+                if (cardColor == Color.PURPLE) {
                     if(getCard(card.getX(), card.getY() + 2)!=null && getCard(card.getX() - 1, card.getY() + 3)!=null) {
                         if (getCard(card.getX(), card.getY() + 2).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 3).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() + 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
