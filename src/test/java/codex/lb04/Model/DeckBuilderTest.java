@@ -2,13 +2,13 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class DeckBuilderTest {
+    private GameObserver observer;
 
     private Board board;
     private Card card;
@@ -34,6 +34,7 @@ public class DeckBuilderTest {
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         this.card = new Card(Color.BLUE, front, back);
         this.board = new Board();
+        board.getDeck().addObserver(observer);
         this.deckBuilder = new DeckBuilder();
     }
 
@@ -50,6 +51,7 @@ public class DeckBuilderTest {
         this.card = null;
         this.board = null;
         this.deckBuilder = null;
+        this.observer = null;
     }
 
     @Test

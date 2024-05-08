@@ -81,8 +81,6 @@ public class ServerApp implements Runnable {
     public void removeClientHandler(String clientHandlerName) {
         if (!clientHandlerList.isEmpty()) {
             clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
-            ErrorMessage message = new ErrorMessage("server", "client " + clientHandlerName + " disconnected");
-            broadcast(message);
         }
     }
 
@@ -108,7 +106,10 @@ public class ServerApp implements Runnable {
 
     public void onMessageReceived(Message receivedMessage) {
         if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
-            removeClientHandler(receivedMessage.getUsername());
+            String usr = receivedMessage.getUsername();
+            removeClientHandler(usr);
+            ErrorMessage message = new ErrorMessage("server", "client " + usr + " disconnected");
+            broadcast(message);
         }
         this.gameController.onMessageReceived(receivedMessage);
     }

@@ -21,10 +21,6 @@ public class Observable {
         observers.add(observer);
     }
 
-    public void addObserverList(List<Observer> observers) {
-        observers.addAll(observers);
-    }
-
     /**
      * removes observer from the list.
      *
@@ -43,13 +39,5 @@ public class Observable {
         for (Observer observer : observers) {
             observer.update(message);
         }
-    }
-
-    /**
-     *
-     * @return the list of observers.
-     */
-    public List<Observer> getObservers(){
-        return observers;
     }
 }

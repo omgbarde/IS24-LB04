@@ -4,7 +4,6 @@ import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.Message;
-import codex.lb04.Message.OkMessage;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Face;
@@ -109,23 +108,12 @@ public class GameController {
             case CREATE_GAME:
                 game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
                 game.addPlayerToLobby(usr);
-                //TODO check positioning of this
-                if (game.getLobby().size() == game.getNumPlayers()) {
-                    game.drawBoard();
-                }
                 break;
             case LOGIN_REQUEST:
                 game.addPlayerToLobby(usr);
                 break;
-            case LOGOUT_REQUEST:
-                ServerApp.sendMessageToClient(new OkMessage(), usr);
-                game.removePlayerFromLobby(usr);
-                break;
             case PONG:
                 //TODO
-                break;
-            case START_GAME:
-
                 break;
             case ERROR:
                 ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
@@ -216,10 +204,6 @@ public class GameController {
                     ServerApp.sendMessageToClient(new InvalidInputMessage(usr, "finish turn actions first (place & draw a card)"), usr);
                 }
                 break;
-            case LOGOUT_REQUEST:
-                ServerApp.sendMessageToClient(new OkMessage(), usr);
-                game.removePlayer(usr);
-                break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);
                 break;
@@ -287,11 +271,6 @@ public class GameController {
                 }
                 turnController.changeTurn();
                 break;
-            case LOGOUT_REQUEST:
-                //server.print("user wants to logout: " + getUsername());
-                ServerApp.sendMessageToClient(new OkMessage(), usr);
-                game.removePlayer(usr);
-                break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);
                 break;
@@ -319,15 +298,13 @@ public class GameController {
      */
     public void startGame() {
         game.setGameState(GameState.INIT);
-
-        game.setDeck(gameObserver);
+        game.setDeck();
         game.createPlayers();
         game.drawHandForAllPlayers();
         game.setCommonObjectivesForallPlayers();
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
         game.setGameState(GameState.IN_GAME);
-        //game.notifyGameStarting();
     }
 
     /**

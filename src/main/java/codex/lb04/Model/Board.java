@@ -3,6 +3,7 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class Board extends Observable {
     public Board() {
         this.deck = Deck.getInstance();
         Game game = Game.getInstance();
+        addObserver(new GameObserver());
         this.CommonObjectives = game.getCommonObjectives();
         this.secretObjectiveToPick = new ArrayList<>();
         this.secretObjectiveToPick.add(this.deck.drawObjective());

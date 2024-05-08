@@ -2,13 +2,10 @@ package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
-import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginReply;
-import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
-import codex.lb04.Observer.Observer;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,8 +33,8 @@ public class Game extends Observable {
     private Game() {
     }
 
-    public void setDeck(Observer observer){
-        this.deck = Deck.getInstance(observer);
+    public void setDeck(){
+        this.deck = Deck.getInstance();
     }
 
     /**
@@ -168,8 +165,6 @@ public class Game extends Observable {
      */
     public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
-        notifyObserver(new LogoutReply(player, true));
-        notifyObserver(new PlayersConnectedMessage("server",getLobby()));
     }
 
 
@@ -189,7 +184,6 @@ public class Game extends Observable {
      */
     public void removePlayer(String player) {
         this.players.remove(getPlayerByName(player));
-        notifyObserver(new LogoutReply(player, true));
     }
 
     /**
@@ -224,9 +218,6 @@ public class Game extends Observable {
         this.gameState = gameState;
     }
 
-    public void notifyGameStarting(){
-        notifyObserver(new StartGameMessage("starting"));
-    }
     /**
      * returns the players
      *
@@ -251,7 +242,6 @@ public class Game extends Observable {
     public void createPlayers() {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
-            newPlayer.getBoard().addObserverList(getObservers());
             addPlayer(newPlayer);
             newPlayer.getBoard().setUsername(player);
         }

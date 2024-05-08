@@ -1,11 +1,13 @@
 package codex.lb04.Model;
 
 
+import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PlayerTest {
     private Player player;
@@ -14,6 +16,7 @@ public class PlayerTest {
     @Before
     public void setUp() {
         this.board = new Board();
+        this.board.getDeck().addObserver(new GameObserver());
         this.player = new Player("test");
     }
 

@@ -2,6 +2,7 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 
 
 public class GameTest {
-
+    private GameObserver observer;
     private Game game;
     private Corner corner = new Corner(ResourceType.ANIMAL);
     private Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
@@ -33,6 +34,7 @@ public class GameTest {
 
     @Before
     public void setUp() {
+        this.observer = new GameObserver();
         this.player = new Player("test");
         this.player1 = new Player("test1");
         this.players.add(player);
@@ -40,6 +42,8 @@ public class GameTest {
         this.board = new Board();
         this.deck = Deck.getInstance();
         this.game = Game.getInstance();
+        this.game.addObserver(observer);
+        this.game.setDeck();
         this.cardOb = cardOb;
         this.cardOb2 = cardOb2;
         objectiveCards.add(cardOb);
@@ -52,6 +56,7 @@ public class GameTest {
 
     @After
     public void tearDown() {
+        this.observer = null;
         this.player = null;
         this.player1 = null;
         this.board = null;

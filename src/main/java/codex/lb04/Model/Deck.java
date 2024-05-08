@@ -3,7 +3,6 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
-import codex.lb04.Observer.Observer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,8 +23,7 @@ public class Deck extends Observable {
      * Default constructor
      */
     //TODO shuffle doesnt' work -- DON'T FIX IT FOR NOW
-    private Deck(Observer observer) {
-        this.addObserver(observer);
+    private Deck() {
         resourceCards = new ArrayList<>();
         goldCards = new ArrayList<>();
         objectiveCards = new ArrayList<>();
@@ -39,7 +37,7 @@ public class Deck extends Observable {
      * this method creates the deck of cards
      */
     public void initializeDeck() {
-
+        this.addObserver(new GameObserver());
         DeckBuilder deckBuilder = new DeckBuilder();
         resourceCards = deckBuilder.createResourceCards();
         goldCards = deckBuilder.createGoldCards();
@@ -59,19 +57,10 @@ public class Deck extends Observable {
      *
      * @return the deck instance
      */
-    public static Deck getInstance(Observer observer) {
-        if (instance == null) {
-            instance = new Deck(observer);
-        }
-        return instance;
-    }
-
-    /**
-     * returns the deck instance
-     *
-     * @return the deck instance
-     */
     public static Deck getInstance() {
+        if (instance == null) {
+            instance = new Deck();
+        }
         return instance;
     }
 

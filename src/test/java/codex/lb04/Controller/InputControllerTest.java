@@ -1,7 +1,7 @@
 package codex.lb04.Controller;
 
+import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
-import codex.lb04.Message.GameMessage.StartGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
@@ -28,8 +28,10 @@ public class InputControllerTest {
         gameController.onMessageReceived(loginMessage1);
         LoginMessage loginMessage2 = new LoginMessage(player2);
         gameController.onMessageReceived(loginMessage2);
-        StartGameMessage start = new StartGameMessage(player1);
-        gameController.onMessageReceived(start);
+        ReadyMessage start1 = new ReadyMessage(player1);
+        ReadyMessage start2 = new ReadyMessage(player2);
+        gameController.onMessageReceived(start1);
+        gameController.onMessageReceived(start2);
         PickInitialCardSideMessage pickInitialCardSideMessage = new PickInitialCardSideMessage(player1,game.getPlayerByName(player1).getBoard().getInitialCard());
         gameController.onMessageReceived(pickInitialCardSideMessage);
         PickInitialCardSideMessage pickInitialCardSideMessage2 = new PickInitialCardSideMessage(player2,game.getPlayerByName(player2).getBoard().getInitialCard());

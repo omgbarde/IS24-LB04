@@ -1,7 +1,6 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Message.DeadClientMessage;
-import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.ServerApp;
@@ -85,11 +84,6 @@ public class ClientHandler implements Runnable {
         try {
             output.writeObject(message);
             output.flush();
-            if(message.getMessageType()==MessageType.LOGOUT_REPLY){
-                if (((LogoutReply) message).isAccepted()) {
-                    server.removeClientHandler(this.username);
-                }
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

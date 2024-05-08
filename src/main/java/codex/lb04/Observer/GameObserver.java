@@ -1,6 +1,5 @@
 package codex.lb04.Observer;
 
-import codex.lb04.Controller.GameController;
 import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
@@ -10,7 +9,7 @@ public class GameObserver implements Observer {
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
-            case LOGIN_REPLY, LOGOUT_REPLY, FLIP_CARD, DRAW_CARD:
+            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD:
                 ServerApp.sendMessageToClient(message,usr);
                 break;
             case PLAYERS_CONNECTED, GAME_STATE, START_GAME, UPDATE_GOLD,DRAW_BOARD:
