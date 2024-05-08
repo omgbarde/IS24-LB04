@@ -17,11 +17,11 @@ import java.util.Objects;
  */
 public class Game extends Observable {
     private static Game instance;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
     private Deck deck;
     private GameState gameState = GameState.LOGIN;
-    private ArrayList<String> lobby = new ArrayList<String>();
-    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
+    private ArrayList<String> lobby = new ArrayList<>();
+    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<>();
     private int numPlayers = 0;
     private int replies = 0;
 
@@ -316,17 +316,11 @@ public class Game extends Observable {
 
     public boolean checkReplies(){
         replies += 1;
-        if(replies == numPlayers){
-            return true;
-        }
-        else return false;
+        return replies == numPlayers;
     }
 
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
 }

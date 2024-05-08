@@ -43,9 +43,7 @@ public class ObjectiveCard extends Card implements Serializable {
     }
 
     /**
-     * this method sets if the objective card is in game
-     *
-     * @return true if the objective card is in game, false otherwise
+     * this method sets the objective card as in game
      */
     public void setInGame() {
         this.inGame = true;

@@ -1,6 +1,7 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
@@ -51,16 +52,12 @@ public class ClientParser {
                 clientSocket.disconnect();
                 view.drawHelloScene();
                 break;
-            case GENERIC_MESSAGE:
+            case GENERIC_MESSAGE, INVALID_INPUT:
                 view.displayAlert(input.toString());
-                break;
-            case INVALID_INPUT:
-                view.displayAlert(input.toString());
-                break;
-            case START_GAME:
                 break;
             case DRAW_BOARD:
                 view.drawBoardScene();
+                clientSocket.sendMessage(new ReadyMessage("ready"));
                 break;
             default:
                 view.displayAlert("message not recognized");

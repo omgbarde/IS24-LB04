@@ -34,7 +34,7 @@ public class Deck extends Observable {
     }
 
     /**
-     * this method creates the deck of cards
+     * this method creates the deck of cards and adds an observer to it
      */
     public void initializeDeck() {
         this.addObserver(new GameObserver());
@@ -64,8 +64,12 @@ public class Deck extends Observable {
         return instance;
     }
 
+    /**
+     * resets the deck instance
+     */
     public void resetInstance() {
         instance = null;
+        removeAllObservers();
     }
 
 
@@ -115,7 +119,7 @@ public class Deck extends Observable {
     }
 
     public ArrayList<ObjectiveCard> setCommonObjectives() {
-        ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<ObjectiveCard>();
+        ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<>();
         chosenObjectives.add(this.drawObjective());
         chosenObjectives.add(this.drawObjective());
         //notifyObserver(new UpdateCommonObjectivesMessage(chosenObjectives)); // broadcast
@@ -207,19 +211,11 @@ public class Deck extends Observable {
     }
 
 
-
-
-
-
-
     //GETTERS
 
-
-
-
     /**
-     * returns the visible gold cards
-     * @return
+     * getter for the visible gold cards
+     * @return the visible gold cards arrayList
      */
     public ArrayList<GoldCard> getVisibleGoldCards() {
         return VisibleGoldCards;
@@ -268,6 +264,8 @@ public class Deck extends Observable {
     public ArrayList<InitialCard> getInitialCards() {
         return initialCards;
     }
+
+    //SHUFFLE METHODS
 
     /**
      * this method shuffles the deck of resources cards

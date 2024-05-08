@@ -7,7 +7,9 @@ import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
 
-
+/**
+ * TurnController class is responsible for managing the turns of the players in the game.
+ */
 public class TurnController {
 
     private String activePlayer;
@@ -18,19 +20,32 @@ public class TurnController {
     private boolean placedCard = false;
     private boolean drawnCard = false;
 
+    /**
+     * sets if the player has drawn a card
+     * @param drawnCard is true if the player has drawn a card and false otherwise
+     */
     public void setDrawnCard(boolean drawnCard) {
         this.drawnCard = drawnCard;
     }
-
+    /**
+     * sets if the player has placed a card
+     * @param placedCard is true if the player has placed a card and false otherwise
+     */
     public void setPlacedCard(boolean placedCard) {
         this.placedCard = placedCard;
     }
-
-    public boolean isDrawnCard() {
+    /**
+     * sets if the player has drawn a card
+     * @return true if the player has drawn a card and false otherwise
+     */
+    public boolean hasDrawnCard() {
         return drawnCard;
     }
-
-    public boolean isPlacedCard() {
+    /**
+     * sets if the player has placed a card
+     * @return true if the player has placed a card and false otherwise
+     */
+    public boolean hasPlacedCard() {
         return placedCard;
     }
 
@@ -69,8 +84,6 @@ public class TurnController {
     public String getActivePlayer() {
         return activePlayer;
     }
-
-
 
     /**
      * method to set the next player active player and change turn

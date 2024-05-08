@@ -6,6 +6,9 @@ import codex.lb04.Model.Card;
 
 import java.io.Serial;
 
+/**
+ * Message to notify the user to draw a card.
+ */
 public class DrawCardMessage extends Message {
     @Serial
     private static final long serialVersionUID = 15;
@@ -13,9 +16,9 @@ public class DrawCardMessage extends Message {
     private Card card;
 
     /**
-     * Constructor for PickGoldCardMessage
+     * Constructor for DrawCardMessage
      * @param username username of the player
-     * @param card choice of the card to pick
+     * @param card card to draw
      */
     public DrawCardMessage(String username, Card card) {
         super(username, MessageType.DRAW_CARD);

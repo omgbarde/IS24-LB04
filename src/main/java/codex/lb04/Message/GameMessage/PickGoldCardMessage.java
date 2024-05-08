@@ -4,7 +4,9 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
 import java.io.Serial;
-
+/**
+ * Message sent when a client picks a gold card
+ */
 public class PickGoldCardMessage extends Message {
     @Serial
     private static final long serialVersionUID = 15;

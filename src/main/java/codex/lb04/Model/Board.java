@@ -42,10 +42,8 @@ public class Board extends Observable {
     //username of the player
     private String username;
 
-
-
     /**
-     * Default constructor
+     * Default constructor of the board, adds an observer to it and sets all the resources to zero
      */
     public Board() {
         this.deck = Deck.getInstance();
@@ -258,13 +256,13 @@ public class Board extends Observable {
     public void drawResourceCard(Integer pick) {
         switch (pick) {
             case 0, 1:
-                this.hand.add(this.deck.getVisibleResourceCards().get((int) pick));
-                this.deck.updateVisibleResource((int)pick);
+                this.hand.add(this.deck.getVisibleResourceCards().get(pick));
+                this.deck.updateVisibleResource(pick);
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
-                this.deck.updateVisibleResource((int)pick);
+                this.deck.updateVisibleResource(pick);
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
@@ -578,7 +576,7 @@ public class Board extends Observable {
      * this method checks how many objectives a player has completed
      */
     public Integer checkNumberObjectives() {
-        Integer cnt = 0;
+        int cnt = 0;
         for (Card card : getIngameCards()) {
             if (conditionCheckOnPositionRelatedObjectives(this.getSecretObjective(), card)) {
                 cnt += 1;

@@ -6,6 +6,9 @@ import codex.lb04.Model.Card;
 
 import java.io.Serial;
 
+/**
+ * Message sent when a client places a card
+ */
 public class PlaceCardMessage extends Message {
     @Serial
     private static final long serialVersionUID = 19;

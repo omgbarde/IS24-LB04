@@ -3,7 +3,6 @@ package codex.lb04.View;
 import codex.lb04.CodexClientApp;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
-import codex.lb04.Network.client.ClientParser;
 
 import java.util.ArrayList;
 
@@ -12,8 +11,6 @@ import java.util.ArrayList;
  * This class represents the abstract view of the client
  */
 public abstract class View {
-    private static ClientParser clientParser;
-
     public void print(String string) {
         CodexClientApp.print(string);
     }

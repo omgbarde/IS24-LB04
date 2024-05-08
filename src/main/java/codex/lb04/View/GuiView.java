@@ -1,7 +1,6 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
-import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.Card;
@@ -578,19 +577,15 @@ public class GuiView extends View {
             switch (e.getCode()) {
                 case W:
                     cameraTranslate.setY(cameraTranslate.getY() + 20);
-                    bsc.updateView();
                     break;
                 case S:
                     cameraTranslate.setY(cameraTranslate.getY() - 20);
-                    bsc.updateView();
                     break;
                 case A:
                     cameraTranslate.setX(cameraTranslate.getX() + 20);
-                    bsc.updateView();
                     break;
                 case D:
                     cameraTranslate.setX(cameraTranslate.getX() - 20);
-                    bsc.updateView();
                     break;
             }
         });
@@ -602,7 +597,6 @@ public class GuiView extends View {
                     stageReference.setWidth(stageWidth);
                     stageReference.show();
                 });
-        clientSocket.sendMessage(new ReadyMessage("ready"));
     }
 
     //TODO

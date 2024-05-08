@@ -7,6 +7,12 @@ public class PlayersConnectedMessage extends Message {
     @Serial
     private static final long serialVersionUID = 9;
     ArrayList<String> lobby;
+
+    /**
+     * Constructor for PlayersConnectedMessage
+     * @param username is usually "server"
+     * @param lobby list of players connected
+     */
     public PlayersConnectedMessage(String username, ArrayList<String> lobby) {
         super(username, MessageType.PLAYERS_CONNECTED);
         this.lobby = lobby;

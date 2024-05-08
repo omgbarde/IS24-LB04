@@ -4,7 +4,9 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
 import java.io.Serial;
-
+/**
+ * Message sent when a client picks a secret objective
+ */
 public class PickSecretObjectiveMessage extends Message {
     @Serial
     private static final long serialVersionUID = 18;
@@ -36,7 +38,6 @@ public class PickSecretObjectiveMessage extends Message {
     public String getUsername() {
         return super.getUsername();
     }
-
 
     @Override
     public String toString() {

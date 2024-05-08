@@ -10,7 +10,11 @@ public class ErrorMessage extends Message {
     private static final long serialVersionUID = 2;
 
     private final String error;
-
+    /**
+     * Constructor for ErrorMessage
+     * @param username
+     * @param error
+     */
     public ErrorMessage(String username, String error) {
         super(username, MessageType.ERROR);
         this.error = error;

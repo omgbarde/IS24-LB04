@@ -6,6 +6,9 @@ import codex.lb04.Model.Card;
 import codex.lb04.Model.Game;
 import codex.lb04.Model.InitialCard;
 
+/**
+ * InputController class is responsible for verifying the data sent by the client to the server.
+ */
 public class InputController {
 
     private GameController gameController;
@@ -13,8 +16,8 @@ public class InputController {
 
     /**
      * Constructor for InputController
-     * @param gameController GameController
-     * @param game Game
+     * @param gameController is the GameController
+     * @param game is the Game object
      */
     public InputController(GameController gameController, Game game) {
         this.gameController = gameController;
@@ -25,26 +28,19 @@ public class InputController {
      * Verify data sent by client to server.
      *
      * @param message Message from Client.
-     * @return {code @true} if Message contains valid data {@code false} otherwise.
+     * @return true if Message contains valid data false otherwise.
      */
     public boolean verifyReceivedData(Message message) {
-
-        switch (message.getMessageType()) {
-            case PICK_SECRET_OBJECTIVE:
-                return pickSecretObjectiveCheck(message);
-            case PICK_RESOURCE_CARD:
-                return pickResourceCardCheck(message);
-            case PICK_GOLD_CARD:
-                return pickGoldCardCheck(message);
-            case PICK_INITIAL_CARD_SIDE:
-                return true;
-            case PLACE_CARD:
-                return placeCardCheck(message);
-            case FLIP_CARD:
-                return flipCardCheck(message);
-            default: // should never reach this statement.
-                return false;
-        }
+        return switch (message.getMessageType()) {
+            case PICK_SECRET_OBJECTIVE -> pickSecretObjectiveCheck(message);
+            case PICK_RESOURCE_CARD -> pickResourceCardCheck(message);
+            case PICK_GOLD_CARD -> pickGoldCardCheck(message);
+            case PICK_INITIAL_CARD_SIDE -> pickInitialCardSideCheck(message);
+            case PLACE_CARD -> placeCardCheck(message);
+            case FLIP_CARD -> flipCardCheck(message);
+            default -> // should never reach this statement.
+                    false;
+        };
     }
 
     /**

@@ -3,6 +3,9 @@ package codex.lb04.Observer;
 import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
+/**
+ * this class represents the observer of the game
+ */
 public class GameObserver implements Observer {
     //TODO has to update the view based on the message received
     @Override
@@ -12,7 +15,7 @@ public class GameObserver implements Observer {
             case LOGIN_REPLY, FLIP_CARD, DRAW_CARD:
                 ServerApp.sendMessageToClient(message,usr);
                 break;
-            case PLAYERS_CONNECTED, START_GAME, UPDATE_GOLD,DRAW_BOARD:
+            case PLAYERS_CONNECTED, UPDATE_GOLD,DRAW_BOARD:
                 ServerApp.broadcast(message);
                 break;
             case PLACE_CARD:

@@ -124,6 +124,7 @@ public class GameControllerTest {
         gameController.onMessageReceived(start4);
 
         Game game = Game.getInstance();
+        game.setDeck();
 
         //first player tries to end his turn without choosing an initial card and a secret objective
         String activePlayer = gameController.getTurnController().getActivePlayer();
@@ -133,6 +134,7 @@ public class GameControllerTest {
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
 
         //first player picks the side of the initial card
+        //TODO fallisce qui ma dovrebbe essere stato fixato da alex nell inputcontroller
         PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));

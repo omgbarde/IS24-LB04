@@ -7,9 +7,11 @@ import javafx.stage.Stage;
 
 import java.util.Scanner;
 
+/**
+ * This class is used as a testbench to launch the different scenes of the application.
+ */
 public class SceneLauncher extends Application{
     private GuiView guiView;
-
 
     @Override
     public void start(Stage primaryStage) {
@@ -35,7 +37,6 @@ public class SceneLauncher extends Application{
                 System.out.println("cheffai");
                 break;
         }
-        //this.guiView.getStageReference().getScene().getStylesheets().add("src/main/resources/codexTheme.css");
     }
 
     public static void main(String[] args) {
@@ -43,7 +44,6 @@ public class SceneLauncher extends Application{
 
         launch(String.valueOf(scanner.nextInt()));
     }
-
 
     // Add more methods to launch other scenes as needed
 }

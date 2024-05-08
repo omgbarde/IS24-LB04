@@ -85,11 +85,7 @@ public class Card implements Serializable {
     }
 
     public boolean iShowingFront(){
-        if(this.ShownFace == this.front){
-            return true;
-        }else{
-            return false;
-        }
+        return this.ShownFace == this.front;
     }
 
     /**

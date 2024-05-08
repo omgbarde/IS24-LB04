@@ -30,7 +30,6 @@ public class ClientSocket {
      * @param port    is the desired port
      */
     public ClientSocket(View view,String username, String address, int port) throws IOException {
-            this.view = view;
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());

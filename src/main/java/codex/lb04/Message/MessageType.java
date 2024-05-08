@@ -9,8 +9,6 @@ public enum MessageType {
      * network messages
      **/
     GENERIC_MESSAGE,                //generic message
-    START_GAME,                     //message sent from the server to the clients to start the game
-    OK_MESSAGE,                     //message sent form the server after receiving any message correctly
     PING,                           //ping message sent from server to see if client is alive
     PONG,                           //pong message sent from client to server to show that it is alive
     LOGIN_REQUEST,                  //login request message
@@ -36,8 +34,9 @@ public enum MessageType {
     /**
      * messages for the view
      */
-    DRAW_CARD,
-    UPDATE_GOLD,
-    DRAW_BOARD,
-    READY
+    READY,                          //message sent when the player is ready, after instantiating the board
+    DRAW_CARD,                      //message sent to a player to signal drawing a card
+    UPDATE_GOLD,                    //message sent to a player to update the gold cards
+    DRAW_BOARD,                     //message sent to a player to draw the board
+    WINNERS                         //message sent to all players to show the winners
 }

@@ -22,12 +22,10 @@ public class Observable {
     }
 
     /**
-     * removes observer from the list.
-     *
-     * @param observer the observer you want to remove.
+     * removes all observers from the list.
      */
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
+    protected void removeAllObservers() {
+        observers.clear();
     }
 
     /**
@@ -40,4 +38,6 @@ public class Observable {
             observer.update(message);
         }
     }
+
+
 }

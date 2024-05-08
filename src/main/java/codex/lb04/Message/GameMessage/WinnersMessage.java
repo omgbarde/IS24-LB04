@@ -12,7 +12,7 @@ public class WinnersMessage extends Message {
     private String winner;
 
     public WinnersMessage(String username , String winner) {
-        super(username, MessageType.START_GAME);
+        super(username, MessageType.WINNERS);
         this.winner = winner;
     }
 

@@ -8,7 +8,11 @@ public class GenericMessage extends Message {
     @Serial
     private static final long serialVersionUID = 3;
     private String msg;
-
+    /**
+     * Constructor for GenericMessage
+     * @param username is the nickname of the user sending the message
+     * @param s is the message
+     */
     public GenericMessage(String username, String s) {
         super(username, MessageType.GENERIC_MESSAGE);
         this.msg = s;
