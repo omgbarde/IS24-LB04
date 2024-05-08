@@ -1,17 +1,17 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static java.lang.Math.floor;
-
 /**
  * This class represents the board of the game
  */
-public class Board {
+public class Board extends Observable {
     //cards played
     private ArrayList<Card> playedCards = new ArrayList<>();
     //objectives
@@ -38,11 +38,11 @@ public class Board {
     private boolean secretObjectiveChosen = false;
     //boolean to check if the player chose the initial card
     private boolean initialCardChosen = false;
-
-
+    //username of the player
+    private String username;
 
     /**
-     * Default constructor
+     * Default constructor of the board, adds an observer to it and sets all the resources to zero
      */
 
     public Board() {
@@ -75,6 +75,10 @@ public class Board {
         this.Quills = 0;
         this.Inkwells = 0;
         this.Manuscripts = 0;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     /**
@@ -174,6 +178,7 @@ public class Board {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
+        notifyObserver(new DrawCardMessage(username , this.initialCard));
     }
 
     /**
@@ -190,6 +195,9 @@ public class Board {
      */
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
+        for(ObjectiveCard commonObjective : CommonObjectives){
+            notifyObserver(new DrawCardMessage(username , commonObjective));
+        }
     }
 
     /**
@@ -204,10 +212,12 @@ public class Board {
             case 0:
                 this.secretObjective = this.secretObjectiveToPick.get(0);
                 secretObjectiveChosen = true;
+                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
                 break;
             case 1:
                 this.secretObjective = this.secretObjectiveToPick.get(1);
                 secretObjectiveChosen = true;
+                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
                 break;
             default:
                 System.out.println("invalid choice");
@@ -223,11 +233,13 @@ public class Board {
         switch (pick) {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
-                this.deck.getVisibleGoldCards().remove((int) pick);
-                this.deck.updateVisibleGold();
+                this.deck.updateVisibleGold(pick);
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawGold());
+                this.deck.updateVisibleGold(pick);
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
 
@@ -240,15 +252,23 @@ public class Board {
     public void drawResourceCard(Integer pick) {
         switch (pick) {
             case 0, 1:
-                this.hand.add(this.deck.getVisibleResourceCards().get((int) pick));
-                this.deck.getVisibleResourceCards().remove((int) pick);
-                this.deck.updateVisibleResource();
+                this.hand.add(this.deck.getVisibleResourceCards().get(pick));
+                this.deck.updateVisibleResource(pick);
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
+                this.deck.updateVisibleResource(pick);
+                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
     }
+
+    public Card getLastDrawnCard(){
+        return hand.getLast();
+    }
+
+
 
     /**
      * This method returns the number of corner you're going to cover placing a card
@@ -431,9 +451,12 @@ public class Board {
      * @return true if the conditions are met, false otherwise
      */
     public boolean conditionCheckOnPositionRelatedObjectives(ObjectiveCard objectiveCard, Card card) {
-        switch (objectiveCard.getID()) {
+        int cardId = objectiveCard.getID();
+        Color cardColor = card.getColor();
+
+        switch (cardId) {
             case 87:
-                if (card.getColor() == Color.RED) {
+                if (cardColor== Color.RED) {
                     if(getCard(card.getX() + 1, card.getY() + 1)!=null && getCard(card.getX() - 1, card.getY() - 1)!=null) {
                         if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()){
                             card.setUsedForPositionalObjectives(true);
@@ -445,7 +468,7 @@ public class Board {
                 }
                 break;
             case 88:
-                if (card.getColor() == Color.GREEN) {
+                if (cardColor == Color.GREEN) {
                     if(getCard(card.getX() + 1, card.getY() - 1)!=null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
                         if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -457,7 +480,7 @@ public class Board {
                 }
                 break;
             case 89:
-                if (card.getColor() == Color.BLUE) {
+                if (cardColor == Color.BLUE) {
                     if (getCard(card.getX() + 1, card.getY() + 1) != null && getCard(card.getX() - 1, card.getY() - 1) != null) {
                         if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.BLUE && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -469,7 +492,7 @@ public class Board {
                 }
                 break;
             case 90:
-                if (card.getColor() == Color.PURPLE) {
+                if (cardColor == Color.PURPLE) {
                     if(getCard(card.getX() + 1, card.getY() - 1)!= null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
                         if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -481,7 +504,7 @@ public class Board {
                 }
                 break;
             case 91:
-                if (card.getColor() == Color.RED) {
+                if (cardColor == Color.RED) {
                     if(getCard(card.getX(), card.getY() - 2)!=null && getCard(card.getX() + 1, card.getY() - 3)!=null) {
                         if (getCard(card.getX(), card.getY() - 2).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 3).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() - 2).isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -493,7 +516,7 @@ public class Board {
                 }
                 break;
             case 92:
-                if (card.getColor() == Color.GREEN) {
+                if (cardColor == Color.GREEN) {
                     if(getCard(card.getX(), card.getY() - 2)!=null && getCard(card.getX() - 1, card.getY() - 3)!= null) {
                         if (getCard(card.getX(), card.getY() - 2).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 3).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() - 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 3).isUsedForPositionalObjectives()){
                             card.setUsedForPositionalObjectives(true);
@@ -505,7 +528,7 @@ public class Board {
                 }
                 break;
             case 93:
-                if (card.getColor() == Color.BLUE) {
+                if (cardColor == Color.BLUE) {
                     if(getCard(card.getX(), card.getY() + 2)!=null && getCard(card.getX() + 1, card.getY() + 3)!=null) {
                         if (getCard(card.getX(), card.getY() + 2).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 3).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() + 2).isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -517,7 +540,7 @@ public class Board {
                 }
                 break;
             case 94:
-                if (card.getColor() == Color.PURPLE) {
+                if (cardColor == Color.PURPLE) {
                     if(getCard(card.getX(), card.getY() + 2)!=null && getCard(card.getX() - 1, card.getY() + 3)!=null) {
                         if (getCard(card.getX(), card.getY() + 2).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 3).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() + 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
@@ -581,7 +604,7 @@ public class Board {
      * this method checks how many objectives a player has completed
      */
     public Integer checkNumberObjectives() {
-        Integer cnt = 0;
+        int cnt = 0;
         for (Card card : getIngameCards()) {
             if (conditionCheckOnPositionRelatedObjectives(this.getSecretObjective(), card)) {
                 cnt += 1;

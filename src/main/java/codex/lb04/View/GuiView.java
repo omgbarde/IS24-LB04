@@ -1,90 +1,632 @@
 package codex.lb04.View;
 
-import codex.lb04.CodexClientApp;
-import codex.lb04.Controller.SceneController.LobbyController;
-import codex.lb04.Controller.SceneController.LoginController;
+import codex.lb04.Message.DrawMessage.DrawBoardMessage;
+import codex.lb04.Message.GameMessage.CreateGameMessage;
+import codex.lb04.Message.LoginMessage;
+import codex.lb04.Model.Card;
+import codex.lb04.Model.Enumerations.Color;
+import codex.lb04.Network.client.ClientSocket;
+import codex.lb04.Utils.ConnectionUtil;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * class that represents the GUI view
  */
 public class GuiView extends View {
-    private static Stage stageReference;
-    private LoginController helloController;
-    private LobbyController lobbyController;
+    private  Stage stageReference;
+    private  ClientSocket clientSocket;
+    private   Label lobbyLabel = new Label();
+    BoardSceneController bsc;
 
-    public GuiView(Stage stage ) {
+    double centerX = 1000 / 2.0;
+    double centerY = 600 / 2.0;
+    double cardWidth = 124;
+    double cardHeight = 82.5;
+    double resourceWidth = 50;
+    double resourceHeigth = 50;
+    double stageWidth = 1000;
+    double stageHeigth = 600;
+
+    public GuiView(Stage stage) {
+        stage.setHeight(600);
+        stage.setWidth(1000);
+        stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
         stageReference = stage;
-        this.helloController =  new LoginController();
-        this.lobbyController = new LobbyController();
+        bsc = new BoardSceneController(this);
     }
 
-    /**
-     * this method switches the scene to the one specified by the name
-     *
-     * @param sceneName is the name of the scene to load
-     */
+
     @Override
-    public void switchScene(String sceneName) {
-        //in guiview we need to add the .fxml extension to the scene name
-        Platform.runLater(() -> {
-            try {
-                loadScene(sceneName + ".fxml");
-            } catch (IOException e) {
-                System.out.println("Error loading the " + sceneName + " scene");
+    public void drawHelloScene() {
+        //creating elements
+        StackPane root = new StackPane();
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_1080.jpg");
+        Image image = new Image(is);
+
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setPreserveRatio(true);
+
+        imageView.setFitWidth(root.computeAreaInScreen());
+        imageView.setFitHeight(root.computeAreaInScreen());
+
+        Button createGameButton = new Button("Create Game");
+        createGameButton.setOnAction(actionEvent -> {
+            drawCreateGameScene();
+        });
+        Button joinGameButton = new Button("Join Game");
+        joinGameButton.setOnAction(actionEvent -> drawLoginScene());
+        Label titleLabel = new Label("Codex naturalis");
+        //append elements to the root
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                root.getChildren().add(imageView);
+                root.getChildren().add(titleLabel);
+                titleLabel.setTranslateY(-200);
+                joinGameButton.setTranslateY(50);
+                root.getChildren().add(createGameButton);
+
+                root.getChildren().add(joinGameButton);
+                Scene scene = new Scene(root, 1520, 850);
+                scene.getStylesheets().add("/codexTheme.css");
+                stageReference.setScene(scene);
+                stageReference.show();
             }
         });
     }
 
-    /**
-     * this method loads the scene from the fxml file
-     *
-     * @param fxml is the fxml file to load
-     * @throws IOException when an error occurs in loading the fxml
-     */
-    public static void loadScene(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CodexClientApp.class.getResource(fxml));
-        Scene scene = new Scene(fxmlLoader.load(), 1520, 850);
-        stageReference.setScene(scene);
-    }
 
     @Override
-    public void setTitle(String title) {
-        Platform.runLater(() -> stageReference.setTitle(title));
+    public void drawLoginScene() {
+        //creating elements
+        StackPane root = new StackPane();
 
-    }
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("username");
+        usernameField.setMaxWidth(200);
 
-    @Override
-    public void setMode(String mode) {
-        if (mode.equals("fullscreen")) {
-            Platform.runLater(() -> stageReference.setFullScreen(true));
-        }
-    }
+        TextField serverAddressField = new TextField();
+        serverAddressField.setPromptText("server address");
+        serverAddressField.setMaxWidth(200);
 
-    @Override
-    public void updateList(ArrayList<String> names) {
-        Platform.runLater(()->lobbyController.updateList(Objects.requireNonNull(names)));
-    }
+        TextField serverPortField = new TextField();
+        serverPortField.setPromptText("server port");
+        serverPortField.setMaxWidth(200);
 
-    @Override
-    public void updateListLater(ArrayList<String> names){
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                updateList(names);
+        Button loginButton = new Button("Login");
+        Button backButton = new Button("Back");
+
+        Label titleLabel = new Label("insert your username, server address and server port");
+        Label errorLabel = new Label();
+
+        //adding listeners
+        loginButton.setOnAction(actionEvent -> {
+            String usr = usernameField.getText();
+            String addr = serverAddressField.getText();
+            int port = ConnectionUtil.defaultPort;
+            try {
+                port = Integer.parseInt(serverPortField.getText());
+            } catch (NumberFormatException e) {
+                errorLabel.setText("Using default port");
             }
-        };
-        int delay = 1000;
-        timer.schedule(task, delay);
+            if (ConnectionUtil.checkValid(usr, addr, port)) {
+                try {
+                    clientSocket = new ClientSocket(this, usr, addr, port);
+                } catch (IOException e) {
+                    errorLabel.setText("Server not available");
+                    return;
+                }
+                LoginMessage loginMessage = new LoginMessage(usr);
+                clientSocket.sendMessage((loginMessage));
+                loginButton.setDisable(true);
+            } else {
+                errorLabel.setText("Enter valid username, address and port");
+            }
+        });
+
+        backButton.setOnAction(actionEvent -> drawHelloScene());
+
+        Platform.runLater(() -> {
+            //append elements to the root
+            stageReference.setTitle("Codex! - Login");
+            root.getChildren().add(titleLabel);
+            titleLabel.setTranslateY(-200);
+            usernameField.setTranslateY(-100);
+            serverAddressField.setTranslateY(-50);
+            serverPortField.setTranslateY(0);
+            loginButton.setTranslateY(50);
+            backButton.setTranslateY(50);
+            errorLabel.setTranslateY(100);
+            loginButton.setTranslateX(50);
+            backButton.setTranslateX(-50);
+
+            root.getChildren().add(usernameField);
+            root.getChildren().add(serverAddressField);
+            root.getChildren().add(serverPortField);
+            root.getChildren().add(loginButton);
+            root.getChildren().add(backButton);
+            root.getChildren().add(errorLabel);
+
+            Scene scene = new Scene(root, 1520, 850);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
+        });
     }
+
+
+    @Override
+    public void drawLobbyScene() {
+        StackPane root = new StackPane();
+
+        Label titleLabel = new Label("Players in the lobby");
+
+        Button playButton = new Button("Play");//TODO implementare start del game
+        Button backButton = new Button("Back");
+        root.getChildren().add(titleLabel);
+
+        titleLabel.setTranslateY(-200);
+        lobbyLabel.setTranslateY(-100);
+
+        root.getChildren().add(lobbyLabel);
+
+        playButton.setTranslateY(50);
+        playButton.setTranslateX(50);
+        backButton.setTranslateY(50);
+        backButton.setTranslateX(-50);
+
+        backButton.setOnAction(actionEvent -> {
+            clientSocket.disconnect();
+            drawHelloScene();
+        });
+
+        playButton.setOnMouseClicked(actionEvent -> clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername())));
+        Platform.runLater(() -> {
+            stageReference.setTitle("Codex! - Lobby");
+            root.getChildren().add(playButton);
+            root.getChildren().add(backButton);
+
+            Scene scene = new Scene(root, stageWidth, stageHeigth);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
+        });
+    }
+
+
+    @Override
+    public void updateLobby(ArrayList<String> names) {
+        StringBuilder sb = new StringBuilder();
+        for (String name : names) {
+            sb.append(name).append("\n");
+        }
+        Platform.runLater(()-> lobbyLabel.setText(sb.toString()));
+    }
+
+    @Override
+    public void drawCreateGameScene() {
+        //creating elements
+        StackPane root = new StackPane();
+
+        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalHost());
+
+        TextField numPlayersChoice = new TextField();
+        numPlayersChoice.setPromptText("number of players");
+        numPlayersChoice.setMaxWidth(200);
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("choose a username");
+        usernameField.setMaxWidth(200);
+
+        Button confirmButton = new Button("Confirm");
+        Button backButton = new Button("Back");
+        Label errorLabel = new Label();
+
+
+        //adding listeners
+        confirmButton.setOnAction(actionEvent -> {
+            int num = 0;
+            try {
+                num = Integer.parseInt(numPlayersChoice.getText());
+            } catch (NumberFormatException e) {
+                errorLabel.setText("Enter a valid number of players");
+                return;
+            }
+            String usr = usernameField.getText();
+            if (ConnectionUtil.checkValid(num, usr)) {
+                confirmButton.setDisable(true);
+                try {
+                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
+                } catch (IOException e) {
+                    errorLabel.setText("Server not available");
+                    return;
+                }
+                clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+            } else {
+                errorLabel.setText("Invalid input");
+            }
+        });
+        backButton.setOnAction(actionEvent -> drawHelloScene());
+        Platform.runLater(() -> {
+            //append elements to the root
+            stageReference.setTitle("Codex! - Create Game");
+            root.getChildren().add(localHostLabel);
+            localHostLabel.setTranslateY(-200);
+            numPlayersChoice.setTranslateY(-50);
+            usernameField.setTranslateY(-100);
+            confirmButton.setTranslateY(50);
+            backButton.setTranslateY(50);
+            errorLabel.setTranslateY(100);
+            errorLabel.setTranslateX(50);
+            confirmButton.setTranslateX(50);
+            backButton.setTranslateX(-50);
+            root.getChildren().add(usernameField);
+            root.getChildren().add(numPlayersChoice);
+            root.getChildren().add(confirmButton);
+            root.getChildren().add(errorLabel);
+            root.getChildren().add(backButton);
+
+            Scene scene = new Scene(root, 1520, 850);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
+        });
+    }
+
+    @Override
+    public void drawBoardScene() {
+
+        // Create a group for static elements
+        Group staticRoot = new Group();
+        // Add static elements to staticRoot here
+
+        // Create a group for movable elements
+        Group movableRoot = new Group();
+
+        // Create a group to hold both the static and movable groups
+        Group root = new Group();
+        root.getChildren().addAll(movableRoot, staticRoot);
+
+        /**
+         * random image for debug
+         */
+        // Load the image
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
+
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Create the rectangle and set the fill to the pattern
+        Rectangle rect = new Rectangle(centerX - 124, centerY - 82.5, 124, 82.5); // Subtract half the width and height of the rectangle to center it
+        rect.setFill(imagePattern);
+
+
+        rect.setOnMouseClicked(e -> {
+            System.out.println("Rectangle was clicked!");
+            // Add your code here to perform the action when the rectangle is clicked
+        });
+
+        movableRoot.getChildren().add(rect);
+
+        /**
+         * STATIC PART OF THE STAGE
+         */
+        //TODO implementare selected card
+
+        // BOX THAT CONTAINS RESOURCE CARDS THAT CAN BE DRAWN
+        double rectangleWidthOfResourceCardPicker = 130;
+        double rectangleHeightOfResourceCardPicker = 259.5;
+        Rectangle ResourceCardsBox = new Rectangle(stageWidth - rectangleWidthOfResourceCardPicker, 0, rectangleWidthOfResourceCardPicker, rectangleHeightOfResourceCardPicker);
+        ResourceCardsBox.setFill(Color.BLACK.getPaint());
+
+        //Display of the resource cards that can be drawn
+        Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
+        ResourceCard1.setFill(Color.RED.getPaint());
+
+        Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
+        ResourceCard2.setFill(Color.RED.getPaint());
+
+        Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        ResourceCard3.setFill(Color.RED.getPaint());
+
+        bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
+
+
+
+        // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
+        double rectangleWidthOfGoldCardPicker = 130;
+        double rectangleHeightOfGoldCardPicker = 259.5;
+        Rectangle GoldCardsBox = new Rectangle(stageWidth - rectangleWidthOfGoldCardPicker, 270, rectangleWidthOfGoldCardPicker, rectangleHeightOfGoldCardPicker);
+        //GoldCardsBox.setFill(Color.BLACK.getPaint());
+
+        //Display of the resource cards that can be drawn
+        Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
+        //GoldCard1.setFill(Color.RED.getPaint());
+
+
+        Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
+        //GoldCard2.setFill(Color.RED.getPaint());
+
+
+        Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        //GoldCard3.setFill(Color.RED.getPaint());
+        bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
+
+        // HAND BOX
+        double rectangleWidthHand = 130;
+        double rectangleHeightHand = 259.5;
+        Rectangle HandBox = new Rectangle(0, 0, rectangleWidthHand, rectangleHeightHand);
+        HandBox.setFill(Color.BLACK.getPaint());
+
+        //cards in hand
+        Rectangle HandCard1 = new Rectangle(3, 3, cardWidth, cardHeight);
+        HandCard1.setFill(Color.RED.getPaint());
+
+        Rectangle HandCard2 = new Rectangle(3, 3 + cardHeight + 3, cardWidth, cardHeight);
+        HandCard2.setFill(Color.RED.getPaint());
+
+        Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
+        HandCard3.setFill(Color.RED.getPaint());
+
+        bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);
+
+        // COMMON OBJECTIVES BOX
+        double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
+        double rectangleHeightCommonObjectives = cardHeight + 6;
+        Rectangle CommonObjectivesBox = new Rectangle(0, stageHeigth - rectangleHeightCommonObjectives, rectangleWidthCommonObjectives, rectangleHeightCommonObjectives);
+        CommonObjectivesBox.setFill(Color.BLACK.getPaint());
+
+        //common objectives
+        Rectangle CommonObjective1 = new Rectangle(3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        CommonObjective1.setFill(Color.RED.getPaint());
+
+        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        CommonObjective2.setFill(Color.RED.getPaint());
+
+        bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
+
+        // SECRET OBJECTIVE BOX
+        double rectangleWidthSecretObjective = cardWidth + 6;
+        double rectangleHeightSecretObjective = cardHeight + 6;
+        Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeigth - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);
+        SecretObjectiveBox.setFill(Color.BLACK.getPaint());
+
+
+        //secret objective
+        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        SecretObjective.setFill(Color.RED.getPaint());
+        bsc.setSecretObjectiveMap(SecretObjective);
+        bsc.testImage();
+
+        //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
+
+
+        //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        Button flipButton = new Button("flip card");
+        flipButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        flipButton.setLayoutX(10);
+        flipButton.setLayoutY(265);
+        flipButton.setMaxHeight(10);
+        flipButton.setMaxWidth(75);
+        flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+
+        //Button end turn //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        Button endTurnButton = new Button("end turn");
+        endTurnButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        endTurnButton.setLayoutX(centerX - 37.5);
+        endTurnButton.setLayoutY(5);
+        endTurnButton.setMaxHeight(10);
+        endTurnButton.setMaxWidth(75);
+        endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+
+
+        //resources & points box
+        double rectangleWidthPointsBox = 422.5;
+        double rectangleHeightPointsBox = cardHeight + 6;
+        Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeigth - rectangleHeightSecretObjective, rectangleWidthPointsBox, rectangleHeightSecretObjective);
+        PointsBox.setFill(Color.BLACK.getPaint());
+
+        //resources
+        //TODO settare immagini delle risorse
+        Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        mushrooms.setFill(Color.RED.getPaint());
+
+        Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        animals.setFill(Color.RED.getPaint());
+
+        Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        insect.setFill(Color.RED.getPaint());
+
+        Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        leaves.setFill(Color.RED.getPaint());
+
+        Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        quills.setFill(Color.RED.getPaint());
+
+        Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        inkwells.setFill(Color.RED.getPaint());
+
+        Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        manuscript.setFill(Color.RED.getPaint());
+
+        Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        points.setFill(Color.RED.getPaint());
+
+        // Add the static rectangle to the staticRoot group
+        staticRoot.getChildren().add(ResourceCardsBox);
+        staticRoot.getChildren().add(GoldCardsBox);
+        staticRoot.getChildren().add(CommonObjectivesBox);
+        staticRoot.getChildren().add(SecretObjectiveBox);
+        staticRoot.getChildren().add(HandBox);
+        staticRoot.getChildren().add(PointsBox);
+
+        staticRoot.getChildren().add(ResourceCard1);
+        staticRoot.getChildren().add(ResourceCard2);
+        staticRoot.getChildren().add(ResourceCard3);
+
+        staticRoot.getChildren().add(GoldCard1);
+        staticRoot.getChildren().add(GoldCard2);
+        staticRoot.getChildren().add(GoldCard3);
+
+        staticRoot.getChildren().add(HandCard1);
+        staticRoot.getChildren().add(HandCard2);
+        staticRoot.getChildren().add(HandCard3);
+
+        staticRoot.getChildren().add(CommonObjective1);
+        staticRoot.getChildren().add(CommonObjective2);
+
+        staticRoot.getChildren().add(SecretObjective);
+
+        staticRoot.getChildren().add(flipButton);
+        staticRoot.getChildren().add(endTurnButton);
+
+        staticRoot.getChildren().add(mushrooms);
+        staticRoot.getChildren().add(leaves);
+        staticRoot.getChildren().add(insect);
+        staticRoot.getChildren().add(manuscript);
+        staticRoot.getChildren().add(inkwells);
+        staticRoot.getChildren().add(animals);
+        staticRoot.getChildren().add(quills);
+        staticRoot.getChildren().add(points);
+
+        /**
+         * THE GRID
+         */
+        // Create a grid of barely visible rectangles
+        int gridSize = 20;
+        double rectangleWidth = cardWidth - 24;
+        double rectangleHeight = cardHeight - 24;
+        double opacity = 0.3;
+
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                // Subtract half the grid size from the x and y coordinates to center the grid
+
+                double x = (i - gridSize / 2.0) * rectangleWidth;
+                double y = (j - gridSize / 2.0) * rectangleHeight; // Invert the y-coordinate
+
+                Rectangle gridRectangle = new Rectangle(x, y, rectangleWidth + 24, rectangleHeight + 24);
+
+
+                gridRectangle.setFill(Color.GREY.getPaint());
+                gridRectangle.setOpacity(opacity);
+                // Add an outline to the rectangle
+                gridRectangle.setStroke(javafx.scene.paint.Color.LIGHTGRAY);
+                gridRectangle.setStrokeWidth(2);
+
+                // Create a label for the rectangle's coordinates
+                Label label = new Label("(" + (i - gridSize / 2) + ", " + (gridSize / 2 - j) + ")"); // Invert the y-coordinate in the label
+                label.setTranslateX(x);
+                label.setTranslateY(y);
+
+                // Add a mouse click event handler to the rectangle
+                int finalJ = gridSize / 2 - j; // Invert the y-coordinate
+                int finalI = i - gridSize / 2;
+                if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ) % 2 == 0)) {
+                    ArrayList<Integer> coordinates = new ArrayList<>();
+                    coordinates.add(finalI);
+                    coordinates.add(finalJ);
+                    gridRectangle.setUserData(coordinates); // TODO vedere se funziona
+                    gridRectangle.setOnMouseClicked(e -> {
+                        System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
+
+                        // TODO Send a message to the server with the card selected and the position
+                        //TODO capire come usare questo sotto
+                        //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
+                    });
+                    //bsc.addRectangleToMap(gridRectangle);
+                    movableRoot.getChildren().addAll(gridRectangle, label);
+                }
+            }
+        }
+
+
+        /**
+         * THE CAMERA
+         */
+        // Create a translate transformation for the movable group
+        Translate cameraTranslate = new Translate();
+        movableRoot.getTransforms().add(cameraTranslate);
+
+        Scene scene = new Scene(root, 1400, 900);
+
+        // Add key listeners to the scene to move the camera
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case W:
+                    cameraTranslate.setY(cameraTranslate.getY() + 20);
+                    break;
+                case S:
+                    cameraTranslate.setY(cameraTranslate.getY() - 20);
+                    break;
+                case A:
+                    cameraTranslate.setX(cameraTranslate.getX() + 20);
+                    break;
+                case D:
+                    cameraTranslate.setX(cameraTranslate.getX() - 20);
+                    break;
+            }
+        });
+        Platform.runLater(() -> {
+                    stageReference.setTitle("Codex! - your board");
+                    scene.getStylesheets().add("/codexTheme.css");
+                    stageReference.setScene(scene);
+                    stageReference.setHeight(stageHeigth + 37);
+                    stageReference.setWidth(stageWidth);
+                    stageReference.show();
+                });
+    }
+
+    //TODO
+    private void onGridClick(MouseEvent event) {
+        Node clickedNode = event.getPickResult().getIntersectedNode();
+        ArrayList<Integer> coordinates = new ArrayList<>();
+        coordinates = (ArrayList<Integer>) clickedNode.getUserData();
+    }
+
+    @Override
+    public void displayAlert(String alert) {
+        //show dialog box containing string alert
+        Platform.runLater(() -> {
+            Alert box = new Alert(Alert.AlertType.ERROR);
+            box.setTitle("Alert from server");
+            box.setHeaderText(null);
+            box.setContentText(alert);
+            box.showAndWait();
+        });
+    }
+    @Override
+    public void updateGold(ArrayList<codex.lb04.Model.GoldCard> goldCards) {
+        bsc.updateGold(goldCards);
+    }
+    @Override
+    public void drawCard(Card card) {
+        bsc.drawCard(card);
+    }
+    public Stage getStageReference() {
+        return this.stageReference;
+    }
+
 }

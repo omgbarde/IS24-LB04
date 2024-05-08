@@ -7,6 +7,7 @@ module codex.lb {
     requires java.desktop;
     requires java.logging;
     requires java.naming;
+    requires jdk.xml.dom;
 
     opens codex.lb04 to javafx.fxml;
     exports codex.lb04;
@@ -20,8 +21,10 @@ module codex.lb {
     opens codex.lb04.Network.server to javafx.fxml;
     exports codex.lb04.Message;
     opens codex.lb04.Message to javafx.fxml;
-    exports codex.lb04.Controller.SceneController;
-    opens codex.lb04.Controller.SceneController to javafx.fxml;
+    exports codex.lb04.Controller;
+    opens codex.lb04.Controller to javafx.fxml;
     exports codex.lb04.Message.GameMessage;
     opens codex.lb04.Message.GameMessage to javafx.fxml;
+    exports codex.lb04.Message.DrawMessage;
+    opens codex.lb04.Message.DrawMessage to javafx.fxml;
 }

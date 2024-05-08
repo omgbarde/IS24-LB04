@@ -3,7 +3,13 @@ package codex.lb04.Message.GameMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
+import java.io.Serial;
+/**
+ * Message sent when a client picks a resource card
+ */
 public class PickResourceCardMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 17;
 
     private Integer cardPick;
 

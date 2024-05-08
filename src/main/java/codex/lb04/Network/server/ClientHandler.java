@@ -47,7 +47,6 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        //send message back to client
         try {
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
@@ -70,7 +69,6 @@ public class ClientHandler implements Runnable {
             try {
                 clientSocket.close();
                 server.onMessageReceived(new DeadClientMessage(this.username));
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -82,7 +80,7 @@ public class ClientHandler implements Runnable {
      *
      * @param message is the message passed from the server
      */
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         try {
             output.writeObject(message);
             output.flush();

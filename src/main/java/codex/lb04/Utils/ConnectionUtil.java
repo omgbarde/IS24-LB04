@@ -3,8 +3,11 @@ package codex.lb04.Utils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * This class contains utility methods for the connection
+ */
 public class ConnectionUtil {
-    public static int defaultPort = 49153;
+    public static int defaultPort = 49152;
 
     /**
      * checks if the ip address is valid
@@ -34,5 +37,26 @@ public class ConnectionUtil {
             throw new RuntimeException(e);
         }
         return localhost;
+    }
+
+    /**
+     *
+     * @param usr
+     * @param addr
+     * @param port
+     * @return
+     */
+    public static boolean checkValid(String usr, String addr, int port) {
+        return !usr.isEmpty() && ConnectionUtil.isValidAddr(addr) && ConnectionUtil.isValidPort(port);
+    }
+
+    /**
+     *
+     * @param num
+     * @param usr
+     * @return
+     */
+    public static boolean checkValid(int num, String usr) {
+        return (!usr.isEmpty() &&  num >= 2 && num <= 4);
     }
 }

@@ -1,7 +1,9 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.CodexClientApp;
+import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
+import codex.lb04.View.View;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -18,7 +20,8 @@ public class ClientSocket {
     private Socket socket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private ClientParser messageParser;
+    private ClientParser clientParser;
+    private View view;
 
     /**
      * generates a client socket with the parameters in input
@@ -26,14 +29,13 @@ public class ClientSocket {
      * @param address is the port address
      * @param port    is the desired port
      */
-    public ClientSocket(String username, String address, int port) throws IOException {
-
+    public ClientSocket(View view,String username, String address, int port) throws IOException {
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
-            this.messageParser = new ClientParser(this);
-            readMessage();
+            this.clientParser = new ClientParser( this,view);
+            readmessage();
     }
 
     public String getUsername() {
@@ -47,7 +49,6 @@ public class ClientSocket {
         if (!socket.isClosed()) {
             try {
                 socket.close();
-                CodexClientApp.getView().switchScene("Hello");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -64,22 +65,23 @@ public class ClientSocket {
             output.writeObject(message);
             output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            disconnect();
         }
     }
 
     /**
      * starts a new thread to listen for incoming messages
      */
-    public void readMessage() {
+    public void readmessage() {
         (new Thread(() -> {
             while (!socket.isClosed()) {
                 try {
                     Message message = (Message) input.readObject();
                     //CodexClientApp.print(message.toString());
-                    messageParser.handleInput(message);
+                    clientParser.handleInput(message);
                 } catch (SocketException | EOFException e) {
                     CodexClientApp.print("server disconnected");
+                    clientParser.handleInput(new ErrorMessage("server", "server disconnected"));
                     disconnect();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

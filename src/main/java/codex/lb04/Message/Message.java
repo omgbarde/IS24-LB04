@@ -12,16 +12,27 @@ public abstract class Message implements Serializable {
 
     private final String username;
     private final MessageType messageType;
-
+    /**
+     * Constructor for Message
+     * @param username username of the client that sent the message
+     * @param messageType type of the message
+     */
     protected Message(String username, MessageType messageType) {
         this.username = username;
         this.messageType = messageType;
     }
-
+    /**
+     * Getter for username
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter for messageType
+     * @return messageType
+     */
     public MessageType getMessageType() {
         return messageType;
     }

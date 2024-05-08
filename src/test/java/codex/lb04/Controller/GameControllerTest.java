@@ -1,29 +1,32 @@
 package codex.lb04.Controller;
 
-import codex.lb04.Controller.GameController.GameController;
+import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 
 public class GameControllerTest {
+    private GameObserver gameObserver;
     private GameController gameController;
     private Game game;
 
 
     @Before
     public void setUp() {
+        this.gameObserver = new GameObserver();
         this.game = Game.getInstance();
+        this.game.addObserver(gameObserver);
+        game.setDeck();
         this.gameController = GameController.getInstance();
 
     }
@@ -42,6 +45,8 @@ public class GameControllerTest {
 
     @Test
     public void testOnMessageReceived() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
 
@@ -55,9 +60,10 @@ public class GameControllerTest {
         assertEquals(GameState.LOGIN, game.getGameState());
 
         game.setGameState(GameState.LOGIN);
-        game.addPlayerToLobby("test");
-        game.addPlayerToLobby("test2");
-        gameController.onMessageReceived(new StartGameMessage("test"));
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+        gameController.onMessageReceived(new LoginMessage("test2"));
+        gameController.onMessageReceived(new ReadyMessage("test"));
+        gameController.onMessageReceived(new ReadyMessage("test2"));
         assertEquals(GameState.IN_GAME, game.getGameState());
 
         game.setGameState(GameState.IN_GAME);
@@ -67,6 +73,8 @@ public class GameControllerTest {
 
     @Test
     public void startGame() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
@@ -76,6 +84,8 @@ public class GameControllerTest {
 
     @Test
     public void testGetTurnController() {
+        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
         game.addPlayerToLobby("test2");
@@ -92,9 +102,8 @@ public class GameControllerTest {
         String player5 = "Rafa Leao";
         Face randomFace = new Face(null, null, null, null);
 
-
-        LoginMessage login1 = new LoginMessage(player1);
-        gameController.onMessageReceived(login1);
+        CreateGameMessage createGameMessage = new CreateGameMessage(player1 , 49153 , 4);
+        gameController.onMessageReceived(createGameMessage);
 
         LoginMessage login2 = new LoginMessage(player2);
         gameController.onMessageReceived(login2);
@@ -105,8 +114,14 @@ public class GameControllerTest {
         LoginMessage login4 = new LoginMessage(player4);
         gameController.onMessageReceived(login4);
 
-        StartGameMessage start = new StartGameMessage(player1);
-        gameController.onMessageReceived(start);
+        ReadyMessage start1 = new ReadyMessage(player1);
+        gameController.onMessageReceived(start1);
+        ReadyMessage start2 = new ReadyMessage(player2);
+        gameController.onMessageReceived(start2);
+        ReadyMessage start3 = new ReadyMessage(player3);
+        gameController.onMessageReceived(start3);
+        ReadyMessage start4 = new ReadyMessage(player4);
+        gameController.onMessageReceived(start4);
 
         Game game = Game.getInstance();
 
@@ -118,6 +133,7 @@ public class GameControllerTest {
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
 
         //first player picks the side of the initial card
+        //TODO fix test by fixing pickinitialcardsidecheck in InputController
         PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));

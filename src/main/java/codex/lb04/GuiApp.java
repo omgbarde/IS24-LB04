@@ -23,15 +23,16 @@ public class GuiApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         guiView = new GuiView(stage);
-        guiView.switchScene("Hello");
+        Platform.runLater(()->guiView.drawHelloScene());
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
         } catch (FileNotFoundException e) {
             System.out.println("window icon not found");
         }
         stage.setTitle("Codex! - Welcome");
+        stage.setHeight(600);
+        stage.setWidth(1000);
         stage.setResizable(false);
-        stage.show();
     }
 
     /**
@@ -45,4 +46,5 @@ public class GuiApp extends Application {
     public static View getGuiView() {
         return guiView;
     }
+
 }

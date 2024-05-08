@@ -7,8 +7,12 @@ import java.io.Serial;
  */
 public class LoginMessage extends Message{
     @Serial
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 4;
 
+    /**
+     * Constructor for LoginMessage
+     * @param username username of the client that wants to login
+     */
     public LoginMessage(String username) {
         super(username,MessageType.LOGIN_REQUEST);
     }

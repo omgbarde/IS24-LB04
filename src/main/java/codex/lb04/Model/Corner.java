@@ -2,13 +2,20 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import java.io.Serializable;
+
 /**
  * This class represents a corner of a card, it can contain resources
  */
-public class Corner {
-    private final ResourceType resource;
+public class Corner implements Serializable {
+    private  ResourceType resource;
     private boolean Covered;
     private Card Cover;
+
+    public Corner(){
+
+    }
+
 
     /**
      * Default constructor

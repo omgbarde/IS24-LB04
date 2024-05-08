@@ -1,8 +1,8 @@
 package codex.lb04.Model;
 
-import codex.lb04.Message.GameMessage.StartGameMessage;
+import codex.lb04.Message.DrawMessage.DrawBoardMessage;
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.LoginReply;
-import codex.lb04.Message.LogoutReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Observer.Observable;
@@ -17,12 +17,13 @@ import java.util.Objects;
  */
 public class Game extends Observable {
     private static Game instance;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
     private Deck deck;
     private GameState gameState = GameState.LOGIN;
-    private ArrayList<String> lobby = new ArrayList<String>();
-    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<ObjectiveCard>();
-    private int numPlayers = 4;
+    private ArrayList<String> lobby = new ArrayList<>();
+    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<>();
+    private int numPlayers = 0;
+    private int replies = 0;
 
     /**
      * Private constructor to prevent instantiation from outside the class
@@ -30,6 +31,9 @@ public class Game extends Observable {
      *
      */
     private Game() {
+    }
+
+    public void setDeck(){
         this.deck = Deck.getInstance();
     }
 
@@ -58,7 +62,7 @@ public class Game extends Observable {
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().drawResourceCard(pick);
-
+        notifyObserver(new DrawCardMessage(username, player.getBoard().getLastDrawnCard()));
     }
 
     public InitialCard getInitialCard(String username) {
@@ -73,7 +77,9 @@ public class Game extends Observable {
     public void setInitialCardForAllPlayers() {
         for(Player p : players){
             p.getBoard().setInitialCard();
+            notifyObserver(new DrawCardMessage(p.getUsername(), p.getBoard().getInitialCard()));
         }
+
     }
 
     /**
@@ -140,12 +146,16 @@ public class Game extends Observable {
         if (this.lobby.size() < numPlayers && checkUsername(player)) {
             this.lobby.add(player);
             notifyObserver(new LoginReply(player, true));
-            notifyObserver(new PlayersConnectedMessage("server",getLobby()));
-            if(this.lobby.size() == numPlayers){
-                notifyObserver(new StartGameMessage("server"));
-            }
+
+            //creates a clone to avoid discarding serialized messages
+            ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
+
+            notifyObserver(new PlayersConnectedMessage("server",lobbyClone));
         } else {
             notifyObserver(new LoginReply(player, false));
+        }
+        if (this.lobby.size() == numPlayers) {
+            notifyObserver(new DrawBoardMessage("server"));
         }
     }
 
@@ -155,7 +165,6 @@ public class Game extends Observable {
      */
     public void removePlayerFromLobby(String player) {
         this.lobby.remove(player);
-        notifyObserver(new LogoutReply(player));
     }
 
 
@@ -234,6 +243,7 @@ public class Game extends Observable {
         for (String player : lobby) {
             Player newPlayer = new Player(player);
             addPlayer(newPlayer);
+            newPlayer.getBoard().setUsername(player);
         }
     }
 
@@ -300,11 +310,17 @@ public class Game extends Observable {
         return true;
     }
 
+    public void drawBoard(){
+        notifyObserver(new DrawBoardMessage("server"));
+    }
+
+    public boolean checkReplies(){
+        replies += 1;
+        return replies == numPlayers;
+    }
+
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
 }

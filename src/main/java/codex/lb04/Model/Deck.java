@@ -1,12 +1,16 @@
 package codex.lb04.Model;
 
+import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Observer.GameObserver;
+import codex.lb04.Observer.Observable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * this class represents the deck of cards
  */
-public class Deck {
+public class Deck extends Observable {
     private ArrayList<ResourceCard> resourceCards;
     private ArrayList<GoldCard> goldCards;
     private ArrayList<ObjectiveCard> objectiveCards;
@@ -30,10 +34,10 @@ public class Deck {
     }
 
     /**
-     * this method creates the deck of cards
+     * this method creates the deck of cards and adds an observer to it
      */
     public void initializeDeck() {
-
+        this.addObserver(new GameObserver());
         DeckBuilder deckBuilder = new DeckBuilder();
         resourceCards = deckBuilder.createResourceCards();
         goldCards = deckBuilder.createGoldCards();
@@ -45,6 +49,7 @@ public class Deck {
         //this.shuffleGold();
         //this.shuffleObjectives();
         //this.shuffleInitial();
+        //TODO uncomment the above when the view works
     }
 
     /**
@@ -59,10 +64,13 @@ public class Deck {
         return instance;
     }
 
+    /**
+     * resets the deck instance
+     */
     public void resetInstance() {
         instance = null;
+        removeAllObservers();
     }
-
 
 
     /**
@@ -120,9 +128,10 @@ public class Deck {
     }
 
     public ArrayList<ObjectiveCard> setCommonObjectives() {
-        ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<ObjectiveCard>();
+        ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<>();
         chosenObjectives.add(this.drawObjective());
         chosenObjectives.add(this.drawObjective());
+        //notifyObserver(new UpdateCommonObjectivesMessage(chosenObjectives)); // broadcast
         return chosenObjectives;
     }
 
@@ -141,8 +150,9 @@ public class Deck {
         return toDraw;
     }
 
+
     /**
-     * this method draws the first two cards of the goldcards deck, and shows the front faces
+     * this method draws the first three cards of the goldcards deck, and shows the front faces
      *
      * @return the first two cards of the goldcards deck
      */
@@ -151,6 +161,9 @@ public class Deck {
         GoldCard visible_gc2 = drawGold();
         VisibleGoldCards.add(visible_gc1);
         VisibleGoldCards.add(visible_gc2);
+        VisibleGoldCards.add(getTopGold());
+        ArrayList<GoldCard> toSend = ((ArrayList<GoldCard>) VisibleGoldCards.clone());
+        notifyObserver(new UpdateGoldMessage(toSend)); // broadcast
         return VisibleGoldCards;
     }
 
@@ -171,12 +184,55 @@ public class Deck {
         ResourceCard visible_rc2 = drawResource();
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
+        VisibleResourceCards.add(getTopResource());
+        //notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
         return VisibleResourceCards;
     }
 
     /**
-     * returns the visible gold cards
-     * @return
+     * this method updates the visible gold cards
+     */
+    public void updateVisibleGold(int pick) {
+        GoldCard toDraw;
+        this.VisibleGoldCards.remove(pick);
+        switch(pick){
+            case 0, 1:
+                toDraw = drawGold();
+                VisibleGoldCards.get(1).flip();
+                VisibleGoldCards.add(getTopGold());
+                break;
+            case 2:
+                VisibleGoldCards.add(getTopGold());
+                break;
+        }
+        notifyObserver(new UpdateGoldMessage(VisibleGoldCards)); // broadcast
+    }
+
+    /**
+     * this method updates the visible resource cards
+     */
+    public void updateVisibleResource(int pick) {
+        ResourceCard toDraw;
+        this.VisibleResourceCards.remove(pick);
+        switch(pick){
+            case 0, 1:
+                toDraw = drawResource();
+                VisibleResourceCards.get(1).flip();
+                VisibleResourceCards.add(getTopResource());
+                break;
+            case 2:
+                VisibleResourceCards.add(getTopResource());
+                break;
+        }
+        //notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
+    }
+
+
+    //GETTERS
+
+    /**
+     * getter for the visible gold cards
+     * @return the visible gold cards arrayList
      */
     public ArrayList<GoldCard> getVisibleGoldCards() {
         return VisibleGoldCards;
@@ -248,5 +304,15 @@ public class Deck {
         Collections.shuffle(objectiveCards);
     }
 
-    public void shuffleInitial(){ Collections.shuffle(initialCards);}
+    public void shuffleInitial() {
+        Collections.shuffle(initialCards);
+    }
+
+    public ResourceCard getTopResource() {
+        return resourceCards.getFirst();
+    }
+
+    public GoldCard getTopGold() {
+        return goldCards.getFirst();
+    }
 }

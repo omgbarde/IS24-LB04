@@ -1,23 +1,27 @@
 package codex.lb04.View;
 
+import codex.lb04.CodexClientApp;
+import codex.lb04.Model.Card;
+import codex.lb04.Model.GoldCard;
+
 import java.util.ArrayList;
 
+
 /**
- * Interface for the view
+ * This class represents the abstract view of the client
  */
 public abstract class View {
-    /**
-     * abstract method to switch the scene to the one specified by the name
-     *
-     * @param sceneName is the name of the scene to load
-     */
-    public abstract void switchScene(String sceneName);
+    public void print(String string) {
+        CodexClientApp.print(string);
+    }
 
-    public abstract void setTitle(String title);
-
-    public abstract void setMode(String mode);
-
-    public abstract void updateList(ArrayList<String> names);
-
-    public abstract void updateListLater(ArrayList<String> names);
+    public abstract void drawHelloScene();
+    public abstract void drawLoginScene();
+    public abstract void drawLobbyScene();
+    public abstract void drawCreateGameScene();
+    public abstract void drawBoardScene();
+    public abstract void updateLobby(ArrayList<String> names);
+    public abstract void drawCard(Card card);
+    public abstract void updateGold(ArrayList<GoldCard> goldCards);
+    public abstract void displayAlert(String alert);
 }

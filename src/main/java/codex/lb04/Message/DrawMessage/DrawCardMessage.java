@@ -1,34 +1,36 @@
-package codex.lb04.Message.GameMessage;
+package codex.lb04.Message.DrawMessage;
 
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
+import codex.lb04.Model.Card;
 
 import java.io.Serial;
+
 /**
- * Message sent when a client picks a gold card
+ * Message to notify the user to draw a card.
  */
-public class PickGoldCardMessage extends Message {
+public class DrawCardMessage extends Message {
     @Serial
     private static final long serialVersionUID = 15;
 
-    private Integer cardPick;
+    private Card card;
 
     /**
-     * Constructor for PickGoldCardMessage
+     * Constructor for DrawCardMessage
      * @param username username of the player
-     * @param cardPick choice of the card to pick
+     * @param card card to draw
      */
-    public PickGoldCardMessage(String username, Integer cardPick) {
-        super(username, MessageType.PICK_GOLD_CARD);
-        this.cardPick = cardPick;
+    public DrawCardMessage(String username, Card card) {
+        super(username, MessageType.DRAW_CARD);
+        this.card = card;
     }
 
     /**
-     * Getter for cardPick
-     * @return cardPick
+     * Getter for card
+     * @return card
      */
-    public Integer getCardPick() {
-        return cardPick;
+    public Card getCard() {
+        return card;
     }
 
     /**
@@ -43,7 +45,7 @@ public class PickGoldCardMessage extends Message {
     public String toString() {
         return "PickGoldCardMessage{" +
                 "nickname=" + getUsername() +
-                ", pick=" + cardPick +
+                ", pick=" + card +
                 '}';
     }
 }

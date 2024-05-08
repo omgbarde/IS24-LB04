@@ -2,6 +2,7 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
+import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class BoardTest {
+    private GameObserver observer;
 
     private Board board;
     private Deck deck;
@@ -39,6 +41,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
+        this.observer = new GameObserver();
         this.deck = Deck.getInstance();
         this.corner1 = new Corner(ResourceType.ANIMAL);
         this.corner2 = new Corner(ResourceType.MUSHROOM);
@@ -54,9 +57,9 @@ public class BoardTest {
         this.front2 = new Face(corner5, corner6, corner7, corner8);
         this.back = new Face(EmptyCorner, EmptyCorner, EmptyCorner, EmptyCorner, ResourceType.ANIMAL);
         this.BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
-        this.card = new Card(Color.BLUE, front, back, 1);
-        this.card1 = new Card(Color.BLUE, front2, back, 1);
-        this.card2 = new Card(Color.BLUE, front, back, 1);
+        this.card = new Card(Color.BLUE, front, back, 1,0);
+        this.card1 = new Card(Color.BLUE, front2, back, 1,0);
+        this.card2 = new Card(Color.BLUE, front, back, 1,0);
         this.cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
         this.cardOb2 = new ObjectiveCard(Color.PURPLE, BlankFace, BlankFace, 2, 90);
         this.secrOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 3, 93);
@@ -72,6 +75,7 @@ public class BoardTest {
     @After
     public void tearDown() {
         this.deck.resetInstance();
+        this.observer = null;
         this.corner1 = null;
         this.corner2 = null;
         this.corner3 = null;

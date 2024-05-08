@@ -2,16 +2,19 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serializable;
+
 /**
  * This class represents a generic card
  */
-public class Card {
+public class Card implements Serializable {
     private Face ShownFace;
-    private final Face front;
-    private final Face back;
+    private Face front;
+    private Face back;
     private Color color;
     private Integer points;
     private Integer x, y;
+    private Integer ID;
     private boolean usedForPositionalObjectives = false;
 
     public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
@@ -20,6 +23,9 @@ public class Card {
 
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
+    }
+
+    public Card(){
     }
 
     /**
@@ -35,6 +41,7 @@ public class Card {
         this.back = back;
         this.front = front;
         this.points = null;
+
         this.x = null;
         this.y = null;
     }
@@ -46,12 +53,13 @@ public class Card {
      * @param back  the face of the card
      * @param color the color of the card
      */
-    public Card(Color color, Face front, Face back, Integer points) {
+    public Card(Color color, Face front, Face back, Integer points , Integer ID) {
         this.ShownFace = back;
         this.color = color;
         this.back = back;
         this.front = front;
         this.points = points;
+        this.ID = ID;
         this.x = null;
         this.y = null;
     }
@@ -74,6 +82,10 @@ public class Card {
      */
     public Face getShownFace() {
         return ShownFace;
+    }
+
+    public boolean iShowingFront(){
+        return this.ShownFace == this.front;
     }
 
     /**
@@ -104,6 +116,10 @@ public class Card {
 
     public Integer getY() {
         return y;
+    }
+
+    public Integer getID() {
+        return ID;
     }
 
 }

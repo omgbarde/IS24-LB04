@@ -1,26 +1,22 @@
 package codex.lb04.Observer;
 
-import codex.lb04.Controller.GameController.GameController;
 import codex.lb04.Message.Message;
 import codex.lb04.ServerApp;
 
+/**
+ * this class represents the observer of the game
+ */
 public class GameObserver implements Observer {
     //TODO has to update the view based on the message received
     @Override
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
-            case LOGIN_REPLY:
+            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD:
                 ServerApp.sendMessageToClient(message,usr);
                 break;
-            case PLAYERS_CONNECTED:
+            case PLAYERS_CONNECTED, UPDATE_GOLD,DRAW_BOARD:
                 ServerApp.broadcast(message);
-                break;
-            case GAME_STATE:
-                ServerApp.broadcast(message);
-                break;
-            case FLIP_CARD:
-                ServerApp.sendMessageToClient(message,usr);
                 break;
             case PLACE_CARD:
                 break;
@@ -31,9 +27,6 @@ public class GameObserver implements Observer {
             case PICK_RESOURCE_CARD:
                 break;
             case PICK_SECRET_OBJECTIVE:
-                break;
-            case START_GAME:
-                GameController.getInstance().onMessageReceived(message);
                 break;
             case END_TURN:
                 break;

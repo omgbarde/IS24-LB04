@@ -37,7 +37,7 @@
 - [x] first interface
 - [x] implement message system
 - [x] implement socket communication
-- [ ] functioning lobby
+- [x] functioning lobby
 - [x] setup MVC
 - [x] robust socket handling
 - [ ] check complete ruleset

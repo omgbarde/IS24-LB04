@@ -1,79 +1,68 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.CodexClientApp;
-import codex.lb04.Message.GameMessage.GameStateMessage;
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.ReadyMessage;
+import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
+import codex.lb04.View.View;
 
+/**
+ * This class parses messages client side
+ */
 public class ClientParser {
-
     ClientSocket clientSocket;
 
-    public ClientParser(ClientSocket clientSocket) {
-        this.clientSocket = clientSocket;
-    }
+    View view;
 
+    public ClientParser(ClientSocket clientSocket, View view) {
+        this.clientSocket = clientSocket;
+        this.view = view;
+    }
 
     /**
      * this method parses messages from the client and invokes methods based on the type and parameters of those messages
      *
      * @param input is the message passed from the client
      */
-    public void handleInput(Message input) {//TODO handle messages from wrong inputs (see gamecontroller)
+    public void handleInput(Message input) {
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
-                //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
-                    CodexClientApp.getView().switchScene("Lobby");
-                    //CodexClientApp.getView().setMode("fullscreen");
+                    view.drawLobbyScene();
                 } else {
-                    CodexClientApp.print("login refused");
+                    view.print("login refused");
                     clientSocket.disconnect();
+                    view.drawHelloScene();
                 }
                 break;
             case PLAYERS_CONNECTED:
-                CodexClientApp.getView().updateListLater(((PlayersConnectedMessage)input).getLobby());
+                view.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
-            case LOGOUT_REPLY:
-                CodexClientApp.getView().switchScene("Hello");
+                //Todo: renderlo view independent
+            case DRAW_CARD:
+                view.drawCard(((DrawCardMessage) input).getCard());
+                break;
+            case UPDATE_GOLD:
+                view.updateGold(((UpdateGoldMessage)input).getGold());
                 break;
             case ERROR:
-                CodexClientApp.print("error: " + input.toString());
+                view.displayAlert(input.toString());
                 clientSocket.disconnect();
+                view.drawHelloScene();
                 break;
-            case OK_MESSAGE:
-                CodexClientApp.print("server: received");
+            case GENERIC_MESSAGE, INVALID_INPUT:
+                view.displayAlert(input.toString());
                 break;
-            case GENERIC_MESSAGE:
-                CodexClientApp.print(input.toString());
+            case DRAW_BOARD:
+                view.drawBoardScene();
+                clientSocket.sendMessage(new ReadyMessage("ready"));
                 break;
-            case GAME_STATE:
-                CodexClientApp.getView().switchScene(sceneMap((GameStateMessage)input)) ;
-                break;
-
             default:
-                CodexClientApp.print("message not recognized");
+                view.displayAlert("message not recognized");
                 clientSocket.disconnect();
                 break;
         }
-    }
-
-    private String sceneMap(GameStateMessage input) {
-        switch (input.getGameState()) {
-            case LOGIN:
-                return "Hello";
-            case INIT:
-                return "Lobby";
-            case IN_GAME:
-                return "Board";
-            case END_GAME:
-                break;
-            case ENDED:
-                return "Results";
-            default:
-                return "Hello";
-        }
-        return null;
     }
 }
