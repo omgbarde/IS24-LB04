@@ -65,7 +65,7 @@ public class BoardSceneController {
 
     /**
      * draws a card on the board
-     * @param card
+     * @param card the card to draw
      */
     public void drawCard(Card card) {
         for (Map.Entry<Rectangle, Card> entry : gridMap.entrySet()) {

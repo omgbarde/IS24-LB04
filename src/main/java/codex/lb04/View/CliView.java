@@ -43,4 +43,8 @@ public class CliView extends View {
     public void update(Message message){
 
     }
+    @Override
+    public void displayAlert(String alert) {
+
+    }
 }

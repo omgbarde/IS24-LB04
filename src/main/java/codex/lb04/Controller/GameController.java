@@ -109,6 +109,7 @@ public class GameController {
             case CREATE_GAME:
                 game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
                 game.addPlayerToLobby(usr);
+                //TODO check positioning of this
                 if (game.getLobby().size() == game.getNumPlayers()) {
                     game.drawBoard();
                 }
@@ -204,7 +205,7 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (turnController.isDrawnCard() && turnController.isPlacedCard()) { //TODO try to end turn when the player hasn't placed a card or drawn a card ye in simulation game test
+                if (turnController.isDrawnCard() && turnController.isPlacedCard()) { //TODO try to end turn when the player hasn't placed a card or drawn a card yet in simulation game test
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
                         endGame = true;

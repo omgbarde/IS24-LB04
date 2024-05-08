@@ -26,5 +26,5 @@ public abstract class View {
     public abstract void updateLobby(ArrayList<String> names);
     public abstract void drawCard(Card card);
     public abstract void update(Message message);
-
+    public abstract void displayAlert(String alert);
 }

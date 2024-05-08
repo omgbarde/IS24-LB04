@@ -29,33 +29,24 @@ public class ClientParser {
      *
      * @param input is the message passed from the client
      */
-    public void handleInput(Message input) {//TODO handle messages from wrong inputs (see gamecontroller)
+    public void handleInput(Message input) {
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
-                //potrebbe essere inutile ora che manda game state
                 if (((LoginReply) input).isAccepted()) {
-                    Platform.runLater(() -> view.drawLobbyScene());
+                    view.drawLobbyScene();
                 } else {
                     view.print("login refused");
                     clientSocket.disconnect();
-                    Platform.runLater(() -> view.drawHelloScene());
+                    view.drawHelloScene();
                 }
                 break;
             case PLAYERS_CONNECTED:
-                /*Task updateListTask = new Task() {
-                    @Override
-                    protected Object call() throws Exception {
-                        view.updateLobby(((PlayersConnectedMessage)input).getLobby());
-                        return null;
-                    }
-                };*/
-                //executorService.schedule(updateListTask,2000, TimeUnit.MILLISECONDS);
-                Platform.runLater(() -> view.updateLobby(((PlayersConnectedMessage) input).getLobby()));
+                view.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
             case LOGOUT_REPLY:
                 if (((LogoutReply) input).isAccepted()) {
                     clientSocket.disconnect();
-                    Platform.runLater(() -> view.drawHelloScene());
+                    view.drawHelloScene();
                     clientSocket.disconnect();
                 } else {
                     view.print("logout refused");
@@ -69,31 +60,30 @@ public class ClientParser {
                 view.update(input);
                 break;
             case ERROR:
-                view.print("error: " + input);
+                view.displayAlert(input.toString());
                 clientSocket.disconnect();
-                Platform.runLater(() -> view.drawHelloScene());
+                view.drawHelloScene();
                 break;
             case OK_MESSAGE:
                 view.print("server: received");
                 break;
             case GENERIC_MESSAGE:
-                view.print(input.toString());
+                view.displayAlert(input.toString());
                 break;
+            case INVALID_INPUT:
+                view.displayAlert(input.toString());
+                break;
+                //Todo: non usare piu questo messaggio
             case GAME_STATE:
                 sceneMap((GameStateMessage) input);
                 break;
             case START_GAME:
                 break;
             case DRAW_BOARD:
-                Platform.runLater(new Runnable(){
-                    @Override
-                    public void run() {
-                        view.drawBoardScene();
-                    }
-                });
+                Platform.runLater(()->view.drawBoardScene());
                 break;
             default:
-                view.print("message not recognized");
+                view.displayAlert("message not recognized");
                 clientSocket.disconnect();
                 break;
         }

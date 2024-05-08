@@ -9,9 +9,11 @@ import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -75,29 +77,31 @@ public class GuiView extends View {
             drawCreateGameScene();
         });
         Button joinGameButton = new Button("Join Game");
-        joinGameButton.setOnAction(actionEvent -> {
-            drawLoginScene();
-        });
+        joinGameButton.setOnAction(actionEvent -> drawLoginScene());
         Label titleLabel = new Label("Codex naturalis");
         //append elements to the root
-        root.getChildren().add(imageView);
-        root.getChildren().add(titleLabel);
-        titleLabel.setTranslateY(-200);
-        joinGameButton.setTranslateY(50);
-        root.getChildren().add(createGameButton);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                root.getChildren().add(imageView);
+                root.getChildren().add(titleLabel);
+                titleLabel.setTranslateY(-200);
+                joinGameButton.setTranslateY(50);
+                root.getChildren().add(createGameButton);
 
-        root.getChildren().add(joinGameButton);
-        Scene scene = new Scene(root, 1520, 850);
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.show();
+                root.getChildren().add(joinGameButton);
+                Scene scene = new Scene(root, 1520, 850);
+                scene.getStylesheets().add("/codexTheme.css");
+                stageReference.setScene(scene);
+                stageReference.show();
+            }
+        });
     }
 
 
     @Override
     public void drawLoginScene() {
         //creating elements
-        stageReference.setTitle("Codex! - Login");
         StackPane root = new StackPane();
 
         TextField usernameField = new TextField();
@@ -143,41 +147,39 @@ public class GuiView extends View {
             }
         });
 
-        backButton.setOnAction(actionEvent -> {
-            drawHelloScene();
+        backButton.setOnAction(actionEvent -> drawHelloScene());
+
+        Platform.runLater(() -> {
+            //append elements to the root
+            stageReference.setTitle("Codex! - Login");
+            root.getChildren().add(titleLabel);
+            titleLabel.setTranslateY(-200);
+            usernameField.setTranslateY(-100);
+            serverAddressField.setTranslateY(-50);
+            serverPortField.setTranslateY(0);
+            loginButton.setTranslateY(50);
+            backButton.setTranslateY(50);
+            errorLabel.setTranslateY(100);
+            loginButton.setTranslateX(50);
+            backButton.setTranslateX(-50);
+
+            root.getChildren().add(usernameField);
+            root.getChildren().add(serverAddressField);
+            root.getChildren().add(serverPortField);
+            root.getChildren().add(loginButton);
+            root.getChildren().add(backButton);
+            root.getChildren().add(errorLabel);
+
+            Scene scene = new Scene(root, 1520, 850);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
         });
-
-
-        //append elements to the root
-        root.getChildren().add(titleLabel);
-        titleLabel.setTranslateY(-200);
-        usernameField.setTranslateY(-100);
-        serverAddressField.setTranslateY(-50);
-        serverPortField.setTranslateY(0);
-        loginButton.setTranslateY(50);
-        backButton.setTranslateY(50);
-        errorLabel.setTranslateY(100);
-        loginButton.setTranslateX(50);
-        backButton.setTranslateX(-50);
-
-
-        root.getChildren().add(usernameField);
-        root.getChildren().add(serverAddressField);
-        root.getChildren().add(serverPortField);
-        root.getChildren().add(loginButton);
-        root.getChildren().add(backButton);
-        root.getChildren().add(errorLabel);
-
-        Scene scene = new Scene(root, 1520, 850);
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.show();
     }
 
 
     @Override
     public void drawLobbyScene() {
-        stageReference.setTitle("Codex! - Lobby");
         StackPane root = new StackPane();
 
         Label titleLabel = new Label("Players in the lobby");
@@ -201,18 +203,17 @@ public class GuiView extends View {
             drawHelloScene();
         });
 
-        playButton.setOnMouseClicked(actionEvent ->{
-            clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()));
+        playButton.setOnMouseClicked(actionEvent -> clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername())));
+        Platform.runLater(() -> {
+            stageReference.setTitle("Codex! - Lobby");
+            root.getChildren().add(playButton);
+            root.getChildren().add(backButton);
+
+            Scene scene = new Scene(root, stageWidth, stageHeigth);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
         });
-
-        root.getChildren().add(playButton);
-        root.getChildren().add(backButton);
-
-        Scene scene = new Scene(root, stageWidth, stageHeigth);
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.show();
-
     }
 
 
@@ -222,13 +223,12 @@ public class GuiView extends View {
         for (String name : names) {
             sb.append(name).append("\n");
         }
-        lobbyLabel.setText(sb.toString());
+        Platform.runLater(()-> lobbyLabel.setText(sb.toString()));
     }
 
     @Override
     public void drawCreateGameScene() {
         //creating elements
-        stageReference.setTitle("Codex! - Create Game");
         StackPane root = new StackPane();
 
         Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalHost());
@@ -269,29 +269,31 @@ public class GuiView extends View {
                 errorLabel.setText("Invalid input");
             }
         });
-        backButton.setOnAction(actionEvent -> {
-            drawHelloScene();
-        });
-        root.getChildren().add(localHostLabel);
-        localHostLabel.setTranslateY(-200);
-        numPlayersChoice.setTranslateY(-50);
-        usernameField.setTranslateY(-100);
-        confirmButton.setTranslateY(50);
-        backButton.setTranslateY(50);
-        errorLabel.setTranslateY(100);
-        errorLabel.setTranslateX(50);
-        confirmButton.setTranslateX(50);
-        backButton.setTranslateX(-50);
-        root.getChildren().add(usernameField);
-        root.getChildren().add(numPlayersChoice);
-        root.getChildren().add(confirmButton);
-        root.getChildren().add(errorLabel);
-        root.getChildren().add(backButton);
+        backButton.setOnAction(actionEvent -> drawHelloScene());
+        Platform.runLater(() -> {
+            //append elements to the root
+            stageReference.setTitle("Codex! - Create Game");
+            root.getChildren().add(localHostLabel);
+            localHostLabel.setTranslateY(-200);
+            numPlayersChoice.setTranslateY(-50);
+            usernameField.setTranslateY(-100);
+            confirmButton.setTranslateY(50);
+            backButton.setTranslateY(50);
+            errorLabel.setTranslateY(100);
+            errorLabel.setTranslateX(50);
+            confirmButton.setTranslateX(50);
+            backButton.setTranslateX(-50);
+            root.getChildren().add(usernameField);
+            root.getChildren().add(numPlayersChoice);
+            root.getChildren().add(confirmButton);
+            root.getChildren().add(errorLabel);
+            root.getChildren().add(backButton);
 
-        Scene scene = new Scene(root, 1520, 850);
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.show();
+            Scene scene = new Scene(root, 1520, 850);
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.show();
+        });
     }
 
     @Override
@@ -620,6 +622,17 @@ public class GuiView extends View {
         coordinates = (ArrayList<Integer>) clickedNode.getUserData();
     }
 
+    @Override
+    public void displayAlert(String alert) {
+        //show dialog box containing string alert
+        Platform.runLater(() -> {
+            Alert box = new Alert(Alert.AlertType.ERROR);
+            box.setTitle("Alert from server");
+            box.setHeaderText(null);
+            box.setContentText(alert);
+            box.showAndWait();
+        });
+    }
 
     @Override
     public void update(Message message){
