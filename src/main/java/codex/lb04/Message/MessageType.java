@@ -29,7 +29,6 @@ public enum MessageType {
     FLIP_CARD,                      //message sent when the player flips a card
     DEAD_CLIENT,                    //message sent when a client is dead
     START_TURN,                     //message sent to the new active player
-    GAME_STATE,                     //message sent when an update in the game state occurs
     PLAYERS_CONNECTED,              //message that contains the clients connected sent when a client connects to the game
     CREATE_GAME,                    //message sent when a client creates a game or automatically when the max number of players is reached
     INVALID_INPUT,                   //message sent when the input is invalid

@@ -190,6 +190,7 @@ public class DeckTest {
         ArrayList<GoldCard> original = new ArrayList<GoldCard>();
         original.add(deck.getGoldCards().get(0));
         original.add(deck.getGoldCards().get(1));
+        original.add(deck.getGoldCards().get(2));
         deck.getVisibleGoldCards().clear();
         assertEquals(original, deck.setVisibleGoldCards());
     }
@@ -199,8 +200,9 @@ public class DeckTest {
         ArrayList<GoldCard> original = new ArrayList<GoldCard>();
         original.add(deck.getGoldCards().get(0));
         original.add(deck.getGoldCards().get(1));
+        original.add(deck.getGoldCards().get(2));
         deck.getVisibleResourceCards().clear();
-        assertNotEquals(original, deck.setVisibleGoldCards());
+        assertNotEquals(original, deck.setVisibleResourceCards());
     }
 
     @Test

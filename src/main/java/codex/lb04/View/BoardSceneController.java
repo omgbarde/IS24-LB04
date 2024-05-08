@@ -1,7 +1,5 @@
 package codex.lb04.View;
 
-import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
-import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
 import javafx.application.Platform;
@@ -40,28 +38,14 @@ public class BoardSceneController {
         this.stageReference = view.getStageReference();
     }
 
-    public void onMessageReceived(Message message) {
-        switch (message.getMessageType()) {
-            case UPDATE_GOLD:
-                updateGold((UpdateGoldMessage) message);
-                break;
-            case DRAW_CARD:
-                break;
-        }
-    }
-
-    private void updateGold(UpdateGoldMessage message) {
-        ArrayList<GoldCard> goldCards = message.getGold();
+    public void updateGold(ArrayList<GoldCard> goldCards) {
         for (int i = 0; i < goldCards.size(); i++) {
             GoldCard goldCard = goldCards.get(i);
             drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
             Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
             Platform.runLater(()->addCardDrawableGoldToMap(rectangle, goldCard));
         }
-        //updateView();
     }
-
-
 
     /**
      * draws a card on the board
@@ -102,12 +86,6 @@ public class BoardSceneController {
         Card correspondingCard = gridMap.get(clickedRectangle);
         // Now you can use the correspondingCard object
     }
-
-
-
-
-
-
 
     public void addRectangleToGridMap(Rectangle rectangle) {
         gridMap.put(rectangle, null);
@@ -239,4 +217,6 @@ public class BoardSceneController {
     }
 
 
+    public void updateGoldCards(ArrayList<GoldCard> goldCards) {
+    }
 }

@@ -4,7 +4,6 @@ import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
@@ -299,9 +298,6 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
-
-        stageReference.setTitle("Codex! - your board");
-
         // Create a group for static elements
         Group staticRoot = new Group();
         // Add static elements to staticRoot here
@@ -312,9 +308,6 @@ public class GuiView extends View {
         // Create a group to hold both the static and movable groups
         Group root = new Group();
         root.getChildren().addAll(movableRoot, staticRoot);
-
-
-
 
         /**
          * random image for debug
@@ -601,18 +594,15 @@ public class GuiView extends View {
                     break;
             }
         });
-
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.setHeight(stageHeigth+37);
-        stageReference.setWidth(stageWidth);
-        stageReference.show();
+        Platform.runLater(() -> {
+                    stageReference.setTitle("Codex! - your board");
+                    scene.getStylesheets().add("/codexTheme.css");
+                    stageReference.setScene(scene);
+                    stageReference.setHeight(stageHeigth + 37);
+                    stageReference.setWidth(stageWidth);
+                    stageReference.show();
+                });
         clientSocket.sendMessage(new ReadyMessage("ready"));
-    }
-
-    @Override
-    public void drawCard(Card card) {
-        bsc.drawCard(card);
     }
 
     //TODO
@@ -633,19 +623,16 @@ public class GuiView extends View {
             box.showAndWait();
         });
     }
-
     @Override
-    public void update(Message message){
-        bsc.onMessageReceived(message);
+    public void updateGold(ArrayList<codex.lb04.Model.GoldCard> goldCards) {
+        bsc.updateGold(goldCards);
     }
-
-
+    @Override
+    public void drawCard(Card card) {
+        bsc.drawCard(card);
+    }
     public Stage getStageReference() {
         return this.stageReference;
-    }
-
-    public ClientSocket getClientSocket() {
-        return this.clientSocket;
     }
 
 }

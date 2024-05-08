@@ -139,7 +139,7 @@ public class Deck extends Observable {
 
 
     /**
-     * this method draws the first two cards of the goldcards deck, and shows the front faces
+     * this method draws the first three cards of the goldcards deck, and shows the front faces
      *
      * @return the first two cards of the goldcards deck
      */
@@ -155,7 +155,7 @@ public class Deck extends Observable {
     }
 
     /**
-     * this method draws the first two cards of the resourcecards deck, and shows the front faces
+     * this method draws the first three cards of the resourcecards deck, and shows the front faces
      * @return the first two cards of the resourcecards deck
      */
     public ArrayList<ResourceCard> setVisibleResourceCards() {

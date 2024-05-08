@@ -1,7 +1,7 @@
 package codex.lb04.View;
 
-import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
+import codex.lb04.Model.GoldCard;
 
 import java.util.ArrayList;
 
@@ -40,11 +40,11 @@ public class CliView extends View {
     }
 
     @Override
-    public void update(Message message){
+    public void displayAlert(String alert) {
 
     }
     @Override
-    public void displayAlert(String alert) {
+    public void updateGold(ArrayList<GoldCard> goldCards) {
 
     }
 }

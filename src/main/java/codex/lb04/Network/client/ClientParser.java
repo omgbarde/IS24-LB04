@@ -1,10 +1,11 @@
 package codex.lb04.Network.client;
 
+import codex.lb04.Message.DrawMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.View.View;
-import javafx.application.Platform;
 
 /**
  * This class parses messages client side
@@ -40,10 +41,10 @@ public class ClientParser {
                 break;
                 //Todo: renderlo view independent
             case DRAW_CARD:
-                Platform.runLater(() -> view.update(input));
+                view.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
-                view.update(input);
+                view.updateGold(((UpdateGoldMessage)input).getGold());
                 break;
             case ERROR:
                 view.displayAlert(input.toString());
@@ -56,13 +57,10 @@ public class ClientParser {
             case INVALID_INPUT:
                 view.displayAlert(input.toString());
                 break;
-                //Todo: non usare piu questo messaggio
-            case GAME_STATE:
-                break;
             case START_GAME:
                 break;
             case DRAW_BOARD:
-                Platform.runLater(()->view.drawBoardScene());
+                view.drawBoardScene();
                 break;
             default:
                 view.displayAlert("message not recognized");
