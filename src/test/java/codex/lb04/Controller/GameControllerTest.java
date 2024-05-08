@@ -1288,8 +1288,6 @@ public class GameControllerTest {
         assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
 
-        //TODO fix the points update method in board
-
 
     }
 
