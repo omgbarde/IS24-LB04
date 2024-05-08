@@ -70,6 +70,7 @@ public class InputController {
         return ((PickGoldCardMessage) message).getCardPick() >= 0 && ((PickGoldCardMessage) message).getCardPick() <= 2;
     }
 
+    //TODO: does not work and breaks test because the drawn card is removed from the deck and it does not find it
     /**
      * Check if the initial card pick is valid.
      * @param message Message from Client.
