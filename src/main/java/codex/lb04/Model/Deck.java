@@ -73,7 +73,6 @@ public class Deck extends Observable {
         removeAllObservers();
     }
 
-
     /**
      * this method draws a card from the deck of resources
      *
@@ -104,9 +103,6 @@ public class Deck extends Observable {
         return toDraw;
     }
 
-
-
-
     /**
      * this method draws a card from the deck of objectives
      *
@@ -122,6 +118,10 @@ public class Deck extends Observable {
         return toDraw;
     }
 
+    /**
+     * thi method sets the common objectives
+     * @return the common objectives arraylist
+     */
     public ArrayList<ObjectiveCard> setCommonObjectives() {
         ArrayList<ObjectiveCard> chosenObjectives = new ArrayList<>();
         chosenObjectives.add(this.drawObjective());

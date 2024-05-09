@@ -3,7 +3,7 @@ package codex.lb04.View;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Model.*;
+import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.GoldCard;
 import codex.lb04.Model.ResourceCard;
@@ -11,7 +11,6 @@ import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -19,14 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -83,6 +81,7 @@ public class GuiView extends View {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                stageReference.setTitle("Codex! - Welcome");
                 root.getChildren().add(imageView);
                 root.getChildren().add(titleLabel);
                 titleLabel.setTranslateY(-200);
@@ -436,25 +435,53 @@ public class GuiView extends View {
         //resources
         //TODO settare immagini delle risorse
         Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        mushrooms.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        animals.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/animal_icon.png", animals);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        insect.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/insect_icon.png", insect);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        leaves.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        quills.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/quill_icon.png", quills);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        inkwells.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        manuscript.setFill(Color.RED.getPaint());
+        try {
+            bsc.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         points.setFill(Color.RED.getPaint());
