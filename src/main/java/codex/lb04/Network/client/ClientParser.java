@@ -40,7 +40,6 @@ public class ClientParser {
             case PLAYERS_CONNECTED:
                 view.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
-                //Todo: renderlo view independent
             case DRAW_CARD:
                 view.drawCard(((DrawCardMessage) input).getCard());
                 break;

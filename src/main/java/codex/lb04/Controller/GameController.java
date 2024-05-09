@@ -196,7 +196,7 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (turnController.hasDrawnCard() && turnController.hasPlacedCard()) { //TODO try to end turn when the player hasn't placed a card or drawn a card yet in simulation game test
+                if (turnController.hasDrawnCard() && turnController.hasPlacedCard()) {
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
                         endGame = true;

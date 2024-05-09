@@ -198,7 +198,6 @@ public class Deck extends Observable {
         switch(pick){
             case 0, 1:
                 toDraw = drawGold();
-                VisibleGoldCards.get(1).flip();
                 VisibleGoldCards.add(getTopGold());
                 break;
             case 2:
@@ -217,7 +216,6 @@ public class Deck extends Observable {
         switch(pick){
             case 0, 1:
                 toDraw = drawResource();
-                VisibleResourceCards.get(1).flip();
                 VisibleResourceCards.add(getTopResource());
                 break;
             case 2:

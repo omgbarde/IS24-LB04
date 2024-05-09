@@ -16,7 +16,6 @@ import java.net.SocketException;
  * client handler class handles client-server comunication
  */
 public class ClientHandler implements Runnable {
-    //TODO avoid this upward dependency if possible
     private final ServerApp server;
     private final Socket clientSocket;
     private ObjectOutputStream output;
