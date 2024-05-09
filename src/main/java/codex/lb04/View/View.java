@@ -25,5 +25,6 @@ public abstract class View {
     public abstract void drawCard(Card card);
     public abstract void updateGold(ArrayList<GoldCard> goldCards);
     public abstract void updateResource(ArrayList<ResourceCard> resourceCards);
+    public abstract void updateHand(ArrayList<Card> hand);
     public abstract void displayAlert(String alert);
 }

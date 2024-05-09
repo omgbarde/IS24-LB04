@@ -4,6 +4,7 @@ import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
@@ -246,6 +247,7 @@ public class Game extends Observable {
             Player newPlayer = new Player(player);
             addPlayer(newPlayer);
             newPlayer.getBoard().setUsername(player);
+            newPlayer.getBoard().addObserver(new GameObserver());
         }
     }
 

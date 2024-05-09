@@ -4,6 +4,7 @@ import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
+import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -49,6 +50,9 @@ public class ClientParser {
                 break;
             case UPDATE_RESOURCE:
                 view.updateResource(((UpdateResourceMessage) input).getResource());
+                break;
+            case UPDATE_HAND:
+                view.updateHand(((UpdateHandMessage) input).getHand());
                 break;
             case ERROR:
                 view.displayAlert(input.toString());

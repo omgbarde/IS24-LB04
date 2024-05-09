@@ -628,6 +628,11 @@ public class GuiView extends View {
         bsc.updateDrawableResources(resourceCards);
     }
 
+    @Override
+    public void updateHand(ArrayList<Card> hand) {
+        bsc.updateHand(hand);
+    }
+
 
     @Override
     public void drawCard(Card card) {

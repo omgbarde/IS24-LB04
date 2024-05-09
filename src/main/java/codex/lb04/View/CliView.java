@@ -53,4 +53,9 @@ public class CliView extends View {
     public void updateResource(ArrayList<ResourceCard> resourceCards) {
 
     }
+
+    @Override
+    public void updateHand(ArrayList<Card> hand) {
+
+    }
 }

@@ -83,6 +83,23 @@ public class BoardSceneController {
 
 
 
+    public void updateHand(ArrayList<Card> handCards){
+        for (int i = 0; i < handCards.size(); i++) {
+            Card card = handCards.get(i);
+            hand.put((Rectangle) hand.keySet().toArray()[i], card);
+            Rectangle rectangle = (Rectangle) hand.keySet().toArray()[i];
+            Platform.runLater(() -> {
+                try {
+                    drawHand(rectangle, card);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+
+
+
 
     /**
      * Method to handle the click on the grid
@@ -179,26 +196,30 @@ public class BoardSceneController {
         drawableResources.put(rectangle, card);
     }
 
-    public void drawHand(Rectangle rectangle,Card card){
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    public void drawHand(Rectangle rectangle,Card card) throws FileNotFoundException {
+        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.iShowingFront()) {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
+                }
             }
         } else {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
+                }
             }
-
         }
-        Image image = new Image(is);
-        ImagePattern imagePattern = new ImagePattern(image);
-        rectangle.setFill(imagePattern);
-
+        setImageToRectangle(imagePath, rectangle);
         hand.put(rectangle, card);
     }
 
