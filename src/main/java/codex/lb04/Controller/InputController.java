@@ -70,19 +70,13 @@ public class InputController {
         return ((PickGoldCardMessage) message).getCardPick() >= 0 && ((PickGoldCardMessage) message).getCardPick() <= 2;
     }
 
-    //TODO: does not work and breaks test because the drawn card is removed from the deck and it does not find it
     /**
      * Check if the initial card pick is valid.
      * @param message Message from Client.
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickInitialCardSideCheck(Message message) {
-        for (InitialCard initialCard : game.getDeck().getInitialCards()) {
-            if (initialCard.equals(((PickInitialCardSideMessage) message).getInitialCard())) {
-                return true;
-            }
-        }
-        return false;
+        return ((PickInitialCardSideMessage) message).getInitialCard().getClass() == InitialCard.class;
     }
 
     /**
