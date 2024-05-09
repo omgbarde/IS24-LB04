@@ -433,7 +433,6 @@ public class GuiView extends View {
         PointsBox.setFill(Color.BLACK.getPaint());
 
         //resources
-        //TODO settare immagini delle risorse
         Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
             bsc.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);

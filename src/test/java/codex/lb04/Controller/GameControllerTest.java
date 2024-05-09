@@ -133,7 +133,6 @@ public class GameControllerTest {
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
 
         //first player picks the side of the initial card
-        //TODO fix test by fixing pickinitialcardsidecheck in InputController
         PickInitialCardSideMessage pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());
         gameController.onMessageReceived(pick1);
         assertEquals(pick1.getInitialCard(), game.getPlayerByName(activePlayer).getBoard().getCard(0, 0));
