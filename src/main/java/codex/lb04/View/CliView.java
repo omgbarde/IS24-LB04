@@ -4,6 +4,9 @@ import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+import static java.lang.System.out;
 
 /**
  * This class represents the CLI view
@@ -12,7 +15,24 @@ public class CliView extends View {
     @Override
     public void drawHelloScene() {
 
-    }
+            out.println(" ___               _                            \n" +
+                    "(  _`\\            ( )                           \n" +
+                    "| ( (_)   _      _| |   __                      \n" +
+                    "| |  _  /'_`\\  /'_` | /'__`(`\\/')               \n" +
+                    "| (_( )( (_) )( (_| |(  ___/>  <                \n" +
+                    "(____/'`\\___/'`\\__,_)`\\____|_/\\_)               \n" +
+                    "                                                \n" +
+                    "                                                \n" +
+                    " _   _         _                     _          \n" +
+                    "( ) ( )       ( )_                  (_ ) _      \n" +
+                    "| `\\| |   _ _ | ,_) _   _  _ __  _ _ | |(_) ___ \n" +
+                    "| , ` | /'_` )| |  ( ) ( )( '__)'_` )| || /',__)\n" +
+                    "| |`\\ |( (_| || |_ | (_) || | ( (_| || || \\__, \\\n" +
+                    "(_) (_)`\\__,_)`\\__)`\\___/'(_) `\\__,_|___|_|____/");
+
+            out.println("Welcome to Codex Naturalis Board Game!");
+
+        }
     @Override
     public void drawLoginScene() {
 
