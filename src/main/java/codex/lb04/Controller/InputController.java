@@ -76,10 +76,7 @@ public class InputController {
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickInitialCardSideCheck(Message message) {
-        if(((PickInitialCardSideMessage) message).getInitialCard().getClass() == InitialCard.class) {
-            return true;
-        }
-        return false;
+        return ((PickInitialCardSideMessage) message).getInitialCard().getClass() == InitialCard.class;
     }
 
     /**

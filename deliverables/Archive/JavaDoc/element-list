@@ -1,0 +1,13 @@
+module:codex.lb
+codex.lb04
+codex.lb04.Controller
+codex.lb04.Message
+codex.lb04.Message.DrawMessage
+codex.lb04.Message.GameMessage
+codex.lb04.Model
+codex.lb04.Model.Enumerations
+codex.lb04.Network.client
+codex.lb04.Network.server
+codex.lb04.Observer
+codex.lb04.Utils
+codex.lb04.View
