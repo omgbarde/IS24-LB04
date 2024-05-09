@@ -307,32 +307,13 @@ public class GuiView extends View {
 
         // Create a group for movable elements
         Group movableRoot = new Group();
+        movableRoot.setTranslateY(260);
+        movableRoot.setTranslateX(415);
 
         // Create a group to hold both the static and movable groups
         Group root = new Group();
         root.getChildren().addAll(movableRoot, staticRoot);
 
-        /**
-         * random image for debug
-         */
-        // Load the image
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
-        Image image = new Image(is);
-
-        // Create the pattern
-        ImagePattern imagePattern = new ImagePattern(image);
-
-        // Create the rectangle and set the fill to the pattern
-        Rectangle rect = new Rectangle(centerX - 124, centerY - 82.5, 124, 82.5); // Subtract half the width and height of the rectangle to center it
-        rect.setFill(imagePattern);
-
-
-        rect.setOnMouseClicked(e -> {
-            System.out.println("Rectangle was clicked!");
-            // Add your code here to perform the action when the rectangle is clicked
-        });
-
-        movableRoot.getChildren().add(rect);
 
         /**
          * STATIC PART OF THE STAGE

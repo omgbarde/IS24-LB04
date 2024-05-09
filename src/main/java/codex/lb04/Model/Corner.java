@@ -2,12 +2,17 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * This class represents a corner of a card, it can contain resources
  */
 public class Corner implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 43562;
+
     private  ResourceType resource;
     private boolean Covered;
     private Card Cover;

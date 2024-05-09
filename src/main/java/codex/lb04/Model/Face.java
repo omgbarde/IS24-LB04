@@ -10,6 +10,10 @@ import java.util.ArrayList;
  * This class represents a face of a card.
  */
 public class Face implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 64363245;
+
     private Corner UpperLeft;
     private Corner UpperRight;
     private Corner LowerLeft;

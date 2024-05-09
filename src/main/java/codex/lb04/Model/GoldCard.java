@@ -2,12 +2,17 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Class that represents a Gold Card
  */
-public class GoldCard extends Card implements Serializable {
+public class GoldCard extends Card implements Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 6400;
+
     //number of points you gain from the "objective"
     private int points;
     private int mushroom_needed;
@@ -17,7 +22,9 @@ public class GoldCard extends Card implements Serializable {
     private Integer ID;
 
     public GoldCard(){
+        super();
     }
+
 
     /**
      * Default constructor
