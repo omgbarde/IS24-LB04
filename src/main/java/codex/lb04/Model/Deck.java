@@ -1,6 +1,7 @@
 package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 
@@ -103,13 +104,7 @@ public class Deck extends Observable {
         return toDraw;
     }
 
-    /**
-     * this method updates the visible gold cards
-     */
-    public void updateVisibleGold() {
-        GoldCard toDraw = drawGold();
-        VisibleGoldCards.add(toDraw);
-    }
+
 
 
     /**
@@ -167,13 +162,6 @@ public class Deck extends Observable {
         return VisibleGoldCards;
     }
 
-    /**
-     * this method updates the visible resource cards
-     */
-    public void updateVisibleResource() {
-        ResourceCard toDraw = drawResource();
-        VisibleResourceCards.add(toDraw);
-    }
 
     /**
      * this method draws the first two cards of the resource cards deck, and shows the front faces
@@ -185,7 +173,8 @@ public class Deck extends Observable {
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
         VisibleResourceCards.add(getTopResource());
-        //notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
+        ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
+        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
         return VisibleResourceCards;
     }
 
@@ -204,7 +193,8 @@ public class Deck extends Observable {
                 VisibleGoldCards.add(getTopGold());
                 break;
         }
-        notifyObserver(new UpdateGoldMessage(VisibleGoldCards)); // broadcast
+        ArrayList<GoldCard> toSend = ((ArrayList<GoldCard>) VisibleGoldCards.clone());
+        notifyObserver(new UpdateGoldMessage(toSend)); // broadcast
     }
 
     /**
@@ -222,7 +212,8 @@ public class Deck extends Observable {
                 VisibleResourceCards.add(getTopResource());
                 break;
         }
-        //notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
+        ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
+        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
     }
 
 

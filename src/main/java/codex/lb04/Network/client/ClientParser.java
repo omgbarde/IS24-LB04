@@ -3,6 +3,8 @@ package codex.lb04.Network.client;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
+import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -40,11 +42,17 @@ public class ClientParser {
             case PLAYERS_CONNECTED:
                 view.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
-            case DRAW_CARD:
+            case DRAW_CARD: //TODO non verrà mai usato
                 view.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
-                view.updateGold(((UpdateGoldMessage)input).getGold());
+                view.updateGold(((UpdateGoldMessage) input).getGold());
+                break;
+            case UPDATE_RESOURCE:
+                view.updateResource(((UpdateResourceMessage) input).getResource());
+                break;
+            case UPDATE_HAND:
+                view.updateHand(((UpdateHandMessage) input).getHand());
                 break;
             case ERROR:
                 view.displayAlert(input.toString());

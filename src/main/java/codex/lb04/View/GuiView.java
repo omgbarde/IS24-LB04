@@ -3,8 +3,10 @@ package codex.lb04.View;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Model.Card;
+import codex.lb04.Model.*;
 import codex.lb04.Model.Enumerations.Color;
+import codex.lb04.Model.GoldCard;
+import codex.lb04.Model.ResourceCard;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.application.Platform;
@@ -297,6 +299,8 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
+        //TODO settare comportamento dei rettangoli sui click
+
         // Create a group for static elements
         Group staticRoot = new Group();
         // Add static elements to staticRoot here
@@ -418,7 +422,7 @@ public class GuiView extends View {
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
         bsc.setSecretObjectiveMap(SecretObjective);
-        bsc.testImage();
+        //bsc.testImage();
 
         //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
 
@@ -599,13 +603,6 @@ public class GuiView extends View {
                 });
     }
 
-    //TODO
-    private void onGridClick(MouseEvent event) {
-        Node clickedNode = event.getPickResult().getIntersectedNode();
-        ArrayList<Integer> coordinates = new ArrayList<>();
-        coordinates = (ArrayList<Integer>) clickedNode.getUserData();
-    }
-
     @Override
     public void displayAlert(String alert) {
         //show dialog box containing string alert
@@ -617,14 +614,35 @@ public class GuiView extends View {
             box.showAndWait();
         });
     }
+
+    // METHODS CALLED BY CLIENTPARSER BELOW THIS COMMENT
+
+
     @Override
-    public void updateGold(ArrayList<codex.lb04.Model.GoldCard> goldCards) {
-        bsc.updateGold(goldCards);
+    public void updateGold(ArrayList<GoldCard> goldCards) {
+        bsc.updateDrawableGold(goldCards);
     }
+
+    @Override
+    public void updateResource(ArrayList<ResourceCard> resourceCards) {
+        bsc.updateDrawableResources(resourceCards);
+    }
+
+    @Override
+    public void updateHand(ArrayList<Card> hand) {
+        bsc.updateHand(hand);
+    }
+
+
     @Override
     public void drawCard(Card card) {
-        bsc.drawCard(card);
+        //bsc.drawCard(card);
     }
+
+
+
+
+
     public Stage getStageReference() {
         return this.stageReference;
     }

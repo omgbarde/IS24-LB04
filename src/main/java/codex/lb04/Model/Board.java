@@ -1,6 +1,7 @@
 package codex.lb04.Model;
 
-import codex.lb04.Message.DrawMessage.DrawCardMessage;
+import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Observer.Observable;
@@ -105,6 +106,8 @@ public class Board extends Observable {
             toBePlaced.setCoordinates(x, y);
             playedCards.add(toBePlaced);
             hand.remove(toBePlaced);
+            ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+            notifyObserver(new UpdateHandMessage(this.username,toSend)); // broadcast
             updateResources();
             if (toBePlaced.getClass() == GoldCard.class) {
                 updateGoldCardsPoints((GoldCard) toBePlaced);
@@ -178,7 +181,8 @@ public class Board extends Observable {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
-        notifyObserver(new DrawCardMessage(username , this.initialCard));
+        //TODO
+        //notifyObserver(new DrawCardMessage(username , this.initialCard));
     }
 
     /**
@@ -196,7 +200,8 @@ public class Board extends Observable {
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
         for(ObjectiveCard commonObjective : CommonObjectives){
-            notifyObserver(new DrawCardMessage(username , commonObjective));
+            //TODO
+            //notifyObserver(new DrawCardMessage(username , commonObjective));
         }
     }
 
@@ -234,11 +239,15 @@ public class Board extends Observable {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
                 this.deck.updateVisibleGold(pick);
+                ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+                notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawGold());
                 this.deck.updateVisibleGold(pick);
+                ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
+                notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
@@ -254,11 +263,15 @@ public class Board extends Observable {
             case 0, 1:
                 this.hand.add(this.deck.getVisibleResourceCards().get(pick));
                 this.deck.updateVisibleResource(pick);
+                ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+                notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
                 this.deck.updateVisibleResource(pick);
+                ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
+                notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
@@ -598,6 +611,8 @@ public class Board extends Observable {
                 card.flip();
             }
         }
+        ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+        notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
     }
 
     /**
