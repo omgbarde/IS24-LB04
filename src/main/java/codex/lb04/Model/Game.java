@@ -81,6 +81,7 @@ public class Game extends Observable {
             //notifyObserver(new DrawCardMessage(p.getUsername(), p.getBoard().getInitialCard()));
         }
 
+
     }
 
     /**
