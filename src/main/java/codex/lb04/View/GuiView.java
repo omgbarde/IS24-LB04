@@ -297,6 +297,8 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
+        //TODO settare comportamento dei rettangoli sui click
+
         // Create a group for static elements
         Group staticRoot = new Group();
         // Add static elements to staticRoot here
@@ -418,7 +420,7 @@ public class GuiView extends View {
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
         bsc.setSecretObjectiveMap(SecretObjective);
-        bsc.testImage();
+        //bsc.testImage();
 
         //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
 
@@ -619,11 +621,11 @@ public class GuiView extends View {
     }
     @Override
     public void updateGold(ArrayList<codex.lb04.Model.GoldCard> goldCards) {
-        bsc.updateGold(goldCards);
+        bsc.updateDrawableGold(goldCards);
     }
     @Override
     public void drawCard(Card card) {
-        bsc.drawCard(card);
+        //bsc.drawCard(card);
     }
     public Stage getStageReference() {
         return this.stageReference;

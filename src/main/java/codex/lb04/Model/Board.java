@@ -1,6 +1,5 @@
 package codex.lb04.Model;
 
-import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Observer.Observable;
@@ -178,7 +177,8 @@ public class Board extends Observable {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
-        notifyObserver(new DrawCardMessage(username , this.initialCard));
+        //TODO
+        //notifyObserver(new DrawCardMessage(username , this.initialCard));
     }
 
     /**
@@ -196,7 +196,8 @@ public class Board extends Observable {
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
         for(ObjectiveCard commonObjective : CommonObjectives){
-            notifyObserver(new DrawCardMessage(username , commonObjective));
+            //TODO
+            //notifyObserver(new DrawCardMessage(username , commonObjective));
         }
     }
 
