@@ -15,7 +15,7 @@ public class GameObserver implements Observer {
             case LOGIN_REPLY, FLIP_CARD, DRAW_CARD:
                 ServerApp.sendMessageToClient(message,usr);
                 break;
-            case PLAYERS_CONNECTED, UPDATE_GOLD,DRAW_BOARD:
+            case PLAYERS_CONNECTED, UPDATE_GOLD,UPDATE_RESOURCE,DRAW_BOARD:
                 ServerApp.broadcast(message);
                 break;
             case PLACE_CARD:

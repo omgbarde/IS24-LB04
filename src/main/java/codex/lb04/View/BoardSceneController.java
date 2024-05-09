@@ -2,6 +2,7 @@ package codex.lb04.View;
 
 import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
+import codex.lb04.Model.ResourceCard;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -9,6 +10,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,23 +56,32 @@ public class BoardSceneController {
             GoldCard goldCard = goldCards.get(i);
             drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
             Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
-            Platform.runLater(() -> drawDrawableGold(rectangle, goldCard));
+            Platform.runLater(() -> {
+                try {
+                    drawDrawableGold(rectangle, goldCard);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+
+    public void updateDrawableResources(ArrayList<ResourceCard> resourceCards){
+        for (int i = 0; i < resourceCards.size(); i++) {
+            ResourceCard resourceCard = resourceCards.get(i);
+            drawableResources.put((Rectangle) drawableResources.keySet().toArray()[i], resourceCard);
+            Rectangle rectangle = (Rectangle) drawableResources.keySet().toArray()[i];
+            Platform.runLater(() -> {
+                try {
+                    drawDrawableResource(rectangle, resourceCard);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
 
-    /**
-     * draws a card on the board
-     * @param card the card to draw
-     */
-    /*
-    public void drawCard(Card card) {
-        for (Map.Entry<Rectangle, Card> entry : gridMap.entrySet()) {
-            if (card.equals(entry.getValue())) {
-                Rectangle rectangle = entry.getKey();
-            }
-        }
-    }*/
 
 
     /**
@@ -100,114 +112,70 @@ public class BoardSceneController {
         // Now you can use the correspondingCard object
     }
 
-    /**
-     * method to add a rectangle to the grid map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToGridMap(Rectangle rectangle) {
-        gridMap.put(rectangle, null);
-    }
-
-    /**
-     * method to add a rectangle to the drawable gold map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToDrawableGoldMap(Rectangle rectangle) {
-        drawableGold.put(rectangle, null);
-    }
-
-    /**
-     * method to add a rectangle to the drawable resources map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToDrawableResourcesMap(Rectangle rectangle) {
-        drawableResources.put(rectangle, null);
-    }
-
-    /**
-     * method to add a rectangle to the hand map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToHandMap(Rectangle rectangle) {
-        hand.put(rectangle, null);
-    }
-
-    /**
-     * method to add a rectangle to the common objectives map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToCommonObjectivesMap(Rectangle rectangle) {
-        commonObjectives.put(rectangle, null);
-    }
-
-    /**
-     * method to add a rectangle to the secret objectives map
-     * @param rectangle the rectangle to add to the map
-     */
-    public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
-        secretObjective.put(rectangle, null);
-    }
-
-    /*public void testImage() {
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
+        InputStream is = getClass().getResourceAsStream(imagePath);
         Image image = new Image(is);
-
-        // Create the pattern
         ImagePattern imagePattern = new ImagePattern(image);
-
-        // Set the fill of the rectangle to the pattern
-
-        Rectangle rectangle = (Rectangle) secretObjective.keySet().toArray()[0];
         rectangle.setFill(imagePattern);
-    }*/
+    }
 
     /**
      * adds a gold card to the map
      * @param card the card
      */
-    public void drawDrawableGold(Rectangle rectangle, Card card) {
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
+        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.iShowingFront()) {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
+
+                }
             }
         } else {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
-            }
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
 
+                }
+            }
         }
-        Image image = new Image(is);
-        ImagePattern imagePattern = new ImagePattern(image);
-        rectangle.setFill(imagePattern);
-        //TODO
+        setImageToRectangle(imagePath, rectangle);
         drawableGold.put(rectangle, card);
     }
 
-    public void drawDrawableResource(Rectangle rectangle,Card card){
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    public void drawDrawableResource(Rectangle rectangle,Card card) throws FileNotFoundException {
+        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.iShowingFront()) {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
+                }
             }
         } else {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
+                }
             }
-
         }
-        Image image = new Image(is);
-        ImagePattern imagePattern = new ImagePattern(image);
-        rectangle.setFill(imagePattern);
-        //TODO
+        setImageToRectangle(imagePath, rectangle);
         drawableResources.put(rectangle, card);
     }
 
@@ -302,6 +270,72 @@ public class BoardSceneController {
         //TODO
         secretObjectivesToChoose.put(rectangle, card);
     }
+
+
+
+
+    /**
+     * method to add a rectangle to the grid map
+     * @param rectangle the rectangle to add to the map
+     */
+    //TODO
+    public void addRectangleToGridMap(Rectangle rectangle) {
+        gridMap.put(rectangle, null);
+    }
+
+    /**
+     * method to add a rectangle to the drawable gold map
+     * @param rectangle the rectangle to add to the map
+     */
+    public void addRectangleToDrawableGoldMap(Rectangle rectangle) {
+        drawableGold.put(rectangle, null);
+    }
+
+    /**
+     * method to add a rectangle to the drawable resources map
+     * @param rectangle the rectangle to add to the map
+     */
+    public void addRectangleToDrawableResourcesMap(Rectangle rectangle) {
+        drawableResources.put(rectangle, null);
+    }
+
+    /**
+     * method to add a rectangle to the hand map
+     * @param rectangle the rectangle to add to the map
+     */
+    public void addRectangleToHandMap(Rectangle rectangle) {
+        hand.put(rectangle, null);
+    }
+
+    /**
+     * method to add a rectangle to the common objectives map
+     * @param rectangle the rectangle to add to the map
+     */
+    public void addRectangleToCommonObjectivesMap(Rectangle rectangle) {
+        commonObjectives.put(rectangle, null);
+    }
+
+    /**
+     * method to add a rectangle to the secret objectives map
+     * @param rectangle the rectangle to add to the map
+     */
+    public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
+        secretObjective.put(rectangle, null);
+    }
+
+    /*public void testImage() {
+        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        Image image = new Image(is);
+
+        // Create the pattern
+        ImagePattern imagePattern = new ImagePattern(image);
+
+        // Set the fill of the rectangle to the pattern
+
+        Rectangle rectangle = (Rectangle) secretObjective.keySet().toArray()[0];
+        rectangle.setFill(imagePattern);
+    }*/
+
 
     /**
      * sets up the drawable gold card

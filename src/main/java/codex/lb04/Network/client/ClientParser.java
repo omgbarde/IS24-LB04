@@ -3,6 +3,7 @@ package codex.lb04.Network.client;
 import codex.lb04.Message.DrawMessage.DrawCardMessage;
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -44,7 +45,10 @@ public class ClientParser {
                 view.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
-                view.updateGold(((UpdateGoldMessage)input).getGold());
+                view.updateGold(((UpdateGoldMessage) input).getGold());
+                break;
+            case UPDATE_RESOURCE:
+                view.updateResource(((UpdateResourceMessage) input).getResource());
                 break;
             case ERROR:
                 view.displayAlert(input.toString());

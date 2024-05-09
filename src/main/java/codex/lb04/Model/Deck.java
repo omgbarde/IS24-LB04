@@ -1,6 +1,7 @@
 package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
 
@@ -172,7 +173,8 @@ public class Deck extends Observable {
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
         VisibleResourceCards.add(getTopResource());
-        //notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
+        ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
+        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
         return VisibleResourceCards;
     }
 
@@ -212,7 +214,8 @@ public class Deck extends Observable {
                 VisibleResourceCards.add(getTopResource());
                 break;
         }
-        //notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
+        ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
+        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
     }
 
 

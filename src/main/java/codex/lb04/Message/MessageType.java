@@ -38,5 +38,5 @@ public enum MessageType {
     DRAW_CARD,                      //message sent to a player to signal drawing a card
     UPDATE_GOLD,                    //message sent to a player to update the gold cards
     DRAW_BOARD,                     //message sent to a player to draw the board
-    WINNERS                         //message sent to all players to show the winners
+    UPDATE_RESOURCE, WINNERS                         //message sent to all players to show the winners
 }
