@@ -13,7 +13,6 @@ public enum Color {
     GREY(javafx.scene.paint.Color.GREY),
     BLACK(javafx.scene.paint.Color.BLACK),
     YELLOW(javafx.scene.paint.Color.YELLOW);
-
     private final Paint paint;
 
     Color(Paint paint) {

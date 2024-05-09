@@ -320,7 +320,7 @@ public class Game extends Observable {
 
     public boolean checkReplies(){
         replies += 1;
-        return replies == numPlayers;
+        return replies == lobby.size();
     }
 
     public void setNumPlayers(int numPlayers) {

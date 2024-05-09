@@ -198,6 +198,7 @@ public class BoardSceneController {
 
     public void drawHand(Rectangle rectangle,Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        //TODO capire perchè arrivano di back
         if (card.iShowingFront()) {
             if(card.getID()>=100){
                 imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";

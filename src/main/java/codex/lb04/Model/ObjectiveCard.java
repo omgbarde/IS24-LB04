@@ -3,6 +3,7 @@ package codex.lb04.Model;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,6 +11,9 @@ import java.util.ArrayList;
  * This class represents an objective card, both secret and non
  */
 public class ObjectiveCard extends Card implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 35400;
+
     private  int points;
     private  ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
     private boolean inGame;

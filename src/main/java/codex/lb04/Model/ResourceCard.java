@@ -2,20 +2,24 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * This class represents a resource card
  */
-public class ResourceCard extends Card implements Serializable {
+public class ResourceCard extends Card  implements Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 63540;
 
     private int points;
     private Integer ID;
 
-
     public ResourceCard(){
         super();
     }
+
     /**
      * Default constructor
      *
@@ -28,5 +32,9 @@ public class ResourceCard extends Card implements Serializable {
         super(color, front, back , points , ID);
         this.points = points;
         this.ID = ID;
+    }
+
+    public Integer getID() {
+        return ID;
     }
 }

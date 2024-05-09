@@ -2,12 +2,12 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
-import java.io.Serializable;
-
 /**
  * This class represents a generic card
  */
-public class Card implements Serializable {
+public class Card {
+
+
     private Face ShownFace;
     private Face front;
     private Face back;
@@ -36,15 +36,17 @@ public class Card implements Serializable {
      * @param color the color of the card
      */
     public Card(Color color, Face front, Face back) {
-        this.ShownFace = back;
+
         this.color = color;
         this.back = back;
         this.front = front;
         this.points = null;
+        this.ShownFace = this.back;
 
         this.x = null;
         this.y = null;
     }
+
 
     /**
      * Default constructor for cards with points

@@ -1,6 +1,5 @@
 package codex.lb04.Model;
 
-import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
@@ -247,8 +246,8 @@ public class Board extends Observable {
                 this.hand.add(this.deck.drawGold());
                 this.deck.updateVisibleGold(pick);
                 ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
-                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                //notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
+                notifyObserver(new UpdateHandMessage(username , toSend1));
                 break;
         }
 
