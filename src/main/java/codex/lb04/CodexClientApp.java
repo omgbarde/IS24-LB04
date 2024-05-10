@@ -13,10 +13,10 @@ public class CodexClientApp {
      *
      */
     public static void main(String[] args) {
-        if (args.length > 0 && args[0].equals("c")) {
+        if (args.length > 0 && args[0].equals("-cli")) {
             //launches CLI
         }
-        else if (args.length > 0 && args[0].equals("g")) {
+        else if (args.length > 0 && args[0].equals("-gui")) {
             //launches GUI
             Application.launch(GuiApp.class);
         }
