@@ -2,16 +2,16 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Class that represents a Gold Card
  */
-public class GoldCard extends Card implements Serializable{
+public class GoldCard extends Card{
 
-    @Serial
-    private static final long serialVersionUID = 6400;
+
 
     //number of points you gain from the "objective"
     private int points;
@@ -25,6 +25,14 @@ public class GoldCard extends Card implements Serializable{
         super();
     }
 
+
+
+    public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+    }
+    public void writeObjectSub(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
 
     /**
      * Default constructor

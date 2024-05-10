@@ -2,24 +2,34 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * This class represents a resource card
  */
-public class ResourceCard extends Card  implements Serializable{
+public class ResourceCard extends Card{
 
-    @Serial
-    private static final long serialVersionUID = 63540;
+
 
     private int points;
     private Integer ID;
+
 
     public ResourceCard(){
         super();
     }
 
+
+    public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // print the value of ShownFace after deserialization
+        in.defaultReadObject();
+    }
+
+    public void writeObjectSub(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
     /**
      * Default constructor
      *

@@ -435,6 +435,13 @@ public class GuiView extends View {
         flipButton.setMaxHeight(10);
         flipButton.setMaxWidth(75);
         flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+        flipButton.setOnMouseClicked(e -> {
+            try {
+                bsc.flipCard();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         //Button end turn //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
         Button endTurnButton = new Button("end turn");
