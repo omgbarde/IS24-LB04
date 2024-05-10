@@ -17,7 +17,7 @@ public class UpdateResourceMessage extends Message {
      * @param resourceCards resource cards to update
      */
     public UpdateResourceMessage(ArrayList<ResourceCard> resourceCards) {
-        super("" , MessageType.UPDATE_RESOURCE);
+        super("server" , MessageType.UPDATE_RESOURCE);
         this.resource = resourceCards;
     }
     /**

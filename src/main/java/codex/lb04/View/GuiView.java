@@ -3,10 +3,8 @@ package codex.lb04.View;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Model.Card;
+import codex.lb04.Model.*;
 import codex.lb04.Model.Enumerations.Color;
-import codex.lb04.Model.GoldCard;
-import codex.lb04.Model.ResourceCard;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import javafx.application.Platform;
@@ -33,9 +31,9 @@ import java.util.ArrayList;
  * class that represents the GUI view
  */
 public class GuiView extends View {
-    private  Stage stageReference;
-    private  ClientSocket clientSocket;
-    private   Label lobbyLabel = new Label();
+    private Stage stageReference;
+    private ClientSocket clientSocket;
+    private Label lobbyLabel = new Label();
     BoardSceneController bsc;
 
     double centerX = 1000 / 2.0;
@@ -222,7 +220,7 @@ public class GuiView extends View {
         for (String name : names) {
             sb.append(name).append("\n");
         }
-        Platform.runLater(()-> lobbyLabel.setText(sb.toString()));
+        Platform.runLater(() -> lobbyLabel.setText(sb.toString()));
     }
 
     @Override
@@ -230,7 +228,7 @@ public class GuiView extends View {
         //creating elements
         StackPane root = new StackPane();
 
-        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalHost());
+        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalhost());
 
         TextField numPlayersChoice = new TextField();
         numPlayersChoice.setPromptText("number of players");
@@ -258,7 +256,7 @@ public class GuiView extends View {
             if (ConnectionUtil.checkValid(num, usr)) {
                 confirmButton.setDisable(true);
                 try {
-                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
+                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
@@ -338,7 +336,6 @@ public class GuiView extends View {
         bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
 
 
-
         // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
         double rectangleWidthOfGoldCardPicker = 130;
         double rectangleHeightOfGoldCardPicker = 259.5;
@@ -402,7 +399,30 @@ public class GuiView extends View {
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
         bsc.setSecretObjectiveMap(SecretObjective);
-        //bsc.testImage();
+
+        //INITIAL CARD DISPLAY FOR FACE SELECTION
+        double rectangleWidthInitialCardDisplay = cardWidth + 6;
+        double rectangleHeightInitialCardDisplay = cardHeight + 6;
+        Rectangle InitialCardDisplayBox = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50, stageHeigth / 2 - rectangleHeightInitialCardDisplay, rectangleWidthInitialCardDisplay, rectangleHeightInitialCardDisplay);
+        InitialCardDisplayBox.setFill(Color.BLACK.getPaint());
+
+        Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeigth / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
+        InitialCardDisplay.setFill(Color.RED.getPaint());
+        bsc.setUpInitialCardDisplay(InitialCardDisplay);
+
+        //SECRET OBJECTIVES DISPLAY FOR SELECTION
+        double rectangleWidthSecretObjectiveDisplay = cardWidth + 6;
+        double rectangleHeightObjectiveCardsDisplay = 2 * cardHeight + 9;
+        Rectangle secretObjectivesDisplayBox = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4, rectangleWidthSecretObjectiveDisplay, rectangleHeightObjectiveCardsDisplay);
+        secretObjectivesDisplayBox.setFill(Color.BLACK.getPaint());
+
+        Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 +3, cardWidth, cardHeight);
+        secretObjective1Display.setFill(Color.RED.getPaint());
+
+        Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
+        secretObjective2Display.setFill(Color.RED.getPaint());
+        bsc.setUpSecretObjectivesToChoose(secretObjective1Display,secretObjective2Display);
+
 
         //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
 
@@ -415,6 +435,13 @@ public class GuiView extends View {
         flipButton.setMaxHeight(10);
         flipButton.setMaxWidth(75);
         flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+        flipButton.setOnMouseClicked(e -> {
+            try {
+                bsc.flipCard();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         //Button end turn //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
         Button endTurnButton = new Button("end turn");
@@ -492,6 +519,8 @@ public class GuiView extends View {
         staticRoot.getChildren().add(SecretObjectiveBox);
         staticRoot.getChildren().add(HandBox);
         staticRoot.getChildren().add(PointsBox);
+        staticRoot.getChildren().add(InitialCardDisplayBox);
+        staticRoot.getChildren().add(secretObjectivesDisplayBox);
 
         staticRoot.getChildren().add(ResourceCard1);
         staticRoot.getChildren().add(ResourceCard2);
@@ -509,6 +538,11 @@ public class GuiView extends View {
         staticRoot.getChildren().add(CommonObjective2);
 
         staticRoot.getChildren().add(SecretObjective);
+
+        staticRoot.getChildren().add(InitialCardDisplay);
+
+        staticRoot.getChildren().add(secretObjective1Display);
+        staticRoot.getChildren().add(secretObjective2Display);
 
         staticRoot.getChildren().add(flipButton);
         staticRoot.getChildren().add(endTurnButton);
@@ -567,7 +601,7 @@ public class GuiView extends View {
                         //TODO capire come usare questo sotto
                         //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
                     });
-                    //bsc.addRectangleToMap(gridRectangle);
+                    bsc.addRectangleToGridMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle, label);
                 }
             }
@@ -600,14 +634,15 @@ public class GuiView extends View {
                     break;
             }
         });
+
         Platform.runLater(() -> {
-                    stageReference.setTitle("Codex! - your board");
-                    scene.getStylesheets().add("/codexTheme.css");
-                    stageReference.setScene(scene);
-                    stageReference.setHeight(stageHeigth + 37);
-                    stageReference.setWidth(stageWidth);
-                    stageReference.show();
-                });
+            stageReference.setTitle("Codex! - your board");
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setScene(scene);
+            stageReference.setHeight(stageHeigth + 37);
+            stageReference.setWidth(stageWidth);
+            stageReference.show();
+        });
     }
 
     @Override
@@ -640,14 +675,26 @@ public class GuiView extends View {
         bsc.updateHand(hand);
     }
 
+    @Override
+    public void updateInitialCardDisplay(InitialCard card){
+        bsc.updateInitialCardDisplay(card);
+    }
+
+    @Override
+    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives){
+        bsc.updateSecretObjectiveToChoose(secretObjectives);
+    }
+
+    @Override
+    public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
+        bsc.updateCommonObjectives(commonObjectives);
+    }
+
 
     @Override
     public void drawCard(Card card) {
         //bsc.drawCard(card);
     }
-
-
-
 
 
     public Stage getStageReference() {

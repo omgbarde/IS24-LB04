@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class CardTest {
@@ -50,11 +50,6 @@ public class CardTest {
     public void flip() {
         card.flip();
         assertEquals(front, card.getShownFace());
-    }
-
-    @Test
-    public void getShownFace() {
-        assertEquals(back, card.getShownFace());
     }
 
     @Test

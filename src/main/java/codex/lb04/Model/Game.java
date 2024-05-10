@@ -1,6 +1,8 @@
 package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
+import codex.lb04.Message.DrawMessage.UpdateCommonObjectivesMessage;
+import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
@@ -112,6 +114,7 @@ public class Game extends Observable {
         for (Player player : players) {
             player.getBoard().setCommonObjectives(inGameObjectiveCards);
         }
+        notifyObserver(new UpdateCommonObjectivesMessage(inGameObjectiveCards));
     }
 
     /**
@@ -248,6 +251,7 @@ public class Game extends Observable {
             addPlayer(newPlayer);
             newPlayer.getBoard().setUsername(player);
             newPlayer.getBoard().addObserver(new GameObserver());
+            notifyObserver(new UpdateSecretObjectiveToChooseMessage(player, newPlayer.getBoard().getSecretObjectiveToPick()));
         }
     }
 

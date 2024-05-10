@@ -1,7 +1,11 @@
 package codex.lb04.Utils;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.Enumeration;
 
 /**
  * This class contains utility methods for the connection
@@ -29,7 +33,7 @@ public class ConnectionUtil {
         return port >= 49152 && port <= 65535;
     }
 
-    public static String getLocalHost() {
+    public static String getLocalhost() {
         String localhost = null;
         try {
             localhost = InetAddress.getLocalHost().getHostAddress();
@@ -58,5 +62,15 @@ public class ConnectionUtil {
      */
     public static boolean checkValid(int num, String usr) {
         return (!usr.isEmpty() &&  num >= 2 && num <= 4);
+    }
+
+    public static void displayInfo() throws SocketException {
+        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+            for (NetworkInterface netint : Collections.list(nets)){
+                Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+                for (InetAddress inetAddress : Collections.list(inetAddresses)){
+                    System.out.println("InetAddress: " + inetAddress);
+                }
+            }
     }
 }

@@ -1,6 +1,8 @@
 package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
+import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
+import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Observer.Observable;
@@ -180,8 +182,7 @@ public class Board extends Observable {
      */
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
-        //TODO
-        //notifyObserver(new DrawCardMessage(username , this.initialCard));
+        notifyObserver(new UpdateInitialCardDisplayMessage(this.username, initialCard));
     }
 
     /**

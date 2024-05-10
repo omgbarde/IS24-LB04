@@ -2,11 +2,17 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
+import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * This class represents a generic card
  */
-public class Card {
+public class Card implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private Face ShownFace;
     private Face front;
@@ -21,12 +27,52 @@ public class Card {
         this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
+//    @Serial
+//    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+//        out.defaultWriteObject();
+//        out.writeObject(this.ShownFace);
+//    }
+//
+//    @Serial
+//    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+//        in.defaultReadObject();
+//        this.ShownFace = (Face) in.readObject();
+//    }
+
+
+//    @Serial
+//    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+//        switch (this) {
+//            case InitialCard initialCard -> initialCard.readObjectSub(in);
+//            case ObjectiveCard objectiveCard -> objectiveCard.readObjectSub(in);
+//            case ResourceCard resourceCard -> resourceCard.readObjectSub(in);
+//            case GoldCard goldCard -> goldCard.readObjectSub(in);
+//            default -> in.defaultReadObject();
+//        }
+//    }
+//
+//
+//    @Serial
+//    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+//
+//        switch (this) {
+//            case InitialCard initialCard -> initialCard.writeObjectSub(out);
+//            case ObjectiveCard objectiveCard -> objectiveCard.writeObjectSub(out);
+//            case ResourceCard resourceCard -> resourceCard.writeObjectSub(out);
+//            case GoldCard goldCard -> goldCard.writeObjectSub(out);
+//            default -> out.defaultWriteObject();
+//        }
+//    }
+
+
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
     }
 
     public Card(){
+        super();
     }
+
 
     /**
      * Default constructor
@@ -41,12 +87,14 @@ public class Card {
         this.back = back;
         this.front = front;
         this.points = null;
-        this.ShownFace = this.back;
 
         this.x = null;
         this.y = null;
     }
 
+    public void setShownFace(Face face){
+        this.ShownFace = face;
+    }
 
     /**
      * Default constructor for cards with points
@@ -56,7 +104,6 @@ public class Card {
      * @param color the color of the card
      */
     public Card(Color color, Face front, Face back, Integer points , Integer ID) {
-        this.ShownFace = back;
         this.color = color;
         this.back = back;
         this.front = front;

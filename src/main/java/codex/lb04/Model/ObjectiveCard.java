@@ -3,6 +3,7 @@ package codex.lb04.Model;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,9 +11,8 @@ import java.util.ArrayList;
 /**
  * This class represents an objective card, both secret and non
  */
-public class ObjectiveCard extends Card implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 35400;
+public class ObjectiveCard extends Card  {
+
 
     private  int points;
     private  ArrayList<ResourceType> resourceNeeded = new ArrayList<>();
@@ -21,6 +21,15 @@ public class ObjectiveCard extends Card implements Serializable {
 
     public ObjectiveCard(){
         super();
+    }
+
+
+    public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // print the value of ShownFace after deserialization
+        in.defaultReadObject();
+    }
+    public void writeObjectSub(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
     }
 
     /**

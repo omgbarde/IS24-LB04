@@ -1,8 +1,6 @@
 package codex.lb04.View;
 
-import codex.lb04.Model.Card;
-import codex.lb04.Model.GoldCard;
-import codex.lb04.Model.ResourceCard;
+import codex.lb04.Model.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -76,6 +74,21 @@ public class CliView extends View {
 
     @Override
     public void updateHand(ArrayList<Card> hand) {
+
+    }
+
+    @Override
+    public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
+
+    }
+
+    @Override
+    public void updateInitialCardDisplay(InitialCard card){
+
+    }
+
+    @Override
+    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives){
 
     }
 }
