@@ -10,7 +10,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -141,84 +140,34 @@ public class BoardSceneController {
      * @param card the card
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath = "/cards_images/CODEX_front/card_front_1.png";
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
-
-                }
-            }
+            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
-
-                }
-            }
+            imagePath = "/cards_images/CODEX_back/card_back_" + card.getID() + ".png";
         }
         setImageToRectangle(imagePath, rectangle);
         drawableGold.put(rectangle, card);
     }
 
     public void drawDrawableResource(Rectangle rectangle,Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath = "/cards_images/CODEX_front/card_front_1.png";
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
-                }
-            }
+            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
-                }
-            }
+            imagePath = "/cards_images/CODEX_back/card_back_" + card.getID() + ".png";
         }
         setImageToRectangle(imagePath, rectangle);
         drawableResources.put(rectangle, card);
     }
 
     public void drawHand(Rectangle rectangle,Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath = "/cards_images/CODEX_front/card_front_1.png";
         //TODO capire perchè arrivano di back
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
-                }
-            }
+            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
-            if(card.getID()>=100){
-                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
-            }else{
-                if(card.getID()<10) {
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
-                }else{
-                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
-                }
-            }
+            imagePath = "/cards_images/CODEX_back/card_back_" + card.getID() + ".png";
         }
         setImageToRectangle(imagePath, rectangle);
         hand.put(rectangle, card);
@@ -227,18 +176,9 @@ public class BoardSceneController {
     public void drawCommonObjectives(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
-            }
+            is = getClass().getResourceAsStream("/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png");
         } else {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
-            }
-
+            is = getClass().getResourceAsStream("/cards_images/CODEX_back/card_back_" + card.getID() + ".png");
         }
         Image image = new Image(is);
         ImagePattern imagePattern = new ImagePattern(image);
@@ -250,18 +190,9 @@ public class BoardSceneController {
     public void drawSecretObjective(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
-            }
+            is = getClass().getResourceAsStream("/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png");
         } else {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
-            }
-
+            is = getClass().getResourceAsStream("/cards_images/CODEX_back/card_back_" + card.getID() + ".png");
         }
         Image image = new Image(is);
         ImagePattern imagePattern = new ImagePattern(image);
@@ -273,18 +204,9 @@ public class BoardSceneController {
     public void drawSecretObjectivesToChoose(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
-            }
+            is = getClass().getResourceAsStream("/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png");
         } else {
-            if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
-            }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
-            }
-
+            is = getClass().getResourceAsStream("/cards_images/CODEX_back/card_back_" + card.getID() + ".png");
         }
         Image image = new Image(is);
         ImagePattern imagePattern = new ImagePattern(image);
