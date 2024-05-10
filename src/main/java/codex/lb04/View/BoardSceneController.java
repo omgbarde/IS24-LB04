@@ -65,6 +65,10 @@ public class BoardSceneController {
         }
     }
 
+    /**
+     * updates the drawable resources
+     * @param resourceCards the resource cards
+     */
     public void updateDrawableResources(ArrayList<ResourceCard> resourceCards){
         for (int i = 0; i < resourceCards.size(); i++) {
             ResourceCard resourceCard = resourceCards.get(i);
@@ -81,7 +85,10 @@ public class BoardSceneController {
     }
 
 
-
+    /**
+     * updates the hand
+     * @param handCards the hand cards
+     */
     public void updateHand(ArrayList<Card> handCards){
         for (int i = 0; i < handCards.size(); i++) {
             Card card = handCards.get(i);
@@ -96,9 +103,6 @@ public class BoardSceneController {
             });
         }
     }
-
-
-
 
     /**
      * Method to handle the click on the grid
@@ -150,6 +154,10 @@ public class BoardSceneController {
         drawableGold.put(rectangle, card);
     }
 
+    /**
+     * adds a resource card to the map
+     * @param card the card
+     */
     public void drawDrawableResource(Rectangle rectangle,Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_front/card_front_1.png";
         if (card.iShowingFront()) {
@@ -161,6 +169,10 @@ public class BoardSceneController {
         drawableResources.put(rectangle, card);
     }
 
+    /**
+     * adds a card to the hand
+     * @param card the card
+     */
     public void drawHand(Rectangle rectangle,Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_front/card_front_1.png";
         //TODO capire perchè arrivano di back
@@ -173,6 +185,11 @@ public class BoardSceneController {
         hand.put(rectangle, card);
     }
 
+    /**
+     * adds a card to the common objectives
+     * @param rectangle the rectangle containing the card
+     * @param card the common objective card
+     */
     public void drawCommonObjectives(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
@@ -187,6 +204,11 @@ public class BoardSceneController {
         commonObjectives.put(rectangle, card);
     }
 
+    /**
+     * adds a card to the secret objectives
+     * @param rectangle the rectangle containing the card
+     * @param card the secret objective card
+     */
     public void drawSecretObjective(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
@@ -201,6 +223,11 @@ public class BoardSceneController {
         secretObjective.put(rectangle, card);
     }
 
+    /**
+     * adds a card to the secret objectives to choose
+     * @param rectangle the rectangle containing the card
+     * @param card the secret objective card
+     */
     public void drawSecretObjectivesToChoose(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
@@ -214,8 +241,6 @@ public class BoardSceneController {
         //TODO
         secretObjectivesToChoose.put(rectangle, card);
     }
-
-
 
 
     /**

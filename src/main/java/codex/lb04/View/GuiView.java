@@ -36,7 +36,7 @@ public class GuiView extends View {
     private  Stage stageReference;
     private  ClientSocket clientSocket;
     private   Label lobbyLabel = new Label();
-    BoardSceneController bsc;
+    BoardSceneController boardController;
 
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
@@ -52,7 +52,7 @@ public class GuiView extends View {
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
         stageReference = stage;
-        bsc = new BoardSceneController(this);
+        boardController = new BoardSceneController(this);
     }
 
 
@@ -335,7 +335,7 @@ public class GuiView extends View {
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
 
-        bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
+        boardController.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
 
 
 
@@ -356,7 +356,7 @@ public class GuiView extends View {
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         //GoldCard3.setFill(Color.RED.getPaint());
-        bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
+        boardController.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX
         double rectangleWidthHand = 130;
@@ -374,7 +374,7 @@ public class GuiView extends View {
         Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         HandCard3.setFill(Color.RED.getPaint());
 
-        bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);
+        boardController.setUpHandMap(HandCard1, HandCard2, HandCard3);
 
         // COMMON OBJECTIVES BOX
         double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
@@ -389,7 +389,7 @@ public class GuiView extends View {
         Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         CommonObjective2.setFill(Color.RED.getPaint());
 
-        bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
+        boardController.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
 
         // SECRET OBJECTIVE BOX
         double rectangleWidthSecretObjective = cardWidth + 6;
@@ -401,7 +401,7 @@ public class GuiView extends View {
         //secret objective
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
         SecretObjective.setFill(Color.RED.getPaint());
-        bsc.setSecretObjectiveMap(SecretObjective);
+        boardController.setSecretObjectiveMap(SecretObjective);
         //bsc.testImage();
 
         //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
@@ -435,49 +435,49 @@ public class GuiView extends View {
         //resources
         Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
+            boardController.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/animal_icon.png", animals);
+            boardController.setImageToRectangle("/board_icons/animal_icon.png", animals);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/insect_icon.png", insect);
+            boardController.setImageToRectangle("/board_icons/insect_icon.png", insect);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
+            boardController.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/quill_icon.png", quills);
+            boardController.setImageToRectangle("/board_icons/quill_icon.png", quills);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
+            boardController.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         try {
-            bsc.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
+            boardController.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -627,17 +627,17 @@ public class GuiView extends View {
 
     @Override
     public void updateGold(ArrayList<GoldCard> goldCards) {
-        bsc.updateDrawableGold(goldCards);
+        boardController.updateDrawableGold(goldCards);
     }
 
     @Override
     public void updateResource(ArrayList<ResourceCard> resourceCards) {
-        bsc.updateDrawableResources(resourceCards);
+        boardController.updateDrawableResources(resourceCards);
     }
 
     @Override
     public void updateHand(ArrayList<Card> hand) {
-        bsc.updateHand(hand);
+        boardController.updateHand(hand);
     }
 
 
