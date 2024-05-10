@@ -1,9 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.Model.Card;
-import codex.lb04.Model.GoldCard;
-import codex.lb04.Model.ResourceCard;
+import codex.lb04.Model.*;
 
 import java.util.ArrayList;
 
@@ -27,4 +25,12 @@ public abstract class View {
     public abstract void updateResource(ArrayList<ResourceCard> resourceCards);
     public abstract void updateHand(ArrayList<Card> hand);
     public abstract void displayAlert(String alert);
+    public abstract void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives);
+
+    public abstract void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives);
+
+
+    public abstract void updateInitialCardDisplay(InitialCard card);
+
+
 }

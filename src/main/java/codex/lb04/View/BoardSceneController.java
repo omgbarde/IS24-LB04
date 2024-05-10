@@ -1,8 +1,6 @@
 package codex.lb04.View;
 
-import codex.lb04.Model.Card;
-import codex.lb04.Model.GoldCard;
-import codex.lb04.Model.ResourceCard;
+import codex.lb04.Model.*;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +33,7 @@ public class BoardSceneController {
     private Map<Rectangle, Card> commonObjectives = new LinkedHashMap<>();
     private Map<Rectangle, Card> secretObjectivesToChoose = new LinkedHashMap<>();
     private Map<Rectangle, Card> secretObjective = new LinkedHashMap<>();
+    private Map<Rectangle , Card> initialCardDisplay = new LinkedHashMap<>();
     private GuiView view;
 
     /**
@@ -81,8 +80,6 @@ public class BoardSceneController {
         }
     }
 
-
-
     public void updateHand(ArrayList<Card> handCards){
         for (int i = 0; i < handCards.size(); i++) {
             Card card = handCards.get(i);
@@ -91,6 +88,48 @@ public class BoardSceneController {
             Platform.runLater(() -> {
                 try {
                     drawHand(rectangle, card);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+
+    public void updateCommonObjectives(ArrayList<ObjectiveCard> objectiveCards){
+        for (int i = 0; i < objectiveCards.size(); i++) {
+            ObjectiveCard card = objectiveCards.get(i);
+            commonObjectives.put((Rectangle) commonObjectives.keySet().toArray()[i], card);
+            Rectangle rectangle = (Rectangle) commonObjectives.keySet().toArray()[i];
+            Platform.runLater(() -> {
+                try {
+                    drawCommonObjectives(rectangle, card);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+
+    public void updateInitialCardDisplay(InitialCard card){
+        initialCardDisplay.put((Rectangle) initialCardDisplay.keySet().toArray()[0], card);
+        Rectangle rectangle = (Rectangle) initialCardDisplay.keySet().toArray()[0];
+        Platform.runLater(() -> {
+            try {
+                drawInitialCardDisplay(rectangle, card);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> objectiveCards){
+        for (int i = 0; i < objectiveCards.size(); i++) {
+            ObjectiveCard card = objectiveCards.get(i);
+            secretObjectivesToChoose.put((Rectangle) secretObjectivesToChoose.keySet().toArray()[i], card);
+            Rectangle rectangle = (Rectangle) secretObjectivesToChoose.keySet().toArray()[i];
+            Platform.runLater(() -> {
+                try {
+                    drawSecretObjectivesToChoose(rectangle, card);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -196,9 +235,35 @@ public class BoardSceneController {
         drawableResources.put(rectangle, card);
     }
 
+    public void drawCommonObjectives(Rectangle rectangle , Card card) throws FileNotFoundException{
+        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        if (card.iShowingFront()) {
+            if(card.getID()>=100){
+                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
+            }else{
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
+                }
+            }
+        } else {
+            if(card.getID()>=100){
+                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
+            }else{
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
+                }
+            }
+        }
+        setImageToRectangle(imagePath, rectangle);
+        commonObjectives.put(rectangle, card);
+    }
+
     public void drawHand(Rectangle rectangle,Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-        //TODO capire perchè arrivano di back
         if (card.iShowingFront()) {
             if(card.getID()>=100){
                 imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
@@ -224,28 +289,33 @@ public class BoardSceneController {
         hand.put(rectangle, card);
     }
 
-    public void drawCommonObjectives(Rectangle rectangle,Card card){
-        InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException{
+        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.iShowingFront()) {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-0" + card.getID() + ".png";
+                }
             }
         } else {
             if(card.getID()>=100){
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png");
+                imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-" + card.getID() + ".png";
             }else{
-                is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png");
+                if(card.getID()<10) {
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-00" + card.getID() + ".png";
+                }else{
+                    imagePath = "/cards_images/CODEX_cards_gold_back/16b159fd-1e3d-4efd-97a3-d94eef6f8ba0-0" + card.getID() + ".png";
+                }
             }
-
         }
-        Image image = new Image(is);
-        ImagePattern imagePattern = new ImagePattern(image);
-        rectangle.setFill(imagePattern);
-        //TODO
-        commonObjectives.put(rectangle, card);
+        setImageToRectangle(imagePath, rectangle);
+        initialCardDisplay.put(rectangle, card);
     }
+
 
     public void drawSecretObjective(Rectangle rectangle,Card card){
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
@@ -270,7 +340,7 @@ public class BoardSceneController {
         secretObjective.put(rectangle, card);
     }
 
-    public void drawSecretObjectivesToChoose(Rectangle rectangle,Card card){
+    public void drawSecretObjectivesToChoose(Rectangle rectangle,Card card) throws FileNotFoundException{
         InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
         if (card.iShowingFront()) {
             if(card.getID()>=100){
@@ -289,7 +359,7 @@ public class BoardSceneController {
         Image image = new Image(is);
         ImagePattern imagePattern = new ImagePattern(image);
         rectangle.setFill(imagePattern);
-        //TODO
+
         secretObjectivesToChoose.put(rectangle, card);
     }
 
@@ -303,6 +373,14 @@ public class BoardSceneController {
     //TODO
     public void addRectangleToGridMap(Rectangle rectangle) {
         gridMap.put(rectangle, null);
+    }
+
+    public void addRectangleToSecretObjectivesToChoose(Rectangle rectangle){
+        secretObjectivesToChoose.put(rectangle, null);
+    }
+
+    public void addRectangleToInitialCardDisplay(Rectangle rectangle){
+        initialCardDisplay.put(rectangle, null);
     }
 
     /**
@@ -382,6 +460,16 @@ public class BoardSceneController {
         addRectangleToDrawableResourcesMap(v1);
         addRectangleToDrawableResourcesMap(v2);
     }
+
+    public void setUpSecretObjectivesToChoose(Rectangle top, Rectangle v1){
+        addRectangleToSecretObjectivesToChoose(top);
+        addRectangleToSecretObjectivesToChoose(v1);
+    }
+
+    public void setUpInitialCardDisplay(Rectangle v1){
+        addRectangleToInitialCardDisplay(v1);
+    }
+
 
     /**
      * sets up the hand map

@@ -12,13 +12,10 @@ public class GameObserver implements Observer {
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
-            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD:
-                ServerApp.sendMessageToClient(message,usr);
+            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD, UPDATE_HAND , UPDATE_INITIAL_CARD_DISPLAY, UPDATE_SECRET_OBJECTIVE_TO_CHOOSE:
+                ServerApp.sendMessageToClient(message, usr);
                 break;
-            case UPDATE_HAND:
-                ServerApp.sendMessageToClient(message,usr);
-                break;
-            case PLAYERS_CONNECTED, UPDATE_GOLD,UPDATE_RESOURCE,DRAW_BOARD:
+            case PLAYERS_CONNECTED, UPDATE_GOLD, UPDATE_RESOURCE, DRAW_BOARD, UPDATE_COMMON_OBJECTIVES:
                 ServerApp.broadcast(message);
                 break;
             case PLACE_CARD:

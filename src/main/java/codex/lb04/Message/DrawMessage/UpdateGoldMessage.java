@@ -16,7 +16,7 @@ public class UpdateGoldMessage extends Message {
      * @param goldCards gold cards to update
      */
     public UpdateGoldMessage(ArrayList<GoldCard> goldCards) {
-        super("" , MessageType.UPDATE_GOLD);
+        super("server" , MessageType.UPDATE_GOLD);
         this.gold = goldCards;
     }
     /**
