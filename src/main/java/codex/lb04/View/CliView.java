@@ -84,7 +84,10 @@ public class CliView extends View {
         out.println("Please specify the following settings. The default value is shown between brackets.");
 
         /*do {
-            out.print("Enter the server address [" + defaultAddress + "]: ");
+            out.print("Enter the server address [" + defaultAddress + "]
+
+
+            : ");
 
             String address = readLine();
 
