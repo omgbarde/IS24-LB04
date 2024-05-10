@@ -14,6 +14,7 @@ public class Card implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    //TODO settare booleano
     private Face ShownFace;
     private Face front;
     private Face back;
@@ -72,6 +73,7 @@ public class Card implements Serializable {
     public Card(){
         super();
     }
+
 
 
     /**
