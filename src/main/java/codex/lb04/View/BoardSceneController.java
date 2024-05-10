@@ -202,7 +202,7 @@ public class BoardSceneController {
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-        if (card.iShowingFront()) {
+        if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
         }
      else {
@@ -215,7 +215,7 @@ public class BoardSceneController {
 
 public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -227,7 +227,7 @@ public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotF
 
 public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -239,7 +239,7 @@ public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotF
 
 public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -251,7 +251,7 @@ public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundExceptio
 
 public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -264,7 +264,7 @@ public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNo
 
 public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -277,7 +277,7 @@ public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFo
 
 public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -291,7 +291,7 @@ public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws 
 public void drawGenericCard(Rectangle rectangle, Card card) throws FileNotFoundException {
     //InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
-    if (card.iShowingFront()) {
+    if (card.isShowingFront()) {
         imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
@@ -390,7 +390,7 @@ public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
 public void setUpDrawableGold(Rectangle Top, Rectangle v1, Rectangle v2) {
     addRectangleToDrawableGoldMap(Top);
     addRectangleToDrawableGoldMap(v1);
-    addRectangleToDrawableGoldMap(v2);//TODO set also the other ones backwards
+    addRectangleToDrawableGoldMap(v2);
 }
 
 /**

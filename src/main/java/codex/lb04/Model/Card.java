@@ -14,8 +14,8 @@ public class Card implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    //TODO settare booleano
-    private Face ShownFace;
+
+    private boolean isShowingFront;
     private Face front;
     private Face back;
     private Color color;
@@ -66,6 +66,10 @@ public class Card implements Serializable {
 //    }
 
 
+    public boolean isShowingFront() {
+        return isShowingFront;
+    }
+
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
     }
@@ -94,8 +98,8 @@ public class Card implements Serializable {
         this.y = null;
     }
 
-    public void setShownFace(Face face){
-        this.ShownFace = face;
+    public void setShowingFront(boolean showingFront) {
+        this.isShowingFront = showingFront;
     }
 
     /**
@@ -119,10 +123,10 @@ public class Card implements Serializable {
      * This method flips the card
      */
     public void flip() {
-        if (ShownFace == front) {
-            ShownFace = back;
-        } else {
-            ShownFace = front;
+        if(isShowingFront){
+            isShowingFront = false;
+        }else {
+            isShowingFront = true;
         }
     }
 
@@ -132,12 +136,13 @@ public class Card implements Serializable {
      * @return the shown face of the card
      */
     public Face getShownFace() {
-        return ShownFace;
+        if(isShowingFront) {
+            return front;
+        }else {
+            return back;
+        }
     }
 
-    public boolean iShowingFront(){
-        return this.ShownFace == this.front;
-    }
 
     /**
      * Set the coordinates of the card
