@@ -63,6 +63,7 @@ public class ClientSocket {
     public void sendMessage(Message message) {
         try {
             output.writeObject(message);
+            output.reset();
             output.flush();
         } catch (IOException e) {
             disconnect();

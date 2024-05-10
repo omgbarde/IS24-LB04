@@ -390,7 +390,7 @@ public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
 public void setUpDrawableGold(Rectangle Top, Rectangle v1, Rectangle v2) {
     addRectangleToDrawableGoldMap(Top);
     addRectangleToDrawableGoldMap(v1);
-    addRectangleToDrawableGoldMap(v2);//TODO set also the other ones backwards
+    addRectangleToDrawableGoldMap(v2);
 }
 
 /**
