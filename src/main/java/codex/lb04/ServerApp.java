@@ -9,7 +9,6 @@ import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -48,8 +47,9 @@ public class ServerApp implements Runnable {
     @Override
     public void run() {
         try {
-            serverSocket = new ServerSocket(port, 4, InetAddress.getLocalHost());
+            serverSocket = new ServerSocket(port);
             print("Server is running:\n" + serverSocket);
+            ConnectionUtil.displayInfo();
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 print("client connected: " + clientSocket.getLocalAddress());

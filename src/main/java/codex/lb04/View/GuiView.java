@@ -228,7 +228,7 @@ public class GuiView extends View {
         //creating elements
         StackPane root = new StackPane();
 
-        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalHost());
+        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalhost());
 
         TextField numPlayersChoice = new TextField();
         numPlayersChoice.setPromptText("number of players");
@@ -256,7 +256,7 @@ public class GuiView extends View {
             if (ConnectionUtil.checkValid(num, usr)) {
                 confirmButton.setDisable(true);
                 try {
-                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalHost(), ConnectionUtil.defaultPort);
+                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
