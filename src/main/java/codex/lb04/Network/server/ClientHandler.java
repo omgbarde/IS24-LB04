@@ -82,6 +82,7 @@ public class ClientHandler implements Runnable {
     public synchronized void sendMessage(Message message) {
         try {
             output.writeObject(message);
+            output.reset();
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();

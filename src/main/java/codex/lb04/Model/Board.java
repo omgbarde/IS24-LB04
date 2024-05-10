@@ -118,6 +118,13 @@ public class Board extends Observable {
 
     }
 
+//    public ArrayList<Card> cloneHand(){
+//        Card card1 = this.hand.get(0);
+//        Card card1Clone = ( (Card) card1.clone());
+//    }
+
+
+
     /**
      * This method tells if a card can be placed with certain coordinates
      *
