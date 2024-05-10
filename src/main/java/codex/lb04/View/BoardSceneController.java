@@ -203,7 +203,7 @@ public class BoardSceneController {
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.iShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+            imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
         }
      else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -216,7 +216,7 @@ public class BoardSceneController {
 public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -228,7 +228,7 @@ public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotF
 public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -240,7 +240,7 @@ public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotF
 public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -252,7 +252,7 @@ public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundExceptio
 public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -265,7 +265,7 @@ public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNo
 public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -278,7 +278,7 @@ public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFo
 public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws FileNotFoundException {
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
@@ -289,10 +289,10 @@ public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws 
 }
 
 public void drawGenericCard(Rectangle rectangle, Card card) throws FileNotFoundException {
-    InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+    //InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
     String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
     if (card.iShowingFront()) {
-        imagePath = "/cards_images/CODEX_cards_back/card_front_"+ card.getID() + ".png";
+        imagePath = "/cards_images/CODEX_cards_front/card_front_"+ card.getID() + ".png";
     }
     else {
         imagePath = "/cards_images/CODEX_cards_back/card_back_"+ card.getID() + ".png";
