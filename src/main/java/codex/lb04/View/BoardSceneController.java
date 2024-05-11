@@ -251,7 +251,7 @@ public class BoardSceneController {
     public void onDrawGoldPick(MouseEvent event){
         Rectangle rectangle = (Rectangle) event.getSource();
         Integer pick = (Integer) rectangle.getUserData();
-        clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
+        clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(), pick));
     }
     public void onDrawResourcePick(MouseEvent event){
         Rectangle rectangle = (Rectangle) event.getSource();
@@ -286,6 +286,9 @@ public class BoardSceneController {
         }
     }
 
+    public void updatePoints(ArrayList<Integer> points) {
+
+    }
 
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
         InputStream is = getClass().getResourceAsStream(imagePath);

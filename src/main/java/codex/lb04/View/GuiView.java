@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
@@ -36,6 +37,8 @@ public class GuiView extends View {
     private ClientSocket clientSocket;
     private Label lobbyLabel = new Label();
     BoardSceneController bsc;
+
+    private ArrayList<Text> points_display = new ArrayList<>();
 
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
@@ -360,7 +363,7 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
         //GoldCard1.setFill(Color.RED.getPaint());
-        GoldCard1.setUserData(2);
+        GoldCard1.setUserData(0);
 
 
         Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
@@ -370,7 +373,7 @@ public class GuiView extends View {
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         //GoldCard3.setFill(Color.RED.getPaint());
-        GoldCard3.setUserData(1);
+        GoldCard3.setUserData(2);
         bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX
@@ -482,10 +485,17 @@ public class GuiView extends View {
         double rectangleWidthPointsBox = 422.5;
         double rectangleHeightPointsBox = cardHeight + 6;
         Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeigth - rectangleHeightSecretObjective, rectangleWidthPointsBox, rectangleHeightSecretObjective);
+
         PointsBox.setFill(Color.BLACK.getPaint());
 
         //resources
+
         Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle mushrooms_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 , stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_mushrooms = new StackPane();
+        Text mush_points = new Text("0");
+        points_display.add(mush_points);
+        sp_mushrooms.getChildren().addAll(mushrooms_points , mush_points);
         try {
             bsc.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
         } catch (FileNotFoundException e) {
@@ -493,6 +503,11 @@ public class GuiView extends View {
         }
 
         Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle animals_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_animals = new StackPane();
+        Text animal_points = new Text("0");
+        points_display.add(animal_points);
+        sp_animals.getChildren().addAll(animals_points , animal_points);
         try {
             bsc.setImageToRectangle("/board_icons/animal_icon.png", animals);
         } catch (FileNotFoundException e) {
@@ -500,6 +515,12 @@ public class GuiView extends View {
         }
 
         Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle insect_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_insect = new StackPane();
+        Text insect_points_text = new Text("0");
+        points_display.add(insect_points_text);
+        sp_insect.getChildren().addAll(insect_points , insect_points_text);
+
         try {
             bsc.setImageToRectangle("/board_icons/insect_icon.png", insect);
         } catch (FileNotFoundException e) {
@@ -507,6 +528,12 @@ public class GuiView extends View {
         }
 
         Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle leaves_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_leaves = new StackPane();
+        Text leaves_points_text = new Text("0");
+        points_display.add(leaves_points_text);
+        sp_leaves.getChildren().addAll(leaves_points , leaves_points_text);
+
         try {
             bsc.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
         } catch (FileNotFoundException e) {
@@ -514,6 +541,13 @@ public class GuiView extends View {
         }
 
         Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle quills_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_quills = new StackPane();
+        Text quills_points_text = new Text("0");
+        points_display.add(quills_points_text);
+        sp_quills.getChildren().addAll(quills_points , quills_points_text);
+
+
         try {
             bsc.setImageToRectangle("/board_icons/quill_icon.png", quills);
         } catch (FileNotFoundException e) {
@@ -521,6 +555,13 @@ public class GuiView extends View {
         }
 
         Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle inkwells_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_inkwells = new StackPane();
+        Text inkwells_points_text = new Text("0");
+        points_display.add(inkwells_points_text);
+        sp_inkwells.getChildren().addAll(inkwells_points , inkwells_points_text);
+
+
         try {
             bsc.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
         } catch (FileNotFoundException e) {
@@ -528,6 +569,13 @@ public class GuiView extends View {
         }
 
         Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle manuscript_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_manuscript = new StackPane();
+        Text manuscript_points_text = new Text("0");
+        points_display.add(manuscript_points_text);
+        sp_manuscript.getChildren().addAll(manuscript_points , manuscript_points_text);
+
+
         try {
             bsc.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
         } catch (FileNotFoundException e) {
@@ -535,6 +583,12 @@ public class GuiView extends View {
         }
 
         Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
+        Rectangle Points_points= new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective +resourceHeigth+ 3, resourceWidth, resourceHeigth);
+        StackPane sp_points = new StackPane();
+        Text Points_points_text = new Text("0");
+        points_display.add(Points_points_text);
+        sp_points.getChildren().addAll(Points_points , Points_points_text);
+
         points.setFill(Color.RED.getPaint());
 
         // Add the static rectangle to the staticRoot group
@@ -580,6 +634,16 @@ public class GuiView extends View {
         staticRoot.getChildren().add(animals);
         staticRoot.getChildren().add(quills);
         staticRoot.getChildren().add(points);
+        //TODO display points
+//        staticRoot.getChildren().add(sp_mushrooms);
+//        staticRoot.getChildren().add(sp_leaves);
+//        staticRoot.getChildren().add(sp_insect);
+//        staticRoot.getChildren().add(sp_manuscript);
+//        staticRoot.getChildren().add(sp_inkwells);
+//        staticRoot.getChildren().add(sp_animals);
+//        staticRoot.getChildren().add(sp_quills);
+//        staticRoot.getChildren().add(sp_points);
+
 
         /**
          * THE GRID
@@ -713,6 +777,11 @@ public class GuiView extends View {
     @Override
     public void drawCard(Card card) {
         //bsc.drawCard(card);
+    }
+
+    @Override
+    public void updatePoints(ArrayList<Integer> points){
+        bsc.updatePoints(points);
     }
 
     @Override

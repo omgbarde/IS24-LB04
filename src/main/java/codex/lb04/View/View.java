@@ -29,6 +29,7 @@ public abstract class View {
     public abstract void placeCard(Integer x , Integer y , Card card);
 
     public abstract void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives);
+    public abstract void updatePoints(ArrayList<Integer> points);
 
 
     public abstract void updateInitialCardDisplay(InitialCard card);

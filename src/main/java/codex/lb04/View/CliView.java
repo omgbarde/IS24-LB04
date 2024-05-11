@@ -101,4 +101,8 @@ public class CliView extends View {
     public void updateSecretObjective(ObjectiveCard secretObjectives){
 
     }
+    @Override
+    public void updatePoints(ArrayList<Integer> points){
+
+    }
 }

@@ -85,6 +85,9 @@ public class ClientParser {
                 break;
             case START_TURN:
                 break;
+            case UPDATE_POINTS:
+                view.updatePoints(((UpdatePointsMessage) input).getPoints());
+                break;
             default:
                 view.displayAlert("message not recognized");
                 clientSocket.disconnect();
