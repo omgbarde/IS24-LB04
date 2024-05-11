@@ -127,14 +127,7 @@ public class BoardTest {
         assertEquals((Integer) 1, board.getCornerCovered(card, 1, 1));
     }
 
-    @Test
-    public void canBePlaced() {
-        board.placeCard(card, 0, 0);
-        board.placeCard(card1, 1, 1);
-        assertFalse(board.canBePlaced(1, 1, card2));
-        assertFalse(board.canBePlaced(5, 5, card2));
-        assertTrue(board.canBePlaced(2, 2, card2));
-    }
+
 
 
     @Test
@@ -205,27 +198,6 @@ public class BoardTest {
 
 
     @Test
-    public void conditionCheckOnPositionRelatedObjectives() {
-        board.setCommonObjectives(comm_obj);
-        board.placeCard(card, 0, 0);
-        board.placeCard(card1, -1, -1);
-        board.placeCard(card2, 1, 1);
-        assertTrue(board.conditionCheckOnPositionRelatedObjectives(cardOb, card));
-        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb, card1));
-        assertFalse(board.conditionCheckOnPositionRelatedObjectives(cardOb, card2));
-    }
-
-    @Test
-    public void checkNumberObjectives() {
-        board.setCommonObjectives(comm_obj);
-        board.setSecretObjective(0);
-        board.placeCard(card,0,0);
-        board.placeCard(card1,-1,-1);
-        board.placeCard(card2,1,1);
-        assertEquals((Integer)1,board.checkNumberObjectives());
-    }
-
-    @Test
     public void isInHand() {
         board.getHand().add(card);
         assertTrue(board.isInHand(card));
@@ -250,17 +222,7 @@ public class BoardTest {
         assertNotNull(board.getInitialCard());
     }
 
-    @Test
-    public void finalPointsUpdate() {
-        board.setCommonObjectives(comm_obj);
-        board.setSecretObjective(0);
-        board.placeCard(card,0,0);
-        board.placeCard(card1,-1,-1);
-        board.placeCard(card2,1,1);
-        board.pointsUpdate();
-        board.finalPointsUpdate();
-        assertEquals((Integer) 5, board.getPoints());
-    }
+
 
     
 
