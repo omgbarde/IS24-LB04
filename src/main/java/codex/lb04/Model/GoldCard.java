@@ -25,6 +25,10 @@ public class GoldCard extends Card{
         super();
     }
 
+    public GoldCard clone(){
+        return new GoldCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.mushroom_needed, this.animals_needed, this.leaf_needed, this.insects_needed, this.ID);
+    }
+
 
 
     public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {

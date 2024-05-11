@@ -32,6 +32,10 @@ public class ObjectiveCard extends Card  {
         out.defaultWriteObject();
     }
 
+    public ObjectiveCard clone(){
+        return new ObjectiveCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.ID);
+    }
+
     /**
      * Default constructor
      *

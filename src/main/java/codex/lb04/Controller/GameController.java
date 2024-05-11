@@ -362,13 +362,25 @@ public class GameController {
     public void pickInitialCardSideHandler(PickInitialCardSideMessage pickMessage) {
         String username = pickMessage.getUsername();
         Face side = pickMessage.getCardSide();
-        if (!game.getPlayerByName(username).getBoard().getInitialCard().getShownFace().equals(side)) {
-            game.getPlayerByName(username).getBoard().getInitialCard().flip();
-            game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard(), 0, 0);
-            game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+        if (pickMessage.getInitialCard().isShowingFront()){
+            if (game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {
+                //TODO see why when try to set the initial card to the front is set to the back
+                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
+                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+            }else{
+                game.getPlayerByName(username).getBoard().getInitialCard().flip();
+                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
+                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+            }
         } else {
-            game.getPlayerByName(username).getBoard().placeCard(pickMessage.getInitialCard(), 0, 0);
-            game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+            if(game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()){
+                game.getPlayerByName(username).getBoard().getInitialCard().flip();
+                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
+                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+            }else{
+                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
+                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+            }
         }
     }
 

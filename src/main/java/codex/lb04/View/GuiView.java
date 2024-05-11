@@ -45,11 +45,18 @@ public class GuiView extends View {
     double stageWidth = 1000;
     double stageHeigth = 600;
 
+    Group movableRootReference;
+    Group staticGroupReference;
+
+    Rectangle initCardBackground;
+    Rectangle secretObjectivesBackground;
+
     public GuiView(Stage stage) {
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
         stageReference = stage;
+
         bsc = new BoardSceneController(this);
     }
 
@@ -132,6 +139,7 @@ public class GuiView extends View {
             if (ConnectionUtil.checkValid(usr, addr, port)) {
                 try {
                     clientSocket = new ClientSocket(this, usr, addr, port);
+                    bsc.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
@@ -181,7 +189,7 @@ public class GuiView extends View {
 
         Label titleLabel = new Label("Players in the lobby");
 
-        Button playButton = new Button("Play");//TODO implementare start del game
+        Button playButton = new Button("Play");
         Button backButton = new Button("Back");
         root.getChildren().add(titleLabel);
 
@@ -257,6 +265,7 @@ public class GuiView extends View {
                 confirmButton.setDisable(true);
                 try {
                     clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
+                    bsc.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
@@ -296,7 +305,8 @@ public class GuiView extends View {
     @Override
     public void drawBoardScene() {
 
-        //TODO settare comportamento dei rettangoli sui click
+
+        //TODO creare label a inizio gioco che spiega i comandi e sparisce una volta settato l'obiettivo segreto
 
         // Create a group for static elements
         Group staticRoot = new Group();
@@ -310,12 +320,13 @@ public class GuiView extends View {
         // Create a group to hold both the static and movable groups
         Group root = new Group();
         root.getChildren().addAll(movableRoot, staticRoot);
+        setMovableRootReference(movableRoot);
+        setStaticGroupReference(staticRoot);
 
 
         /**
          * STATIC PART OF THE STAGE
          */
-        //TODO implementare selected card
 
         // BOX THAT CONTAINS RESOURCE CARDS THAT CAN BE DRAWN
         double rectangleWidthOfResourceCardPicker = 130;
@@ -405,6 +416,7 @@ public class GuiView extends View {
         double rectangleHeightInitialCardDisplay = cardHeight + 6;
         Rectangle InitialCardDisplayBox = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50, stageHeigth / 2 - rectangleHeightInitialCardDisplay, rectangleWidthInitialCardDisplay, rectangleHeightInitialCardDisplay);
         InitialCardDisplayBox.setFill(Color.BLACK.getPaint());
+        this.initCardBackground = InitialCardDisplayBox;
 
         Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeigth / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
         InitialCardDisplay.setFill(Color.RED.getPaint());
@@ -415,6 +427,7 @@ public class GuiView extends View {
         double rectangleHeightObjectiveCardsDisplay = 2 * cardHeight + 9;
         Rectangle secretObjectivesDisplayBox = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4, rectangleWidthSecretObjectiveDisplay, rectangleHeightObjectiveCardsDisplay);
         secretObjectivesDisplayBox.setFill(Color.BLACK.getPaint());
+        this.secretObjectivesBackground = secretObjectivesDisplayBox;
 
         Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 +3, cardWidth, cardHeight);
         secretObjective1Display.setFill(Color.RED.getPaint());
@@ -424,10 +437,10 @@ public class GuiView extends View {
         bsc.setUpSecretObjectivesToChoose(secretObjective1Display,secretObjective2Display);
 
 
-        //TODO chiedere di scegliere fra i due obiettivi e settare quello scelto
 
 
-        //Button to flip the card selected //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+
+        //Button to flip the card selected
         Button flipButton = new Button("flip card");
         flipButton.setTextFill(javafx.scene.paint.Color.WHITE);
         flipButton.setLayoutX(10);
@@ -559,21 +572,18 @@ public class GuiView extends View {
         /**
          * THE GRID
          */
-        // Create a grid of barely visible rectangles
         int gridSize = 20;
-        double rectangleWidth = cardWidth - 24;
-        double rectangleHeight = cardHeight - 24;
-        double opacity = 0.3;
+        double rectangleWidth = cardWidth - 30;//change these values to change di distance between rectangles
+        double rectangleHeight = cardHeight - 33;
+        double opacity = 0.15;
 
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 // Subtract half the grid size from the x and y coordinates to center the grid
-
                 double x = (i - gridSize / 2.0) * rectangleWidth;
-                double y = (j - gridSize / 2.0) * rectangleHeight; // Invert the y-coordinate
+                double y = (j - gridSize / 2.0) * rectangleHeight;
 
-                Rectangle gridRectangle = new Rectangle(x, y, rectangleWidth + 24, rectangleHeight + 24);
-
+                Rectangle gridRectangle = new Rectangle(x, y, cardWidth, cardHeight);
 
                 gridRectangle.setFill(Color.GREY.getPaint());
                 gridRectangle.setOpacity(opacity);
@@ -581,28 +591,20 @@ public class GuiView extends View {
                 gridRectangle.setStroke(javafx.scene.paint.Color.LIGHTGRAY);
                 gridRectangle.setStrokeWidth(2);
 
-                // Create a label for the rectangle's coordinates
-                Label label = new Label("(" + (i - gridSize / 2) + ", " + (gridSize / 2 - j) + ")"); // Invert the y-coordinate in the label
-                label.setTranslateX(x);
-                label.setTranslateY(y);
-
-                // Add a mouse click event handler to the rectangle
                 int finalJ = gridSize / 2 - j; // Invert the y-coordinate
                 int finalI = i - gridSize / 2;
+
                 if ((Math.abs(finalI) == Math.abs(finalJ)) || (finalI == finalJ) || (finalI % 2 == 0 && finalJ % 2 == 0) || ((finalI + finalJ) % 2 == 0)) {
                     ArrayList<Integer> coordinates = new ArrayList<>();
                     coordinates.add(finalI);
                     coordinates.add(finalJ);
-                    gridRectangle.setUserData(coordinates); // TODO vedere se funziona
+                    gridRectangle.setUserData(coordinates);
                     gridRectangle.setOnMouseClicked(e -> {
                         System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
 
-                        // TODO Send a message to the server with the card selected and the position
-                        //TODO capire come usare questo sotto
-                        //gridRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED , this::onGridClick);
                     });
-                    bsc.addRectangleToGridMap(gridRectangle);
-                    movableRoot.getChildren().addAll(gridRectangle, label);
+                    bsc.addRectangleToGridMap(gridRectangle); //TODO settare l'evento di click qua dentro
+                    movableRoot.getChildren().addAll(gridRectangle/*, label*/);
                 }
             }
         }
@@ -696,9 +698,48 @@ public class GuiView extends View {
         //bsc.drawCard(card);
     }
 
+    @Override
+    public void placeCard(Integer x, Integer y, Card card) {
+        bsc.placeCard(x, y, card);
+    }
+
 
     public Stage getStageReference() {
         return this.stageReference;
     }
 
+    public ClientSocket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void removeRectangleFromMovableRoot( Rectangle rectangle) {
+        movableRootReference.getChildren().remove(rectangle);
+    }
+
+    public void removeRectangleFromStaticRoot( Rectangle rectangle) {
+        staticGroupReference.getChildren().remove(rectangle);
+    }
+
+
+    public void setStaticGroupReference(Group staticGroupReference) {
+        this.staticGroupReference = staticGroupReference;
+    }
+
+    public void setMovableRootReference(Group movableRootReference) {
+        this.movableRootReference = movableRootReference;
+    }
+
+    public Rectangle getSecretObjectivesBackground() {
+        return secretObjectivesBackground;
+    }
+
+    public Rectangle getInitCardBackground() {
+        return initCardBackground;
+    }
+
+    public void bringRectangleToFront(Rectangle rectangle) {
+        Group parent = (Group) rectangle.getParent();
+        parent.getChildren().remove(rectangle);
+        parent.getChildren().add(rectangle);
+    }
 }

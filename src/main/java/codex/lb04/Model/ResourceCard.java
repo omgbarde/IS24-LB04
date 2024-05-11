@@ -21,6 +21,10 @@ public class ResourceCard extends Card{
         super();
     }
 
+    public ResourceCard clone(){
+        return new ResourceCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.ID);
+    }
+
 
     public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         // print the value of ShownFace after deserialization

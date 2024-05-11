@@ -44,7 +44,7 @@ public class GameTest {
         this.game = Game.getInstance();
         this.game.addObserver(observer);
         this.game.setDeck();
-        this.card.setShownFace(face);
+        this.card.setShowingFront(true);
         this.cardOb = cardOb;
         this.cardOb2 = cardOb2;
         objectiveCards.add(cardOb);

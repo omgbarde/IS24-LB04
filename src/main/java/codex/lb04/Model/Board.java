@@ -3,6 +3,7 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
+import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Observer.Observable;
@@ -79,7 +80,7 @@ public class Board extends Observable {
         this.Manuscripts = 0;
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -106,9 +107,11 @@ public class Board extends Observable {
             }
             toBePlaced.setCoordinates(x, y);
             playedCards.add(toBePlaced);
+            Card toBePlacedClone = ((Card) toBePlaced.clone());//TODO quando clono le carte ishowingfront viene settato a false
+            notifyObserver(new PlaceCardMessage(this.username, x, y, toBePlacedClone));
             hand.remove(toBePlaced);
             ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-            notifyObserver(new UpdateHandMessage(this.username,toSend)); // broadcast
+            notifyObserver(new UpdateHandMessage(this.username, toSend)); // broadcast
             updateResources();
             if (toBePlaced.getClass() == GoldCard.class) {
                 updateGoldCardsPoints((GoldCard) toBePlaced);
@@ -124,7 +127,6 @@ public class Board extends Observable {
 //    }
 
 
-
     /**
      * This method tells if a card can be placed with certain coordinates
      *
@@ -134,7 +136,7 @@ public class Board extends Observable {
      */
     public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
         //if it's a gold card checks if we have enough resources
-        if (toBePlaced.getClass() == GoldCard.class && toBePlaced.getShownFace()==toBePlaced.getFront()) {
+        if (toBePlaced.getClass() == GoldCard.class && toBePlaced.getShownFace() == toBePlaced.getFront()) {
             if (Insects < ((GoldCard) toBePlaced).getInsects_needed()) {
                 return false;
             }
@@ -150,7 +152,7 @@ public class Board extends Observable {
         }
         //checks if the card can be placed in the specified coordinates
         if (getCard(x, y) == null) {
-            if(playedCards.isEmpty()){
+            if (playedCards.isEmpty()) {
                 return true;
             }
             if (getCard(x + 1, y + 1) == null && getCard(x + 1, y - 1) == null && getCard(x - 1, y + 1) == null && getCard(x - 1, y - 1) == null) {
@@ -194,6 +196,7 @@ public class Board extends Observable {
 
     /**
      * This method returns the initial card
+     *
      * @return the initial card
      */
     public InitialCard getInitialCard() {
@@ -202,11 +205,12 @@ public class Board extends Observable {
 
     /**
      * sets the common objectives
+     *
      * @param CommonObjectives the common objectives
      */
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
-        for(ObjectiveCard commonObjective : CommonObjectives){
+        for (ObjectiveCard commonObjective : CommonObjectives) {
             //TODO
             //notifyObserver(new DrawCardMessage(username , commonObjective));
         }
@@ -214,6 +218,7 @@ public class Board extends Observable {
 
     /**
      * This method sets the secret objective of the player
+     *
      * @param pick the secret objective to set
      */
     public void setSecretObjective(Integer pick) {
@@ -239,6 +244,7 @@ public class Board extends Observable {
 
     /**
      * draws a gold card between the choices
+     *
      * @param pick the choice of the player
      */
     public void drawGoldCard(Integer pick) {
@@ -247,7 +253,7 @@ public class Board extends Observable {
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
                 this.deck.updateVisibleGold(pick);
                 ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
+                notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
@@ -255,7 +261,7 @@ public class Board extends Observable {
                 this.deck.updateVisibleGold(pick);
                 ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
                 //notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
-                notifyObserver(new UpdateHandMessage(username , toSend1));
+                notifyObserver(new UpdateHandMessage(username, toSend1));
                 break;
         }
 
@@ -263,6 +269,7 @@ public class Board extends Observable {
 
     /**
      * draws a resource card between the choices
+     *
      * @param pick the choice of the player
      */
     public void drawResourceCard(Integer pick) {
@@ -271,23 +278,22 @@ public class Board extends Observable {
                 this.hand.add(this.deck.getVisibleResourceCards().get(pick));
                 this.deck.updateVisibleResource(pick);
                 ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
+                notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
                 this.deck.updateVisibleResource(pick);
                 ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
+                notifyObserver(new UpdateHandMessage(username, toSend1)); // broadcast
                 //notifyObserver(new UpdateHandMessage(username , hand.getLast());
                 break;
         }
     }
 
-    public Card getLastDrawnCard(){
+    public Card getLastDrawnCard() {
         return hand.getLast();
     }
-
 
 
     /**
@@ -318,7 +324,7 @@ public class Board extends Observable {
      * @param toBePlaced the gold card that has been placed
      */
     public void updateGoldCardsPoints(GoldCard toBePlaced) {
-        if(toBePlaced.getShownFace()==toBePlaced.getFront()){
+        if (toBePlaced.getShownFace() == toBePlaced.getFront()) {
             switch (toBePlaced.getID()) {
                 case 41, 51, 63, 71:
                     this.PointsByGoldCards += toBePlaced.getPoints() * getQuills();
@@ -476,9 +482,9 @@ public class Board extends Observable {
 
         switch (cardId) {
             case 87:
-                if (cardColor== Color.RED) {
-                    if(getCard(card.getX() + 1, card.getY() + 1)!=null && getCard(card.getX() - 1, card.getY() - 1)!=null) {
-                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()){
+                if (cardColor == Color.RED) {
+                    if (getCard(card.getX() + 1, card.getY() + 1) != null && getCard(card.getX() - 1, card.getY() - 1) != null) {
+                        if (getCard(card.getX() + 1, card.getY() + 1).getColor() == Color.RED && getCard(card.getX() - 1, card.getY() - 1).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX() + 1, card.getY() + 1).setUsedForPositionalObjectives(true);
                             getCard(card.getX() - 1, card.getY() - 1).setUsedForPositionalObjectives(true);
@@ -489,7 +495,7 @@ public class Board extends Observable {
                 break;
             case 88:
                 if (cardColor == Color.GREEN) {
-                    if(getCard(card.getX() + 1, card.getY() - 1)!=null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
+                    if (getCard(card.getX() + 1, card.getY() - 1) != null && getCard(card.getX() - 1, card.getY() + 1) != null) {
                         if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX() + 1, card.getY() - 1).setUsedForPositionalObjectives(true);
@@ -513,7 +519,7 @@ public class Board extends Observable {
                 break;
             case 90:
                 if (cardColor == Color.PURPLE) {
-                    if(getCard(card.getX() + 1, card.getY() - 1)!= null && getCard(card.getX() - 1, card.getY() + 1)!=null) {
+                    if (getCard(card.getX() + 1, card.getY() - 1) != null && getCard(card.getX() - 1, card.getY() + 1) != null) {
                         if (getCard(card.getX() + 1, card.getY() - 1).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 1).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 1).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 1).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX() + 1, card.getY() - 1).setUsedForPositionalObjectives(true);
@@ -525,7 +531,7 @@ public class Board extends Observable {
                 break;
             case 91:
                 if (cardColor == Color.RED) {
-                    if(getCard(card.getX(), card.getY() - 2)!=null && getCard(card.getX() + 1, card.getY() - 3)!=null) {
+                    if (getCard(card.getX(), card.getY() - 2) != null && getCard(card.getX() + 1, card.getY() - 3) != null) {
                         if (getCard(card.getX(), card.getY() - 2).getColor() == Color.RED && getCard(card.getX() + 1, card.getY() - 3).getColor() == Color.GREEN && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() - 2).isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() - 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX(), card.getY() - 2).setUsedForPositionalObjectives(true);
@@ -537,8 +543,8 @@ public class Board extends Observable {
                 break;
             case 92:
                 if (cardColor == Color.GREEN) {
-                    if(getCard(card.getX(), card.getY() - 2)!=null && getCard(card.getX() - 1, card.getY() - 3)!= null) {
-                        if (getCard(card.getX(), card.getY() - 2).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 3).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() - 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 3).isUsedForPositionalObjectives()){
+                    if (getCard(card.getX(), card.getY() - 2) != null && getCard(card.getX() - 1, card.getY() - 3) != null) {
+                        if (getCard(card.getX(), card.getY() - 2).getColor() == Color.GREEN && getCard(card.getX() - 1, card.getY() - 3).getColor() == Color.PURPLE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() - 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() - 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX(), card.getY() - 2).setUsedForPositionalObjectives(true);
                             getCard(card.getX() - 1, card.getY() - 3).setUsedForPositionalObjectives(true);
@@ -549,7 +555,7 @@ public class Board extends Observable {
                 break;
             case 93:
                 if (cardColor == Color.BLUE) {
-                    if(getCard(card.getX(), card.getY() + 2)!=null && getCard(card.getX() + 1, card.getY() + 3)!=null) {
+                    if (getCard(card.getX(), card.getY() + 2) != null && getCard(card.getX() + 1, card.getY() + 3) != null) {
                         if (getCard(card.getX(), card.getY() + 2).getColor() == Color.BLUE && getCard(card.getX() + 1, card.getY() + 3).getColor() == Color.RED && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() + 2).isUsedForPositionalObjectives() && !getCard(card.getX() + 1, card.getY() + 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX(), card.getY() + 2).setUsedForPositionalObjectives(true);
@@ -561,7 +567,7 @@ public class Board extends Observable {
                 break;
             case 94:
                 if (cardColor == Color.PURPLE) {
-                    if(getCard(card.getX(), card.getY() + 2)!=null && getCard(card.getX() - 1, card.getY() + 3)!=null) {
+                    if (getCard(card.getX(), card.getY() + 2) != null && getCard(card.getX() - 1, card.getY() + 3) != null) {
                         if (getCard(card.getX(), card.getY() + 2).getColor() == Color.PURPLE && getCard(card.getX() - 1, card.getY() + 3).getColor() == Color.BLUE && !card.isUsedForPositionalObjectives() && !getCard(card.getX(), card.getY() + 2).isUsedForPositionalObjectives() && !getCard(card.getX() - 1, card.getY() + 3).isUsedForPositionalObjectives()) {
                             card.setUsedForPositionalObjectives(true);
                             getCard(card.getX(), card.getY() + 2).setUsedForPositionalObjectives(true);
@@ -610,6 +616,7 @@ public class Board extends Observable {
 
     /**
      * This method flips a card in the hand
+     *
      * @param toFlip the card to flip
      */
     public void flipCardInHand(Card toFlip) {
@@ -619,7 +626,7 @@ public class Board extends Observable {
             }
         }
         ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-        notifyObserver(new UpdateHandMessage(username,toSend)); // broadcast
+        notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
     }
 
     /**

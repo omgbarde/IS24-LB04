@@ -19,6 +19,10 @@ public class InitialCard extends Card  {
         super();
     }
 
+    public InitialCard clone(){
+        return new InitialCard(this.getFront(), this.getBack(), this.getID());
+    }
+
 
     public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         // print the value of ShownFace after deserialization

@@ -26,6 +26,7 @@ public abstract class View {
     public abstract void updateHand(ArrayList<Card> hand);
     public abstract void displayAlert(String alert);
     public abstract void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives);
+    public abstract void placeCard(Integer x , Integer y , Card card);
 
     public abstract void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives);
 

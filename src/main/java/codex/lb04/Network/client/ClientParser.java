@@ -1,6 +1,7 @@
 package codex.lb04.Network.client;
 
 import codex.lb04.Message.DrawMessage.*;
+import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -58,6 +59,9 @@ public class ClientParser {
                 break;
             case UPDATE_SECRET_OBJECTIVE_TO_CHOOSE:
                 view.updateSecretObjectiveToChoose(((UpdateSecretObjectiveToChooseMessage) input).getSecretObjectives());
+                break;
+            case PLACE_CARD:
+                view.placeCard(((PlaceCardMessage) input).getX() , ((PlaceCardMessage) input).getY() , ((PlaceCardMessage) input).getCard());
                 break;
             case ERROR:
                 view.displayAlert(input.toString());

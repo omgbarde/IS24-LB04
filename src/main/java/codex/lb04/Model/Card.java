@@ -29,44 +29,6 @@ public class Card implements Serializable {
         this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
-//    @Serial
-//    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-//        out.defaultWriteObject();
-//        out.writeObject(this.ShownFace);
-//    }
-//
-//    @Serial
-//    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-//        in.defaultReadObject();
-//        this.ShownFace = (Face) in.readObject();
-//    }
-
-
-//    @Serial
-//    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-//        switch (this) {
-//            case InitialCard initialCard -> initialCard.readObjectSub(in);
-//            case ObjectiveCard objectiveCard -> objectiveCard.readObjectSub(in);
-//            case ResourceCard resourceCard -> resourceCard.readObjectSub(in);
-//            case GoldCard goldCard -> goldCard.readObjectSub(in);
-//            default -> in.defaultReadObject();
-//        }
-//    }
-//
-//
-//    @Serial
-//    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-//
-//        switch (this) {
-//            case InitialCard initialCard -> initialCard.writeObjectSub(out);
-//            case ObjectiveCard objectiveCard -> objectiveCard.writeObjectSub(out);
-//            case ResourceCard resourceCard -> resourceCard.writeObjectSub(out);
-//            case GoldCard goldCard -> goldCard.writeObjectSub(out);
-//            default -> out.defaultWriteObject();
-//        }
-//    }
-
-
     public boolean isShowingFront() {
         return isShowingFront;
     }
@@ -75,11 +37,13 @@ public class Card implements Serializable {
         return usedForPositionalObjectives;
     }
 
-    public Card(){
-        super();
+    public Card clone(){
+        return new Card(this.color, this.front, this.back, this.points, this.ID);
     }
 
+    public Card(){
 
+    }
 
     /**
      * Default constructor
