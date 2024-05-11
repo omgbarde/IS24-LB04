@@ -282,6 +282,10 @@ public class Board extends Observable {
     public void drawInitial(){
         this.hand.add(this.deck.drawGold());
         this.deck.updateVisibleGold(2);
+        this.hand.add(this.deck.drawResource());
+        this.deck.updateVisibleResource(2);
+        this.hand.add(this.deck.drawResource());
+        this.deck.updateVisibleResource(2);
         ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
         notifyObserver(new UpdateHandMessage(username, toSend1));
     }

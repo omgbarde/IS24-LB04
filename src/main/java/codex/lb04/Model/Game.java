@@ -258,8 +258,6 @@ public class Game extends Observable {
     public void drawHandForAllPlayers(){
         for(Player player : players){
             player.getBoard().drawInitial();
-            player.getBoard().drawInitial();
-            player.getBoard().drawInitial();
         }
     }
 
