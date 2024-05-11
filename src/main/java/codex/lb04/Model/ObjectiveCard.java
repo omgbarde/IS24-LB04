@@ -36,6 +36,7 @@ public class ObjectiveCard extends Card  {
         return new ObjectiveCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.ID);
     }
 
+
     /**
      * Default constructor
      *

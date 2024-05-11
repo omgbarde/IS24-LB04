@@ -38,7 +38,19 @@ public class Card implements Serializable {
     }
 
     public Card clone(){
-        return new Card(this.color, this.front, this.back, this.points, this.ID);
+        return new Card(this.color, this.front, this.back, this.points, this.ID , this.x, this.y , this.isShowingFront , this.usedForPositionalObjectives);
+    }
+
+    public Card(Color color, Face front, Face back, Integer points , Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives){
+        this.color = color;
+        this.back = back;
+        this.front = front;
+        this.points = points;
+        this.ID = ID;
+        this.x = x;
+        this.y = y;
+        this.isShowingFront = isShowingFront;
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
     public Card(){

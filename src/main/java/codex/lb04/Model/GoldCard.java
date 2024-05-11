@@ -26,7 +26,17 @@ public class GoldCard extends Card{
     }
 
     public GoldCard clone(){
-        return new GoldCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.mushroom_needed, this.animals_needed, this.leaf_needed, this.insects_needed, this.ID);
+        return new GoldCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.mushroom_needed, this.animals_needed, this.leaf_needed, this.insects_needed, this.ID , this.getX(), this.getY() , this.isShowingFront() , this.isUsedForPositionalObjectives());
+    }
+
+    public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed, Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives) {
+        super(color, front, back , points, ID , x, y , isShowingFront , usedForPositionalObjectives);
+        this.points = points;
+        this.mushroom_needed = mushroom_needed;
+        this.animals_needed = animals_needed;
+        this.insects_needed = insects_needed;
+        this.leaf_needed = leaf_needed;
+        this.ID = ID;
     }
 
 

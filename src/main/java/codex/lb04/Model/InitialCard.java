@@ -20,16 +20,12 @@ public class InitialCard extends Card  {
     }
 
     public InitialCard clone(){
-        return new InitialCard(this.getFront(), this.getBack(), this.getID());
+        return new InitialCard(this.getFront(), this.getBack(), this.getID() , this.getX(), this.getY() , this.isShowingFront() , this.isUsedForPositionalObjectives());
     }
 
-
-    public void readObjectSub(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // print the value of ShownFace after deserialization
-        in.defaultReadObject();
-    }
-    public void writeObjectSub(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    public InitialCard(Face front, Face back, Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives) {
+        super(Color.YELLOW, front, back ,0 , ID , x, y , isShowingFront , usedForPositionalObjectives);
+        this.ID = ID;
     }
 
 
