@@ -3,7 +3,6 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveMessage;
-import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
@@ -278,6 +277,13 @@ public class Board extends Observable {
                     break;
             }
         }
+    }
+
+    public void drawInitial(){
+        this.hand.add(this.deck.drawGold());
+        this.deck.updateVisibleGold(2);
+        ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
+        notifyObserver(new UpdateHandMessage(username, toSend1));
     }
 
     /**

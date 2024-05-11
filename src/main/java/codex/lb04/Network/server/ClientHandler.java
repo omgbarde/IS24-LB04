@@ -119,6 +119,6 @@ public class ClientHandler implements Runnable {
      * starts a new executor to ping the client
      */
     private void startPinger() {
-        pinger.scheduleAtFixedRate(()-> sendMessage(new PingMessage("ping")), 0, 2, TimeUnit.SECONDS);
+        pinger.scheduleAtFixedRate(()-> sendMessage(new PingMessage("ping")), 0, 10, TimeUnit.SECONDS);
     }
 }

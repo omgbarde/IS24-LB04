@@ -257,9 +257,9 @@ public class Game extends Observable {
 
     public void drawHandForAllPlayers(){
         for(Player player : players){
-            player.getBoard().drawGoldCard(2);
-            player.getBoard().drawResourceCard(2);
-            player.getBoard().drawResourceCard(2);
+            player.getBoard().drawInitial();
+            player.getBoard().drawInitial();
+            player.getBoard().drawInitial();
         }
     }
 

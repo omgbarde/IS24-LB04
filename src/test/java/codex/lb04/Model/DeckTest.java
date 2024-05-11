@@ -146,6 +146,7 @@ public class DeckTest {
     public void updateVisibleResource() {
         ArrayList<ResourceCard> original = new ArrayList<ResourceCard>(deck.getVisibleResourceCards());
         boolean changed = false;
+        board.setHasPlacedACard(true);
         board.drawResourceCard(1);
         if (!original.equals(deck.getVisibleResourceCards())) {
             changed = true;
@@ -162,6 +163,7 @@ public class DeckTest {
     public void updateVisibleGold() {
         ArrayList<GoldCard> original = new ArrayList<GoldCard>(deck.getVisibleGoldCards());
         boolean changed = false;
+        board.setHasPlacedACard(true);
         board.drawGoldCard(0);
         if (!original.equals(deck.getVisibleGoldCards())) {
             changed = true;
