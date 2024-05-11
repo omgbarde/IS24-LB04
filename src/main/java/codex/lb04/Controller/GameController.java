@@ -364,22 +364,25 @@ public class GameController {
         Face side = pickMessage.getCardSide();
         if (pickMessage.getInitialCard().isShowingFront()){
             if (game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {
-                //TODO see why when try to set the initial card to the front is set to the back
                 game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
                 game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
             }else{
                 game.getPlayerByName(username).getBoard().getInitialCard().flip();
                 game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
                 game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
             }
         } else {
             if(game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()){
                 game.getPlayerByName(username).getBoard().getInitialCard().flip();
                 game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
                 game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
             }else{
                 game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
                 game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
             }
         }
     }

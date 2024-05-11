@@ -45,6 +45,8 @@ public class Board extends Observable {
     //username of the player
     private String username;
 
+    private boolean hasPlacedACard = false;
+
     /**
      * Default constructor of the board, adds an observer to it and sets all the resources to zero
      */
@@ -91,42 +93,52 @@ public class Board extends Observable {
      * @param toBePlaced the card to be placed on the board
      */
     public void placeCard(Card toBePlaced, Integer x, Integer y) {
-        if (canBePlaced(x, y, toBePlaced)) {
-            for (Card card : playedCards) {
-                if (card.getX() == x + 1 && card.getY() == y + 1) {
-                    card.getShownFace().getLowerLeft().setCovered(toBePlaced);
+        if(!hasPlacedACard){
+            hasPlacedACard = true;
+            if (canBePlaced(x, y, toBePlaced)) {
+                for (Card card : playedCards) {
+                    if (card.getX() == x + 1 && card.getY() == y + 1) {
+                        card.getShownFace().getLowerLeft().setCovered(toBePlaced);
+                    }
+                    if (card.getX() == x + 1 && card.getY() == y - 1) {
+                        card.getShownFace().getUpperLeft().setCovered(toBePlaced);
+                    }
+                    if (card.getX() == x - 1 && card.getY() == y + 1) {
+                        card.getShownFace().getLowerRight().setCovered(toBePlaced);
+                    }
+                    if (card.getX() == x - 1 && card.getY() == y - 1) {
+                        card.getShownFace().getUpperRight().setCovered(toBePlaced);
+                    }
                 }
-                if (card.getX() == x + 1 && card.getY() == y - 1) {
-                    card.getShownFace().getUpperLeft().setCovered(toBePlaced);
+                toBePlaced.setCoordinates(x, y);
+                playedCards.add(toBePlaced);
+                Card toBePlacedClone = ((Card) toBePlaced.clone());
+                notifyObserver(new PlaceCardMessage(this.username, x, y, toBePlacedClone));
+                Integer idToRemove = toBePlacedClone.getID();
+                for(Card card : hand){
+                    if(Objects.equals(card.getID(), idToRemove)){
+                        hand.remove(card);
+                        break;
+                    }
                 }
-                if (card.getX() == x - 1 && card.getY() == y + 1) {
-                    card.getShownFace().getLowerRight().setCovered(toBePlaced);
+                ArrayList<Card> toSend = cloneHand();
+                notifyObserver(new UpdateHandMessage(this.username, toSend));
+                updateResources();
+                if (toBePlaced.getClass() == GoldCard.class) {
+                    updateGoldCardsPoints((GoldCard) toBePlaced);
                 }
-                if (card.getX() == x - 1 && card.getY() == y - 1) {
-                    card.getShownFace().getUpperRight().setCovered(toBePlaced);
-                }
+                pointsUpdate();
             }
-            toBePlaced.setCoordinates(x, y);
-            playedCards.add(toBePlaced);
-            Card toBePlacedClone = ((Card) toBePlaced.clone());//TODO quando clono le carte ishowingfront viene settato a false
-            notifyObserver(new PlaceCardMessage(this.username, x, y, toBePlacedClone));
-            hand.remove(toBePlaced);
-            ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-            notifyObserver(new UpdateHandMessage(this.username, toSend)); // broadcast
-            updateResources();
-            if (toBePlaced.getClass() == GoldCard.class) {
-                updateGoldCardsPoints((GoldCard) toBePlaced);
-            }
-            pointsUpdate();
         }
-
     }
 
-//    public ArrayList<Card> cloneHand(){
-//        Card card1 = this.hand.get(0);
-//        Card card1Clone = ( (Card) card1.clone());
-//    }
-
+    public ArrayList<Card> cloneHand(){
+        ArrayList<Card> clone = new ArrayList<>();
+        for(Card card : hand){
+            clone.add((Card) card.clone());
+        }
+        return clone;
+    }
 
     /**
      * This method tells if a card can be placed with certain coordinates
@@ -211,10 +223,6 @@ public class Board extends Observable {
      */
     public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
         this.CommonObjectives = CommonObjectives;
-        for (ObjectiveCard commonObjective : CommonObjectives) {
-            //TODO
-            //notifyObserver(new DrawCardMessage(username , commonObjective));
-        }
     }
 
     /**
@@ -256,15 +264,16 @@ public class Board extends Observable {
                 this.hand.add(this.deck.getVisibleGoldCards().get(pick));
                 this.deck.updateVisibleGold(pick);
                 ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
-                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                notifyObserver(new UpdateHandMessage(username, toSend));
+                this.hasPlacedACard = false;
+
                 break;
             case 2:
                 this.hand.add(this.deck.drawGold());
                 this.deck.updateVisibleGold(pick);
                 ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                //notifyObserver(new UpdateHandMessage(username,toSend1)); // broadcast
                 notifyObserver(new UpdateHandMessage(username, toSend1));
+                this.hasPlacedACard = false;
                 break;
         }
 
@@ -281,15 +290,15 @@ public class Board extends Observable {
                 this.hand.add(this.deck.getVisibleResourceCards().get(pick));
                 this.deck.updateVisibleResource(pick);
                 ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
-                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                notifyObserver(new UpdateHandMessage(username, toSend));
+                this.hasPlacedACard = false;
                 break;
             case 2:
                 this.hand.add(this.deck.drawResource());
                 this.deck.updateVisibleResource(pick);
                 ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend1)); // broadcast
-                //notifyObserver(new UpdateHandMessage(username , hand.getLast());
+                notifyObserver(new UpdateHandMessage(username, toSend1));
+                this.hasPlacedACard = false;
                 break;
         }
     }
@@ -789,5 +798,9 @@ public class Board extends Observable {
 
     public void setInitialCardChosen(boolean initialCardChosen) {
         this.initialCardChosen = initialCardChosen;
+    }
+
+    public void setHasPlacedACard(boolean hasPlacedACard) {
+        this.hasPlacedACard = hasPlacedACard;
     }
 }

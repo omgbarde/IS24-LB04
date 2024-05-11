@@ -13,9 +13,11 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.w3c.dom.css.Rect;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,6 +94,12 @@ public class BoardSceneController {
     }
 
     public void updateHand(ArrayList<Card> handCards) {
+        hand.replaceAll((r, v) -> null);
+        for (Rectangle rectangle : hand.keySet()) {
+            Platform.runLater(() -> {
+                cleanImage(rectangle);
+            });
+        }
         for (int i = 0; i < handCards.size(); i++) {
             Card card = handCards.get(i);
             hand.put((Rectangle) hand.keySet().toArray()[i], card);
@@ -163,6 +171,10 @@ public class BoardSceneController {
 
     }
 
+    public void cleanImage(Rectangle rectangle) {
+        rectangle.setFill(Color.RED);
+    }
+
 
     public void placeCard(Integer x, Integer y, Card card) {
         for (Rectangle rectangle : gridMap.keySet()) {
@@ -192,7 +204,7 @@ public class BoardSceneController {
                     }
                 });
                 Platform.runLater(() -> {
-                        view.bringRectangleToFront(rectangle);
+                    view.bringRectangleToFront(rectangle);
                 });
 
             }
@@ -211,7 +223,7 @@ public class BoardSceneController {
             ArrayList<Integer> coordinates = (ArrayList<Integer>) clickedRectangle.getUserData();
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
-            clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername() , X , Y , selectedCard));
+            clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(), X, Y, selectedCard));
         }
     }
 
@@ -323,8 +335,8 @@ public class BoardSceneController {
 
 
     public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
-        Rectangle toDisable1 =(Rectangle) secretObjectivesToChoose.keySet().toArray()[0];
-        Rectangle toDisable2 =(Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
+        Rectangle toDisable1 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[0];
+        Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
         this.disableRectangle(toDisable1);
         this.disableRectangle(toDisable2);
         this.disableRectangle(view.getSecretObjectivesBackground());
@@ -439,7 +451,7 @@ public class BoardSceneController {
         secretObjective.put(rectangle, null);
     }
 
-    public void disableRectangle(Rectangle rectangle){
+    public void disableRectangle(Rectangle rectangle) {
         rectangle.setOpacity(0);
         rectangle.setHeight(0);
         rectangle.setWidth(0);
