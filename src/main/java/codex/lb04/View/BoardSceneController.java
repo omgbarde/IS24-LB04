@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
@@ -42,7 +43,7 @@ public class BoardSceneController {
     private Map<Rectangle, Card> secretObjectivesToChoose = new LinkedHashMap<>();
     private Map<Rectangle, Card> secretObjective = new LinkedHashMap<>();
     private Map<Rectangle, Card> initialCardDisplay = new LinkedHashMap<>();
-    private Map<Rectangle, Label> pointsDisplay = new LinkedHashMap<>();
+    private Map<Rectangle, Text> pointsDisplay = new LinkedHashMap<>();
     private GuiView view;
     private ClientSocket clientSocket;
 
@@ -299,8 +300,8 @@ public class BoardSceneController {
     }
 
     public void drawPoints(Rectangle rectangle, Integer point) {
-        Label label = pointsDisplay.get(rectangle);
-        label.setText(point.toString());
+        Text text = pointsDisplay.get(rectangle);
+        text.setText(point.toString());
     }
 
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
@@ -441,8 +442,8 @@ public class BoardSceneController {
         initialCardDisplay.put(rectangle, null);
     }
 
-    public void addRectangleToPointsDisplay(Rectangle rectangle, Label label) {
-        pointsDisplay.put(rectangle, label);
+    public void addRectangleToPointsDisplay(Rectangle rectangle, Text text) {
+        pointsDisplay.put(rectangle, text);
     }
 
     /**

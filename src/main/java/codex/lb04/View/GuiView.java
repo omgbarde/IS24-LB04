@@ -312,7 +312,7 @@ public class GuiView extends View {
     public void drawBoardScene() {
 
 
-        //TODO creare label a inizio gioco che spiega i comandi e sparisce una volta settato l'obiettivo segreto
+        //TODO creare text a inizio gioco che spiega i comandi e sparisce una volta settato l'obiettivo segreto
 
         // Create a group for static elements
         Group staticRoot = new Group();
@@ -325,6 +325,13 @@ public class GuiView extends View {
 
         // Create a group to hold both the static and movable groups
         Group root = new Group();
+        Rectangle background = new Rectangle();
+        background.setHeight(4000);
+        background.setWidth(4000);
+        background.setFill(javafx.scene.paint.Color.BLACK);
+        root.getChildren().add(background);
+
+
         root.getChildren().addAll(movableRoot, staticRoot);
         setMovableRootReference(movableRoot);
         setStaticGroupReference(staticRoot);
@@ -491,12 +498,11 @@ public class GuiView extends View {
 
         Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle mushrooms_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label mush_label = new Label("0");
-        mush_label.setFont(new Font("Arial", 20));
-        mush_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        mush_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text mush_label = new Text("0");
+        mush_label.setFill(javafx.scene.paint.Color.WHITE);
+        mush_label.setFont(new Font("Nimbus Roman", 20));
         mush_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 +5);
-        mush_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        mush_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(mushrooms_points , mush_label);
 
         try {
@@ -507,12 +513,11 @@ public class GuiView extends View {
 
         Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle animals_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label animals_label = new Label("0");
-        animals_label.setFont(new Font("Arial", 20));
-        animals_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        animals_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text animals_label = new Text("0");
+        animals_label.setFont(new Font("Nimbus Roman", 20));
+        animals_label.setFill(javafx.scene.paint.Color.WHITE);
         animals_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth + 5);
-        animals_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        animals_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(animals_points , animals_label);
 
         try {
@@ -523,12 +528,11 @@ public class GuiView extends View {
 
         Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle insect_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label insect_label = new Label("0");
-        insect_label.setFont(new Font("Arial", 20));
-        insect_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        insect_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text insect_label = new Text("0");
+        insect_label.setFont(new Font("Nimbus Roman", 20));
+        insect_label.setFill(javafx.scene.paint.Color.WHITE);
         insect_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2 + 5);
-        insect_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        insect_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(insect_points , insect_label);
 
 
@@ -540,12 +544,11 @@ public class GuiView extends View {
 
         Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle leaves_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label leaves_label = new Label("0");
-        leaves_label.setFont(new Font("Arial", 20));
-        leaves_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        leaves_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text leaves_label = new Text("0");
+        leaves_label.setFont(new Font("Nimbus Roman", 20));
+        leaves_label.setFill(javafx.scene.paint.Color.WHITE);
         leaves_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3 + 5);
-        leaves_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        leaves_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(leaves_points , leaves_label);
 
         try {
@@ -556,12 +559,11 @@ public class GuiView extends View {
 
         Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle quills_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label quills_label = new Label("0");
-        quills_label.setFont(new Font("Arial", 20));
-        quills_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        quills_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text quills_label = new Text("0");
+        quills_label.setFont(new Font("Nimbus Roman", 20));
+        quills_label.setFill(javafx.scene.paint.Color.WHITE);
         quills_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4 + 5);
-        quills_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        quills_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(quills_points , quills_label);
 
         try {
@@ -572,12 +574,11 @@ public class GuiView extends View {
 
         Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle inkwells_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label inkwells_label = new Label("0");
-        inkwells_label.setFont(new Font("Arial", 20));
-        inkwells_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        inkwells_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text inkwells_label = new Text("0");
+        inkwells_label.setFont(new Font("Nimbus Roman", 20));
+        inkwells_label.setFill(javafx.scene.paint.Color.WHITE);
         inkwells_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5 + 5);
-        inkwells_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        inkwells_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(inkwells_points , inkwells_label);
 
         try {
@@ -588,12 +589,11 @@ public class GuiView extends View {
 
         Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle manuscript_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label manuscript_label = new Label("0");
-        manuscript_label.setFont(new Font("Arial", 20));
-        manuscript_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        manuscript_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text manuscript_label = new Text("0");
+        manuscript_label.setFont(new Font("Nimbus Roman", 20));
+        manuscript_label.setFill(javafx.scene.paint.Color.WHITE);
         manuscript_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6 + 5);
-        manuscript_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        manuscript_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(manuscript_points , manuscript_label);
 
         try {
@@ -604,12 +604,11 @@ public class GuiView extends View {
 
         Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
         Rectangle Points_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
-        Label points_label = new Label("0");
-        points_label.setFont(new Font("Arial", 20));
-        points_label.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, null, null)));
-        points_label.setTextFill(javafx.scene.paint.Color.WHITE);
+        Text points_label = new Text("0");
+        points_label.setFont(new Font("Nimbus Roman", 20));
+        points_label.setFill(javafx.scene.paint.Color.WHITE);
         points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);
-        points_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 5);
+        points_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(Points_points , points_label);
 
         points.setFill(Color.RED.getPaint());
@@ -681,7 +680,7 @@ public class GuiView extends View {
         int gridSize = 20;
         double rectangleWidth = cardWidth - 30;//change these values to change di distance between rectangles
         double rectangleHeight = cardHeight - 33;
-        double opacity = 0.15;
+        double opacity = 0;
 
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
@@ -694,8 +693,8 @@ public class GuiView extends View {
                 gridRectangle.setFill(Color.GREY.getPaint());
                 gridRectangle.setOpacity(opacity);
                 // Add an outline to the rectangle
-                gridRectangle.setStroke(javafx.scene.paint.Color.LIGHTGRAY);
-                gridRectangle.setStrokeWidth(2);
+                gridRectangle.setStroke(javafx.scene.paint.Color.BLACK);
+                gridRectangle.setStrokeWidth(0.5);
 
                 int finalJ = gridSize / 2 - j; // Invert the y-coordinate
                 int finalI = i - gridSize / 2;
