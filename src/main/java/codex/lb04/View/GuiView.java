@@ -337,7 +337,7 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
         ResourceCard1.setFill(Color.RED.getPaint());
-        ResourceCard1.setUserData(2);
+        ResourceCard1.setUserData(0);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard2.setFill(Color.RED.getPaint());
@@ -345,7 +345,7 @@ public class GuiView extends View {
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
-        ResourceCard3.setUserData(0);
+        ResourceCard3.setUserData(2);
 
         bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
 

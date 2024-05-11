@@ -1,6 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
+import codex.lb04.Message.GameMessage.PickResourceCardMessage;
 import codex.lb04.Message.GameMessage.PickSecretObjectiveMessage;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.*;
@@ -64,6 +65,12 @@ public class BoardSceneController {
      * @param goldCards the gold cards arrayList
      */
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
+        drawableGold.replaceAll((r, v) -> null);
+        for (Rectangle rectangle : drawableGold.keySet()) {
+            Platform.runLater(() -> {
+                cleanImage(rectangle);
+            });
+        }
         for (int i = 0; i < goldCards.size(); i++) {
             GoldCard goldCard = goldCards.get(i);
             drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
@@ -79,6 +86,12 @@ public class BoardSceneController {
     }
 
     public void updateDrawableResources(ArrayList<ResourceCard> resourceCards) {
+        drawableResources.replaceAll((r, v) -> null);
+        for (Rectangle rectangle : drawableResources.keySet()) {
+            Platform.runLater(() -> {
+                cleanImage(rectangle);
+            });
+        }
         for (int i = 0; i < resourceCards.size(); i++) {
             ResourceCard resourceCard = resourceCards.get(i);
             drawableResources.put((Rectangle) drawableResources.keySet().toArray()[i], resourceCard);
@@ -238,6 +251,17 @@ public class BoardSceneController {
         clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(), (Integer) rectangle.getUserData()));
     }
 
+    public void onDrawGoldPick(MouseEvent event){
+        Rectangle rectangle = (Rectangle) event.getSource();
+        Integer pick = (Integer) rectangle.getUserData();
+        clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
+    }
+    public void onDrawResourcePick(MouseEvent event){
+        Rectangle rectangle = (Rectangle) event.getSource();
+        Integer pick = (Integer) rectangle.getUserData();
+        clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
+    }
+
     /**
      * Method to handle the click on the hand
      *
@@ -373,9 +397,7 @@ public class BoardSceneController {
         }
         setImageToRectangle(imagePath, rectangle);
 
-        if (hand.containsKey(selectedRectangle)) {
-            hand.put(rectangle, card);
-        }
+
         if (initialCardDisplay.containsKey(selectedRectangle)) {
             initialCardDisplay.put(rectangle, card);
         }
@@ -411,6 +433,7 @@ public class BoardSceneController {
      * @param rectangle the rectangle to add to the map
      */
     public void addRectangleToDrawableGoldMap(Rectangle rectangle) {
+        rectangle.setOnMouseClicked(this::onDrawGoldPick);
         drawableGold.put(rectangle, null);
     }
 
@@ -420,6 +443,7 @@ public class BoardSceneController {
      * @param rectangle the rectangle to add to the map
      */
     public void addRectangleToDrawableResourcesMap(Rectangle rectangle) {
+        rectangle.setOnMouseClicked(this::onDrawResourcePick);
         drawableResources.put(rectangle, null);
     }
 
