@@ -1,9 +1,6 @@
 package codex.lb04.View;
 
-import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
-import codex.lb04.Message.GameMessage.PickResourceCardMessage;
-import codex.lb04.Message.GameMessage.PickSecretObjectiveMessage;
-import codex.lb04.Message.GameMessage.PlaceCardMessage;
+import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
 import javafx.application.Platform;
@@ -288,6 +285,7 @@ public class BoardSceneController {
             this.selectedCard = correspondingCard;
         }
     }
+
 
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
         InputStream is = getClass().getResourceAsStream(imagePath);

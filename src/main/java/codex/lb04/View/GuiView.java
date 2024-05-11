@@ -2,6 +2,7 @@ package codex.lb04.View;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
+import codex.lb04.Message.GameMessage.EndTurnMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Model.Enumerations.Color;
@@ -464,7 +465,7 @@ public class GuiView extends View {
             }
         });
 
-        //Button end turn //TODO implementare comportamento (magari in un metodo e chiamarlo all'evento)
+        //Button end turn
         Button endTurnButton = new Button("end turn");
         endTurnButton.setTextFill(javafx.scene.paint.Color.WHITE);
         endTurnButton.setLayoutX(centerX - 37.5);
@@ -472,6 +473,9 @@ public class GuiView extends View {
         endTurnButton.setMaxHeight(10);
         endTurnButton.setMaxWidth(75);
         endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
+        endTurnButton.setOnMouseClicked(e -> {
+                clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
+        });
 
 
         //resources & points box

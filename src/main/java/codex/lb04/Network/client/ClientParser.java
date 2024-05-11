@@ -83,6 +83,8 @@ public class ClientParser {
                 view.drawBoardScene();
                 clientSocket.sendMessage(new ReadyMessage("ready"));
                 break;
+            case START_TURN:
+                break;
             default:
                 view.displayAlert("message not recognized");
                 clientSocket.disconnect();

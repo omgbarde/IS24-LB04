@@ -203,6 +203,7 @@ public class GameController {
                         triggerEndGame();
                     }
                     turnController.changeTurn();
+                    break;
                 }else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "finish turn actions first (place & draw a card)"), usr);
                 }
