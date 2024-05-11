@@ -48,6 +48,9 @@ public class ClientParser {
             case UPDATE_RESOURCE:
                 view.updateResource(((UpdateResourceMessage) input).getResource());
                 break;
+             case UPDATE_SECRET_OBJECTIVE:
+                view.updateSecretObjective(((UpdateSecretObjectiveMessage) input) . getSecretObjective());
+                break;
             case UPDATE_HAND:
                 view.updateHand(((UpdateHandMessage) input).getHand());
                 break;

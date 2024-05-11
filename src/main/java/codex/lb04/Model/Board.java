@@ -2,6 +2,7 @@ package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
+import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.Enumerations.Color;
@@ -228,13 +229,15 @@ public class Board extends Observable {
         switch (pick) {
             case 0:
                 this.secretObjective = this.secretObjectiveToPick.get(0);
+                this.secretObjective.setInGame();
                 secretObjectiveChosen = true;
-                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
+                notifyObserver(new UpdateSecretObjectiveMessage(username , this.secretObjective));
                 break;
             case 1:
                 this.secretObjective = this.secretObjectiveToPick.get(1);
+                this.secretObjective.setInGame();
                 secretObjectiveChosen = true;
-                //notifyObserver(new SecretObjectiveChosenMessage(username , this.secretObjective));
+                notifyObserver(new UpdateSecretObjectiveMessage(username , this.secretObjective));
                 break;
             default:
                 System.out.println("invalid choice");

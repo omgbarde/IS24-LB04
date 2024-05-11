@@ -32,6 +32,7 @@ public abstract class View {
 
 
     public abstract void updateInitialCardDisplay(InitialCard card);
+    public abstract void updateSecretObjective(ObjectiveCard secretObjectives);
 
 
 }

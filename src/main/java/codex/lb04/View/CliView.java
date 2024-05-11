@@ -96,4 +96,9 @@ public class CliView extends View {
     public  void placeCard(Integer x , Integer y , Card card){
 
     }
+
+    @Override
+    public void updateSecretObjective(ObjectiveCard secretObjectives){
+
+    }
 }

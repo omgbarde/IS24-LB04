@@ -1,6 +1,8 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.GameMessage.PickInitialCardSideMessage;
+import codex.lb04.Message.GameMessage.PickSecretObjectiveMessage;
+import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
 import javafx.application.Platform;
@@ -146,6 +148,21 @@ public class BoardSceneController {
         }
     }
 
+    public void updateSecretObjective(ObjectiveCard objectiveCards) {
+        ObjectiveCard card = objectiveCards;
+        secretObjective.put((Rectangle) secretObjective.keySet().toArray()[0], card);
+        Rectangle rectangle = (Rectangle) secretObjective.keySet().toArray()[0];
+
+        Platform.runLater(() -> {
+            try {
+                drawSecretObjective(rectangle, card);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
 
     public void placeCard(Integer x, Integer y, Card card) {
         for (Rectangle rectangle : gridMap.keySet()) {
@@ -153,7 +170,7 @@ public class BoardSceneController {
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
             if (Objects.equals(X, x) && Objects.equals(Y, y)) {
-                if(x == 0 && y == 0){
+                if (x == 0 && y == 0) {
                     Rectangle todisable = (Rectangle) initialCardDisplay.keySet().toArray()[0];
                     todisable.setOpacity(0);
                     todisable.setHeight(0);
@@ -174,7 +191,10 @@ public class BoardSceneController {
                         throw new RuntimeException(e);
                     }
                 });
-                view.bringRectangleToFront(rectangle);
+                Platform.runLater(() -> {
+                        view.bringRectangleToFront(rectangle);
+                });
+
             }
         }
     }
@@ -185,22 +205,25 @@ public class BoardSceneController {
      *
      * @param event the mouse event
      */
-    //TODO per piazzare la carta
     public void onGridClick(MouseEvent event) {
-        if (selectedCard != null) {
+        if (selectedCard != null && selectedRectangle != null) {
             Rectangle clickedRectangle = (Rectangle) event.getSource();
             ArrayList<Integer> coordinates = (ArrayList<Integer>) clickedRectangle.getUserData();
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
-            //clientsocket.send(new PlaceCardMessage(selectedCard, clickedRectangle));
+            clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername() , X , Y , selectedCard));
         }
-        // Now you can use the correspondingCard object
     }
 
     public void onInitialCardSelection(ContextMenuEvent event) {
         Rectangle initCardDisplay = (Rectangle) initialCardDisplay.keySet().toArray()[0];
         InitialCard initCard = (InitialCard) initialCardDisplay.get(initCardDisplay);
         clientSocket.sendMessage(new PickInitialCardSideMessage(clientSocket.getUsername(), initCard));
+    }
+
+    public void onSecretObjectivePick(ContextMenuEvent event) {
+        Rectangle rectangle = (Rectangle) event.getSource();
+        clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(), (Integer) rectangle.getUserData()));
     }
 
     /**
@@ -300,6 +323,12 @@ public class BoardSceneController {
 
 
     public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
+        Rectangle toDisable1 =(Rectangle) secretObjectivesToChoose.keySet().toArray()[0];
+        Rectangle toDisable2 =(Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
+        this.disableRectangle(toDisable1);
+        this.disableRectangle(toDisable2);
+        this.disableRectangle(view.getSecretObjectivesBackground());
+
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
@@ -348,12 +377,13 @@ public class BoardSceneController {
      * @param rectangle the rectangle to add to the map
      */
     public void addRectangleToGridMap(Rectangle rectangle) {
+        rectangle.setOnMouseClicked(this::onGridClick);
         gridMap.put(rectangle, null);
     }
 
     public void addRectangleToSecretObjectivesToChoose(Rectangle rectangle) {
-        //TODO implementare metodo per scegliere carta obiettivo
-        //rectangle.setOnMouseClicked(this::onSelectCardClick);
+        rectangle.setOnMouseClicked(this::onSelectCardClick);
+        rectangle.setOnContextMenuRequested(this::onSecretObjectivePick);
         secretObjectivesToChoose.put(rectangle, null);
     }
 
@@ -407,6 +437,13 @@ public class BoardSceneController {
      */
     public void addRectangleToSecretObjectiveMap(Rectangle rectangle) {
         secretObjective.put(rectangle, null);
+    }
+
+    public void disableRectangle(Rectangle rectangle){
+        rectangle.setOpacity(0);
+        rectangle.setHeight(0);
+        rectangle.setWidth(0);
+        rectangle.setDisable(true);
     }
 
 
@@ -509,7 +546,7 @@ public class BoardSceneController {
         return this.selectedRectangle;
     }
 
-    public void setClientSocket(ClientSocket clientSocket){
+    public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
     }
 }

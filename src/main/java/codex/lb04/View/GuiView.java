@@ -337,12 +337,15 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
         ResourceCard1.setFill(Color.RED.getPaint());
+        ResourceCard1.setUserData(2);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard2.setFill(Color.RED.getPaint());
+        ResourceCard2.setUserData(1);
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         ResourceCard3.setFill(Color.RED.getPaint());
+        ResourceCard3.setUserData(0);
 
         bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
 
@@ -356,14 +359,17 @@ public class GuiView extends View {
         //Display of the resource cards that can be drawn
         Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);
         //GoldCard1.setFill(Color.RED.getPaint());
+        GoldCard1.setUserData(2);
 
 
         Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);
         //GoldCard2.setFill(Color.RED.getPaint());
+        GoldCard2.setUserData(1);
 
 
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         //GoldCard3.setFill(Color.RED.getPaint());
+        GoldCard3.setUserData(1);
         bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX
@@ -431,9 +437,11 @@ public class GuiView extends View {
 
         Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 +3, cardWidth, cardHeight);
         secretObjective1Display.setFill(Color.RED.getPaint());
+        secretObjective1Display.setUserData(0);
 
         Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
         secretObjective2Display.setFill(Color.RED.getPaint());
+        secretObjective2Display.setUserData(1);
         bsc.setUpSecretObjectivesToChoose(secretObjective1Display,secretObjective2Display);
 
 
@@ -690,6 +698,11 @@ public class GuiView extends View {
     @Override
     public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
         bsc.updateCommonObjectives(commonObjectives);
+    }
+
+    @Override
+    public void updateSecretObjective(ObjectiveCard secretObjective){
+        bsc.updateSecretObjective(secretObjective);
     }
 
 
