@@ -259,24 +259,25 @@ public class Board extends Observable {
      * @param pick the choice of the player
      */
     public void drawGoldCard(Integer pick) {
-        switch (pick) {
-            case 0, 1:
-                this.hand.add(this.deck.getVisibleGoldCards().get(pick));
-                this.deck.updateVisibleGold(pick);
-                ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend));
-                this.hasPlacedACard = false;
+        if(hasPlacedACard){
+            switch (pick) {
+                case 0, 1:
+                    this.hand.add(this.deck.getVisibleGoldCards().get(pick));
+                    this.deck.updateVisibleGold(pick);
+                    ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+                    notifyObserver(new UpdateHandMessage(username, toSend));
+                    this.hasPlacedACard = false;
 
-                break;
-            case 2:
-                this.hand.add(this.deck.drawGold());
-                this.deck.updateVisibleGold(pick);
-                ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend1));
-                this.hasPlacedACard = false;
-                break;
+                    break;
+                case 2:
+                    this.hand.add(this.deck.drawGold());
+                    this.deck.updateVisibleGold(pick);
+                    ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
+                    notifyObserver(new UpdateHandMessage(username, toSend1));
+                    this.hasPlacedACard = false;
+                    break;
+            }
         }
-
     }
 
     /**
@@ -285,21 +286,23 @@ public class Board extends Observable {
      * @param pick the choice of the player
      */
     public void drawResourceCard(Integer pick) {
-        switch (pick) {
-            case 0, 1:
-                this.hand.add(this.deck.getVisibleResourceCards().get(pick));
-                this.deck.updateVisibleResource(pick);
-                ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend));
-                this.hasPlacedACard = false;
-                break;
-            case 2:
-                this.hand.add(this.deck.drawResource());
-                this.deck.updateVisibleResource(pick);
-                ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
-                notifyObserver(new UpdateHandMessage(username, toSend1));
-                this.hasPlacedACard = false;
-                break;
+        if(hasPlacedACard){
+            switch (pick) {
+                case 0, 1:
+                    this.hand.add(this.deck.getVisibleResourceCards().get(pick));
+                    this.deck.updateVisibleResource(pick);
+                    ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+                    notifyObserver(new UpdateHandMessage(username, toSend));
+                    this.hasPlacedACard = false;
+                    break;
+                case 2:
+                    this.hand.add(this.deck.drawResource());
+                    this.deck.updateVisibleResource(pick);
+                    ArrayList<Card> toSend1 = ((ArrayList<Card>) hand.clone());
+                    notifyObserver(new UpdateHandMessage(username, toSend1));
+                    this.hasPlacedACard = false;
+                    break;
+            }
         }
     }
 
@@ -637,7 +640,7 @@ public class Board extends Observable {
                 card.flip();
             }
         }
-        ArrayList<Card> toSend = ((ArrayList<Card>) hand.clone());
+        ArrayList<Card> toSend = cloneHand();
         notifyObserver(new UpdateHandMessage(username, toSend)); // broadcast
     }
 
