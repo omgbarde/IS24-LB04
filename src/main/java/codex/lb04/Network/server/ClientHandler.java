@@ -53,7 +53,7 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            startPinger();
+            //startPinger();
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
