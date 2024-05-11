@@ -3,6 +3,7 @@ package codex.lb04.Network.server;
 import codex.lb04.Message.DeadClientMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
+import codex.lb04.Message.PingMessage;
 import codex.lb04.ServerApp;
 
 import java.io.EOFException;
@@ -11,6 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * client handler class handles client-server comunication
@@ -21,6 +25,7 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private String username;
+    private ScheduledExecutorService pinger;
 
     /**
      * the client handler constructor creates a handler for a single client
@@ -32,6 +37,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
         this.server = server;
+        this.pinger = Executors.newSingleThreadScheduledExecutor();
         try {
             input = new ObjectInputStream(clientSocket.getInputStream());
             output = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -47,6 +53,7 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
+            startPinger();
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
@@ -67,6 +74,7 @@ public class ClientHandler implements Runnable {
         } finally {
             try {
                 clientSocket.close();
+                pinger.shutdown();
                 server.onMessageReceived(new DeadClientMessage(this.username));
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -105,5 +113,12 @@ public class ClientHandler implements Runnable {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * starts a new executor to ping the client
+     */
+    private void startPinger() {
+        pinger.scheduleAtFixedRate(()-> sendMessage(new PingMessage("ping")), 0, 2, TimeUnit.SECONDS);
     }
 }

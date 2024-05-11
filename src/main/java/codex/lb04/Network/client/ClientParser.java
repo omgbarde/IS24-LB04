@@ -5,6 +5,7 @@ import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.PlayersConnectedMessage;
+import codex.lb04.Message.PongMessage;
 import codex.lb04.View.View;
 
 /**
@@ -73,6 +74,10 @@ public class ClientParser {
                 break;
             case GENERIC_MESSAGE, INVALID_INPUT:
                 view.displayAlert(input.toString());
+                break;
+            case PING:
+                clientSocket.sendMessage(new PongMessage("pong"));
+                System.out.println("pinged!");
                 break;
             case DRAW_BOARD:
                 view.drawBoardScene();

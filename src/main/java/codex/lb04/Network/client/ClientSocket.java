@@ -21,7 +21,6 @@ public class ClientSocket {
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private ClientParser clientParser;
-    private View view;
 
     /**
      * generates a client socket with the parameters in input
@@ -31,13 +30,13 @@ public class ClientSocket {
      */
     public ClientSocket(View view,String username, String address, int port) throws IOException {
             this.username = username;
-            System.out.println(address);
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
             this.clientParser = new ClientParser( this,view);
             readmessage();
     }
+
 
     public String getUsername() {
         return username;
