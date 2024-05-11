@@ -26,7 +26,7 @@ public class GameController {
     private int countDown = -1;
     private ArrayList<String> winners;
     private boolean EndGame = false;
-    GameObserver gameObserver = new GameObserver();
+    GameObserver gameObserver;
 
     /**
      * Singleton instance method
@@ -44,6 +44,9 @@ public class GameController {
      */
     public void resetInstance() {
         this.game.resetInstance();
+        this.game = Game.getInstance();
+        gameObserver = new GameObserver();
+        game.addObserver(gameObserver);
         if (this.turnController != null) {
             this.turnController.resetInstance();
         }
@@ -62,6 +65,7 @@ public class GameController {
      */
     private void createGameController() {
         this.game = Game.getInstance();
+        gameObserver = new GameObserver();
         game.addObserver(gameObserver);
         this.inputController = new InputController(this, game);
         game.setGameState(GameState.LOGIN);
@@ -134,6 +138,7 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 game.removePlayerFromLobby(usr);
+                this.resetInstance();
                 break;
             default:
                 ErrorMessage defaultError = new ErrorMessage("server", "message not recognized or double login");
@@ -210,6 +215,7 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);
+                this.resetInstance();
                 break;
             default:
                 ServerApp.sendMessageToClient(new ErrorMessage("server", "message not recognized"), usr);
@@ -278,6 +284,7 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);
+                this.resetInstance();
                 break;
             default:
                 ServerApp.sendMessageToClient(new ErrorMessage("server", "message not recognized"), usr);

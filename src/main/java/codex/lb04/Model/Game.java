@@ -19,13 +19,13 @@ import java.util.Objects;
  */
 public class Game extends Observable {
     private static Game instance;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
     private Deck deck;
-    private GameState gameState = GameState.LOGIN;
-    private ArrayList<String> lobby = new ArrayList<>();
-    private ArrayList<ObjectiveCard> inGameObjectiveCards = new ArrayList<>();
-    private int numPlayers = 0;
-    private int replies = 0;
+    private GameState gameState;
+    private ArrayList<String> lobby;
+    private ArrayList<ObjectiveCard> inGameObjectiveCards;
+    private int numPlayers;
+    private int replies;
 
     /**
      * Private constructor to prevent instantiation from outside the class
@@ -33,6 +33,12 @@ public class Game extends Observable {
      *
      */
     private Game() {
+        this.players = new ArrayList<>();
+        this.lobby = new ArrayList<>();
+        this.inGameObjectiveCards = new ArrayList<>();
+        this.gameState = GameState.LOGIN;
+        this.numPlayers = 0;
+        this.replies = 0;
     }
 
     public void setDeck(){
@@ -52,8 +58,10 @@ public class Game extends Observable {
     }
 
     public void resetInstance() {
-        this.deck.resetInstance();
-        instance = null;
+        if(this.deck != null){
+            this.deck.resetInstance();
+        }
+        this.instance = null;
     }
 
     /**
