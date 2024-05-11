@@ -21,6 +21,9 @@ public class GameObserver implements Observer {
             case UPDATE_HAND:
                 ServerApp.sendMessageToClient(message, usr);
                 break;
+            case UPDATE_POINTS:
+                ServerApp.sendMessageToClient(message, usr);
+                break;
             case PLACE_CARD:
                 ServerApp.sendMessageToClient(message, usr);
                 break;

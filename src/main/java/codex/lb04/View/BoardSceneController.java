@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
+import javafx.scene.control.Label;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +42,7 @@ public class BoardSceneController {
     private Map<Rectangle, Card> secretObjectivesToChoose = new LinkedHashMap<>();
     private Map<Rectangle, Card> secretObjective = new LinkedHashMap<>();
     private Map<Rectangle, Card> initialCardDisplay = new LinkedHashMap<>();
+    private Map<Rectangle, Label> pointsDisplay = new LinkedHashMap<>();
     private GuiView view;
     private ClientSocket clientSocket;
 
@@ -248,12 +249,13 @@ public class BoardSceneController {
         clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(), (Integer) rectangle.getUserData()));
     }
 
-    public void onDrawGoldPick(MouseEvent event){
+    public void onDrawGoldPick(MouseEvent event) {
         Rectangle rectangle = (Rectangle) event.getSource();
         Integer pick = (Integer) rectangle.getUserData();
         clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(), pick));
     }
-    public void onDrawResourcePick(MouseEvent event){
+
+    public void onDrawResourcePick(MouseEvent event) {
         Rectangle rectangle = (Rectangle) event.getSource();
         Integer pick = (Integer) rectangle.getUserData();
         clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
@@ -287,7 +289,18 @@ public class BoardSceneController {
     }
 
     public void updatePoints(ArrayList<Integer> points) {
+        for (int i = 0; i < points.size(); i++) {
+            Rectangle rectangle = (Rectangle) pointsDisplay.keySet().toArray()[i];
+            Integer point = points.get(i);
+            Platform.runLater(() -> {
+                drawPoints(rectangle, point);
+            });
+        }
+    }
 
+    public void drawPoints(Rectangle rectangle, Integer point) {
+        Label label = pointsDisplay.get(rectangle);
+        label.setText(point.toString());
     }
 
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
@@ -426,6 +439,10 @@ public class BoardSceneController {
         rectangle.setOnMouseClicked(this::onSelectCardClick);
         rectangle.setOnContextMenuRequested(this::onInitialCardSelection);
         initialCardDisplay.put(rectangle, null);
+    }
+
+    public void addRectangleToPointsDisplay(Rectangle rectangle, Label label) {
+        pointsDisplay.put(rectangle, label);
     }
 
     /**

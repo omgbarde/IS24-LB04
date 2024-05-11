@@ -2,6 +2,7 @@ package codex.lb04.Model;
 
 import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
+import codex.lb04.Message.DrawMessage.UpdatePointsMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveMessage;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.Enumerations.Color;
@@ -471,6 +472,7 @@ public class Board extends Observable {
                 }
             }
         }
+        notifyPointsUpdate();
     }
 
     /**
@@ -628,6 +630,8 @@ public class Board extends Observable {
         }
 
         this.Points += conditionCheckResources(secretObjective);
+
+        notifyPointsUpdate();
     }
 
     public boolean isInHand(Card card) {
@@ -771,6 +775,19 @@ public class Board extends Observable {
      */
     public Deck getDeck() {
         return deck;
+    }
+
+    public void notifyPointsUpdate(){
+        ArrayList<Integer> points = new ArrayList<>();
+        points.add(this.getMushrooms());
+        points.add(this.getAnimals());
+        points.add(this.getInsects());
+        points.add(this.getLeaves());
+        points.add(this.getQuills());
+        points.add(this.getInkwells());
+        points.add(this.getManuscripts());
+        points.add(this.getPoints());
+        notifyObserver(new UpdatePointsMessage(this.username, points));
     }
 
     public Integer getPoints() {
