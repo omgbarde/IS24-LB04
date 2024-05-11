@@ -58,7 +58,9 @@ public class Game extends Observable {
     }
 
     public void resetInstance() {
-        this.deck.resetInstance();
+        if(this.deck != null){
+            this.deck.resetInstance();
+        }
         this.instance = null;
     }
 
