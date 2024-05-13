@@ -205,6 +205,7 @@ public class GameController {
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
                         endGame = true;
+                        game.notifyEndGame();
                         triggerEndGame();
                     }
                     game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();

@@ -4,7 +4,9 @@ import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.UpdateCommonObjectivesMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.GameMessage.EndTurnMessage;
+import codex.lb04.Message.GameMessage.InvalidInputMessage;
 import codex.lb04.Message.GameMessage.StartTurnMessage;
+import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
@@ -31,8 +33,6 @@ public class Game extends Observable {
 
     /**
      * Private constructor to prevent instantiation from outside the class
-     *
-     *
      */
     private Game() {
         this.players = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Game extends Observable {
         this.replies = 0;
     }
 
-    public void setDeck(){
+    public void setDeck() {
         this.deck = Deck.getInstance();
     }
 
@@ -60,7 +60,7 @@ public class Game extends Observable {
     }
 
     public void resetInstance() {
-        if(this.deck != null){
+        if (this.deck != null) {
             this.deck.resetInstance();
         }
         this.instance = null;
@@ -68,8 +68,9 @@ public class Game extends Observable {
 
     /**
      * Draws a resource card
+     *
      * @param username the player who draws the card
-     * @param pick the card to pick
+     * @param pick     the card to pick
      */
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
@@ -85,10 +86,9 @@ public class Game extends Observable {
 
     /**
      * draws the initial card for a player
-     *
      */
     public void setInitialCardForAllPlayers() {
-        for(Player p : players){
+        for (Player p : players) {
             p.getBoard().setInitialCard();
             //TODO
             //notifyObserver(new DrawCardMessage(p.getUsername(), p.getBoard().getInitialCard()));
@@ -99,8 +99,9 @@ public class Game extends Observable {
 
     /**
      * Draws a gold card
+     *
      * @param username the player who draws the card
-     * @param pick the card to pick
+     * @param pick     the card to pick
      */
     public void drawGoldCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
@@ -129,6 +130,7 @@ public class Game extends Observable {
 
     /**
      * returns the common objectives
+     *
      * @return the common objectives
      */
     public ArrayList<ObjectiveCard> getCommonObjectives() {
@@ -137,8 +139,9 @@ public class Game extends Observable {
 
     /**
      * sets the secret objective for a player
+     *
      * @param username the player who picks the card
-     * @param pick the card to pick
+     * @param pick     the card to pick
      */
     public void setSecretObjectives(String username, Integer pick) {
         Player player = getPlayerByName(username);
@@ -147,6 +150,7 @@ public class Game extends Observable {
 
     /**
      * Returns the player names
+     *
      * @return the player names
      */
     public ArrayList<String> getLobby() {
@@ -155,6 +159,7 @@ public class Game extends Observable {
 
     /**
      * Adds a player name to the list
+     *
      * @param player the player name to add
      */
     public void addPlayerToLobby(String player) {
@@ -166,7 +171,7 @@ public class Game extends Observable {
             //creates a clone to avoid discarding serialized messages
             ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
 
-            notifyObserver(new PlayersConnectedMessage("server",lobbyClone));
+            notifyObserver(new PlayersConnectedMessage("server", lobbyClone));
         } else {
             notifyObserver(new LoginReply(player, false));
         }
@@ -177,6 +182,7 @@ public class Game extends Observable {
 
     /**
      * Removes a player name from the list
+     *
      * @param player the player name to remove
      */
     public void removePlayerFromLobby(String player) {
@@ -204,6 +210,7 @@ public class Game extends Observable {
 
     /**
      * search for a player by name
+     *
      * @param player the player to search
      * @return the player
      */
@@ -262,16 +269,16 @@ public class Game extends Observable {
             newPlayer.getBoard().setUsername(player);
             newPlayer.getBoard().addObserver(new GameObserver());
             notifyObserver(new UpdateSecretObjectiveToChooseMessage(player, newPlayer.getBoard().getSecretObjectiveToPick()));
-            if(newPlayer.getUsername() == lobby.getFirst()){
+            if (newPlayer.getUsername() == lobby.getFirst()) {
                 notifyObserver(new StartTurnMessage(newPlayer.getUsername()));
-            }else{
+            } else {
                 notifyObserver(new EndTurnMessage(newPlayer.getUsername()));
             }
         }
     }
 
-    public void drawHandForAllPlayers(){
-        for(Player player : players){
+    public void drawHandForAllPlayers() {
+        for (Player player : players) {
             player.getBoard().drawInitial();
         }
     }
@@ -292,7 +299,7 @@ public class Game extends Observable {
                 winners.add(player.getUsername());
                 max = player.getBoard().getPoints();
             }
-            if(Objects.equals(player.getBoard().getPoints(), max) && !winners.contains(player.getUsername())){
+            if (Objects.equals(player.getBoard().getPoints(), max) && !winners.contains(player.getUsername())) {
                 winners.add(player.getUsername());
             }
         }
@@ -310,12 +317,12 @@ public class Game extends Observable {
                     obj_winners.add(p);
                 }
             }
-        }else{
+        } else {
             obj_winners = winners;
         }
-        //System.out.println("Winners: " + obj_winners);
+        notifyWinner();
         return obj_winners;
-        // notifyObserver(new WinnerMessage(obj_winners));
+
     }
 
     /**
@@ -331,17 +338,41 @@ public class Game extends Observable {
         return true;
     }
 
-    public void drawBoard(){
+    public void drawBoard() {
         notifyObserver(new DrawBoardMessage("server"));
     }
 
-    public boolean checkReplies(){
+    public boolean checkReplies() {
         replies += 1;
         return replies == lobby.size();
     }
 
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
+    }
+
+    public void notifyEndGame() {
+        notifyObserver(new GenericMessage("server", "someone reached 20 pts, end game started!"));
+    }
+
+    public void notifyWinner() {
+        switch (getWinners().size()) {
+            case 1:
+                notifyObserver(new GenericMessage("server", "The winner is: " + getWinners().getFirst()));
+                break;
+            case 2:
+                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
+                break;
+            case 3:
+                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
+                break;
+            case 4:
+                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));
+                break;
+            default:
+                break;
+        }
+
     }
 
 }

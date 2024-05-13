@@ -21,6 +21,8 @@ public class GameObserver implements Observer {
                 break;
             case PICK_GOLD_CARD, PICK_INITIAL_CARD_SIDE, PICK_RESOURCE_CARD, PICK_SECRET_OBJECTIVE:
                 break;
+            case GENERIC_MESSAGE:
+                ServerApp.broadcast(message);
             default:
                 ServerApp.print("Message from game not recognized");
                 break;
