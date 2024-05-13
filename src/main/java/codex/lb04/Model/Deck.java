@@ -46,10 +46,10 @@ public class Deck extends Observable {
         objectiveCards = deckBuilder.createObjectiveCards();
         VisibleGoldCards = setVisibleGoldCards();
         VisibleResourceCards = setVisibleResourceCards();
-        //this.shuffleResources();
-        //this.shuffleGold();
-        //this.shuffleObjectives();
-        //this.shuffleInitial();
+        this.shuffleResources();
+        this.shuffleGold();
+        this.shuffleObjectives();
+        this.shuffleInitial();
         //TODO uncomment the above when the view works
     }
 
