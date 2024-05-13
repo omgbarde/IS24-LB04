@@ -184,7 +184,7 @@ public class BoardSceneController {
     }
 
     public void cleanImage(Rectangle rectangle) {
-        rectangle.setFill(Color.RED);
+        rectangle.setFill(Color.BLACK);
     }
 
 
