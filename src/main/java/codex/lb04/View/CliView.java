@@ -56,7 +56,7 @@ public class CliView extends View {
                 drawCreateGameScene();
                 break;
             case "J":
-                drawLoginScene();
+                //drawLoginScene();
                 break;
             default:
                 System.out.println("Invalid input, please enter 'C' to create or 'J' to join a game.");
