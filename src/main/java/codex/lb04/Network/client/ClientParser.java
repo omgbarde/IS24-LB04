@@ -66,6 +66,7 @@ public class ClientParser {
                 break;
             case PLACE_CARD:
                 view.placeCard(((PlaceCardMessage) input).getX() , ((PlaceCardMessage) input).getY() , ((PlaceCardMessage) input).getCard());
+                view.deselectCard();
                 break;
             case ERROR:
                 view.displayAlert(input.toString());
@@ -90,6 +91,7 @@ public class ClientParser {
                 view.updatePoints(((UpdatePointsMessage) input).getPoints());
                 break;
             case END_TURN:
+
                 view.cleanYourTurnText();
                 break;
             default:

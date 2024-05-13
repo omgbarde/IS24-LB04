@@ -37,5 +37,7 @@ public abstract class View {
     public abstract void setYourTurnText();
     public abstract void cleanYourTurnText();
 
+    public abstract void deselectCard();
+
 
 }

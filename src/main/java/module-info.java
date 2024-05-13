@@ -28,4 +28,5 @@ module codex.lb {
     exports codex.lb04.Message.DrawMessage;
     opens codex.lb04.Message.DrawMessage to javafx.fxml;
     exports codex.lb04.Model;
+    exports codex.lb04.Model.Enumerations;
 }

@@ -272,11 +272,7 @@ public class GameController {
                 if (endGame && countDown == 0) {
                         game.setGameState(GameState.ENDED);
                         winners = game.getWinners();
-                        for (String winner : winners) {
-                            for (String player : game.getLobby()) {
-                                ServerApp.sendMessageToClient(new WinnersMessage(player, "winner: " + winner), player);
-                            }
-                        }
+                        game.notifyWinner(winners);
                     }
                 if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
                         countDown = game.getLobby().size() - 1; //3;

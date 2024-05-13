@@ -505,6 +505,7 @@ public class GuiView extends View {
         endTurnButton.setMaxWidth(75);
         endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
         endTurnButton.setOnMouseClicked(e -> {
+
             clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
         });
 
@@ -918,5 +919,10 @@ public class GuiView extends View {
     public void displayPoints(Rectangle rectangle, Integer points) {
         Group parent = (Group) rectangle.getParent();
         parent.getChildren().remove(rectangle);
+    }
+
+    @Override
+    public void deselectCard(){
+        bsc.deselectCard();
     }
 }

@@ -115,4 +115,8 @@ public class CliView extends View {
     public void cleanYourTurnText(){
 
     }
+
+    @Override
+    public void deselectCard(){
+    }
 }

@@ -303,7 +303,6 @@ public class Game extends Observable {
                 winners.add(player.getUsername());
             }
         }
-        // cosí facendo se ho un solo vincitore non faccio il controllo
         if (winners.size() > 1) {
             Integer obj = 0;
             for (String p : winners) {
@@ -320,7 +319,6 @@ public class Game extends Observable {
         } else {
             obj_winners = winners;
         }
-        notifyWinner();
         return obj_winners;
 
     }
@@ -355,8 +353,8 @@ public class Game extends Observable {
         notifyObserver(new GenericMessage("server", "someone reached 20 pts, end game started!"));
     }
 
-    public void notifyWinner() {
-        switch (getWinners().size()) {
+    public void notifyWinner(ArrayList<String> winners) {
+        switch (winners.size()) {
             case 1:
                 notifyObserver(new GenericMessage("server", "The winner is: " + getWinners().getFirst()));
                 break;

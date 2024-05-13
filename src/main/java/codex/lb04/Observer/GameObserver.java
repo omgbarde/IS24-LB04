@@ -23,8 +23,9 @@ public class GameObserver implements Observer {
                 break;
             case GENERIC_MESSAGE:
                 ServerApp.broadcast(message);
+                break;
             default:
-                ServerApp.print("Message from game not recognized");
+                ServerApp.print("Message from game not recognize");
                 break;
         }
 

@@ -223,6 +223,14 @@ public class BoardSceneController {
         }
     }
 
+    public void deselectCard(){
+        if(this.selectedRectangle!= null && this.selectedCard != null){
+            this.selectedRectangle.setEffect(new Glow(0));
+            this.selectedCard = null;
+            this.selectedRectangle = null;
+        }
+    }
+
 
     /**
      * Method to handle the click on the grid
@@ -281,10 +289,6 @@ public class BoardSceneController {
         }
         if (initialCardDisplay.containsKey(clickedRectangle)) {
             correspondingCard = initialCardDisplay.get(clickedRectangle);
-            this.selectedCard = correspondingCard;
-        }
-        if (secretObjectivesToChoose.containsKey(clickedRectangle)) {
-            correspondingCard = secretObjectivesToChoose.get(clickedRectangle);
             this.selectedCard = correspondingCard;
         }
     }
@@ -431,7 +435,6 @@ public class BoardSceneController {
     }
 
     public void addRectangleToSecretObjectivesToChoose(Rectangle rectangle) {
-        rectangle.setOnMouseClicked(this::onSelectCardClick);
         rectangle.setOnContextMenuRequested(this::onSecretObjectivePick);
         secretObjectivesToChoose.put(rectangle, null);
     }
