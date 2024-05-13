@@ -23,7 +23,6 @@ public class Deck extends Observable {
     /**
      * Default constructor
      */
-    //TODO shuffle doesnt' work -- DON'T FIX IT FOR NOW
     private Deck() {
         resourceCards = new ArrayList<>();
         goldCards = new ArrayList<>();

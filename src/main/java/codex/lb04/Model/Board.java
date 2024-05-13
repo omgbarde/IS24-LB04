@@ -95,7 +95,6 @@ public class Board extends Observable {
      */
     public void placeCard(Card toBePlaced, Integer x, Integer y) {
         if(!hasPlacedACard && (toBePlaced.getClass() == ResourceCard.class || toBePlaced.getClass() == GoldCard.class) || ((toBePlaced.getClass() == InitialCard.class) && x == 0 && y == 0)){
-            hasPlacedACard = true;
             if (canBePlaced(x, y, toBePlaced)) {
                 for (Card card : playedCards) {
                     if (card.getX() == x + 1 && card.getY() == y + 1) {
@@ -113,6 +112,7 @@ public class Board extends Observable {
                 }
                 toBePlaced.setCoordinates(x, y);
                 playedCards.add(toBePlaced);
+                hasPlacedACard = true;
                 Card toBePlacedClone = ((Card) toBePlaced.clone());
                 notifyObserver(new PlaceCardMessage(this.username, x, y, toBePlacedClone));
                 Integer idToRemove = toBePlacedClone.getID();
@@ -267,7 +267,7 @@ public class Board extends Observable {
                     this.deck.updateVisibleGold(pick);
                     ArrayList<Card> toSend = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend));
-                    this.hasPlacedACard = false;
+                    //this.hasPlacedACard = false;
 
                     break;
                 case 2:
@@ -275,7 +275,7 @@ public class Board extends Observable {
                     this.deck.updateVisibleGold(pick);
                     ArrayList<Card> toSend1 = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend1));
-                    this.hasPlacedACard = false;
+                    //this.hasPlacedACard = false;
                     break;
             }
         }
@@ -305,18 +305,19 @@ public class Board extends Observable {
                     this.deck.updateVisibleResource(pick);
                     ArrayList<Card> toSend = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend));
-                    this.hasPlacedACard = false;
+                    //this.hasPlacedACard = false;
                     break;
                 case 2:
                     this.hand.add(this.deck.drawResource());
                     this.deck.updateVisibleResource(pick);
                     ArrayList<Card> toSend1 = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend1));
-                    this.hasPlacedACard = false;
+                    //this.hasPlacedACard = false;
                     break;
             }
         }
     }
+
 
     public Card getLastDrawnCard() {
         return hand.getLast();
