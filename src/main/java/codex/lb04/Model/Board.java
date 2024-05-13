@@ -47,6 +47,7 @@ public class Board extends Observable {
     private String username;
 
     private boolean hasPlacedACard = false;
+    private boolean hasDrawnACard = false;
 
     /**
      * Default constructor of the board, adds an observer to it and sets all the resources to zero
@@ -260,14 +261,14 @@ public class Board extends Observable {
      * @param pick the choice of the player
      */
     public void drawGoldCard(Integer pick) {
-        if(hasPlacedACard){
+        if(hasPlacedACard && !hasDrawnACard){
             switch (pick) {
                 case 0, 1:
                     this.hand.add(this.deck.getVisibleGoldCards().get(pick));
                     this.deck.updateVisibleGold(pick);
                     ArrayList<Card> toSend = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend));
-                    //this.hasPlacedACard = false;
+                    this.hasDrawnACard = true;
 
                     break;
                 case 2:
@@ -275,7 +276,7 @@ public class Board extends Observable {
                     this.deck.updateVisibleGold(pick);
                     ArrayList<Card> toSend1 = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend1));
-                    //this.hasPlacedACard = false;
+                    this.hasDrawnACard = true;
                     break;
             }
         }
@@ -298,21 +299,21 @@ public class Board extends Observable {
      * @param pick the choice of the player
      */
     public void drawResourceCard(Integer pick) {
-        if(hasPlacedACard){
+        if(hasPlacedACard && !hasDrawnACard){
             switch (pick) {
                 case 0, 1:
                     this.hand.add(this.deck.getVisibleResourceCards().get(pick));
                     this.deck.updateVisibleResource(pick);
                     ArrayList<Card> toSend = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend));
-                    //this.hasPlacedACard = false;
+                    this.hasDrawnACard = true;
                     break;
                 case 2:
                     this.hand.add(this.deck.drawResource());
                     this.deck.updateVisibleResource(pick);
                     ArrayList<Card> toSend1 = cloneHand();
                     notifyObserver(new UpdateHandMessage(username, toSend1));
-                    //this.hasPlacedACard = false;
+                    this.hasDrawnACard = true;
                     break;
             }
         }
@@ -834,6 +835,10 @@ public class Board extends Observable {
 
     public void setHasPlacedACard(boolean hasPlacedACard) {
         this.hasPlacedACard = hasPlacedACard;
+    }
+
+    public void setHasDrawnACard(boolean hasDrawnACard) {
+        this.hasDrawnACard = hasDrawnACard;
     }
 
     public void notifyEndTurn(){

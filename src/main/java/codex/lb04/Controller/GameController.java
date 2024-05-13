@@ -211,6 +211,7 @@ public class GameController {
                     }
                     game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                     game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);
+                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);
                     turnController.changeTurn();
                     break;
                 }else {
@@ -285,6 +286,7 @@ public class GameController {
                 //}
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);
+                game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);
                 turnController.changeTurn();
                 break;
                 case CHAT_MESSAGE:
