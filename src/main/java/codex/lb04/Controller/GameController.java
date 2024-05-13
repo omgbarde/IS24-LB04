@@ -4,6 +4,7 @@ import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.Message;
+import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Face;
@@ -87,12 +88,12 @@ public class GameController {
                 ServerApp.sendMessageToClient(new GenericMessage("server", "invalid in this phase"), usr);
                 break;
             case IN_GAME:
-                if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
+                if (inputController.checkUser(receivedMessage) || receivedMessage.getMessageType() == MessageType.CHAT_MESSAGE) { // check if the message is from the active player or a chat message
                     inGameState(receivedMessage);
                 }
                 break;
             case END_GAME:
-                if (inputController.checkUser(receivedMessage)) { // check if the message is from the active player
+                if (inputController.checkUser(receivedMessage) | receivedMessage.getMessageType() == MessageType.CHAT_MESSAGE) { // check if the message is from the active player or a chat message
                     inEndGameState(receivedMessage);
                 }
                 break;
@@ -215,6 +216,9 @@ public class GameController {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "finish turn actions first (place & draw a card)"), usr);
                 }
                 break;
+            case CHAT_MESSAGE:
+                ServerApp.broadcast(receivedMessage);
+                break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);
                 this.resetInstance();
@@ -280,6 +284,9 @@ public class GameController {
                 //}
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                 turnController.changeTurn();
+                break;
+                case CHAT_MESSAGE:
+                    ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
                 game.removePlayer(usr);

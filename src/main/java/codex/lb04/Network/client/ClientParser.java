@@ -1,11 +1,8 @@
 package codex.lb04.Network.client;
 
+import codex.lb04.Message.*;
 import codex.lb04.Message.DrawMessage.*;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
-import codex.lb04.Message.LoginReply;
-import codex.lb04.Message.Message;
-import codex.lb04.Message.PlayersConnectedMessage;
-import codex.lb04.Message.PongMessage;
 import codex.lb04.View.View;
 
 /**
@@ -91,8 +88,10 @@ public class ClientParser {
                 view.updatePoints(((UpdatePointsMessage) input).getPoints());
                 break;
             case END_TURN:
-
                 view.cleanYourTurnText();
+                break;
+            case CHAT_MESSAGE:
+                view.updateChat(((ChatMessage)input).toString());
                 break;
             default:
                 view.displayAlert("message not recognized");

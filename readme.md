@@ -11,7 +11,7 @@
 - [x] robust socket communication 
 - [x] GUI interface 
 - [ ] CLI interface
-- [ ] ingame chat 
+- [x] ingame chat 
 
 ## Progress
 (% methods covered)

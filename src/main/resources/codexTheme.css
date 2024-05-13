@@ -19,7 +19,6 @@
     -fx-text-fill: #FFFFFF; /* White */
 }
 
-.text-area {
-    -fx-background-color: #333333; /* Dark Grey */
-    -fx-text-fill: #FFFFFF; /* White */
+.chat-text {
+    -fx-text-fill: #000000; /* Black */
 }

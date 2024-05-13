@@ -40,4 +40,6 @@ public abstract class View {
     public abstract void deselectCard();
 
 
+    public void updateChat(String string) {
+    }
 }

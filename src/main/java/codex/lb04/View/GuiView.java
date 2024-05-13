@@ -1,5 +1,6 @@
 package codex.lb04.View;
 
+import codex.lb04.Message.ChatMessage;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.GameMessage.EndTurnMessage;
@@ -12,14 +13,13 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -40,6 +40,7 @@ public class GuiView extends View {
     private Stage stageReference;
     private ClientSocket clientSocket;
     private Label lobbyLabel = new Label();
+    private TextArea chatText = new TextArea();
     BoardSceneController bsc;
 
     private ArrayList<Text> points_display = new ArrayList<>();
@@ -55,6 +56,7 @@ public class GuiView extends View {
 
     Group movableRootReference;
     Group staticGroupReference;
+    Group chatGroupReferece;
 
     Rectangle initCardBackground;
     Rectangle secretObjectivesBackground;
@@ -509,6 +511,50 @@ public class GuiView extends View {
             clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
         });
 
+        //Chat Button
+        Button chatButton = new Button("Chat");
+        chatButton.setLayoutX(centerX -18);
+        chatButton.setLayoutY(450);
+        chatButton.setMaxHeight(10);
+        chatButton.setMaxWidth(75);
+        chatButton.setOnMouseClicked(e -> {
+            bsc.toggleChat();
+        });
+
+        // Chat group (can be toggled)
+        Group chatRoot = new Group();
+        Rectangle chatBox = new Rectangle(0, 0, 500, 500);
+        chatBox.setFill(Color.BLACK.getPaint());
+        chatText.getStyleClass().add("chat-text");
+        chatText.setEditable(false);
+
+        TextField messageField = new TextField();
+        messageField.setPromptText("Type your message here");
+
+        Button sendButton = new Button("Send");
+
+        sendButton.setOnAction(actionEvent -> {
+            String msg = messageField.getText();
+            if (!msg.isEmpty()) {
+                clientSocket.sendMessage(new ChatMessage(clientSocket.getUsername(), messageField.getText()));
+            }
+            messageField.clear();
+        });
+
+        chatBox.setLayoutX(centerX - chatBox.getWidth() / 2);
+        chatBox.setLayoutY(centerY - chatBox.getHeight() / 2 - 150);
+        chatText.setPrefSize(400, 350);
+        chatText.setLayoutX(centerX - 200);
+        chatText.setLayoutY(centerY-300);
+        messageField.setLayoutX(centerX - 100);
+        messageField.setLayoutY(350);
+        sendButton.setLayoutX(centerX + 50);
+        sendButton.setLayoutY(350);
+        
+        chatRoot.getChildren().addAll(chatBox,chatText,messageField,sendButton);
+
+        chatRoot.setVisible(false);
+        setChatGroupReferece(chatRoot);
 
         //resources & points box
         double rectangleWidthPointsBox = 422.5;
@@ -650,6 +696,7 @@ public class GuiView extends View {
         staticRoot.getChildren().add(InitialCardDisplayBox);
         staticRoot.getChildren().add(secretObjectivesDisplayBox);
 
+
         staticRoot.getChildren().add(ResourceCard1);
         staticRoot.getChildren().add(ResourceCard2);
         staticRoot.getChildren().add(ResourceCard3);
@@ -674,6 +721,7 @@ public class GuiView extends View {
 
         staticRoot.getChildren().add(flipButton);
         staticRoot.getChildren().add(endTurnButton);
+        staticRoot.getChildren().add(chatButton);
 
         staticRoot.getChildren().add(mushrooms);
         staticRoot.getChildren().add(leaves);
@@ -703,6 +751,7 @@ public class GuiView extends View {
         staticRoot.getChildren().add(points_label);
         staticRoot.getChildren().add(points_text);
 
+        staticRoot.getChildren().add(chatRoot);
         /**
          * THE GRID
          */
@@ -742,7 +791,6 @@ public class GuiView extends View {
                 }
             }
         }
-
 
         /**
          * THE CAMERA
@@ -843,6 +891,10 @@ public class GuiView extends View {
         bsc.placeCard(x, y, card);
     }
 
+    @Override
+    public void updateChat(String string) {
+        Platform.runLater(()-> chatText.appendText(string));
+    }
 
     public Stage getStageReference() {
         return this.stageReference;
@@ -867,6 +919,10 @@ public class GuiView extends View {
 
     public void setMovableRootReference(Group movableRootReference) {
         this.movableRootReference = movableRootReference;
+    }
+
+    public void setChatGroupReferece(Group chatGroup) {
+        this.chatGroupReferece = chatGroup;
     }
 
     public void setAlert(Text alert) {
@@ -924,5 +980,9 @@ public class GuiView extends View {
     @Override
     public void deselectCard(){
         bsc.deselectCard();
+    }
+
+    public Group getChatGroup() {
+        return chatGroupReferece;
     }
 }

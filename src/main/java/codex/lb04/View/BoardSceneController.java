@@ -4,21 +4,17 @@ import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
 import javafx.application.Platform;
-import javafx.event.Event;
+import javafx.scene.Group;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
@@ -181,6 +177,15 @@ public class BoardSceneController {
             }
         });
 
+    }
+
+    public void toggleChat(){
+        Group chatGroup = view.getChatGroup();
+        if(chatGroup.isVisible()){
+            chatGroup.setVisible(false);
+        }else{
+            chatGroup.setVisible(true);
+        }
     }
 
     public void cleanImage(Rectangle rectangle) {

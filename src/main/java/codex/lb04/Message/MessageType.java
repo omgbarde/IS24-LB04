@@ -13,6 +13,7 @@ public enum MessageType {
     PONG,                           //pong message sent from client to server to show that it is alive
     LOGIN_REQUEST,                  //login request message
     LOGIN_REPLY,                    //login reply message based on game conditions
+    CHAT_MESSAGE,
     ERROR,                          //error message signals a generic error in the game
 
     /**
