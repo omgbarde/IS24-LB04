@@ -342,15 +342,14 @@ public class GuiView extends View {
         alert.setFill(javafx.scene.paint.Color.WHITE);
         alert.setWrappingWidth(700);
         setAlert(alert);
-        displayCenteredTimedAlert("GAME CONTROLS:\nTo select a card LEFT click on it\nTo flip a card select it and click the flip card button\nTo pick the initial card and secret objective RIGHT click on it\nTo draw a card click on it\nTo pass the turn click on the end turn button\nTo place a card select it and click where you want to place it" , 25);
+        displayCenteredTimedAlert("GAME CONTROLS:\nTo select a card LEFT click on it\nTo flip a card select it and click the flip card button\nTo pick the initial card and secret objective RIGHT click on it\nTo draw a card click on it\nTo pass the turn click on the end turn button\nTo place a card select it and click where you want to place it\nTo move the camera use WASD", 25);
 
         Text yourTurn = new Text("");
         yourTurn.setFill(javafx.scene.paint.Color.WHITE);
         yourTurn.setWrappingWidth(200);
-        yourTurn.setX(stageWidth/2 + 130);
+        yourTurn.setX(stageWidth / 2 + 130);
         yourTurn.setY(20);
         setYouTurnDisplay(yourTurn);
-
 
 
         root.getChildren().add(alert);
@@ -372,15 +371,15 @@ public class GuiView extends View {
 
         //Display of the resource cards that can be drawn
         Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);
-        ResourceCard1.setFill(Color.RED.getPaint());
+        //ResourceCard1.setFill(Color.RED.getPaint());
         ResourceCard1.setUserData(0);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
-        ResourceCard2.setFill(Color.RED.getPaint());
+       // ResourceCard2.setFill(Color.RED.getPaint());
         ResourceCard2.setUserData(1);
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
-        ResourceCard3.setFill(Color.RED.getPaint());
+        //ResourceCard3.setFill(Color.RED.getPaint());
         ResourceCard3.setUserData(2);
 
         bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
@@ -416,13 +415,13 @@ public class GuiView extends View {
 
         //cards in hand
         Rectangle HandCard1 = new Rectangle(3, 3, cardWidth, cardHeight);
-        HandCard1.setFill(Color.RED.getPaint());
+        //HandCard1.setFill(Color.RED.getPaint());
 
         Rectangle HandCard2 = new Rectangle(3, 3 + cardHeight + 3, cardWidth, cardHeight);
-        HandCard2.setFill(Color.RED.getPaint());
+        //HandCard2.setFill(Color.RED.getPaint());
 
         Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
-        HandCard3.setFill(Color.RED.getPaint());
+        //HandCard3.setFill(Color.RED.getPaint());
 
         bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);
 
@@ -434,10 +433,10 @@ public class GuiView extends View {
 
         //common objectives
         Rectangle CommonObjective1 = new Rectangle(3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
-        CommonObjective1.setFill(Color.RED.getPaint());
+        //CommonObjective1.setFill(Color.RED.getPaint());
 
         Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
-        CommonObjective2.setFill(Color.RED.getPaint());
+        //CommonObjective2.setFill(Color.RED.getPaint());
 
         bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
 
@@ -450,7 +449,7 @@ public class GuiView extends View {
 
         //secret objective
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
-        SecretObjective.setFill(Color.RED.getPaint());
+        //SecretObjective.setFill(Color.RED.getPaint());
         bsc.setSecretObjectiveMap(SecretObjective);
 
         //INITIAL CARD DISPLAY FOR FACE SELECTION
@@ -461,7 +460,7 @@ public class GuiView extends View {
         this.initCardBackground = InitialCardDisplayBox;
 
         Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeigth / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
-        InitialCardDisplay.setFill(Color.RED.getPaint());
+        //InitialCardDisplay.setFill(Color.RED.getPaint());
         bsc.setUpInitialCardDisplay(InitialCardDisplay);
 
         //SECRET OBJECTIVES DISPLAY FOR SELECTION
@@ -472,11 +471,11 @@ public class GuiView extends View {
         this.secretObjectivesBackground = secretObjectivesDisplayBox;
 
         Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3, cardWidth, cardHeight);
-        secretObjective1Display.setFill(Color.RED.getPaint());
+        //secretObjective1Display.setFill(Color.RED.getPaint());
         secretObjective1Display.setUserData(0);
 
         Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
-        secretObjective2Display.setFill(Color.RED.getPaint());
+        //secretObjective2Display.setFill(Color.RED.getPaint());
         secretObjective2Display.setUserData(1);
         bsc.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);
 
@@ -633,8 +632,12 @@ public class GuiView extends View {
         points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);
         points_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
         bsc.addRectangleToPointsDisplay(Points_points, points_label);
-
-        points.setFill(Color.RED.getPaint());
+        Text points_text = new Text("Points");
+        points_text.setFont(new Font("Nimbus Roman", 20));
+        points_text.setX(rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 18 + 20 + resourceWidth * 7 + 5);
+        points_text.setY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth - 12);
+        points_text.setFill(javafx.scene.paint.Color.WHITE);
+        //points.setFill(Color.RED.getPaint());
 
         // Add the static rectangle to the staticRoot group
         staticRoot.getChildren().add(ResourceCardsBox);
@@ -680,6 +683,7 @@ public class GuiView extends View {
         staticRoot.getChildren().add(quills);
         staticRoot.getChildren().add(points);
 
+
         staticRoot.getChildren().add(mushrooms_points);
         staticRoot.getChildren().add(leaves_points);
         staticRoot.getChildren().add(insect_points);
@@ -696,6 +700,7 @@ public class GuiView extends View {
         staticRoot.getChildren().add(animals_label);
         staticRoot.getChildren().add(quills_label);
         staticRoot.getChildren().add(points_label);
+        staticRoot.getChildren().add(points_text);
 
         /**
          * THE GRID
@@ -867,22 +872,22 @@ public class GuiView extends View {
         this.alert = alert;
     }
 
-    public void setYouTurnDisplay(Text yourTurn){
+    public void setYouTurnDisplay(Text yourTurn) {
         this.yourTurn = yourTurn;
     }
 
     @Override
-    public void setYourTurnText(){
+    public void setYourTurnText() {
         this.yourTurn.setText("YOUR TURN");
     }
 
     @Override
-    public void cleanYourTurnText(){
+    public void cleanYourTurnText() {
         this.yourTurn.setText("NOT YOUR TURN");
     }
 
 
-    public void displayCenteredTimedAlert(String text , Integer timer){
+    public void displayCenteredTimedAlert(String text, Integer timer) {
         this.alert.setText(text);
         double stageWidth = stageReference.getWidth();
         double textWidth = alert.getLayoutBounds().getWidth();
