@@ -3,6 +3,7 @@ package codex.lb04.View;
 import codex.lb04.CodexClientApp;
 import codex.lb04.Model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -15,7 +16,7 @@ public abstract class View {
     }
 
     public abstract void drawHelloScene();
-    public abstract void drawLoginScene();
+    public abstract void drawLoginScene() throws IOException;
     public abstract void drawLobbyScene();
     public abstract void drawCreateGameScene();
     public abstract void drawBoardScene();
