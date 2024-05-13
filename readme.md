@@ -7,9 +7,9 @@
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
 ## Features
-- [ ] complete ruleset 
+- [x] complete ruleset 
 - [x] robust socket communication 
-- [ ] GUI interface 
+- [x] GUI interface 
 - [ ] CLI interface
 - [ ] ingame chat 
 
@@ -40,7 +40,7 @@
 - [x] functioning lobby
 - [x] setup MVC
 - [x] robust socket handling
-- [ ] check complete ruleset
+- [x] check complete ruleset
 - [ ] testing
-- [ ] make gui interfaces
+- [x] make gui interfaces
 - [ ] make cli interfaces
