@@ -4,6 +4,7 @@ import codex.lb04.Message.DrawMessage.UpdateHandMessage;
 import codex.lb04.Message.DrawMessage.UpdateInitialCardDisplayMessage;
 import codex.lb04.Message.DrawMessage.UpdatePointsMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveMessage;
+import codex.lb04.Message.GameMessage.EndTurnMessage;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
@@ -93,7 +94,7 @@ public class Board extends Observable {
      * @param toBePlaced the card to be placed on the board
      */
     public void placeCard(Card toBePlaced, Integer x, Integer y) {
-        if(!hasPlacedACard){
+        if(!hasPlacedACard && (toBePlaced.getClass() == ResourceCard.class || toBePlaced.getClass() == GoldCard.class) || ((toBePlaced.getClass() == InitialCard.class) && x == 0 && y == 0)){
             hasPlacedACard = true;
             if (canBePlaced(x, y, toBePlaced)) {
                 for (Card card : playedCards) {
@@ -832,5 +833,9 @@ public class Board extends Observable {
 
     public void setHasPlacedACard(boolean hasPlacedACard) {
         this.hasPlacedACard = hasPlacedACard;
+    }
+
+    public void notifyEndTurn(){
+        notifyObserver(new EndTurnMessage(this.username));
     }
 }

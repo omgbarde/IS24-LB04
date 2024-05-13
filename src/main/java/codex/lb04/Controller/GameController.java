@@ -207,6 +207,7 @@ public class GameController {
                         endGame = true;
                         triggerEndGame();
                     }
+                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                     turnController.changeTurn();
                     break;
                 }else {
@@ -280,6 +281,7 @@ public class GameController {
                         countDown = game.getLobby().size() - 1; //3;
                     }
                 //}
+                game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                 turnController.changeTurn();
                 break;
             case DEAD_CLIENT:

@@ -105,4 +105,14 @@ public class CliView extends View {
     public void updatePoints(ArrayList<Integer> points){
 
     }
+
+    @Override
+    public void setYourTurnText(){
+
+    }
+
+    @Override
+    public void cleanYourTurnText(){
+
+    }
 }

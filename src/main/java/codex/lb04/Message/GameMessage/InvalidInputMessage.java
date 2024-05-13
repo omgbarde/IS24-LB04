@@ -24,9 +24,8 @@ public class InvalidInputMessage extends Message {
     }
     @Override
     public String toString() {
-        return "InvalidInputMessage{" +
-                "message='" + message + '\'' +
-                '}';
+        return "Invalid input: " +
+                 message;
     }
 
 

@@ -12,33 +12,14 @@ public class GameObserver implements Observer {
     public void update(Message message) {
         String usr = message.getUsername();
         switch (message.getMessageType()) {
-            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD, UPDATE_INITIAL_CARD_DISPLAY, UPDATE_SECRET_OBJECTIVE_TO_CHOOSE:
-                ServerApp.sendMessageToClient(message, usr);
-                break;
-            case UPDATE_SECRET_OBJECTIVE:
-                ServerApp.sendMessageToClient(message, usr);
-                break;
-            case UPDATE_HAND:
-                ServerApp.sendMessageToClient(message, usr);
-                break;
-            case UPDATE_POINTS:
-                ServerApp.sendMessageToClient(message, usr);
-                break;
-            case PLACE_CARD:
+            case LOGIN_REPLY, FLIP_CARD, DRAW_CARD, UPDATE_INITIAL_CARD_DISPLAY, UPDATE_SECRET_OBJECTIVE_TO_CHOOSE,
+                 UPDATE_SECRET_OBJECTIVE, UPDATE_HAND, UPDATE_POINTS, PLACE_CARD , START_TURN, END_TURN:
                 ServerApp.sendMessageToClient(message, usr);
                 break;
             case PLAYERS_CONNECTED, UPDATE_GOLD, UPDATE_RESOURCE, DRAW_BOARD, UPDATE_COMMON_OBJECTIVES:
                 ServerApp.broadcast(message);
                 break;
-            case PICK_GOLD_CARD:
-                break;
-            case PICK_INITIAL_CARD_SIDE:
-                break;
-            case PICK_RESOURCE_CARD:
-                break;
-            case PICK_SECRET_OBJECTIVE:
-                break;
-            case END_TURN:
+            case PICK_GOLD_CARD, PICK_INITIAL_CARD_SIDE, PICK_RESOURCE_CARD, PICK_SECRET_OBJECTIVE:
                 break;
             default:
                 ServerApp.print("Message from game not recognized");

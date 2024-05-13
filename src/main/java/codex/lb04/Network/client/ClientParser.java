@@ -84,9 +84,13 @@ public class ClientParser {
                 clientSocket.sendMessage(new ReadyMessage("ready"));
                 break;
             case START_TURN:
+                view.setYourTurnText();
                 break;
             case UPDATE_POINTS:
                 view.updatePoints(((UpdatePointsMessage) input).getPoints());
+                break;
+            case END_TURN:
+                view.cleanYourTurnText();
                 break;
             default:
                 view.displayAlert("message not recognized");

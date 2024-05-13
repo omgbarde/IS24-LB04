@@ -3,6 +3,8 @@ package codex.lb04.Model;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.UpdateCommonObjectivesMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
+import codex.lb04.Message.GameMessage.EndTurnMessage;
+import codex.lb04.Message.GameMessage.StartTurnMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.PlayersConnectedMessage;
 import codex.lb04.Model.Enumerations.GameState;
@@ -260,6 +262,11 @@ public class Game extends Observable {
             newPlayer.getBoard().setUsername(player);
             newPlayer.getBoard().addObserver(new GameObserver());
             notifyObserver(new UpdateSecretObjectiveToChooseMessage(player, newPlayer.getBoard().getSecretObjectiveToPick()));
+            if(newPlayer.getUsername() == lobby.getFirst()){
+                notifyObserver(new StartTurnMessage(newPlayer.getUsername()));
+            }else{
+                notifyObserver(new EndTurnMessage(newPlayer.getUsername()));
+            }
         }
     }
 
