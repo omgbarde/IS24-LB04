@@ -1,5 +1,6 @@
 package codex.lb04.View.Cli;
 
+import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
@@ -18,12 +19,20 @@ import static java.lang.System.out;
 /**
  * This class represents the CLI view
  */
-public class CliView extends View {
+public class CliView extends View{
+    ArrayList<String> lobby ;
 
     ClientSocket clientSocket;
     BoardSceneControllerCLI bsc;
-    private static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner;
 
+    /**
+     * Constructor for the CliView
+     */
+    public CliView(){
+        this.lobby = new ArrayList<>();
+        this.scanner = new Scanner(System.in);
+    }
 
     /**
      * Prints a string to the standard output that welcomes a player.
@@ -57,7 +66,7 @@ public class CliView extends View {
                 drawCreateGameScene();
                 break;
             case "J":
-                //drawLoginScene();
+                drawLoginScene();
                 break;
             default:
                 System.out.println("Invalid input, please enter 'C' to create or 'J' to join a game.");
@@ -67,7 +76,7 @@ public class CliView extends View {
     }
 
     @Override
-    public void drawLoginScene() throws IOException {
+    public void drawLoginScene(){
         out.println("If you want to go back press B, else press L to login");
         String input = scanner.nextLine().trim().toUpperCase();
         switch (input) {
@@ -91,7 +100,8 @@ public class CliView extends View {
                         bsc.setClientSocket(clientSocket);
                     } catch (IOException e) {
                         out.println("Server not available");
-                        return;
+                        drawHelloScene();
+                        break;
                     }
                     LoginMessage loginMessage = new LoginMessage(usr);
                     clientSocket.sendMessage((loginMessage));
@@ -101,7 +111,7 @@ public class CliView extends View {
                 }
                 break;
             default:
-                System.out.println("Invalid input, please enter 'B' to go back or 'L' to login.");
+                System.out.println("Invalid input");
                 drawLoginScene();
                 break;
         }
@@ -110,7 +120,10 @@ public class CliView extends View {
 
     @Override
     public void drawLobbyScene() {
-        System.out.println("Players in the lobby:" + clientSocket.getUsername());
+        System.out.println("Players in the lobby:\n");
+        for(String name:lobby){
+            out.println(name + "\n");
+        }
         out.println("If you want to go back press 'B', else press 'P' to start the game");
         String input = scanner.nextLine().trim().toUpperCase();
         switch (input) {
@@ -119,14 +132,7 @@ public class CliView extends View {
                 drawHelloScene();
                 break;
             case "P":
-                if(true/*clientSocket.getPlayers().size() < 2*/){
-                    System.out.println("Not enough players to start the game");
-                    drawLobbyScene();
-                }
-                else{
-                    //clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()))
-                    drawCreateGameScene();
-                }
+                clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()));
                 break;
             default:
                 System.out.println("Invalid input, please enter 'B' to go back or 'P' to start the game.");
@@ -145,6 +151,7 @@ public class CliView extends View {
             num = Integer.parseInt(numPlayersChoice);
         } catch (NumberFormatException e) {
             out.println("Enter a valid number of players");
+            drawCreateGameScene();
             return;
         }
         out.println("Enter your username:");
@@ -155,6 +162,7 @@ public class CliView extends View {
                 bsc.setClientSocket(clientSocket);
             } catch (IOException e) {
                 out.println("Server not available");
+                drawHelloScene();
                 return;
             }
             clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
@@ -167,11 +175,12 @@ public class CliView extends View {
 
     @Override
     public void drawBoardScene() {
-
+        bsc.drawBoard();
     }
     @Override
     public void updateLobby(ArrayList<String> names) {
-
+        lobby = names;
+        drawLobbyScene();
     }
 
     @Override
@@ -181,7 +190,7 @@ public class CliView extends View {
 
     @Override
     public void displayAlert(String alert) {
-
+        out.println(alert);
     }
     @Override
     public void updateGold(ArrayList<GoldCard> goldCards) {

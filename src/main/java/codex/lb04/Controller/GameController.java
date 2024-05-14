@@ -128,7 +128,9 @@ public class GameController {
                 ServerApp.sendMessageToClient(error, usr);
                 break;
             case DRAW_BOARD:
-                game.drawBoard();
+                if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
+                    game.drawBoard();
+                }
                 break;
             case READY:
                 if(game.checkReplies()) {
