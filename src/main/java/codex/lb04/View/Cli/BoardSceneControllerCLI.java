@@ -1,8 +1,5 @@
 package codex.lb04.View.Cli;
 
-import codex.lb04.Message.DrawMessage.DrawBoardMessage;
-import codex.lb04.Message.GameMessage.CreateGameMessage;
-import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.GoldCard;
 import codex.lb04.Model.ObjectiveCard;
@@ -64,8 +61,11 @@ public class BoardSceneControllerCLI {
         drawObjectives();
         displayPoints();
     }
-    private void drawHand(){
-
+    private void drawHand(ArrayList<Card> hand){
+        out.println("Your hand is:");
+        for (int i = 0; i < hand.size(); i++) {
+            out.println(i + ": " + CardRenderer.cardToString(hand.get(i)));
+        }
     }
     private void  drawVisibleResources(){
 
