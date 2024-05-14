@@ -1,19 +1,18 @@
-package codex.lb04.View;
+package codex.lb04.View.Cli;
 
-import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
+import codex.lb04.View.View;
+
 import java.util.Scanner;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-import static java.lang.System.in;
 import static java.lang.System.out;
 
 /**
@@ -24,6 +23,7 @@ public class CliView extends View {
     ClientSocket clientSocket;
     BoardSceneControllerCLI bsc;
     private static Scanner scanner = new Scanner(System.in);
+
 
     /**
      * Prints a string to the standard output that welcomes a player.
@@ -163,6 +163,8 @@ public class CliView extends View {
             drawCreateGameScene();
         }
     }
+
+
     @Override
     public void drawBoardScene() {
 
@@ -183,7 +185,7 @@ public class CliView extends View {
     }
     @Override
     public void updateGold(ArrayList<GoldCard> goldCards) {
-
+        bsc.updateDrawableGold(goldCards);
     }
 
     @Override

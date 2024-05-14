@@ -1,4 +1,4 @@
-package codex.lb04.View;
+package codex.lb04.View.Cli;
 
 public enum EmojiCLI {
     INSECT("U+1F98B"), // 🦋
