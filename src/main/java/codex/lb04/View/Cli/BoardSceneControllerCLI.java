@@ -21,6 +21,7 @@ public class BoardSceneControllerCLI {
     private ArrayList<Integer> points = new ArrayList<>();
     private Card[][] gridMap;
     private Card selectedCard = null;
+    private CliView view;
 
     /**
      * Constructor of the board scene controller
@@ -29,7 +30,7 @@ public class BoardSceneControllerCLI {
      */
     public BoardSceneControllerCLI(CliView view) {
         //this.gridMap = new HashMap<>();
-        //this.view = view;
+        this.view = view;
         //this.stageReference = view.getStageReference();
     }
 
@@ -44,38 +45,27 @@ public class BoardSceneControllerCLI {
 
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
 
-      /*  drawableGold.replaceAll((r, v) -> null);
-        for (Rectangle rectangle : drawableGold.keySet()) {
-            Platform.runLater(() -> {
-                cleanImage(rectangle);
-            });
-        }
         for (int i = 0; i < goldCards.size(); i++) {
-            GoldCard goldCard = goldCards.get(i);
-            drawableGold.put((Rectangle) drawableGold.keySet().toArray()[i], goldCard);
-            Rectangle rectangle = (Rectangle) drawableGold.keySet().toArray()[i];
-            Platform.runLater(() -> {
-                try {
-                    drawDrawableGold(rectangle, goldCard);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            });*/
+            System.out.println(CardRenderer.cardToString(goldCards.get(i)));
+            }
         }
 
     public void drawBoard() {
         out.println("_____________________________________________________________________________");
         out.println(turn);
+        drawHand(hand);
         out.println("_____________________________________________________________________________");
-        drawHand();
         drawVisibleResources();
         drawVisibleGold();
         drawPlayedCards();
         drawObjectives();
         displayPoints();
     }
-    private void drawHand(){
-
+    private void drawHand(ArrayList<Card> hand){
+        out.println("Your hand is:");
+        for (int i = 0; i < hand.size(); i++) {
+            out.println(i + ": " + CardRenderer.cardToString(hand.get(i)));
+        }
     }
     private void  drawVisibleResources(){
 

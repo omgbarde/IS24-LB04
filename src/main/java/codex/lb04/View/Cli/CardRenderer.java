@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CardRenderer {
 
+    BoardSceneControllerCLI bsc;
     /**
      * This method converts resource types to emojis
      * @param r the resource type to be converted
@@ -78,7 +79,7 @@ public class CardRenderer {
             //draw body of card
             if(i==1){
                 //if the card is showing the front, draw the points
-                if(card.isShowingFront()) cardString.append("\n|         "+points+"        |\n");
+                if(card.isShowingFront()) cardString.append("\n|        "+points+"pt       |\n");
                 else cardString.append("\n|                  |\n");
                 cardString.append("|");
 
@@ -87,12 +88,12 @@ public class CardRenderer {
                     cardString.append("   ");
                 }
                 for(ResourceType r:centralResources){
-                    cardString.append("("+resourceMap(r)+")");
+                    cardString.append(" ("+resourceMap(r)+")");
                 }
                 for(int j = 0; j < padding1; j++ ){
                     cardString.append("   ");
                 }
-                cardString.append("|\n");
+                cardString.append(" |\n");
 
                 //if the card is showing the front, draw the costs
                 if(card.isShowingFront() && isGold) {
