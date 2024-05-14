@@ -20,4 +20,9 @@ public class BoardSceneControllerCLI {
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
     }
+
+    public void positionAvailable(){
+        System.out.println("Position available are:");
+
+    }
 }

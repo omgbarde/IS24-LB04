@@ -1,6 +1,7 @@
 package codex.lb04.View;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
+import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
@@ -67,29 +68,44 @@ public class CliView extends View {
 
     @Override
     public void drawLoginScene() throws IOException {
-        out.println("Enter your username:");
-        String usr = scanner.nextLine().trim();
-        out.println("Enter the server address and port:");
-        String addr = scanner.nextLine().trim();
-        int port = ConnectionUtil.defaultPort;
-        try {
-            port = Integer.parseInt(addr);
-        } catch (NumberFormatException e) {
-            out.println("Using default port");
+        out.println("If you want to go back press B, else press L to login");
+        String input = scanner.nextLine().trim().toUpperCase();
+        switch (input) {
+            case "B":
+                drawHelloScene();
+                break;
+            case "L":
+                out.println("Enter your username:");
+                String usr = scanner.nextLine().trim();
+                out.println("Enter the server address");
+                String addr = scanner.nextLine().trim();
+                int port = ConnectionUtil.defaultPort;
+                try {
+                    port = Integer.parseInt(addr);
+                } catch (NumberFormatException e) {
+                    out.println("Using default port");
+                }
+                if (ConnectionUtil.checkValid(usr, addr, port)) {
+                    try {
+                        clientSocket = new ClientSocket(this, usr, addr, port);
+                        bsc.setClientSocket(clientSocket);
+                    } catch (IOException e) {
+                        out.println("Server not available");
+                        return;
+                    }
+                    LoginMessage loginMessage = new LoginMessage(usr);
+                    clientSocket.sendMessage((loginMessage));
+                } else {
+                    out.println("Invalid input, please enter a valid username and server address.");
+                    drawLoginScene();
+                }
+                break;
+            default:
+                System.out.println("Invalid input, please enter 'B' to go back or 'L' to login.");
+                drawLoginScene();
+                break;
         }
-        if (ConnectionUtil.checkValid(usr, addr, port)) {
-            try {
-                clientSocket = new ClientSocket(this, usr, addr, port);
-                bsc.setClientSocket(clientSocket);
-            } catch (IOException e) {
-                out.println("Server not available");
-                return;
-            }
-            LoginMessage loginMessage = new LoginMessage(usr);
-            clientSocket.sendMessage((loginMessage));
-        } else {
-            out.println("Enter valid username, address and port");
-        }
+
     }
 
     @Override
@@ -103,7 +119,14 @@ public class CliView extends View {
                 drawHelloScene();
                 break;
             case "P":
-                drawCreateGameScene();
+                if(true/*clientSocket.getPlayers().size() < 2*/){
+                    System.out.println("Not enough players to start the game");
+                    drawLobbyScene();
+                }
+                else{
+                    //clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()))
+                    drawCreateGameScene();
+                }
                 break;
             default:
                 System.out.println("Invalid input, please enter 'B' to go back or 'P' to start the game.");
@@ -115,8 +138,30 @@ public class CliView extends View {
 
     @Override
     public void drawCreateGameScene() {
-
-        System.out.println("Press 'P' to Play or 'B' to go Back");
+        int num = 0;
+        out.println("Enter the number of players (2-4):");
+        String numPlayersChoice = scanner.nextLine().trim();
+        try {
+            num = Integer.parseInt(numPlayersChoice);
+        } catch (NumberFormatException e) {
+            out.println("Enter a valid number of players");
+            return;
+        }
+        out.println("Enter your username:");
+        String usr = scanner.nextLine().trim();
+        if (ConnectionUtil.checkValid(num, usr)) {
+            try {
+                clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
+                bsc.setClientSocket(clientSocket);
+            } catch (IOException e) {
+                out.println("Server not available");
+                return;
+            }
+            clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+        } else {
+            out.println("Invalid input, please enter a valid number of players and username.");
+            drawCreateGameScene();
+        }
     }
     @Override
     public void drawBoardScene() {
