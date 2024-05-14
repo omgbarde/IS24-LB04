@@ -8,11 +8,9 @@ import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
 import codex.lb04.View.View;
 
-import java.util.Scanner;
-
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static java.lang.System.out;
 
@@ -31,6 +29,7 @@ public class CliView extends View{
      */
     public CliView(){
         this.lobby = new ArrayList<>();
+        this.bsc = new BoardSceneControllerCLI(this);
         this.scanner = new Scanner(System.in);
     }
 
@@ -40,7 +39,7 @@ public class CliView extends View{
      */
     @Override
     public void drawHelloScene() {
-
+        out.flush();
         out.println(" ___               _                            \n" +
                 "(  _`\\            ( )                           \n" +
                 "| ( (_)   _      _| |   __                      \n" +
@@ -77,6 +76,7 @@ public class CliView extends View{
 
     @Override
     public void drawLoginScene(){
+        out.flush();
         out.println("If you want to go back press B, else press L to login");
         String input = scanner.nextLine().trim().toUpperCase();
         switch (input) {
@@ -120,6 +120,7 @@ public class CliView extends View{
 
     @Override
     public void drawLobbyScene() {
+        out.flush();
         System.out.println("Players in the lobby:\n");
         for(String name:lobby){
             out.println(name + "\n");
@@ -141,9 +142,9 @@ public class CliView extends View{
         }
     }
 
-
     @Override
     public void drawCreateGameScene() {
+        out.flush();
         int num = 0;
         out.println("Enter the number of players (2-4):");
         String numPlayersChoice = scanner.nextLine().trim();
@@ -172,9 +173,9 @@ public class CliView extends View{
         }
     }
 
-
     @Override
     public void drawBoardScene() {
+        out.flush();
         bsc.drawBoard();
     }
     @Override

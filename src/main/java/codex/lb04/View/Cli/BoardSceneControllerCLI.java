@@ -5,13 +5,9 @@ import codex.lb04.Model.GoldCard;
 import codex.lb04.Model.ObjectiveCard;
 import codex.lb04.Model.ResourceCard;
 import codex.lb04.Network.client.ClientSocket;
-import codex.lb04.View.GuiView;
-import javafx.application.Platform;
-import javafx.scene.shape.Rectangle;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+
 import static java.lang.System.out;
 
 
@@ -31,7 +27,7 @@ public class BoardSceneControllerCLI {
      *
      * @param view the view
      */
-    public BoardSceneControllerCLI(GuiView view) {
+    public BoardSceneControllerCLI(CliView view) {
         //this.gridMap = new HashMap<>();
         //this.view = view;
         //this.stageReference = view.getStageReference();
