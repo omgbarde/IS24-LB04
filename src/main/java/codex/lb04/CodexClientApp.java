@@ -1,5 +1,6 @@
 package codex.lb04;
 import codex.lb04.Utils.GraphicUtil;
+import codex.lb04.View.CliView;
 import codex.lb04.View.View;
 import javafx.application.Application;
 /**
@@ -14,7 +15,7 @@ public class CodexClientApp {
      */
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("-cli")) {
-            //launches CLI
+            new CliView().drawHelloScene();
         }
         else if (args.length > 0 && args[0].equals("-gui")) {
             //launches GUI

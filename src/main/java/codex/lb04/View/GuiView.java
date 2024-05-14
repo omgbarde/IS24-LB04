@@ -513,8 +513,8 @@ public class GuiView extends View {
 
         //Chat Button
         Button chatButton = new Button("Chat");
-        chatButton.setLayoutX(centerX -18);
-        chatButton.setLayoutY(450);
+        chatButton.setLayoutX(10);
+        chatButton.setLayoutY(295);
         chatButton.setMaxHeight(10);
         chatButton.setMaxWidth(75);
         chatButton.setOnMouseClicked(e -> {
