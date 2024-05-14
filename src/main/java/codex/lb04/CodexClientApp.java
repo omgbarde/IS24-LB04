@@ -16,7 +16,7 @@ public class CodexClientApp {
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("-cli")) {
             //launches CLI
-            new CliView().drawHelloScene();
+            new CliView().run();
         }
         else if (args.length > 0 && args[0].equals("-gui")) {
             //launches GUI

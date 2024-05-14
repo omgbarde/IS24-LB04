@@ -1,14 +1,9 @@
 package codex.lb04.View.Cli;
 
-import codex.lb04.Message.DrawMessage.DrawBoardMessage;
-import codex.lb04.Message.GameMessage.CreateGameMessage;
-import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
-import codex.lb04.Utils.ConnectionUtil;
 import codex.lb04.View.View;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,9 +12,9 @@ import static java.lang.System.out;
 /**
  * This class represents the CLI view
  */
-public class CliView extends View{
+public class CliView extends View implements Runnable{
+    private CliState state = CliState.HELLO;
     ArrayList<String> lobby ;
-
     ClientSocket clientSocket;
     BoardSceneControllerCLI bsc;
     private static Scanner scanner;
@@ -31,6 +26,14 @@ public class CliView extends View{
         this.lobby = new ArrayList<>();
         this.bsc = new BoardSceneControllerCLI(this);
         this.scanner = new Scanner(System.in);
+    }
+
+    public void run() {
+        drawHelloScene();
+        while(true){
+            String input = scanner.nextLine().trim().toUpperCase();
+            bsc.handleInput(input);
+        }
     }
 
     /**
@@ -57,120 +60,29 @@ public class CliView extends View{
 
         out.println("Welcome to Codex Naturalis Board Game!");
         out.println("Press 'C' to Create a Game or 'J' to Join a Game");
-
-        String input = scanner.nextLine().trim().toUpperCase();
-
-        switch (input) {
-            case "C":
-                drawCreateGameScene();
-                break;
-            case "J":
-                drawLoginScene();
-                break;
-            default:
-                System.out.println("Invalid input, please enter 'C' to create or 'J' to join a game.");
-                drawHelloScene();
-                break;
-        }
     }
 
     @Override
     public void drawLoginScene(){
         out.flush();
         out.println("If you want to go back press B, else press L to login");
-        String input = scanner.nextLine().trim().toUpperCase();
-        switch (input) {
-            case "B":
-                drawHelloScene();
-                break;
-            case "L":
-                out.println("Enter your username:");
-                String usr = scanner.nextLine().trim();
-                out.println("Enter the server address");
-                String addr = scanner.nextLine().trim();
-                int port = ConnectionUtil.defaultPort;
-                try {
-                    port = Integer.parseInt(addr);
-                } catch (NumberFormatException e) {
-                    out.println("Using default port");
-                }
-                if (ConnectionUtil.checkValid(usr, addr, port)) {
-                    try {
-                        clientSocket = new ClientSocket(this, usr, addr, port);
-                        bsc.setClientSocket(clientSocket);
-                    } catch (IOException e) {
-                        out.println("Server not available");
-                        drawHelloScene();
-                        break;
-                    }
-                    LoginMessage loginMessage = new LoginMessage(usr);
-                    clientSocket.sendMessage((loginMessage));
-                } else {
-                    out.println("Invalid input, please enter a valid username and server address.");
-                    drawLoginScene();
-                }
-                break;
-            default:
-                System.out.println("Invalid input");
-                drawLoginScene();
-                break;
-        }
 
     }
 
     @Override
     public void drawLobbyScene() {
         out.flush();
-        System.out.println("Players in the lobby:\n");
         for(String name:lobby){
             out.println(name + "\n");
         }
         out.println("If you want to go back press 'B', else press 'P' to start the game");
-        String input = scanner.nextLine().trim().toUpperCase();
-        switch (input) {
-            case "B":
-                clientSocket.disconnect();
-                drawHelloScene();
-                break;
-            case "P":
-                clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()));
-                break;
-            default:
-                System.out.println("Invalid input, please enter 'B' to go back or 'P' to start the game.");
-                drawLobbyScene();
-                break;
-        }
     }
 
     @Override
     public void drawCreateGameScene() {
         out.flush();
-        int num = 0;
-        out.println("Enter the number of players (2-4):");
-        String numPlayersChoice = scanner.nextLine().trim();
-        try {
-            num = Integer.parseInt(numPlayersChoice);
-        } catch (NumberFormatException e) {
-            out.println("Enter a valid number of players");
-            drawCreateGameScene();
-            return;
-        }
-        out.println("Enter your username:");
-        String usr = scanner.nextLine().trim();
-        if (ConnectionUtil.checkValid(num, usr)) {
-            try {
-                clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
-                bsc.setClientSocket(clientSocket);
-            } catch (IOException e) {
-                out.println("Server not available");
-                drawHelloScene();
-                return;
-            }
-            clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
-        } else {
-            out.println("Invalid input, please enter a valid number of players and username.");
-            drawCreateGameScene();
-        }
+        out.println("press any key to continue and set the number of players and your username");
+        out.println("press 'B' to go back");
     }
 
     @Override
@@ -181,6 +93,7 @@ public class CliView extends View{
     @Override
     public void updateLobby(ArrayList<String> names) {
         lobby = names;
+        System.out.println("Players in the lobby:\n");
         drawLobbyScene();
     }
 
@@ -250,5 +163,13 @@ public class CliView extends View{
 
     @Override
     public void deselectCard(){
+    }
+
+    public CliState getState() {
+        return state;
+    }
+
+    public void setState(CliState state) {
+        this.state = state;
     }
 }
