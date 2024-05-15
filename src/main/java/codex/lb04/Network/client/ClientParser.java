@@ -3,7 +3,7 @@ package codex.lb04.Network.client;
 import codex.lb04.Message.*;
 import codex.lb04.Message.DrawMessage.*;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
-import codex.lb04.View.View;
+import codex.lb04.View.ViewController;
 
 /**
  * This class parses messages client side
@@ -11,11 +11,11 @@ import codex.lb04.View.View;
 public class ClientParser {
     ClientSocket clientSocket;
 
-    View view;
+    ViewController viewController;
 
-    public ClientParser(ClientSocket clientSocket, View view) {
+    public ClientParser(ClientSocket clientSocket, ViewController viewController) {
         this.clientSocket = clientSocket;
-        this.view = view;
+        this.viewController = viewController;
     }
 
     /**
@@ -27,74 +27,74 @@ public class ClientParser {
         switch (input.getMessageType()) {
             case LOGIN_REPLY:
                 if (((LoginReply) input).isAccepted()) {
-                    view.drawLobbyScene();
+                    viewController.drawLobbyScene();
                 } else {
-                    view.print("login refused");
+                    viewController.print("login refused");
                     clientSocket.disconnect();
-                    view.drawHelloScene();
+                    viewController.drawHelloScene();
                 }
                 break;
             case PLAYERS_CONNECTED:
-                view.updateLobby(((PlayersConnectedMessage) input).getLobby());
+                viewController.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
             case DRAW_CARD: //TODO non verrà mai usato
-                view.drawCard(((DrawCardMessage) input).getCard());
+                viewController.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
-                view.updateGold(((UpdateGoldMessage) input).getGold());
+                viewController.updateDrawableGold(((UpdateGoldMessage) input).getGold());
                 break;
             case UPDATE_RESOURCE:
-                view.updateResource(((UpdateResourceMessage) input).getResource());
+                viewController.updateDrawableResources(((UpdateResourceMessage) input).getResource());
                 break;
              case UPDATE_SECRET_OBJECTIVE:
-                view.updateSecretObjective(((UpdateSecretObjectiveMessage) input) . getSecretObjective());
+                viewController.updateSecretObjective(((UpdateSecretObjectiveMessage) input) . getSecretObjective());
                 break;
             case UPDATE_HAND:
-                view.updateHand(((UpdateHandMessage) input).getHand());
+                viewController.updateHand(((UpdateHandMessage) input).getHand());
                 break;
             case UPDATE_COMMON_OBJECTIVES:
-                view.updateCommonObjectives(((UpdateCommonObjectivesMessage) input).getCommonObjectives());
+                viewController.updateCommonObjectives(((UpdateCommonObjectivesMessage) input).getCommonObjectives());
                 break;
             case UPDATE_INITIAL_CARD_DISPLAY:
-                view.updateInitialCardDisplay(((UpdateInitialCardDisplayMessage) input).getInitialCard());
+                viewController.updateInitialCardDisplay(((UpdateInitialCardDisplayMessage) input).getInitialCard());
                 break;
             case UPDATE_SECRET_OBJECTIVE_TO_CHOOSE:
-                view.updateSecretObjectiveToChoose(((UpdateSecretObjectiveToChooseMessage) input).getSecretObjectives());
+                viewController.updateSecretObjectiveToChoose(((UpdateSecretObjectiveToChooseMessage) input).getSecretObjectives());
                 break;
             case PLACE_CARD:
-                view.placeCard(((PlaceCardMessage) input).getX() , ((PlaceCardMessage) input).getY() , ((PlaceCardMessage) input).getCard());
-                view.deselectCard();
+                viewController.placeCard(((PlaceCardMessage) input).getX() , ((PlaceCardMessage) input).getY() , ((PlaceCardMessage) input).getCard());
+                viewController.deselectCard();
                 break;
             case ERROR:
-                view.displayAlert(input.toString());
+                viewController.displayAlert(input.toString());
                 clientSocket.disconnect();
-                view.drawHelloScene();
+                viewController.drawHelloScene();
                 break;
             case GENERIC_MESSAGE, INVALID_INPUT:
-                view.displayAlert(input.toString());
+                viewController.displayAlert(input.toString());
                 break;
             case PING:
                 clientSocket.sendMessage(new PongMessage("pong"));
                 System.out.println("pinged!");
                 break;
             case DRAW_BOARD:
-                view.drawBoardScene();
+                viewController.drawBoardScene();
                 clientSocket.sendMessage(new ReadyMessage("ready"));
                 break;
             case START_TURN:
-                view.setYourTurnText();
+                viewController.setYourTurnText();
                 break;
             case UPDATE_POINTS:
-                view.updatePoints(((UpdatePointsMessage) input).getPoints());
+                viewController.updatePoints(((UpdatePointsMessage) input).getPoints());
                 break;
             case END_TURN:
-                view.cleanYourTurnText();
+                viewController.cleanYourTurnText();
                 break;
             case CHAT_MESSAGE:
-                view.updateChat(((ChatMessage)input).toString());
+                viewController.updateChat(((ChatMessage)input).toString());
                 break;
             default:
-                view.displayAlert("message not recognized");
+                viewController.displayAlert("message not recognized");
                 clientSocket.disconnect();
                 break;
         }

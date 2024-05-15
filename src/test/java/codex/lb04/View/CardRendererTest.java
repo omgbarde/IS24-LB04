@@ -4,6 +4,7 @@ import codex.lb04.Model.Card;
 import codex.lb04.Model.Deck;
 import codex.lb04.Model.Game;
 import codex.lb04.View.Cli.CardRenderer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,13 @@ public class CardRendererTest {
         game = Game.getInstance();
         deck = Deck.getInstance();
         game.setDeck();
+    }
+
+    @After
+    public void tearDown(){
+        cardRenderer = null;
+        game = null;
+        deck = null;
     }
 
     @Test

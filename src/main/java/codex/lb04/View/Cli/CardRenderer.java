@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CardRenderer {
 
-    BoardSceneControllerCLI bsc;
+    CliController bsc;
     /**
      * This method converts resource types to emojis
      * @param r the resource type to be converted

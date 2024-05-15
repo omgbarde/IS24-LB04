@@ -1,6 +1,6 @@
 package codex.lb04;
 
-import codex.lb04.View.GuiView;
+import codex.lb04.View.Gui.GuiView;
 import codex.lb04.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;

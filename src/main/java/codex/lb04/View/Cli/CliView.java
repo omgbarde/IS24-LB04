@@ -1,7 +1,6 @@
 package codex.lb04.View.Cli;
 
-import codex.lb04.Model.*;
-import codex.lb04.Network.client.ClientSocket;
+import codex.lb04.Model.ObjectiveCard;
 import codex.lb04.View.View;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ import static java.lang.System.out;
 public class CliView extends View implements Runnable{
     private CliState state = CliState.HELLO;
     ArrayList<String> lobby ;
-    ClientSocket clientSocket;
-    BoardSceneControllerCLI bsc;
+    CliBoardModel boardModel;
+    CliController controller;
     private static Scanner scanner;
 
     /**
@@ -24,7 +23,8 @@ public class CliView extends View implements Runnable{
      */
     public CliView(){
         this.lobby = new ArrayList<>();
-        this.bsc = new BoardSceneControllerCLI(this);
+        this.boardModel = new CliBoardModel();
+        this.controller = new CliController(this);
         this.scanner = new Scanner(System.in);
     }
 
@@ -32,7 +32,7 @@ public class CliView extends View implements Runnable{
         drawHelloScene();
         while(true){
             String input = scanner.nextLine().trim().toUpperCase();
-            bsc.handleInput(input);
+            controller.handleInput(input);
         }
     }
 
@@ -42,7 +42,7 @@ public class CliView extends View implements Runnable{
      */
     @Override
     public void drawHelloScene() {
-        out.flush();
+        printSpaces();
         out.println(" ___               _                            \n" +
                 "(  _`\\            ( )                           \n" +
                 "| ( (_)   _      _| |   __                      \n" +
@@ -64,14 +64,14 @@ public class CliView extends View implements Runnable{
 
     @Override
     public void drawLoginScene(){
-        out.flush();
+        printSpaces();
         out.println("If you want to go back press B, else press L to login");
 
     }
 
     @Override
     public void drawLobbyScene() {
-        out.flush();
+        printSpaces();
         for(String name:lobby){
             out.println(name + "\n");
         }
@@ -80,89 +80,63 @@ public class CliView extends View implements Runnable{
 
     @Override
     public void drawCreateGameScene() {
-        out.flush();
+        printSpaces();
         out.println("press any key to continue and set the number of players and your username");
         out.println("press 'B' to go back");
     }
 
     @Override
     public void drawBoardScene() {
-        out.flush();
-        bsc.drawBoard();
+        printSpaces();
+        drawTurnLabel();
+        drawPlayedCards();
+        drawVisibleResourceCards();
+        drawVisibleGoldCards();
+        drawObjectives();
+        displayPoints();
     }
+
+    private void drawTurnLabel() {
+        out.println("--------------------------------" + boardModel.getTurnLabel() + "--------------------------------");
+    }
+
+    private void drawVisibleResourceCards(){
+
+    }
+    private void drawVisibleGoldCards(){
+
+    }
+    private void drawPlayedCards(){
+
+    }
+    private void drawObjectives(){
+
+    }
+    private void displayPoints(){
+
+    }
+
     @Override
-    public void updateLobby(ArrayList<String> names) {
-        lobby = names;
+    public void updateLobby(ArrayList<String> lobby) {
+        this.lobby = lobby;
         System.out.println("Players in the lobby:\n");
         drawLobbyScene();
     }
 
-    @Override
-    public void drawCard(Card card) {
-
-    }
 
     @Override
     public void displayAlert(String alert) {
         out.println(alert);
     }
-    @Override
-    public void updateGold(ArrayList<GoldCard> goldCards) {
-        bsc.updateDrawableGold(goldCards);
+
+    public void displayChoices(ArrayList<ObjectiveCard> secretObjectives) {
+        //TODO
     }
 
-    @Override
-    public void updateResource(ArrayList<ResourceCard> resourceCards) {
-
-    }
-
-    @Override
-    public void updateHand(ArrayList<Card> hand) {
-
-    }
-
-    @Override
-    public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
-
-    }
-
-
-    @Override
-    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives){
-
-    }
-
-    @Override
-    public  void placeCard(Integer x , Integer y , Card card){
-
-    }
-
-    @Override
-    public void updateSecretObjective(ObjectiveCard secretObjectives){
-
-    }
-    @Override
-    public void updatePoints(ArrayList<Integer> points){
-
-    }
-
-    @Override
-    public void updateInitialCardDisplay(InitialCard card) {
-
-    }
-
-    @Override
-    public void setYourTurnText(){
-
-    }
-
-    @Override
-    public void cleanYourTurnText(){
-
-    }
-
-    @Override
-    public void deselectCard(){
+    private void printSpaces() {
+        for(int i = 0; i < 50; i++){
+            out.println();
+        }
     }
 
     public CliState getState() {
@@ -172,4 +146,9 @@ public class CliView extends View implements Runnable{
     public void setState(CliState state) {
         this.state = state;
     }
+
+    public CliBoardModel getBoard() {
+        return boardModel;
+    }
+
 }

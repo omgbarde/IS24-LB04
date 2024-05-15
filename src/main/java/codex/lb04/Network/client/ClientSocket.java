@@ -3,7 +3,7 @@ package codex.lb04.Network.client;
 import codex.lb04.CodexClientApp;
 import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
-import codex.lb04.View.View;
+import codex.lb04.View.ViewController;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -28,12 +28,12 @@ public class ClientSocket {
      * @param address is the port address
      * @param port    is the desired port
      */
-    public ClientSocket(View view,String username, String address, int port) throws IOException {
+    public ClientSocket(String username, String address, int port, ViewController controller) throws IOException {
             this.username = username;
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
-            this.clientParser = new ClientParser( this,view);
+            this.clientParser = new ClientParser( this,controller);
             readmessage();
     }
 
