@@ -12,7 +12,7 @@ public class CliBoardModel {
     private ArrayList<ObjectiveCard> objectiveCards;
     private ObjectiveCard secretObjective;
     private ArrayList<Integer> points;
-    private Card[][] gridMap;
+    private String[][][] gridMap;
     private Card selectedCard;
 
     public CliBoardModel() {
@@ -22,7 +22,8 @@ public class CliBoardModel {
         visibleResources = new ArrayList<>();
         objectiveCards = new ArrayList<>();
         points = new ArrayList<>();
-        gridMap = new Card[20][20];
+        gridMap = new String[20][20][3];
+        gridmapInit();
         selectedCard = null;
     }
 
@@ -33,6 +34,14 @@ public class CliBoardModel {
 
     public void placeCard(Integer x, Integer y, Card card) {
         //TODO
+    }
+
+    public void gridmapInit(){
+        for(int i = 0; i<20;i++){
+            for(int j = 0;j<20;j++){
+                gridMap[i][j] = CardRenderer.placeHolder();
+            }
+        }
     }
 
     public void deselectCard() {
@@ -95,11 +104,11 @@ public class CliBoardModel {
         this.points = points;
     }
 
-    public Card[][] getGridMap() {
+    public String[][][] getGridMap() {
         return gridMap;
     }
 
-    public void setGridMap(Card[][] gridMap) {
+    public void setGridMap(String[][][] gridMap) {
         this.gridMap = gridMap;
     }
 
@@ -109,5 +118,16 @@ public class CliBoardModel {
 
     public void setSelectedCard(Card selectedCard) {
         this.selectedCard = selectedCard;
+    }
+
+    public void printGridMap(){
+        for(int i = 0; i < 20; i++){
+            for(int k = 0; k < 3; k++){
+                for(int j = 0; j < 20; j++){
+                  System.out.print(gridMap[i][j][k]);
+                }
+                System.out.println();
+            }
+        }
     }
 }

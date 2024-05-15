@@ -151,7 +151,7 @@ public class CliController extends ViewController {
     private void drawHand(ArrayList<Card> hand){
         out.println("Your hand is:");
         for (int i = 0; i < hand.size(); i++) {
-            out.println(i + ": " + CardRenderer.cardToString(hand.get(i)));
+
         }
     }
 

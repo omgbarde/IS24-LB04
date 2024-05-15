@@ -28,26 +28,50 @@ public class CardRendererTest {
     }
 
     @Test
-    public void testRenderCard(){
+    public void testPrintInGame(){
         for (Card c : deck.getGoldCards()) {
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
             c.flip();
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
         }
         for (Card c : deck.getResourceCards()) {
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
             c.flip();
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
         }
         for (Card c : deck.getInitialCards()) {
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
             c.flip();
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
         }
         for (Card c : deck.getObjectiveCards()) {
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
             c.flip();
-            System.out.println(cardRenderer.cardToString(c));
+            System.out.println(cardRenderer.printInGame(c));
+        }
+    }
+
+    @Test
+    public void testPrintInHand(){
+        for (Card c : deck.getGoldCards()) {
+            System.out.println(cardRenderer.printInHand(c));
+            c.flip();
+            System.out.println(cardRenderer.printInHand(c));
+        }
+        for (Card c : deck.getResourceCards()) {
+            System.out.println(cardRenderer.printInHand(c));
+            c.flip();
+            System.out.println(cardRenderer.printInHand(c));
+        }
+        for (Card c : deck.getInitialCards()) {
+            System.out.println(cardRenderer.printInHand(c));
+            c.flip();
+            System.out.println(cardRenderer.printInHand(c));
+        }
+        for (Card c : deck.getObjectiveCards()) {
+            System.out.println(cardRenderer.printInHand(c));
+            c.flip();
+            System.out.println(cardRenderer.printInHand(c));
         }
     }
 }
