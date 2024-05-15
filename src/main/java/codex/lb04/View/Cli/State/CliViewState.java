@@ -1,6 +1,6 @@
-package codex.lb04.View.Cli;
+package codex.lb04.View.Cli.State;
 
-public enum CliState {
+public enum CliViewState {
     HELLO,
     LOGIN,
     CREATE_GAME,

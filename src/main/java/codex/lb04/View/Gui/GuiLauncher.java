@@ -1,6 +1,5 @@
-package codex.lb04;
+package codex.lb04.View.Gui;
 
-import codex.lb04.View.Gui.GuiView;
 import codex.lb04.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GuiApp extends Application {
+public class GuiLauncher extends Application {
     private static View guiView;
 
     /**

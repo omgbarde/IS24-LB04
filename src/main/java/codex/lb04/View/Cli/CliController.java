@@ -6,6 +6,8 @@ import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
+import codex.lb04.View.Cli.State.CliBoardState;
+import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.ViewController;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import static java.lang.System.out;
 
 public class CliController extends ViewController {
     private CliView cliView;
+    private CliBoardModel cliBoardModel;
     private InputThread inputThread;
     private ClientSocket clientSocket;
 
@@ -26,6 +29,7 @@ public class CliController extends ViewController {
      */
     public CliController(CliView view) {
         this.cliView = view;
+        this.cliBoardModel = view.getBoard();
         this.inputThread = new InputThread();
     }
 
@@ -58,58 +62,59 @@ public class CliController extends ViewController {
     }
 
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
-         cliView.getBoard().setVisibleGold(goldCards);
+         cliBoardModel.setVisibleGold(goldCards);
          cliView.drawBoardScene();
     }
 
     @Override
     public void updateDrawableResources(ArrayList<ResourceCard> resourceCards) {
-        cliView.getBoard().setVisibleResources(resourceCards);
+        cliBoardModel.setVisibleResources(resourceCards);
         cliView.drawBoardScene();
 
     }
 
     @Override
     public void updateSecretObjective(ObjectiveCard secretObjective) {
-        cliView.getBoard().setSecretObjective(secretObjective);
+        cliBoardModel.setSecretObjective(secretObjective);
         cliView.drawBoardScene();
 
     }
 
     @Override
     public void updateHand(ArrayList<Card> hand) {
-        cliView.getBoard().setHand(hand);
+        cliBoardModel.setHand(hand);
         cliView.drawBoardScene();
     }
 
     @Override
     public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
-        cliView.getBoard().setObjectiveCards(commonObjectives);
+        cliBoardModel.setObjectiveCards(commonObjectives);
         cliView.drawBoardScene();
 
     }
 
     @Override
     public void updateInitialCardDisplay(InitialCard initialCard) {
-        cliView.getBoard().updateBoard(initialCard);
+        cliBoardModel.setBoardState(CliBoardState.CHOOSE_INIT);
+        cliBoardModel.setInitialCard(initialCard);
         cliView.drawBoardScene();
     }
 
     @Override
     public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives) {
-        cliView.displayChoices(secretObjectives);
+        cliBoardModel.setChoices(secretObjectives);
         cliView.drawBoardScene();
 
     }
 
     @Override
     public void placeCard(Integer x, Integer y, Card card) {
-        cliView.getBoard().placeCard(x, y, card);
+        cliBoardModel.placeCard(x, y, card);
     }
 
     @Override
     public void deselectCard() {
-        cliView.getBoard().deselectCard();
+        cliBoardModel.deselectCard();
     }
 
     @Override
@@ -119,23 +124,26 @@ public class CliController extends ViewController {
 
     @Override
     public void drawBoardScene() {
+        cliView.setState(CliViewState.BOARD);
         cliView.drawBoardScene();
     }
 
     @Override
     public void setYourTurnText() {
-        cliView.getBoard().setTurnLabel("YOUR TURN");
+        cliBoardModel.setBoardState(CliBoardState.PLACING);
+        cliBoardModel.setTurnLabel("YOUR TURN");
     }
 
     @Override
     public void updatePoints(ArrayList<Integer> points) {
-        cliView.getBoard().setPoints(points);
+        cliBoardModel.setPoints(points);
         cliView.drawBoardScene();
     }
 
     @Override
     public void cleanYourTurnText() {
-        cliView.getBoard().setTurnLabel("NOT YOUR TURN");
+        cliBoardModel.setBoardState(CliBoardState.END);
+        cliBoardModel.setTurnLabel("NOT YOUR TURN");
     }
 
     @Override
@@ -156,7 +164,7 @@ public class CliController extends ViewController {
     }
 
     public void handleInput(String input) {
-        CliState cliState = this.cliView.getState();
+        CliViewState cliState = this.cliView.getState();
         switch (cliState){
             case HELLO -> helloHandler(input);
             case LOGIN -> loginHandler(input);
@@ -171,11 +179,11 @@ public class CliController extends ViewController {
         switch (input) {
             case "C":
                 cliView.drawCreateGameScene();
-                cliView.setState(CliState.CREATE_GAME);
+                cliView.setState(CliViewState.CREATE_GAME);
                 break;
             case "J":
                 cliView.drawLoginScene();
-                cliView.setState(CliState.LOGIN);
+                cliView.setState(CliViewState.LOGIN);
                 break;
             default:
                 System.out.println("Invalid input, please enter 'C' to create or 'J' to join a game.");
@@ -188,7 +196,7 @@ public class CliController extends ViewController {
         switch (input) {
             case "B":
                 cliView.drawHelloScene();
-                cliView.setState(CliState.HELLO);
+                cliView.setState(CliViewState.HELLO);
                 break;
             case "L":
                 out.println("Enter your username:");
@@ -222,7 +230,7 @@ public class CliController extends ViewController {
                     } catch (IOException e) {
                         out.println("Server not available");
                         cliView.drawHelloScene();
-                        cliView.setState(CliState.HELLO);
+                        cliView.setState(CliViewState.HELLO);
                         break;
                     }
                     LoginMessage loginMessage = new LoginMessage(usr);
@@ -259,7 +267,7 @@ public class CliController extends ViewController {
         switch (input) {
             case "B":
                 cliView.drawHelloScene();
-                cliView.setState(CliState.HELLO);
+                cliView.setState(CliViewState.HELLO);
                 break;
             default:
                 int num = 0;
@@ -295,7 +303,7 @@ public class CliController extends ViewController {
                     } catch (IOException e) {
                         out.println("Server not available");
                         cliView.drawHelloScene();
-                        cliView.setState(CliState.HELLO);
+                        cliView.setState(CliViewState.HELLO);
                         return;
                     }
                     clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
@@ -307,16 +315,32 @@ public class CliController extends ViewController {
     }
 
     private void boardHandler(String input) {
+        CliBoardState boardState = cliBoardModel.getBoardState();
+        switch (boardState) {
+            case CHOOSE_INIT:
+                initialcardHandler(input);
+                break;
+            case CHOOSE_SECRET:
+                break;
+            case PLACING:
+                break;
+            case DRAWING:
+                break;
+            case END:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initialcardHandler(String input) {
         switch (input) {
-            case "C":
-                break;
-            case "D":
-                break;
             case "F":
+                cliBoardModel.flipInitialCard();
+                drawBoardScene();
                 break;
-            case "P":
-                break;
-            case "E":
+            default:
+                //place card and redraw
                 break;
         }
     }

@@ -1,6 +1,6 @@
 package codex.lb04.View.Cli;
 
-import codex.lb04.Model.ObjectiveCard;
+import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.View;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import static java.lang.System.out;
  * This class represents the CLI view
  */
 public class CliView extends View implements Runnable{
-    private CliState state = CliState.HELLO;
+    private CliViewState state = CliViewState.HELLO;
     ArrayList<String> lobby ;
     CliBoardModel boardModel;
     CliController controller;
@@ -88,16 +88,28 @@ public class CliView extends View implements Runnable{
     @Override
     public void drawBoardScene() {
         printSpaces();
-        drawTurnLabel();
         drawPlayedCards();
         drawVisibleResourceCards();
         drawVisibleGoldCards();
         drawObjectives();
+        drawInitialCard();
         displayPoints();
+        drawTurnLabel();
+        displayCommands();
+    }
+
+    private void drawInitialCard() {
+        boardModel.printInitial();
+    }
+
+    private void displayCommands() {
+        out.println("0-9) to select a card            F) to flip             x,y) to place");
+        out.println("first place initial card, then choose secret objective");
+        out.println("normal turn: first place then draw");
     }
 
     private void drawTurnLabel() {
-        out.println("--------------------------------" + boardModel.getTurnLabel() + "--------------------------------");
+        out.println("----------------------------------------------------------------" + boardModel.getTurnLabel() + "--------------------------------");
     }
 
     private void drawVisibleResourceCards(){
@@ -107,10 +119,11 @@ public class CliView extends View implements Runnable{
 
     }
     private void drawPlayedCards(){
-
+        boardModel.printGridMap();
     }
     private void drawObjectives(){
-
+        boardModel.printObjectives();
+        boardModel.displayChoices();
     }
     private void displayPoints(){
 
@@ -129,9 +142,6 @@ public class CliView extends View implements Runnable{
         out.println(alert);
     }
 
-    public void displayChoices(ArrayList<ObjectiveCard> secretObjectives) {
-        //TODO
-    }
 
     private void printSpaces() {
         for(int i = 0; i < 50; i++){
@@ -139,11 +149,11 @@ public class CliView extends View implements Runnable{
         }
     }
 
-    public CliState getState() {
+    public CliViewState getState() {
         return state;
     }
 
-    public void setState(CliState state) {
+    public void setState(CliViewState state) {
         this.state = state;
     }
 

@@ -56,6 +56,32 @@ public class CardRenderer {
         }
     }
 
+    public static String rederObjective(int ID) {
+        switch (ID){
+        case 87: return "2 points every 3 red cards in ascending diagonal";
+        case 88: return "2 points every 3 green cards in descending diagonal";
+        case 89: return "2 points every 3 blue cards in ascending diagonal";
+        case 90: return  "2 points every 3 purple cards in descending diagonal";
+        case 91: return "3 points every 'L' pattern:" +
+                        " 2 red cards vertically and a green card diagonally right of the bottom card";
+        case 92: return "3 points every 'L' pattern:" +
+                        " 2 green cards vertically and a purple card diagonally left of the bottom card";
+        case 93: return "3 points every 'L' pattern:" +
+                        " 2 blue cards vertically and a red card diagonally right of the top card";
+        case 94: return "3 points every 'L' pattern:" +
+                        " 2 purple cards are vertically and a blue card diagonally left of the top card";
+        case 95: return "2 points every 3 mushrooms visible";
+        case 96: return "2 points every 3 leaves visible";
+        case 97: return "2 points every 3 animals visible";
+        case 98: return "2 points every 3 insects visible";
+        case 99: return "3 points every set of inkwell-manuscript-quill visible";
+        case 100: return "2 points every 2 manuscripts visible";
+        case 101: return "2 points every 2 inkwells visible";
+        case 102: return "2 points every 2 quills visible";
+        default: return "";
+        }
+    }
+
     //non verrà usato
     public String printInGame(Card card){
         String[] components = renderIngame(card);
@@ -145,7 +171,7 @@ public class CardRenderer {
     }
 
     //non verrà usato
-    public String printInHand(Card card){
+    public static String printInHand(Card card){
         String[] components = renderInHand(card);
         StringBuilder stringBuilder = new StringBuilder();
         for(String s:components){

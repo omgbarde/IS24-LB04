@@ -1,26 +1,32 @@
 package codex.lb04.View.Cli;
 
 import codex.lb04.Model.*;
+import codex.lb04.View.Cli.State.CliBoardState;
 
 import java.util.ArrayList;
 
 public class CliBoardModel {
+    private CliBoardState boardState;
     private String turnLabel;
     private ArrayList<Card> hand;
     private ArrayList<GoldCard> visibleGold;
     private ArrayList<ResourceCard> visibleResources;
     private ArrayList<ObjectiveCard> objectiveCards;
     private ObjectiveCard secretObjective;
+    private InitialCard initialCard;
+    private ArrayList<ObjectiveCard> choices;
     private ArrayList<Integer> points;
     private String[][][] gridMap;
     private Card selectedCard;
 
     public CliBoardModel() {
         turnLabel = "not your turn";
+        boardState = CliBoardState.END;
         hand = new ArrayList<>();
         visibleGold = new ArrayList<>();
         visibleResources = new ArrayList<>();
         objectiveCards = new ArrayList<>();
+        choices = new ArrayList<>();
         points = new ArrayList<>();
         gridMap = new String[20][20][3];
         gridmapInit();
@@ -120,6 +126,14 @@ public class CliBoardModel {
         this.selectedCard = selectedCard;
     }
 
+    public CliBoardState getBoardState() {
+        return boardState;
+    }
+
+    public void setBoardState(CliBoardState boardState) {
+        this.boardState = boardState;
+    }
+
     public void printGridMap(){
         for(int i = 0; i < 20; i++){
             for(int k = 0; k < 3; k++){
@@ -129,5 +143,34 @@ public class CliBoardModel {
                 System.out.println();
             }
         }
+    }
+
+
+    public void setInitialCard(InitialCard initialCard) {
+        this.initialCard = initialCard;
+    }
+
+    public void printInitial() {
+        if(initialCard!=null) System.out.println(CardRenderer.printInHand(initialCard));
+    }
+
+    public void flipInitialCard() {
+        if(initialCard!=null && turnLabel.equals("YOUR TURN")) initialCard.flip();
+    }
+
+    public void displayChoices() {
+        System.out.println("secret objectives to choose from:");
+        for (int i = 0; i < choices.size(); i++) {
+            String renderedObjective = CardRenderer.rederObjective(choices.get(i).getID());
+            System.out.print(i+1+")" + renderedObjective + "     ");
+        }
+        System.out.println();
+    }
+
+    public void setChoices(ArrayList<ObjectiveCard> secretObjectivesToChooseFrom){
+        this.choices = secretObjectivesToChooseFrom;
+    }
+
+    public void printObjectives() {
     }
 }

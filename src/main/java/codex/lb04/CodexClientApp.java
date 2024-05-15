@@ -1,6 +1,7 @@
 package codex.lb04;
 import codex.lb04.Utils.GraphicUtil;
 import codex.lb04.View.Cli.CliView;
+import codex.lb04.View.Gui.GuiLauncher;
 import codex.lb04.View.View;
 import javafx.application.Application;
 /**
@@ -20,12 +21,12 @@ public class CodexClientApp {
         }
         else if (args.length > 0 && args[0].equals("-gui")) {
             //launches GUI
-            Application.launch(GuiApp.class);
+            Application.launch(GuiLauncher.class);
         }
         else {
             //launches GUI by default
             System.out.println("error parsing the launch command");
-            Application.launch(GuiApp.class);
+            Application.launch(GuiLauncher.class);
         }
     }
     /**
@@ -34,7 +35,7 @@ public class CodexClientApp {
      */
     public static View getView() {
         if (GraphicUtil.mode.equals("GUI")) {
-            return GuiApp.getGuiView();
+            return GuiLauncher.getGuiView();
         } else {
             return null;
         }
