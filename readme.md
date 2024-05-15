@@ -7,28 +7,25 @@
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
 ## Features
-- [x] complete ruleset 
-- [x] robust socket communication 
-- [x] GUI interface 
-- [ ] CLI interface
-- [x] ingame chat 
+| Feature          | state |
+| ---------------- | ----- |
+| complete ruleset | ✅   |
+| socket handling  | ✅   |
+| GUI interface    | ✅   |
+| CLI interface    | 🛠️   |
+| ingame chat      | ✅   |
+
 
 ## Progress
-(% methods covered)
-- test model:
-
-  ✅✅✅✅✅✅✅✅✅🔲 89% 
-- test controller:
-
-  ✅✅✅✅✅✅✅✅✅✅ 100%
-
-- test observer:
-
-  ✅✅✅✅✅✅✅✅✅✅ 100%
-
-- overall testing and report:
-
-  ✅✅✅✅✅✅🔲🔲🔲🔲 62%
+(% methods covered)\
+test model:\
+  🟦🟦🟦🟦🟦🟦🟦🟦🟦⬜ 89% \
+test controller:\
+  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
+test observer:\
+  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
+overall testing and report:\
+  🟦🟦🟦🟦🟦🟦⬜⬜⬜⬜ 62%\
 
 ## Tasks
 - [x] crippling depression
@@ -41,6 +38,9 @@
 - [x] setup MVC
 - [x] robust socket handling
 - [x] check complete ruleset
-- [ ] testing
 - [x] make gui interfaces
 - [ ] make cli interfaces
+- [ ] fix reset game bug
+- [ ] fix resource counting bug
+- [ ] fix disconnection bug at the end of the game
+- [ ] moooooore testing
