@@ -89,13 +89,17 @@ public class CliView extends View implements Runnable{
     public void drawBoardScene() {
         printSpaces();
         drawPlayedCards();
-        drawVisibleResourceCards();
-        drawVisibleGoldCards();
+        drawHand();
+        drawVisibleCards();
         drawObjectives();
         drawInitialCard();
         displayPoints();
         drawTurnLabel();
         displayCommands();
+    }
+
+    private void drawHand() {
+        boardModel.printHand();
     }
 
     private void drawInitialCard() {
@@ -109,13 +113,13 @@ public class CliView extends View implements Runnable{
     }
 
     private void drawTurnLabel() {
-        out.println("----------------------------------------------------------------" + boardModel.getTurnLabel() + "--------------------------------");
+        out.println("----------------------------------------------------------------" +
+                    boardModel.getTurnLabel() +
+                    "----------------------------------------------------------------");
     }
 
-    private void drawVisibleResourceCards(){
-
-    }
-    private void drawVisibleGoldCards(){
+    private void drawVisibleCards(){
+        boardModel.printVisibleCards();
 
     }
     private void drawPlayedCards(){

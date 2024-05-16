@@ -242,7 +242,7 @@ public class CardRenderer {
             cardString.append("   ");
         }
         for(ResourceType r:centralResources){
-            cardString.append(resourceMap(r));
+            cardString.append(" "+resourceMap(r)+" ");
         }
         for(int i = 0; i < padding1; i++ ){
             cardString.append("   ");
@@ -254,13 +254,13 @@ public class CardRenderer {
 
         //if the card is showing the front, draw the costs
         if(card.isShowingFront() && isGold) {
-            cardString.append("| ");
+            cardString.append("|  ");
             for (int j = 0; j < resourcesNeededArray.size(); j++) {
                 for (int k = 0; k<resourcesNeededArray.get(j); k++) {
                     cardString.append(emojis.get(j));
                 }
             }
-            cardString.append("  |");
+            cardString.append("   |");
         } else cardString.append("|                  |");
         componentsArray[3] = cardString.toString();
 
