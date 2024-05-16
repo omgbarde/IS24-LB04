@@ -49,7 +49,7 @@ public class CardRenderer {
             case MANUSCRIPT:
                 return "\uD83D\uDCDC";
             default:
-                return "  ";
+                return null;
         }
     }
 
@@ -257,32 +257,68 @@ public class CardRenderer {
 
         //middle part
         cardString = new StringBuilder();
-        int padding1 = 3 - centralResources.size();
-        cardString.append(colorCode+ "|");
-        for(int j = 0; j < padding1; j++ ){
-            cardString.append("   ");
+        cardString.append(colorCode+ "|"+ resetColor);
+        switch(centralResources.size()){
+            case 0:
+                cardString.append("                  ");
+                break;
+            case 1:
+                cardString.append("        ");
+                cardString.append(resourceMap(centralResources.getFirst()));
+                cardString.append("        ");
+                break;
+            case 2:
+                cardString.append("       ");
+                for(ResourceType r:centralResources){
+                    cardString.append(resourceMap(r));
+                }
+                cardString.append("       ");
+                break;
+            case 3:
+                cardString.append("     ");
+                for(ResourceType r:centralResources){
+                    cardString.append(resourceMap(r));
+                }
+                cardString.append("      ");
+                break;
         }
-        for(ResourceType r:centralResources){
-            cardString.append(" "+resourceMap(r)+" ");
-        }
-        for(int i = 0; i < padding1; i++ ){
-            cardString.append("   ");
-        }
-        cardString.append("|" + resetColor);
+        cardString.append(colorCode+ "|" + resetColor);
         componentsArray[2] = cardString.toString();
 
         cardString = new StringBuilder();
 
         //if the card is showing the front, draw the costs
         if(card.isShowingFront() && isGold) {
-            cardString.append(colorCode + "|  ");
-            for (int j = 0; j < resourcesNeededArray.size(); j++) {
-                for (int k = 0; k<resourcesNeededArray.get(j); k++) {
-                    cardString.append(emojis.get(j));
-                }
+            switch(getNumberResourcesNeeded((GoldCard) card)){
+                case 3:
+                    cardString.append(colorCode+"|     "+resetColor);
+                    for(int i = 0; i < 4; i++) {
+                        for(int k = 0; k < resourcesNeededArray.get(i); k++) {
+                            cardString.append(emojis.get(resourcesNeededArray.get(i)));
+                        }
+                    }
+                    cardString.append(colorCode+"      |"+resetColor);
+                    break;
+                case 4:
+                    cardString.append(colorCode+"|     "+resetColor);
+                    for(int i = 0; i < 4; i++) {
+                        for(int k = 0; k< resourcesNeededArray.get(i); k++) {
+                            cardString.append(emojis.get(resourcesNeededArray.get(i)));
+                        }
+                    }
+                    cardString.append(colorCode+"    |"+resetColor);
+                    break;
+                case 5:
+                    cardString.append(colorCode+"|    "+resetColor);
+                    for(int i = 0; i < 4; i++) {
+                        for(int k = 0; k< resourcesNeededArray.get(i); k++) {
+                            cardString.append(emojis.get(i));
+                        }
+                    }
+                    cardString.append(colorCode+"   |"+resetColor);
+                    break;
             }
-            cardString.append("   |"+ resetColor);
-        } else cardString.append(colorCode + "|                  |" + resetColor);
+        } else cardString.append(colorCode+"|                  |"+resetColor);
         componentsArray[3] = cardString.toString();
 
         cardString = new StringBuilder();
@@ -318,6 +354,14 @@ public class CardRenderer {
         costArray.add(card.getInsects_needed());
         costArray.add(card.getLeaf_needed());
         return costArray;
+    }
+
+    private static Integer getNumberResourcesNeeded(GoldCard card){
+        Integer cost=0;
+        for (int i = 0; i < 4; i++) {
+            cost += getResourcesNeeded(card).get(i);
+        }
+        return cost;
     }
 
 }

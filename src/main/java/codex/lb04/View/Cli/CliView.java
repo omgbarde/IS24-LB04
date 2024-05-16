@@ -1,5 +1,6 @@
 package codex.lb04.View.Cli;
 
+import codex.lb04.View.Cli.State.CliBoardState;
 import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.View;
 
@@ -108,10 +109,13 @@ public class CliView extends View implements Runnable{
     }
 
     private void displayCommands() {
-        out.println("0-9) to select a card            F) to flip             x,y) to place");
-        out.println("To place the initial card press P");
-        out.println("first place initial card PRESSING P, then choose secret objective");
-        out.println("normal turn: first place then draw");
+       if(boardModel.getBoardState()== CliBoardState.DRAWING || boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
+           out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it");
+           //out.println("normal turn: first place then draw");
+       }
+        if(boardModel.getInitialCard() != null) {
+            out.println("First things first select the face of the initial card by pressing F if you want to flip it, once you've done it place it by pressing P");
+        }
     }
 
     private void drawTurnLabel() {

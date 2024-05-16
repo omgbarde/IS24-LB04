@@ -2,6 +2,7 @@ package codex.lb04.View.Cli;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
+import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
@@ -311,6 +312,9 @@ public class CliController extends ViewController {
     private void boardHandler(String input) {
         CliBoardState boardState = cliBoardModel.getBoardState();
         switch (boardState) {
+            case SELECTING:
+                selectingCardHandler(input);
+                break;
             case CHOOSE_INIT:
                 initialcardHandler(input);
                 break;
@@ -318,6 +322,7 @@ public class CliController extends ViewController {
                 secretobjectiveHandler(input);
                 break;
             case PLACING:
+                placingHandler(input);
                 break;
             case DRAWING:
                 break;
@@ -328,21 +333,64 @@ public class CliController extends ViewController {
         }
     }
 
+    private void placingHandler(String input){
+        switch (input) {
+            case "F":
+                cliBoardModel.getSelectedCard().flip();
+                cliView.drawBoardScene();
+                break;
+            case "P":
+                //todo get x and y from input after the user pressed P
+                //clientSocket().sendMessage(new PlaceCardMessage(clientSocket.getUsername(),11, 11, cliBoardModel.getSelectedCard())
+                //cliBoardModel.placeCard(11, 11, cliBoardModel.getSelectedCard());
+                cliView.drawBoardScene();
+                cliBoardModel.setBoardState(CliBoardState.DRAWING);
+                break;
+            case"B":
+                cliBoardModel.deselectCard();
+                out.println("You deselected the card");
+                cliBoardModel.setBoardState(CliBoardState.SELECTING);
+                break;
+        }
+    }
+
+
+    private void selectingCardHandler(String input) {
+        switch (input) {
+            case "0":
+                cliBoardModel.setSelectedCard(cliBoardModel.getHand().getFirst());
+                out.println("You selected your first card");
+                cliBoardModel.setBoardState(CliBoardState.PLACING);
+                break;
+            case "1":
+                cliBoardModel.setSelectedCard(cliBoardModel.getHand().get(1));
+                out.println("You selected your second card");
+                cliBoardModel.setBoardState(CliBoardState.PLACING);
+                break;
+            case "2":
+                cliBoardModel.setSelectedCard(cliBoardModel.getHand().get(2));
+                out.println("You selected your third card");
+                cliBoardModel.setBoardState(CliBoardState.PLACING);
+                break;
+            default:
+                System.out.println("Invalid input, please enter a number between 0 and 2.");
+        }
+    }
+
     private void secretobjectiveHandler(String input) {
         switch (input) {
             case "1":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().getFirst());
+                cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
-                cliBoardModel.setBoardState(CliBoardState.PLACING);
                 break;
             case "2":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().get(1));
+                cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
-                cliBoardModel.setBoardState(CliBoardState.PLACING);
                 break;
             default:
                 System.out.println("Invalid input, please enter a number between 1 and 2.");
-                cliView.drawBoardScene();
                 break;
         }
     }
@@ -350,14 +398,25 @@ public class CliController extends ViewController {
     private void initialcardHandler(String input) {
         switch (input) {
             case "F":
-                cliBoardModel.flipInitialCard();
-                drawBoardScene();
+                if(cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
+                    cliBoardModel.flipInitialCard();
+                    cliView.drawBoardScene();
+                }else{
+                    System.out.println("It's not your turn, you can't flip the initial card");
+                }
                 break;
             case "P":
-                cliBoardModel.placeCard(10, 10, cliBoardModel.getInitialCard());
-                cliBoardModel.setInitialCard(null);
-                drawBoardScene();
-                cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
+                if(cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
+                    cliBoardModel.placeCard(10, 10, cliBoardModel.getInitialCard());
+                    cliBoardModel.setInitialCard(null);
+                    drawBoardScene();
+                    cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
+                }else{
+                    System.out.println("It's not your turn, you can't place the initial card");
+                }
+                break;
+            default:
+                System.out.println("Invalid input, please enter 'F' to flip the card or 'P' to place it.");
                 break;
         }
     }

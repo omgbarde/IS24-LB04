@@ -43,8 +43,9 @@ public class CliBoardModel {
     }
 
     public void placeCard(Integer x, Integer y, Card card) {
-        gridMap[x][y] = CardRenderer.renderIngame(card);
-
+        if(turnLabel.equals("YOUR TURN")) {
+            gridMap[x][y] = CardRenderer.renderIngame(card);
+        }
     }
 
     /**
@@ -169,12 +170,16 @@ public class CliBoardModel {
     }
 
     public void flipInitialCard() {
-        if(initialCard!=null && turnLabel.equals("YOUR TURN")) initialCard.flip();
+        if(initialCard!=null) initialCard.flip();
+    }
+
+    public void flipSelectedCard(){
+        if(selectedCard != null && turnLabel.equals("YOUR TURN")) selectedCard.flip();
     }
 
     public void displayChoices() {
         if(secretObjective==null) {
-            System.out.println("secret objectives to choose from:");
+            System.out.println("secret objectives to choose from (press 1 or 2):");
             for (int i = 0; i < choices.size(); i++) {
                 String renderedObjective = CardRenderer.rederObjective(choices.get(i).getID());
                 System.out.print(i + 1 + ")" + renderedObjective + "     ");

@@ -53,6 +53,11 @@ public class CardRendererTest {
 
     @Test
     public void testPrintInHand(){
+        for (Card c : deck.getInitialCards()) {
+            System.out.println(cardRenderer.printInHand(c));
+            c.flip();
+            System.out.println(cardRenderer.printInHand(c));
+        }
         for (Card c : deck.getGoldCards()) {
             System.out.println(cardRenderer.printInHand(c));
             c.flip();
@@ -63,15 +68,14 @@ public class CardRendererTest {
             c.flip();
             System.out.println(cardRenderer.printInHand(c));
         }
-        for (Card c : deck.getInitialCards()) {
-            System.out.println(cardRenderer.printInHand(c));
-            c.flip();
-            System.out.println(cardRenderer.printInHand(c));
-        }
         for (Card c : deck.getObjectiveCards()) {
             System.out.println(cardRenderer.printInHand(c));
             c.flip();
             System.out.println(cardRenderer.printInHand(c));
         }
+    }
+    @Test
+    public void testPrintEmoji(){
+        System.out.println("\uD83C\uDF44 \uD83E\uDD8A \uD83E\uDD8B \uD83C\uDF43");
     }
 }
