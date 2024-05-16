@@ -165,8 +165,8 @@ public class CardRenderer {
 
         components[0] = " ------- ";
         if(coordinates.isEmpty()) components[1] = "|       |";
-        else if(coordinates.contains("-")) components[1] = "| "+coordinates+" |";
-        else components[1] = "|  "+coordinates+" |";
+        else if(coordinates.contains("-")) components[1] = "| "+coordinates+"|";
+        else components[1] = "|  "+coordinates+"  |";
         components[2] = " ------- ";
 
         return components;

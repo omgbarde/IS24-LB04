@@ -110,7 +110,7 @@ public class CliView extends View implements Runnable{
     private void displayCommands() {
         out.println("0-9) to select a card            F) to flip             x,y) to place");
         out.println("To place the initial card press P");
-        out.println("first place initial card, then choose secret objective");
+        out.println("first place initial card PRESSING P, then choose secret objective");
         out.println("normal turn: first place then draw");
     }
 

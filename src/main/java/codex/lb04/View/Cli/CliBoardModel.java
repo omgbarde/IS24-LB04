@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import static java.lang.System.out;
 
 public class CliBoardModel {
+    private static final int gridSize = 20;
+
     private CliBoardState boardState;
     private String turnLabel;
     private ArrayList<Card> hand;
@@ -30,7 +32,7 @@ public class CliBoardModel {
         objectiveCards = new ArrayList<>();
         choices = new ArrayList<>();
         points = new ArrayList<>();
-        gridMap = new String[20][20][3];
+        gridMap = new String[gridSize][gridSize][3];
         gridmapInit();
         selectedCard = null;
     }
@@ -45,43 +47,22 @@ public class CliBoardModel {
 
     }
 
+    /**
+     * initializes the gridmap with placeholders and coordinates
+     */
     public void gridmapInit(){
-        for(int i = 0; i<20;i++){
-            for(int j = 0;j<20;j++){
-                String transformedCoordinates = transform(i,j);
-
-                gridMap[i][j] = CardRenderer.placeHolder(transformedCoordinates);
-
+        int k = gridSize/2;
+        for(int i = 0; i<gridSize;i++){
+            for(int j = 0;j<gridSize;j++){
+                //fills the grid in checkered pattern with transformed coordinates
+                if((i%2==0 && j%2==0)||(i%2!=0 && j%2!=0)){
+                    gridMap[i][j] = CardRenderer.placeHolder((i-k)+","+(k-j));
+                }
+                else gridMap[i][j] = CardRenderer.placeHolder("");
             }
         }
     }
 
-    //TODO: fix tranform
-    private String transform(int i, int j){
-        int k = 10;
-        int z = 10;
-        if(i%2==0){
-            if(j%2==0){
-                z--;
-                return (i-k) +","+ (j+z);
-            }
-            else {
-                k--;
-                return "";
-            }
-        }
-        else{
-            if(j%2!=0){
-                z--;
-                return (i-k) +","+ (j+z);
-            }
-            else {
-                k--;
-                return "";
-            }
-        }
-
-    }
 
     public void deselectCard() {
         this.selectedCard = null;
@@ -168,9 +149,9 @@ public class CliBoardModel {
     }
 
     public void printGridMap(){
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < gridSize; i++){
             for(int k = 0; k < 3; k++){
-                for(int j = 0; j < 20; j++){
+                for(int j = 0; j < gridSize; j++){
                   System.out.print(gridMap[i][j][k]);
                 }
                 System.out.println();
