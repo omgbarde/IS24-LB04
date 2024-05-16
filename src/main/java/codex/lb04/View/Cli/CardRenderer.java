@@ -160,12 +160,14 @@ public class CardRenderer {
         return componentsArray;
     }
 
-    public static String[] placeHolder(){
+    public static String[] placeHolder(String coordinates){
         String[]components = new String[3];
 
-        components[0] = " ------ ";
-        components[1] = "|      |";
-        components[2] = " ------ ";
+        components[0] = " ------- ";
+        if(coordinates.isEmpty()) components[1] = "|       |";
+        else if(coordinates.contains("-")) components[1] = "| "+coordinates+" |";
+        else components[1] = "|  "+coordinates+" |";
+        components[2] = " ------- ";
 
         return components;
     }

@@ -47,9 +47,39 @@ public class CliBoardModel {
     public void gridmapInit(){
         for(int i = 0; i<20;i++){
             for(int j = 0;j<20;j++){
-                gridMap[i][j] = CardRenderer.placeHolder();
+                String transformedCoordinates = transform(i,j);
+
+                gridMap[i][j] = CardRenderer.placeHolder(transformedCoordinates);
+
             }
         }
+    }
+
+    //TODO: fix tranform
+    private String transform(int i, int j){
+        int k = 10;
+        int z = 10;
+        if(i%2==0){
+            if(j%2==0){
+                z--;
+                return (i-k) +","+ (j+z);
+            }
+            else {
+                k--;
+                return "";
+            }
+        }
+        else{
+            if(j%2!=0){
+                z--;
+                return (i-k) +","+ (j+z);
+            }
+            else {
+                k--;
+                return "";
+            }
+        }
+
     }
 
     public void deselectCard() {
