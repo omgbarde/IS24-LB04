@@ -43,9 +43,10 @@ public class CliBoardModel {
     }
 
     public void placeCard(Integer x, Integer y, Card card) {
-        if(turnLabel.equals("YOUR TURN")) {
-            gridMap[x][y] = CardRenderer.renderIngame(card);
-        }
+        int k = gridSize/2;
+        //inverse transforms the coordinates and places the card
+        gridMap[-y+k][k+x] = CardRenderer.renderIngame(card);
+
     }
 
     /**
@@ -57,7 +58,7 @@ public class CliBoardModel {
             for(int j = 0;j<gridSize;j++){
                 //fills the grid in checkered pattern with transformed coordinates
                 if((i%2==0 && j%2==0)||(i%2!=0 && j%2!=0)){
-                    gridMap[i][j] = CardRenderer.placeHolder((i-k)+","+(k-j));
+                    gridMap[i][j] = CardRenderer.placeHolder((j-k)+","+(k-i));
                 }
                 else gridMap[i][j] = CardRenderer.placeHolder("");
             }
@@ -117,8 +118,13 @@ public class CliBoardModel {
         this.secretObjective = secretObjective;
     }
 
-    public ArrayList<Integer> getPoints() {
-        return points;
+    public String printPoints() {
+        String[] emojis = {"\uD83C\uDF44","\uD83E\uDD8A","\uD83E\uDD8B","\uD83C\uDF43","\uD83E\uDEB6","\uD83E\uDED9","\uD83D\uDCDC","points: "};
+        StringBuilder pointsBuilder = new StringBuilder();
+        for(Integer i : points){
+            pointsBuilder.append(emojis[i]+points.get(i)+" ");
+        }
+        return pointsBuilder.toString();
     }
 
     public void setPoints(ArrayList<Integer> points) {
@@ -220,6 +226,8 @@ public class CliBoardModel {
             }
             out.println();
         }
+        out.println("          0                    1                    2" );
+
     }
 
     public void printVisibleCards() {
@@ -241,11 +249,11 @@ public class CliBoardModel {
             }
             out.println();
         }
+        out.println("          3                    4                    5                    6                    7                    8" );
 
     }
 
     public InitialCard getInitialCard(){
         return initialCard;
     }
-
 }

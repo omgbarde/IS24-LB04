@@ -129,16 +129,21 @@ public class CliView extends View implements Runnable{
 
     }
     private void drawPlayedCards(){
+
         boardModel.printGridMap();
     }
+
     private void drawChoices(){
+
         boardModel.displayChoices();
     }
+
     private void drawObjectives(){
         boardModel.printObjectives();
     }
+
     private void displayPoints(){
-        out.println("Your points: " + boardModel.getPoints());
+        out.println("Your points: " + boardModel.printPoints());
     }
 
     @Override

@@ -1,8 +1,7 @@
 package codex.lb04.View.Cli;
 
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
-import codex.lb04.Message.GameMessage.CreateGameMessage;
-import codex.lb04.Message.GameMessage.PlaceCardMessage;
+import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.LoginMessage;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
@@ -13,7 +12,6 @@ import codex.lb04.View.ViewController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static java.lang.System.out;
 
@@ -23,7 +21,7 @@ public class CliController extends ViewController {
     private CliBoardModel cliBoardModel;
     private InputThread inputThread;
     private ClientSocket clientSocket;
-
+    private boolean firstTurn = true;
     /**
      * Constructor of the board scene controller
      *
@@ -112,6 +110,7 @@ public class CliController extends ViewController {
     @Override
     public void placeCard(Integer x, Integer y, Card card) {
         cliBoardModel.placeCard(x, y, card);
+        drawBoardScene();
     }
 
     @Override
@@ -132,7 +131,11 @@ public class CliController extends ViewController {
 
     @Override
     public void setYourTurnText() {
-        cliBoardModel.setBoardState(CliBoardState.PLACING);
+        if (firstTurn){
+            firstTurn = false;
+            cliBoardModel.setBoardState(CliBoardState.CHOOSE_INIT);
+        }
+        else cliBoardModel.setBoardState(CliBoardState.PLACING);
         cliBoardModel.setTurnLabel("YOUR TURN");
     }
 
@@ -144,7 +147,7 @@ public class CliController extends ViewController {
 
     @Override
     public void cleanYourTurnText() {
-        cliBoardModel.setBoardState(CliBoardState.END);
+        clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
         cliBoardModel.setTurnLabel("NOT YOUR TURN");
     }
 
@@ -325,11 +328,64 @@ public class CliController extends ViewController {
                 placingHandler(input);
                 break;
             case DRAWING:
+                drawingHandler(input);
                 break;
             case END:
+                endHandler(input);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void drawingHandler(String input) {
+        switch(input){
+            case "3":
+                int pick = Integer.parseInt(input)-3;
+                out.println("You selected the first resource card");
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+                break;
+            case "4":
+                pick = Integer.parseInt(input) - 3;
+                out.println("You selected the second resource card");
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+                break;
+            case "5":
+                pick = Integer.parseInt(input)-3;
+                out.println("You selected the third resource card");
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+
+                break;
+            case "6":
+                pick = Integer.parseInt(input)-6;
+                out.println("You selected the first gold card");
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+
+                break;
+            case "7":
+                pick = Integer.parseInt(input)-6;
+                out.println("You selected the second gold card");
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+                break;
+            case "8":
+                pick = Integer.parseInt(input)-6;
+                out.println("You selected the third gold card");
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                cliBoardModel.setBoardState(CliBoardState.END);
+                out.println("turn ended press 'E' to end turn");
+                break;
+            default:
+                out.println("Invalid input, please enter a number between 3 and 8 to draw a card");
         }
     }
 
@@ -340,9 +396,25 @@ public class CliController extends ViewController {
                 cliView.drawBoardScene();
                 break;
             case "P":
-                //todo get x and y from input after the user pressed P
-                //clientSocket().sendMessage(new PlaceCardMessage(clientSocket.getUsername(),11, 11, cliBoardModel.getSelectedCard())
-                //cliBoardModel.placeCard(11, 11, cliBoardModel.getSelectedCard());
+                out.println("Enter the x,y coordinates:");
+                String coordinates;
+                try {
+                     coordinates = inputThread.call();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                String[] coords = coordinates.split(",");
+                int x,y;
+                try {
+                    x = Integer.parseInt(coords[0]);
+                    y = Integer.parseInt(coords[0]);
+
+                }catch (NumberFormatException e){
+                    out.println("Invalid coordinates, please enter two numbers separated by a comma");
+                    break;
+                }
+                clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(),x, y, cliBoardModel.getSelectedCard()));
+                cliBoardModel.deselectCard();
                 cliView.drawBoardScene();
                 cliBoardModel.setBoardState(CliBoardState.DRAWING);
                 break;
@@ -381,11 +453,13 @@ public class CliController extends ViewController {
         switch (input) {
             case "1":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().getFirst());
+                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(),0));
                 cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
                 break;
             case "2":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().get(1));
+                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(),1));
                 cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
                 break;
@@ -407,7 +481,7 @@ public class CliController extends ViewController {
                 break;
             case "P":
                 if(cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
-                    cliBoardModel.placeCard(10, 10, cliBoardModel.getInitialCard());
+                    clientSocket.sendMessage(new PickInitialCardSideMessage(clientSocket.getUsername(),cliBoardModel.getInitialCard()));
                     cliBoardModel.setInitialCard(null);
                     drawBoardScene();
                     cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
@@ -422,6 +496,14 @@ public class CliController extends ViewController {
     }
 
     private void endHandler(String input) {
+        switch (input) {
+            case "E":
+                cleanYourTurnText();
+                break;
+            default:
+                System.out.println("Invalid input, please enter 'E' to end turn.");
+                break;
+        }
 
     }
 

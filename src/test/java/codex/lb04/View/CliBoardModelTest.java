@@ -5,7 +5,6 @@ import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Model.Face;
 import codex.lb04.Model.GoldCard;
-import codex.lb04.View.Cli.CardRenderer;
 import codex.lb04.View.Cli.CliBoardModel;
 import org.junit.After;
 import org.junit.Before;
@@ -43,9 +42,7 @@ public class CliBoardModelTest {
         GoldCard gold_card_43 = new GoldCard(Color.RED, front_gc43, back_gc43, 1, 2, 0, 0, 1, 43);
         gold_card_43.setShowingFront(true);
 
-        String[][][] map = model.getGridMap();
-        map[10][10] = CardRenderer.renderIngame(gold_card_43);
-        model.setGridMap(map);
+        model.placeCard(1,1,gold_card_43);
         model.printGridMap();
     }
 
