@@ -41,7 +41,8 @@ public class CliBoardModel {
     }
 
     public void placeCard(Integer x, Integer y, Card card) {
-        //TODO
+        gridMap[x][y] = CardRenderer.renderIngame(card);
+
     }
 
     public void gridmapInit(){
@@ -191,25 +192,33 @@ public class CliBoardModel {
     }
 
     public void displayChoices() {
-        System.out.println("secret objectives to choose from:");
-        for (int i = 0; i < choices.size(); i++) {
-            String renderedObjective = CardRenderer.rederObjective(choices.get(i).getID());
-            System.out.print(i+1+")" + renderedObjective + "     ");
+        if(secretObjective==null) {
+            System.out.println("secret objectives to choose from:");
+            for (int i = 0; i < choices.size(); i++) {
+                String renderedObjective = CardRenderer.rederObjective(choices.get(i).getID());
+                System.out.print(i + 1 + ")" + renderedObjective + "     ");
+            }
+            System.out.println();
+        }else{
+            printObjectives();
         }
-        System.out.println();
     }
 
     public void setChoices(ArrayList<ObjectiveCard> secretObjectivesToChooseFrom){
         this.choices = secretObjectivesToChooseFrom;
     }
+    public ArrayList<ObjectiveCard> getChoices(){
+        return choices;
+    }
 
     public void printObjectives() {
-        System.out.println("Your objectives are:");
+        System.out.println("Your common objectives are:");
         for (int i = 0; i < objectiveCards.size(); i++){
             String renderedObjective = CardRenderer.rederObjective(objectiveCards.get(i).getID());
             System.out.println(i+1+")" + renderedObjective);
         }
-        out.println();
+        System.out.print("Your secret objective is: ");
+        out.println(CardRenderer.rederObjective(secretObjective.getID()));
     }
 
     public void printHand() {
@@ -248,4 +257,9 @@ public class CliBoardModel {
         }
 
     }
+
+    public InitialCard getInitialCard(){
+        return initialCard;
+    }
+
 }

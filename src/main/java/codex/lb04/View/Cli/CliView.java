@@ -85,13 +85,14 @@ public class CliView extends View implements Runnable{
         out.println("press 'B' to go back");
     }
 
+
     @Override
     public void drawBoardScene() {
         printSpaces();
         drawPlayedCards();
         drawHand();
         drawVisibleCards();
-        drawObjectives();
+        drawChoices();
         drawInitialCard();
         displayPoints();
         drawTurnLabel();
@@ -108,6 +109,7 @@ public class CliView extends View implements Runnable{
 
     private void displayCommands() {
         out.println("0-9) to select a card            F) to flip             x,y) to place");
+        out.println("To place the initial card press P");
         out.println("first place initial card, then choose secret objective");
         out.println("normal turn: first place then draw");
     }
@@ -125,9 +127,11 @@ public class CliView extends View implements Runnable{
     private void drawPlayedCards(){
         boardModel.printGridMap();
     }
+    private void drawChoices(){
+        boardModel.displayChoices();
+    }
     private void drawObjectives(){
         boardModel.printObjectives();
-        boardModel.displayChoices();
     }
     private void displayPoints(){
         out.println("Your points: " + boardModel.getPoints());

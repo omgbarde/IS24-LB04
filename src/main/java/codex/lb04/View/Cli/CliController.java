@@ -12,6 +12,7 @@ import codex.lb04.View.ViewController;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static java.lang.System.out;
 
@@ -314,6 +315,7 @@ public class CliController extends ViewController {
                 initialcardHandler(input);
                 break;
             case CHOOSE_SECRET:
+                secretobjectiveHandler(input);
                 break;
             case PLACING:
                 break;
@@ -326,14 +328,36 @@ public class CliController extends ViewController {
         }
     }
 
+    private void secretobjectiveHandler(String input) {
+        switch (input) {
+            case "1":
+                cliBoardModel.setSecretObjective(cliBoardModel.getChoices().getFirst());
+                cliView.drawBoardScene();
+                cliBoardModel.setBoardState(CliBoardState.PLACING);
+                break;
+            case "2":
+                cliBoardModel.setSecretObjective(cliBoardModel.getChoices().get(1));
+                cliView.drawBoardScene();
+                cliBoardModel.setBoardState(CliBoardState.PLACING);
+                break;
+            default:
+                System.out.println("Invalid input, please enter a number between 1 and 2.");
+                cliView.drawBoardScene();
+                break;
+        }
+    }
+
     private void initialcardHandler(String input) {
         switch (input) {
             case "F":
                 cliBoardModel.flipInitialCard();
                 drawBoardScene();
                 break;
-            default:
-                //place card and redraw
+            case "P":
+                cliBoardModel.placeCard(10, 10, cliBoardModel.getInitialCard());
+                cliBoardModel.setInitialCard(null);
+                drawBoardScene();
+                cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
                 break;
         }
     }
