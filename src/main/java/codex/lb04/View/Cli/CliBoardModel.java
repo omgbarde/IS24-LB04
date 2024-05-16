@@ -119,10 +119,17 @@ public class CliBoardModel {
     }
 
     public String printPoints() {
-        String[] emojis = {"\uD83C\uDF44","\uD83E\uDD8A","\uD83E\uDD8B","\uD83C\uDF43","\uD83E\uDEB6","\uD83E\uDED9","\uD83D\uDCDC","points: "};
+        String[] emojis = {"\uD83C\uDF44","\uD83E\uDD8A","\uD83E\uDD8B","\uD83C\uDF43","\uD83E\uDEB6","\uD83E\uDED9","\uD83D\uDCDC","points"};
         StringBuilder pointsBuilder = new StringBuilder();
-        for(Integer i : points){
-            pointsBuilder.append(emojis[i]+points.get(i)+" ");
+        int p = 0;
+        for(int i=0; i<8; i++){
+            try {
+                p = points.get(i);
+            }
+            catch (IndexOutOfBoundsException e){
+                p = 0;
+            }
+            pointsBuilder.append(emojis[i]+": "+ p +" ");
         }
         return pointsBuilder.toString();
     }
