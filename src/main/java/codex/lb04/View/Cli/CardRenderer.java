@@ -2,6 +2,7 @@ package codex.lb04.View.Cli;
 
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Corner;
+import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.ResourceType;
 import codex.lb04.Model.GoldCard;
 
@@ -10,6 +11,22 @@ import java.util.List;
 
 public class CardRenderer {
 
+    private static final String resetColor = "\u001B[0m";
+
+    private static String colorMap(Color color){
+        switch (color){
+            case RED:
+                return "\u001B[31m";
+            case GREEN:
+                return "\u001B[32m";
+            case BLUE:
+                return "\u001B[36m";
+            case PURPLE:
+                return "\u001B[35m";
+            default:
+                return "";
+        }
+    }
     /**
      * This method converts resource types to emojis
      * @param r the resource type to be converted
@@ -95,6 +112,7 @@ public class CardRenderer {
 
     public static String[] renderIngame(Card card){
         StringBuilder stringBuilder = new StringBuilder();
+        String colorCode = colorMap(card.getColor());
         //get the corners of the card
         Corner upperLeft = card.getShownFace().getUpperLeft();
         Corner upperRight = card.getShownFace().getUpperRight();
@@ -112,7 +130,7 @@ public class CardRenderer {
             else stringBuilder.append("⬜");
         }else stringBuilder.append("⬛");
 
-        stringBuilder.append("----");
+        stringBuilder.append(colorCode + "----" + resetColor);
 
         if (!upperRight.isCovered()){
             ResourceType resource = upperRight.getResource();
@@ -123,7 +141,7 @@ public class CardRenderer {
         componentsArray[0] = stringBuilder.toString();
         
         stringBuilder = new StringBuilder();
-        stringBuilder.append("|");
+        stringBuilder.append(colorCode + "|");
         //middle part
         for(int i = 0; i < padding; i++ ){
             stringBuilder.append(" ");
@@ -134,7 +152,7 @@ public class CardRenderer {
         for(int i = 0; i < padding; i++ ){
             stringBuilder.append(" ");
         }
-        stringBuilder.append("|");
+        stringBuilder.append("|" + resetColor);
 
         componentsArray[1] = stringBuilder.toString();
 
@@ -147,7 +165,7 @@ public class CardRenderer {
             else stringBuilder.append("⬜");
         }else stringBuilder.append("⬛");
 
-        stringBuilder.append("----");
+        stringBuilder.append(colorCode + "----" + resetColor);
 
         if (!lowerRight.isCovered()){
             ResourceType resource = lowerRight.getResource();
@@ -185,6 +203,7 @@ public class CardRenderer {
 
     public static String[] renderInHand(Card card){
         StringBuilder cardString = new StringBuilder();
+        String colorCode = colorMap(card.getColor());
         ArrayList<Integer> resourcesNeededArray = new ArrayList<>();
         ArrayList<String> emojis = new ArrayList<>();
         emojis.addAll(List.of("\uD83C\uDF44","\uD83E\uDD8A","\uD83E\uDD8B","\uD83C\uDF43"));
@@ -216,7 +235,7 @@ public class CardRenderer {
             else cardString.append("⬜");
         }else cardString.append("⬛");
 
-        cardString.append("----------------");
+        cardString.append(colorCode + "----------------" + resetColor);
 
         if (!upperRight.isCovered()){
             ResourceType r = upperRight.getResource();
@@ -230,16 +249,16 @@ public class CardRenderer {
 
         //get the points
         if(card.isShowingFront() && card.getPoints()!=0){
-            cardString.append("|        "+points+multiplier +"       |");
+            cardString.append(colorCode + "|        "+points+multiplier +"       |" + resetColor);
         }
-        else cardString.append("|                  |");
+        else cardString.append(colorCode + "|                  |" + resetColor);
 
         componentsArray[1]=cardString.toString();
 
         //middle part
         cardString = new StringBuilder();
         int padding1 = 3 - centralResources.size();
-        cardString.append("|");
+        cardString.append(colorCode+ "|");
         for(int j = 0; j < padding1; j++ ){
             cardString.append("   ");
         }
@@ -249,21 +268,21 @@ public class CardRenderer {
         for(int i = 0; i < padding1; i++ ){
             cardString.append("   ");
         }
-        cardString.append("|");
+        cardString.append("|" + resetColor);
         componentsArray[2] = cardString.toString();
 
         cardString = new StringBuilder();
 
         //if the card is showing the front, draw the costs
         if(card.isShowingFront() && isGold) {
-            cardString.append("|  ");
+            cardString.append(colorCode + "|  ");
             for (int j = 0; j < resourcesNeededArray.size(); j++) {
                 for (int k = 0; k<resourcesNeededArray.get(j); k++) {
                     cardString.append(emojis.get(j));
                 }
             }
-            cardString.append("   |");
-        } else cardString.append("|                  |");
+            cardString.append("   |"+ resetColor);
+        } else cardString.append(colorCode + "|                  |" + resetColor);
         componentsArray[3] = cardString.toString();
 
         cardString = new StringBuilder();
@@ -274,7 +293,7 @@ public class CardRenderer {
             else cardString.append("⬜");
         }else cardString.append("⬛");
 
-        cardString.append("----------------");
+        cardString.append(colorCode + "----------------" + resetColor);
 
         if (!lowerRight.isCovered()){
             ResourceType r = lowerRight.getResource();
