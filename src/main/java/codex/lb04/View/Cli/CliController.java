@@ -156,13 +156,6 @@ public class CliController extends ViewController {
         out.println(string);
     }
 
-    private void drawHand(ArrayList<Card> hand){
-        out.println("Your hand is:");
-        for (int i = 0; i < hand.size(); i++) {
-
-        }
-    }
-
     public void handleInput(String input) {
         CliViewState cliState = this.cliView.getState();
         switch (cliState){

@@ -172,5 +172,59 @@ public class CliBoardModel {
     }
 
     public void printObjectives() {
+        System.out.println("Your objectives are:");
+        for (int i = 0; i < objectiveCards.size(); i++){
+            String renderedObjective = CardRenderer.rederObjective(objectiveCards.get(i).getID());
+            System.out.println(i+1+")" + renderedObjective);
+        }
+        out.println();
+    }
+
+    public CliBoardState getBoardState() {
+        return boardState;
+    }
+
+    public void setBoardState(CliBoardState boardState) {
+        this.boardState = boardState;
+    }
+
+    public void printGridMap(){
+        for(int i = 0; i < 20; i++){
+            for(int k = 0; k < 3; k++){
+                for(int j = 0; j < 20; j++){
+                  System.out.print(gridMap[i][j][k]);
+                }
+                System.out.println();
+            }
+        }
+    }
+
+
+    public void setInitialCard(InitialCard initialCard) {
+        this.initialCard = initialCard;
+    }
+
+    public void printInitial() {
+        if(initialCard!=null) System.out.println(CardRenderer.printInHand(initialCard));
+    }
+
+    public void flipInitialCard() {
+        if(initialCard!=null && turnLabel.equals("YOUR TURN")) initialCard.flip();
+    }
+
+    public void displayChoices() {
+        System.out.println("secret objectives to choose from:");
+        for (int i = 0; i < choices.size(); i++) {
+            String renderedObjective = CardRenderer.rederObjective(choices.get(i).getID());
+            System.out.print(i+1+")" + renderedObjective + "     ");
+        }
+        System.out.println();
+    }
+
+    public void setChoices(ArrayList<ObjectiveCard> secretObjectivesToChooseFrom){
+        this.choices = secretObjectivesToChooseFrom;
+    }
+
+    public void printObjectives() {
     }
 }

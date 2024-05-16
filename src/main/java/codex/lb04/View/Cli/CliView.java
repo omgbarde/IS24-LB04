@@ -126,7 +126,7 @@ public class CliView extends View implements Runnable{
         boardModel.displayChoices();
     }
     private void displayPoints(){
-
+        out.println("Your points: " + boardModel.getPoints());
     }
 
     @Override
