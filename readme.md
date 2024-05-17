@@ -34,4 +34,5 @@ overall testing and report:\
 - [ ] add port choice to create game (cli and gui)
 - [ ] fix disconnection bug at the end of the game
 - [ ] fix reset game bug after connection loss
+- [ ] fix pass turn bug, where a player can pass without placing/drawing
 - [ ] moooooore testing
