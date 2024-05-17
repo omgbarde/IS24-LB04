@@ -196,7 +196,7 @@ public class CardRenderer {
         StringBuilder stringBuilder = new StringBuilder();
         for(String s:components){
             stringBuilder.append(s);
-            stringBuilder.append("\n");
+            stringBuilder.append("  \n");
         }
         return stringBuilder.toString();
     }
