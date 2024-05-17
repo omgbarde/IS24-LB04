@@ -22,6 +22,8 @@ public class CliController extends ViewController {
     private InputThread inputThread;
     private ClientSocket clientSocket;
     private boolean firstTurn = true;
+    private boolean placed = false;
+
     /**
      * Constructor of the board scene controller
      *
@@ -110,7 +112,13 @@ public class CliController extends ViewController {
     @Override
     public void placeCard(Integer x, Integer y, Card card) {
         cliBoardModel.placeCard(x, y, card);
-        drawBoardScene();
+        //if the reply is for an initial card the state is changed to choose secret
+        if (card.getClass().equals(InitialCard.class)){
+            cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
+        }
+        //else if the reply is for other cards the state is changed to drawing
+        else cliBoardModel.setBoardState(CliBoardState.DRAWING);
+        cliView.drawBoardScene();
     }
 
     @Override
@@ -136,7 +144,9 @@ public class CliController extends ViewController {
             cliBoardModel.setBoardState(CliBoardState.CHOOSE_INIT);
         }
         else cliBoardModel.setBoardState(CliBoardState.PLACING);
+        placed = false;
         cliBoardModel.setTurnLabel("YOUR TURN");
+        cliView.drawBoardScene();
     }
 
     @Override
@@ -149,6 +159,7 @@ public class CliController extends ViewController {
     public void cleanYourTurnText() {
         clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
         cliBoardModel.setTurnLabel("NOT YOUR TURN");
+        cliView.drawBoardScene();
     }
 
     @Override
@@ -392,7 +403,8 @@ public class CliController extends ViewController {
     private void placingHandler(String input){
         switch (input) {
             case "F":
-                cliBoardModel.getSelectedCard().flip();
+                Card selected = cliBoardModel.getSelectedCard();
+                if(selected!=null) cliBoardModel.getSelectedCard().flip();
                 cliView.drawBoardScene();
                 break;
             case "P":
@@ -413,15 +425,17 @@ public class CliController extends ViewController {
                     out.println("Invalid coordinates, please enter two numbers separated by a comma");
                     break;
                 }
+                placed = true;
                 clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(),x, y, cliBoardModel.getSelectedCard()));
                 cliBoardModel.deselectCard();
                 cliView.drawBoardScene();
-                cliBoardModel.setBoardState(CliBoardState.DRAWING);
                 break;
             case"B":
-                cliBoardModel.deselectCard();
-                out.println("You deselected the card");
-                cliBoardModel.setBoardState(CliBoardState.SELECTING);
+                if(!placed) {
+                    cliBoardModel.deselectCard();
+                    out.println("You deselected the card");
+                    cliBoardModel.setBoardState(CliBoardState.SELECTING);
+                }
                 break;
         }
     }
@@ -499,6 +513,7 @@ public class CliController extends ViewController {
         switch (input) {
             case "E":
                 cleanYourTurnText();
+                drawBoardScene();
                 break;
             default:
                 System.out.println("Invalid input, please enter 'E' to end turn.");

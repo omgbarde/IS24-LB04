@@ -6,17 +6,17 @@
 - Alex Hathaway 10829946 `alex.hathaway@mail.polimi.it`
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it`
 
-## Features
-| Feature          | state |
-| ---------------- | ----- |
-| complete ruleset | ✅   |
-| socket handling  | ✅   |
-| GUI interface    | ✅   |
-| CLI interface    | 🛠️   |
-| ingame chat      | ✅   |
+## Functionalities
+|     Feature      | state |
+|:----------------:|:-----:|
+| complete ruleset |  ✅  |
+| socket handling  |  ✅  |
+|  GUI interface   |  ✅  |
+|  CLI interface   |  ✅  |
+|   ingame chat    |  ✅  |
 
 
-## Progress
+## Main testing progress
 (% methods covered)\
 test model:\
   🟦🟦🟦🟦🟦🟦🟦🟦🟦⬜ 89% \
@@ -27,20 +27,11 @@ test observer:\
 overall testing and report:\
   🟦🟦🟦🟦🟦🟦⬜⬜⬜⬜ 62%\
 
-## Tasks
+## Todo list
 - [x] crippling depression
-- [x] deck model
-- [x] deck builder
-- [x] first interface
-- [x] implement message system
-- [x] implement socket communication
-- [x] functioning lobby
-- [x] setup MVC
-- [x] robust socket handling
-- [x] check complete ruleset
-- [x] make gui interfaces
-- [ ] make cli interfaces
-- [ ] fix reset game bug
-- [ ] fix resource counting bug
+- [x] fix incorrect card placement (message display and state)
+- [x] add null checks to hand and visible cards (+ show flip and place)
+- [ ] add port choice to create game (cli and gui)
 - [ ] fix disconnection bug at the end of the game
+- [ ] fix reset game bug after connection loss
 - [ ] moooooore testing

@@ -202,6 +202,7 @@ public class CardRenderer {
     }
 
     public static String[] renderInHand(Card card){
+        if (card == null) return new String[]{"              ","                ","               ","             ","                "};
         StringBuilder cardString = new StringBuilder();
         String colorCode = colorMap(card.getColor());
         ArrayList<Integer> resourcesNeededArray = new ArrayList<>();

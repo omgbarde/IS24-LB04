@@ -73,8 +73,9 @@ public class CliView extends View implements Runnable{
     @Override
     public void drawLobbyScene() {
         printSpaces();
+        out.println("CODEX - LOBBY:");
         for(String name:lobby){
-            out.println(name + "\n");
+            out.println("   " + name);
         }
         out.println("If you want to go back press 'B', else press 'P' to start the game");
     }
@@ -109,19 +110,27 @@ public class CliView extends View implements Runnable{
     }
 
     private void displayCommands() {
-       if(boardModel.getBoardState()== CliBoardState.DRAWING || boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
+       if(boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
            out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it");
            //out.println("normal turn: first place then draw");
        }
+        if(boardModel.getBoardState()== CliBoardState.DRAWING){
+            out.println("First press 3,4,5,6,7 or 8 to draw a card");
+            //out.println("normal turn: first place then draw");
+        }
+        if(boardModel.getBoardState()== CliBoardState.END){
+            out.println("finished! press E to pass the turn");
+            //out.println("normal turn: first place then draw");
+        }
         if(boardModel.getInitialCard() != null) {
             out.println("First things first select the face of the initial card by pressing F if you want to flip it, once you've done it place it by pressing P");
         }
     }
 
     private void drawTurnLabel() {
-        out.println("----------------------------------------------------------------" +
+        out.println("-----------------------------------------------------------------------------------" +
                     boardModel.getTurnLabel() +
-                    "----------------------------------------------------------------");
+                    "-------------------------------------------------------------------------------------");
     }
 
     private void drawVisibleCards(){
@@ -156,7 +165,30 @@ public class CliView extends View implements Runnable{
 
     @Override
     public void displayAlert(String alert) {
+        drawState();
         out.println(alert);
+    }
+
+    private void drawState() {
+        switch (state){
+            case HELLO:
+                drawHelloScene();
+                break;
+            case LOGIN:
+                drawLoginScene();
+                break;
+            case LOBBY:
+                drawLobbyScene();
+                break;
+            case CREATE_GAME:
+                drawCreateGameScene();
+                break;
+            case BOARD:
+                drawBoardScene();
+                break;
+            case END:
+                break;
+        }
     }
 
 

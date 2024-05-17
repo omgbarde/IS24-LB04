@@ -214,26 +214,31 @@ public class CliBoardModel {
         System.out.println("Your common objectives are:");
         for (int i = 0; i < objectiveCards.size(); i++){
             String renderedObjective = CardRenderer.rederObjective(objectiveCards.get(i).getID());
-            System.out.println(i+1+")" + renderedObjective);
+            System.out.println("    "+(i+1)+ ")" + renderedObjective);
         }
-        System.out.print("Your secret objective is: ");
-        out.println(CardRenderer.rederObjective(secretObjective.getID()));
+        System.out.print("Your secret objective is:\n");
+        out.println("   "+CardRenderer.rederObjective(secretObjective.getID()));
     }
 
     public void printHand() {
         String[][] printableHand = new String[3][5];
+        String[] toAdd;
         out.println("Your hand is:");
         for (int i = 0; i < hand.size(); i++){
-            String[] toAdd = CardRenderer.renderInHand(hand.get(i));
+            Card toRender = hand.get(i);
+            if(toRender ==null) toAdd = new String[]{"          ","          ","          ","          ","          "};
+            else toAdd = CardRenderer.renderInHand(toRender);
             printableHand[i] = toAdd;
         }
         for (int j = 0; j < 5; j++){
             for(int i = 0; i < 3; i++){
-                out.print(printableHand[i][j]);
+                String toPrint = printableHand[i][j];
+                if(toPrint == null) toPrint = new String("");
+                out.print(toPrint);
             }
             out.println();
         }
-        out.println("          0                    1                    2" );
+        out.println("         0                   1                   2" );
 
     }
 
@@ -242,21 +247,25 @@ public class CliBoardModel {
         String[] toAdd;
         out.println("Drawable cards:");
         for (int i = 0; i < visibleResources.size(); i++){
-            toAdd = CardRenderer.renderInHand(visibleResources.get(i));
+            Card toRender = visibleResources.get(i);
+            toAdd = CardRenderer.renderInHand(toRender);
             printableCards[i] = toAdd;
         }
         for (int i = 0; i < visibleGold.size(); i++){
-            toAdd = CardRenderer.renderInHand(visibleGold.get(i));
+            Card toRender = visibleGold.get(i);
+            toAdd = CardRenderer.renderInHand(toRender);
             printableCards[i+3] = toAdd;
         }
 
         for (int j = 0; j < 5; j++){
             for(int i = 0; i < 6; i++){
-                out.print(printableCards[i][j]);
+                String toPrint = printableCards[i][j];
+                if(toPrint == null) toPrint = new String("");
+                out.print(toPrint);
             }
             out.println();
         }
-        out.println("          3                    4                    5                    6                    7                    8" );
+        out.println("          3                   4                   5                   6                   7                   8" );
 
     }
 
