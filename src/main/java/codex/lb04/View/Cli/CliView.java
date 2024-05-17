@@ -1,7 +1,7 @@
 package codex.lb04.View.Cli;
 
-import codex.lb04.Model.*;
-import codex.lb04.Network.client.ClientSocket;
+import codex.lb04.View.Cli.State.CliBoardState;
+import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.View;
 
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import static java.lang.System.out;
  * This class represents the CLI view
  */
 public class CliView extends View implements Runnable{
-    private CliState state = CliState.HELLO;
+    private CliViewState state = CliViewState.HELLO;
     ArrayList<String> lobby ;
-    ClientSocket clientSocket;
-    BoardSceneControllerCLI bsc;
+    CliBoardModel boardModel;
+    CliController controller;
     private static Scanner scanner;
 
     /**
@@ -24,7 +24,8 @@ public class CliView extends View implements Runnable{
      */
     public CliView(){
         this.lobby = new ArrayList<>();
-        this.bsc = new BoardSceneControllerCLI(this);
+        this.boardModel = new CliBoardModel();
+        this.controller = new CliController(this);
         this.scanner = new Scanner(System.in);
     }
 
@@ -32,7 +33,7 @@ public class CliView extends View implements Runnable{
         drawHelloScene();
         while(true){
             String input = scanner.nextLine().trim().toUpperCase();
-            bsc.handleInput(input);
+            controller.handleInput(input);
         }
     }
 
@@ -42,7 +43,7 @@ public class CliView extends View implements Runnable{
      */
     @Override
     public void drawHelloScene() {
-        out.flush();
+        printSpaces();
         out.println(" ___               _                            \n" +
                 "(  _`\\            ( )                           \n" +
                 "| ( (_)   _      _| |   __                      \n" +
@@ -64,112 +65,149 @@ public class CliView extends View implements Runnable{
 
     @Override
     public void drawLoginScene(){
-        out.flush();
+        printSpaces();
         out.println("If you want to go back press B, else press L to login");
 
     }
 
     @Override
     public void drawLobbyScene() {
-        out.flush();
+        printSpaces();
+        out.println("CODEX - LOBBY:");
         for(String name:lobby){
-            out.println(name + "\n");
+            out.println("   " + name);
         }
         out.println("If you want to go back press 'B', else press 'P' to start the game");
     }
 
     @Override
     public void drawCreateGameScene() {
-        out.flush();
+        printSpaces();
         out.println("press any key to continue and set the number of players and your username");
         out.println("press 'B' to go back");
     }
 
+
     @Override
     public void drawBoardScene() {
-        out.flush();
-        bsc.drawBoard();
+        printSpaces();
+        drawPlayedCards();
+        drawHand();
+        drawVisibleCards();
+        drawChoices();
+        drawInitialCard();
+        displayPoints();
+        drawTurnLabel();
+        displayCommands();
     }
+
+    private void drawHand() {
+        boardModel.printHand();
+    }
+
+    private void drawInitialCard() {
+        boardModel.printInitial();
+    }
+
+    private void displayCommands() {
+       if(boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
+           out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it");
+           //out.println("normal turn: first place then draw");
+       }
+        if(boardModel.getBoardState()== CliBoardState.DRAWING){
+            out.println("First press 3,4,5,6,7 or 8 to draw a card");
+            //out.println("normal turn: first place then draw");
+        }
+        if(boardModel.getBoardState()== CliBoardState.END){
+            out.println("finished! press E to pass the turn");
+            //out.println("normal turn: first place then draw");
+        }
+        if(boardModel.getInitialCard() != null) {
+            out.println("First things first select the face of the initial card by pressing F if you want to flip it, once you've done it place it by pressing P");
+        }
+    }
+
+    private void drawTurnLabel() {
+        out.println("-----------------------------------------------------------------------------------" +
+                    boardModel.getTurnLabel() +
+                    "-------------------------------------------------------------------------------------");
+    }
+
+    private void drawVisibleCards(){
+        boardModel.printVisibleCards();
+
+    }
+    private void drawPlayedCards(){
+
+        boardModel.printGridMap();
+    }
+
+    private void drawChoices(){
+
+        boardModel.displayChoices();
+    }
+
+    private void drawObjectives(){
+        boardModel.printObjectives();
+    }
+
+    private void displayPoints(){
+        out.println("Your points: " + boardModel.printPoints());
+    }
+
     @Override
-    public void updateLobby(ArrayList<String> names) {
-        lobby = names;
+    public void updateLobby(ArrayList<String> lobby) {
+        this.lobby = lobby;
         System.out.println("Players in the lobby:\n");
         drawLobbyScene();
     }
 
-    @Override
-    public void drawCard(Card card) {
-
-    }
 
     @Override
     public void displayAlert(String alert) {
+        drawState();
         out.println(alert);
     }
-    @Override
-    public void updateGold(ArrayList<GoldCard> goldCards) {
-        bsc.updateDrawableGold(goldCards);
+
+    private void drawState() {
+        switch (state){
+            case HELLO:
+                drawHelloScene();
+                break;
+            case LOGIN:
+                drawLoginScene();
+                break;
+            case LOBBY:
+                drawLobbyScene();
+                break;
+            case CREATE_GAME:
+                drawCreateGameScene();
+                break;
+            case BOARD:
+                drawBoardScene();
+                break;
+            case END:
+                break;
+        }
     }
 
-    @Override
-    public void updateResource(ArrayList<ResourceCard> resourceCards) {
 
+    private void printSpaces() {
+        for(int i = 0; i < 50; i++){
+            out.println();
+        }
     }
 
-    @Override
-    public void updateHand(ArrayList<Card> hand) {
-
-    }
-
-    @Override
-    public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
-
-    }
-
-
-    @Override
-    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives){
-
-    }
-
-    @Override
-    public  void placeCard(Integer x , Integer y , Card card){
-
-    }
-
-    @Override
-    public void updateSecretObjective(ObjectiveCard secretObjectives){
-
-    }
-    @Override
-    public void updatePoints(ArrayList<Integer> points){
-
-    }
-
-    @Override
-    public void updateInitialCardDisplay(InitialCard card) {
-
-    }
-
-    @Override
-    public void setYourTurnText(){
-
-    }
-
-    @Override
-    public void cleanYourTurnText(){
-
-    }
-
-    @Override
-    public void deselectCard(){
-    }
-
-    public CliState getState() {
+    public CliViewState getState() {
         return state;
     }
 
-    public void setState(CliState state) {
+    public void setState(CliViewState state) {
         this.state = state;
     }
+
+    public CliBoardModel getBoard() {
+        return boardModel;
+    }
+
 }

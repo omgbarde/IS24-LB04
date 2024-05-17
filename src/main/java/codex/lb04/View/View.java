@@ -1,7 +1,6 @@
 package codex.lb04.View;
 
 import codex.lb04.CodexClientApp;
-import codex.lb04.Model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,26 +20,7 @@ public abstract class View {
     public abstract void drawCreateGameScene();
     public abstract void drawBoardScene();
     public abstract void updateLobby(ArrayList<String> names);
-    public abstract void drawCard(Card card);
-    public abstract void updateGold(ArrayList<GoldCard> goldCards);
-    public abstract void updateResource(ArrayList<ResourceCard> resourceCards);
-    public abstract void updateHand(ArrayList<Card> hand);
+
     public abstract void displayAlert(String alert);
-    public abstract void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives);
-    public abstract void placeCard(Integer x , Integer y , Card card);
 
-    public abstract void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives);
-    public abstract void updatePoints(ArrayList<Integer> points);
-
-
-    public abstract void updateInitialCardDisplay(InitialCard card);
-    public abstract void updateSecretObjective(ObjectiveCard secretObjectives);
-    public abstract void setYourTurnText();
-    public abstract void cleanYourTurnText();
-
-    public abstract void deselectCard();
-
-
-    public void updateChat(String string) {
-    }
 }

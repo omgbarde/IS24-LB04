@@ -561,7 +561,7 @@ public class DeckBuilder {
         //purple card 36
         Corner corner_Ur_rc36 = new Corner(ResourceType.INSECT);
         Corner corner_Lr_rc36 = new Corner(ResourceType.MUSHROOM);
-        Corner corner_Ul_rc36 = new Corner(ResourceType.INSECT);
+        Corner corner_Ul_rc36 = new Corner(ResourceType.MANUSCRIPT);
         Corner corner_Ll_rc36 = new Corner(true);
         Corner cornerB_Ur_rc36 = new Corner(false);
         Corner cornerB_Ul_rc36 = new Corner(false);

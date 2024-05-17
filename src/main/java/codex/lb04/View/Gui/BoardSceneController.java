@@ -1,8 +1,9 @@
-package codex.lb04.View;
+package codex.lb04.View.Gui;
 
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Model.*;
 import codex.lb04.Network.client.ClientSocket;
+import codex.lb04.View.ViewController;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.effect.Glow;
@@ -22,8 +23,9 @@ import java.util.*;
 /**
  * This class represents the controller of the board scene
  */
-public class BoardSceneController {
-
+public class BoardSceneController extends ViewController {
+    private GuiView guiView;
+    private ClientSocket clientSocket;
     private Stage stageReference;
 
     // Declare the map
@@ -40,25 +42,46 @@ public class BoardSceneController {
     private Map<Rectangle, Card> secretObjective = new LinkedHashMap<>();
     private Map<Rectangle, Card> initialCardDisplay = new LinkedHashMap<>();
     private Map<Rectangle, Text> pointsDisplay = new LinkedHashMap<>();
-    private GuiView view;
-    private ClientSocket clientSocket;
+
 
     /**
      * Constructor of the board scene controller
      *
-     * @param view the view
+     * @param guiView the view
      */
-    public BoardSceneController(GuiView view) {
+    public BoardSceneController(GuiView guiView) {
         this.gridMap = new HashMap<>();
-        this.view = view;
-        this.stageReference = view.getStageReference();
+        this.guiView = guiView;
+        this.stageReference = guiView.getStageReference();
     }
+
+    @Override
+    public void drawLobbyScene() {
+        guiView.drawLobbyScene();
+    }
+
+    @Override
+    public void drawHelloScene() {
+        guiView.drawHelloScene();
+    }
+
+    @Override
+    public void updateLobby(ArrayList<String> lobby) {
+        guiView.updateLobby(lobby);
+    }
+
+
+    //not used in gui
+    @Override
+    public void drawCard(Card card) {}
+
 
     /**
      * draws the visible gold cards
      *
      * @param goldCards the gold cards arrayList
      */
+    @Override
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
         drawableGold.replaceAll((r, v) -> null);
         for (Rectangle rectangle : drawableGold.keySet()) {
@@ -80,6 +103,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updateDrawableResources(ArrayList<ResourceCard> resourceCards) {
         drawableResources.replaceAll((r, v) -> null);
         for (Rectangle rectangle : drawableResources.keySet()) {
@@ -101,6 +125,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updateHand(ArrayList<Card> handCards) {
         hand.replaceAll((r, v) -> null);
         for (Rectangle rectangle : hand.keySet()) {
@@ -122,6 +147,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updateCommonObjectives(ArrayList<ObjectiveCard> objectiveCards) {
         for (int i = 0; i < objectiveCards.size(); i++) {
             ObjectiveCard card = objectiveCards.get(i);
@@ -137,6 +163,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updateInitialCardDisplay(InitialCard card) {
         initialCardDisplay.put((Rectangle) initialCardDisplay.keySet().toArray()[0], card);
         Rectangle rectangle = (Rectangle) initialCardDisplay.keySet().toArray()[0];
@@ -149,6 +176,7 @@ public class BoardSceneController {
         });
     }
 
+    @Override
     public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> objectiveCards) {
         for (int i = 0; i < objectiveCards.size(); i++) {
             ObjectiveCard card = objectiveCards.get(i);
@@ -164,6 +192,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updateSecretObjective(ObjectiveCard objectiveCards) {
         ObjectiveCard card = objectiveCards;
         secretObjective.put((Rectangle) secretObjective.keySet().toArray()[0], card);
@@ -180,7 +209,7 @@ public class BoardSceneController {
     }
 
     public void toggleChat(){
-        Group chatGroup = view.getChatGroup();
+        Group chatGroup = guiView.getChatGroup();
         if(chatGroup.isVisible()){
             chatGroup.setVisible(false);
         }else{
@@ -192,7 +221,7 @@ public class BoardSceneController {
         rectangle.setFill(Color.BLACK);
     }
 
-
+    @Override
     public void placeCard(Integer x, Integer y, Card card) {
         for (Rectangle rectangle : gridMap.keySet()) {
             ArrayList<Integer> coordinates = (ArrayList<Integer>) rectangle.getUserData();
@@ -205,10 +234,10 @@ public class BoardSceneController {
                     todisable.setHeight(0);
                     todisable.setWidth(0);
                     todisable.setDisable(true);
-                    view.getInitCardBackground().setOpacity(0);
-                    view.getInitCardBackground().setHeight(0);
-                    view.getInitCardBackground().setWidth(0);
-                    view.getInitCardBackground().setDisable(true);
+                    guiView.getInitCardBackground().setOpacity(0);
+                    guiView.getInitCardBackground().setHeight(0);
+                    guiView.getInitCardBackground().setWidth(0);
+                    guiView.getInitCardBackground().setDisable(true);
                 }
 
                 gridMap.put(rectangle, card);
@@ -221,13 +250,14 @@ public class BoardSceneController {
                     }
                 });
                 Platform.runLater(() -> {
-                    view.bringRectangleToFront(rectangle);
+                    guiView.bringRectangleToFront(rectangle);
                 });
 
             }
         }
     }
 
+    @Override
     public void deselectCard(){
         if(this.selectedRectangle!= null && this.selectedCard != null){
             this.selectedRectangle.setEffect(new Glow(0));
@@ -236,6 +266,25 @@ public class BoardSceneController {
         }
     }
 
+    @Override
+    public void displayAlert(String alert) {
+        guiView.displayAlert(alert);
+    }
+
+    @Override
+    public void drawBoardScene() {
+        guiView.drawBoardScene();
+    }
+
+    @Override
+    public void setYourTurnText() {
+        guiView.getTurnText().setText("YOUR TURN");
+
+    }
+    @Override
+    public void cleanYourTurnText() {
+        guiView.getTurnText().setText("NOT YOUR TURN");
+    }
 
     /**
      * Method to handle the click on the grid
@@ -298,6 +347,7 @@ public class BoardSceneController {
         }
     }
 
+    @Override
     public void updatePoints(ArrayList<Integer> points) {
         for (int i = 0; i < points.size(); i++) {
             Rectangle rectangle = (Rectangle) pointsDisplay.keySet().toArray()[i];
@@ -306,6 +356,16 @@ public class BoardSceneController {
                 drawPoints(rectangle, point);
             });
         }
+    }
+
+    @Override
+    public void updateChat(String message) {
+        Platform.runLater(()-> guiView.getChatText().appendText(message));
+    }
+
+    @Override
+    public void print(String string) {
+
     }
 
     public void drawPoints(Rectangle rectangle, Integer point) {
@@ -387,7 +447,7 @@ public class BoardSceneController {
         Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
         this.disableRectangle(toDisable1);
         this.disableRectangle(toDisable2);
-        this.disableRectangle(view.getSecretObjectivesBackground());
+        this.disableRectangle(guiView.getSecretObjectivesBackground());
 
         String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
         if (card.isShowingFront()) {
@@ -589,7 +649,7 @@ public class BoardSceneController {
     }
 
 
-//GETTERS
+    //GETTERS
 
     /**
      * method to get the selected card

@@ -1,14 +1,14 @@
-package codex.lb04.View;
+package codex.lb04.View.Gui;
 
 import codex.lb04.Message.ChatMessage;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.GameMessage.EndTurnMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Model.*;
 import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Network.client.ClientSocket;
 import codex.lb04.Utils.ConnectionUtil;
+import codex.lb04.View.View;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -61,7 +61,7 @@ public class GuiView extends View {
     Rectangle initCardBackground;
     Rectangle secretObjectivesBackground;
     Text alert;
-    Text yourTurn;
+    Text turnText;
 
     public GuiView(Stage stage) {
         stage.setHeight(600);
@@ -150,7 +150,7 @@ public class GuiView extends View {
             }
             if (ConnectionUtil.checkValid(usr, addr, port)) {
                 try {
-                    clientSocket = new ClientSocket(this, usr, addr, port);
+                    clientSocket = new ClientSocket(usr, addr, port,this.bsc);
                     bsc.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
@@ -276,7 +276,7 @@ public class GuiView extends View {
             if (ConnectionUtil.checkValid(num, usr)) {
                 confirmButton.setDisable(true);
                 try {
-                    clientSocket = new ClientSocket(this, usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort);
+                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort,this.bsc);
                     bsc.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
@@ -316,9 +316,6 @@ public class GuiView extends View {
 
     @Override
     public void drawBoardScene() {
-
-
-        //TODO creare text a inizio gioco che spiega i comandi e sparisce una volta settato l'obiettivo segreto
 
         // Create a group for static elements
         Group staticRoot = new Group();
@@ -837,73 +834,6 @@ public class GuiView extends View {
         });
     }
 
-    // METHODS CALLED BY CLIENTPARSER BELOW THIS COMMENT
-
-
-    @Override
-    public void updateGold(ArrayList<GoldCard> goldCards) {
-        bsc.updateDrawableGold(goldCards);
-    }
-
-    @Override
-    public void updateResource(ArrayList<ResourceCard> resourceCards) {
-        bsc.updateDrawableResources(resourceCards);
-    }
-
-    @Override
-    public void updateHand(ArrayList<Card> hand) {
-        bsc.updateHand(hand);
-    }
-
-    @Override
-    public void updateInitialCardDisplay(InitialCard card) {
-        bsc.updateInitialCardDisplay(card);
-    }
-
-    @Override
-    public void updateSecretObjectiveToChoose(ArrayList<ObjectiveCard> secretObjectives) {
-        bsc.updateSecretObjectiveToChoose(secretObjectives);
-    }
-
-    @Override
-    public void updateCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
-        bsc.updateCommonObjectives(commonObjectives);
-    }
-
-    @Override
-    public void updateSecretObjective(ObjectiveCard secretObjective) {
-        bsc.updateSecretObjective(secretObjective);
-    }
-
-
-    @Override
-    public void drawCard(Card card) {
-        //bsc.drawCard(card);
-    }
-
-    @Override
-    public void updatePoints(ArrayList<Integer> points) {
-        bsc.updatePoints(points);
-    }
-
-    @Override
-    public void placeCard(Integer x, Integer y, Card card) {
-        bsc.placeCard(x, y, card);
-    }
-
-    @Override
-    public void updateChat(String string) {
-        Platform.runLater(()-> chatText.appendText(string));
-    }
-
-    public Stage getStageReference() {
-        return this.stageReference;
-    }
-
-    public ClientSocket getClientSocket() {
-        return clientSocket;
-    }
-
     public void removeRectangleFromMovableRoot(Rectangle rectangle) {
         movableRootReference.getChildren().remove(rectangle);
     }
@@ -929,18 +859,8 @@ public class GuiView extends View {
         this.alert = alert;
     }
 
-    public void setYouTurnDisplay(Text yourTurn) {
-        this.yourTurn = yourTurn;
-    }
-
-    @Override
-    public void setYourTurnText() {
-        this.yourTurn.setText("YOUR TURN");
-    }
-
-    @Override
-    public void cleanYourTurnText() {
-        this.yourTurn.setText("NOT YOUR TURN");
+    public void setYouTurnDisplay(Text text) {
+        this.turnText = text;
     }
 
 
@@ -977,12 +897,25 @@ public class GuiView extends View {
         parent.getChildren().remove(rectangle);
     }
 
-    @Override
-    public void deselectCard(){
-        bsc.deselectCard();
+    //getters
+
+    public Stage getStageReference() {
+        return this.stageReference;
+    }
+
+    public ClientSocket getClientSocket() {
+        return clientSocket;
     }
 
     public Group getChatGroup() {
         return chatGroupReferece;
+    }
+
+    public TextArea getChatText() {
+        return chatText;
+    }
+
+    public Text getTurnText() {
+        return turnText;
     }
 }
