@@ -4,8 +4,9 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
 
 /**
  * This class contains utility methods for the connection
@@ -65,12 +66,12 @@ public class ConnectionUtil {
     }
 
     public static void displayInfo() throws SocketException {
-        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-            for (NetworkInterface netint : Collections.list(nets)){
-                Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-                for (InetAddress inetAddress : Collections.list(inetAddresses)){
-                    System.out.println("InetAddress: " + inetAddress);
-                }
-            }
+        StreamSupport.stream(Spliterators.spliteratorUnknownSize(NetworkInterface.getNetworkInterfaces().asIterator(), Spliterator.ORDERED), false)
+                .flatMap(networkInterface -> {
+                    return StreamSupport.stream(
+                            Spliterators.spliteratorUnknownSize(networkInterface.getInetAddresses().asIterator(), Spliterator.ORDERED), false);
+                })
+                .filter(inetAddress -> inetAddress instanceof java.net.Inet4Address)
+                .forEach(inetAddress -> System.out.println("interface: " + inetAddress));
     }
 }

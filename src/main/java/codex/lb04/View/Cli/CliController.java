@@ -154,7 +154,7 @@ public class CliController extends ViewController {
             firstTurn = false;
             cliBoardModel.setBoardState(CliBoardState.CHOOSE_INIT);
         }
-        else cliBoardModel.setBoardState(CliBoardState.PLACING);
+        else cliBoardModel.setBoardState(CliBoardState.SELECTING);
         placed = false;
         cliBoardModel.setTurnLabel("YOUR TURN");
         cliView.drawBoardScene();
@@ -507,7 +507,7 @@ public class CliController extends ViewController {
                 int x,y;
                 try {
                     x = Integer.parseInt(coords[0]);
-                    y = Integer.parseInt(coords[0]);
+                    y = Integer.parseInt(coords[1]);
 
                 }catch (NumberFormatException e){
                     out.println("Invalid coordinates, please enter two numbers separated by a comma");
