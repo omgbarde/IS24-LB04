@@ -366,4 +366,7 @@ public class Game extends Observable {
 
     }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
 }

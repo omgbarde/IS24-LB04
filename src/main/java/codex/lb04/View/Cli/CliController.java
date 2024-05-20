@@ -49,6 +49,7 @@ public class CliController extends ViewController {
     @Override
     public void drawHelloScene() {
         cliView.drawHelloScene();
+        cliView.setState(CliViewState.HELLO);
     }
 
     @Override
@@ -208,8 +209,8 @@ public class CliController extends ViewController {
                 cliView.setState(CliViewState.LOGIN);
                 break;
             default:
-                System.out.println("Invalid input, please enter 'C' to create or 'J' to join a game.");
                 cliView.drawHelloScene();
+                System.out.println("Invalid input");
                 break;
         }
     }
@@ -226,8 +227,8 @@ public class CliController extends ViewController {
                 try {
                     usr = inputThread.call();
                 } catch (IOException e) {
-                    out.println("Error reading input");
                     cliView.drawLoginScene();
+                    out.println("Error reading input");
                     break;
                 }
                 out.println("Enter the server address");
@@ -235,13 +236,21 @@ public class CliController extends ViewController {
                 try {
                     addr = inputThread.call();
                 } catch (IOException e) {
-                    out.println("Error reading input");
                     cliView.drawLoginScene();
+                    out.println("Error reading input");
+                    break;
+                }
+                out.println("Enter the server port");
+                String portString;
+                try {
+                    portString = inputThread.call();
+                }catch (IOException e){
+                    out.println("Error reading port");
                     break;
                 }
                 int port = ConnectionUtil.defaultPort;
                 try {
-                    port = Integer.parseInt(addr);
+                    port = Integer.parseInt(portString);
                 } catch (NumberFormatException e) {
                     out.println("Using default port");
                 }
@@ -250,21 +259,21 @@ public class CliController extends ViewController {
                         clientSocket = new ClientSocket( usr, addr, port,this);
                         setClientSocket(clientSocket);
                     } catch (IOException e) {
-                        out.println("Server not available");
                         cliView.drawHelloScene();
+                        out.println("Server was not available");
                         cliView.setState(CliViewState.HELLO);
                         break;
                     }
                     LoginMessage loginMessage = new LoginMessage(usr);
                     clientSocket.sendMessage((loginMessage));
                 } else {
-                    out.println("Invalid input, please enter a valid username and server address.");
                     cliView.drawLoginScene();
+                    out.println("Invalid input, please enter a valid username and server address.");
                 }
                 break;
             default:
-                System.out.println("Invalid input");
                 cliView.drawLoginScene();
+                System.out.println("Invalid input");
                 break;
         }
     }
@@ -279,8 +288,8 @@ public class CliController extends ViewController {
                 clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername()));
                 break;
             default:
-                System.out.println("Invalid input, please enter 'B' to go back or 'P' to start the game.");
                 cliView.drawLobbyScene();
+                System.out.println("Invalid input");
                 break;
         }
     }
@@ -303,13 +312,13 @@ public class CliController extends ViewController {
                 try {
                     num = Integer.parseInt(numPlayersChoice);
                 } catch (NumberFormatException e) {
-                    out.println("Enter a valid number of players");
                     cliView.drawCreateGameScene();
+                    out.println("Enter a valid number of players");
                     break;
                 }
                 if(num<2||num>4){
-                    out.println("Enter a valid number of players");
                     cliView.drawCreateGameScene();
+                    out.println("Enter a valid number of players");
                 }
                 out.println("Enter your username:");
                 String usr = null;
@@ -323,15 +332,16 @@ public class CliController extends ViewController {
                         clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort,this);
                         setClientSocket(clientSocket);
                     } catch (IOException e) {
-                        out.println("Server not available");
                         cliView.drawHelloScene();
+                        out.println("Server was not available");
                         cliView.setState(CliViewState.HELLO);
                         return;
                     }
                     clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
                 } else {
-                    out.println("Invalid input, please enter a valid number of players and username.");
                     cliView.drawCreateGameScene();
+                    out.println("Invalid input, please enter a valid number of players and username.");
+
                 }
         }
     }

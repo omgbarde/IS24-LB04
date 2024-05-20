@@ -29,11 +29,7 @@ overall testing and report:\
 
 ## Todo list
 - [x] crippling depression
-- [x] fix incorrect card placement (message display and state)
-- [x] add null checks to hand and visible cards (+ show flip and place)
-- [x] fix incorrect card placement in cli: after the error it doesent select a card
 - [ ] add port choice to create game (cli and gui)
-- [ ] fix disconnection bug at the end of the game
-- [ ] fix reset game bug after connection loss
-- [ ] fix pass turn bug, where a player can pass without placing/drawing
+- [ ] fix disconnection bug at the end of the game (sporadic)
+- [ ] fix pass turn bug, where a player can pass without placing/drawing (sporadic)
 - [ ] moooooore testing

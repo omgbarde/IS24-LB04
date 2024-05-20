@@ -17,7 +17,7 @@ public class GameTest {
     private Game game;
     private Corner corner = new Corner(ResourceType.ANIMAL);
     private Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
-    private Card card = new Card(Color.BLUE, face, face);
+    private ResourceCard card = new ResourceCard(Color.BLUE, face, face,0,1);
     private Player player;
     private Player player1;
     private ArrayList<Player> players = new ArrayList<Player>();
@@ -78,6 +78,7 @@ public class GameTest {
 
     @Test
     public void placeCard() {
+        board.setHasPlacedACard(false);
         board.placeCard(card, 0, 0);
         assertEquals(card, board.getCard(0, 0));
     }

@@ -51,6 +51,7 @@ public class GameController {
         if (this.turnController != null) {
             this.turnController.resetInstance();
         }
+        this.inputController = new InputController(this, game);
         instance = null;
     }
 
@@ -114,8 +115,11 @@ public class GameController {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
             case CREATE_GAME:
-                game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
-                game.addPlayerToLobby(usr);
+                if (game.getNumPlayers()==0) {
+                    game.setNumPlayers(((CreateGameMessage) receivedMessage).getNumberOfPlayers());
+                    game.addPlayerToLobby(usr);
+                }
+                else ServerApp.sendMessageToClient(new GenericMessage("server", "a game already exists, go back and select join"), usr);
                 break;
             case LOGIN_REQUEST:
                 game.addPlayerToLobby(usr);
@@ -225,7 +229,6 @@ public class GameController {
                 ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
-                game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:

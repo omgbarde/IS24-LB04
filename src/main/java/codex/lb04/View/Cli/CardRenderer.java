@@ -180,11 +180,18 @@ public class CardRenderer {
 
     public static String[] placeHolder(String coordinates){
         String[]components = new String[3];
-
+        int padding = 7 - coordinates.length();
         components[0] = " ------- ";
-        if(coordinates.isEmpty()) components[1] = "|       |";
-        else if(coordinates.contains("-")) components[1] = "| "+coordinates+"|";
-        else components[1] = "|  "+coordinates+"  |";
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("|");
+        builder.append(coordinates);
+        for(int i=0; i <padding;i++){
+            builder.append(" ");
+        }
+        builder.append("|");
+
+        components[1] = builder.toString();
         components[2] = " ------- ";
 
         return components;

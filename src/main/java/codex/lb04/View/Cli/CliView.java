@@ -75,6 +75,7 @@ public class CliView extends View implements Runnable{
 
     @Override
     public void drawLobbyScene() {
+        setState(CliViewState.LOBBY);
         printSpaces();
         out.println("CODEX - LOBBY:");
         for(String name:lobby){
@@ -156,7 +157,7 @@ public class CliView extends View implements Runnable{
     }
 
     private void displayPoints(){
-        out.println("Your points: " + boardModel.printPoints());
+        out.println("Score: " + boardModel.printPoints());
     }
 
     @Override
