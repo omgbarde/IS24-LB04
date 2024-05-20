@@ -69,6 +69,8 @@ public class CliBoardModel {
 
     public void deselectCard() {
         this.selectedCard = null;
+        //deselct is called after placing (the initial card too) so you need to return to selecting only if you were in placing
+        if(boardState == CliBoardState.PLACING) setBoardState(CliBoardState.SELECTING);
     }
 
     public String getTurnLabel() {

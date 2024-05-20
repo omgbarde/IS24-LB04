@@ -114,7 +114,10 @@ public class CliController extends ViewController {
             cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
         }
         //else if the reply is for other cards the state is changed to drawing
-        else cliBoardModel.setBoardState(CliBoardState.DRAWING);
+        else {
+            placed = true;
+            cliBoardModel.setBoardState(CliBoardState.DRAWING);
+        }
         cliView.drawBoardScene();
     }
 
@@ -417,13 +420,17 @@ public class CliController extends ViewController {
     }
 
     private void placingHandler(String input){
+        Card selected = cliBoardModel.getSelectedCard();
         switch (input) {
             case "F":
-                Card selected = cliBoardModel.getSelectedCard();
                 if(selected!=null) cliBoardModel.getSelectedCard().flip();
                 cliView.drawBoardScene();
                 break;
             case "P":
+                if(selected == null) {
+                    out.println("select a card first");
+                    break;
+                }
                 out.println("Enter the x,y coordinates:");
                 String coordinates;
                 try {
@@ -441,7 +448,6 @@ public class CliController extends ViewController {
                     out.println("Invalid coordinates, please enter two numbers separated by a comma");
                     break;
                 }
-                placed = true;
                 clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(),x, y, cliBoardModel.getSelectedCard()));
                 cliBoardModel.deselectCard();
                 cliView.drawBoardScene();
