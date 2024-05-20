@@ -9,6 +9,9 @@ public class CliCard {
         this.deckBuilder = deckBuilder;
     }
 
+    /**
+     * Draw a bronze card
+     */
     public void drawGoldCard() {
         deckBuilder.createGoldCards();
     }

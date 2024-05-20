@@ -36,6 +36,11 @@ public class CliController extends ViewController {
         this.inputThread = new InputThread();
     }
 
+    /**
+     * Set the client socket
+     *
+     * @param clientSocket the client socket
+     */
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -61,6 +66,11 @@ public class CliController extends ViewController {
     public void drawCard(Card card) {
     }
 
+    /**
+     * Update the drawable gold
+     *
+     * @param goldCards the gold cards
+     */
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
          cliBoardModel.setVisibleGold(goldCards);
          cliView.drawBoardScene();
@@ -175,6 +185,11 @@ public class CliController extends ViewController {
         out.println(string);
     }
 
+    /**
+     * Handle the input
+     *
+     * @param input the input
+     */
     public void handleInput(String input) {
         CliViewState cliState = this.cliView.getState();
         switch (cliState){
@@ -188,6 +203,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the chat
+     *
+     * @param input the input
+     */
     private void chatHandler(String input) {
         if (input.equals("B")){
             cliView.setState(CliViewState.BOARD);
@@ -198,6 +218,11 @@ public class CliController extends ViewController {
         clientSocket.sendMessage(new ChatMessage(usr,input));
     }
 
+    /**
+     * Handle the hello
+     *
+     * @param input the input
+     */
     private void helloHandler(String input) {
         switch (input) {
             case "C":
@@ -215,6 +240,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the login
+     *
+     * @param input the input
+     */
     private void loginHandler(String input) {
         switch (input) {
             case "B":
@@ -278,6 +308,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the lobby
+     *
+     * @param input the input
+     */
     private void lobbyHandler(String input) {
         switch (input) {
             case "B":
@@ -294,6 +329,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the creation of the game
+     *
+     * @param input the input
+     */
     private void createGameHandler(String input) {
         switch (input) {
             case "B":
@@ -346,6 +386,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the board
+     *
+     * @param input the input
+     */
     private void boardHandler(String input) {
         CliBoardState boardState = cliBoardModel.getBoardState();
         if(input.equals("C")){
@@ -378,6 +423,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the drawing
+     *
+     * @param input the input
+     */
     private void drawingHandler(String input) {
         switch(input){
             case "3":
@@ -429,6 +479,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the placing
+     *
+     * @param input the input
+     */
     private void placingHandler(String input){
         Card selected = cliBoardModel.getSelectedCard();
         switch (input) {
@@ -473,6 +528,11 @@ public class CliController extends ViewController {
     }
 
 
+    /**
+     * Handle the selection of the card
+     *
+     * @param input the input
+     */
     private void selectingCardHandler(String input) {
         switch (input) {
             case "0":
@@ -495,6 +555,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the secret objective
+     *
+     * @param input the input
+     */
     private void secretobjectiveHandler(String input) {
         switch (input) {
             case "1":
@@ -515,6 +580,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the initial card
+     *
+     * @param input the input
+     */
     private void initialcardHandler(String input) {
         switch (input) {
             case "F":
@@ -541,6 +611,11 @@ public class CliController extends ViewController {
         }
     }
 
+    /**
+     * Handle the end
+     *
+     * @param input the input
+     */
     private void endHandler(String input) {
         switch (input) {
             case "E":

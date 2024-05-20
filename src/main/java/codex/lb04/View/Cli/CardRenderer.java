@@ -13,6 +13,7 @@ public class CardRenderer {
 
     private static final String resetColor = "\u001B[0m";
 
+
     private static String colorMap(Color color){
         switch (color){
             case RED:
@@ -73,6 +74,11 @@ public class CardRenderer {
         }
     }
 
+    /**
+     * This method renders the objective of the card
+     * @param ID the id of the card
+     * @return the string representing the objective of the card
+     */
     public static String rederObjective(int ID) {
         switch (ID){
         case 87: return "2 points every 3 red cards in ascending diagonal";
@@ -110,6 +116,11 @@ public class CardRenderer {
         return stringBuilder.toString();
     }
 
+    /**
+     * This method renders the card in the game
+     * @param card the card to be rendered
+     * @return the array of strings representing the card
+     */
     public static String[] renderIngame(Card card){
         StringBuilder stringBuilder = new StringBuilder();
         String colorCode = colorMap(card.getColor());
@@ -178,6 +189,11 @@ public class CardRenderer {
         return componentsArray;
     }
 
+    /**
+     * This method renders the placeholder for the card
+     * @param coordinates the coordinates of the card
+     * @return the array of strings representing the placeholder
+     */
     public static String[] placeHolder(String coordinates){
         String[]components = new String[3];
         int padding = 7 - coordinates.length();
@@ -208,6 +224,11 @@ public class CardRenderer {
         return stringBuilder.toString();
     }
 
+    /**
+     * This method renders the card in the hand
+     * @param card the card to be rendered
+     * @return the array of strings representing the card
+     */
     public static String[] renderInHand(Card card){
         if (card == null) return new String[]{"              ","                ","               ","             ","                "};
         StringBuilder cardString = new StringBuilder();
@@ -364,6 +385,11 @@ public class CardRenderer {
         return costArray;
     }
 
+    /**
+     * This method returns the number of resources needed for a gold card
+     * @param card the gold card
+     * @return the number of resources needed for the gold card
+     */
     private static Integer getNumberResourcesNeeded(GoldCard card){
         Integer cost=0;
         for (int i = 0; i < 4; i++) {

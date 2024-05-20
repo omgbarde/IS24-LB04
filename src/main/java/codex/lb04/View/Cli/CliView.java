@@ -32,6 +32,9 @@ public class CliView extends View implements Runnable{
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * This method is called when the view is started
+     */
     public void run() {
         drawHelloScene();
         while(true){
@@ -105,6 +108,7 @@ public class CliView extends View implements Runnable{
         displayCommands();
     }
 
+
     private void drawHand() {
         boardModel.printHand();
     }
@@ -113,6 +117,9 @@ public class CliView extends View implements Runnable{
         boardModel.printInitial();
     }
 
+    /**
+     * Display the commands that the player can use
+     */
     private void displayCommands() {
        if(boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
            out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it ");
@@ -132,30 +139,49 @@ public class CliView extends View implements Runnable{
         out.println("press 'C' to chat");
     }
 
+    /**
+     * Draw the turn label
+     */
     private void drawTurnLabel() {
         out.println("-----------------------------------------------------------------------------------" +
                     boardModel.getTurnLabel() +
                     "-------------------------------------------------------------------------------------");
     }
 
+    /**
+     * Draw the visible cards
+     */
     private void drawVisibleCards(){
         boardModel.printVisibleCards();
 
     }
+
+    /**
+     * Draw the played cards
+     */
     private void drawPlayedCards(){
 
         boardModel.printGridMap();
     }
 
+    /**
+     * Draw the choices
+     */
     private void drawChoices(){
 
         boardModel.displayChoices();
     }
 
+    /**
+     * Draw the objectives
+     */
     private void drawObjectives(){
         boardModel.printObjectives();
     }
 
+    /**
+     * Display the points
+     */
     private void displayPoints(){
         out.println("Score: " + boardModel.printPoints());
     }
@@ -174,6 +200,9 @@ public class CliView extends View implements Runnable{
         out.println(alert);
     }
 
+    /**
+     * Draw the current state
+     */
     private void drawState() {
         switch (state){
             case HELLO:
@@ -197,16 +226,26 @@ public class CliView extends View implements Runnable{
     }
 
 
+    /**
+     * Print spaces to the standard output
+     */
     private void printSpaces() {
         for(int i = 0; i < 50; i++){
             out.println();
         }
     }
 
+    /**
+     * Update the chat
+     * @param message the message to be added
+     */
     public void updateChat(String message) {
         chat.add(message);
     }
 
+    /**
+     * Show the chat
+     */
     public void showChat(){
         printSpaces();
 
@@ -219,14 +258,26 @@ public class CliView extends View implements Runnable{
         out.println("write a message below or press 'B' to go back");
     }
 
+    /**
+     * Get the state
+     * @return the state
+     */
     public CliViewState getState() {
         return state;
     }
 
+    /**
+     * Set the state
+     * @param state the state
+     */
     public void setState(CliViewState state) {
         this.state = state;
     }
 
+    /**
+     * Get the board
+     * @return the board
+     */
     public CliBoardModel getBoard() {
         return boardModel;
     }
