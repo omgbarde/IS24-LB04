@@ -4,7 +4,6 @@ import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.DrawMessage.UpdateCommonObjectivesMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.GameMessage.EndTurnMessage;
-import codex.lb04.Message.GameMessage.InvalidInputMessage;
 import codex.lb04.Message.GameMessage.StartTurnMessage;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.LoginReply;
@@ -15,8 +14,6 @@ import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-//TODO notify observer dove necessario
 
 /**
  * This class represents the game
@@ -75,8 +72,6 @@ public class Game extends Observable {
     public void drawResourceCard(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().drawResourceCard(pick);
-        //TODO
-        //notifyObserver(new DrawCardMessage(username, player.getBoard().getLastDrawnCard()));
     }
 
     public InitialCard getInitialCard(String username) {
@@ -90,8 +85,6 @@ public class Game extends Observable {
     public void setInitialCardForAllPlayers() {
         for (Player p : players) {
             p.getBoard().setInitialCard();
-            //TODO
-            //notifyObserver(new DrawCardMessage(p.getUsername(), p.getBoard().getInitialCard()));
         }
 
 

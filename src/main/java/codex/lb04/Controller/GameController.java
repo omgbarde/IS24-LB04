@@ -121,7 +121,7 @@ public class GameController {
                 game.addPlayerToLobby(usr);
                 break;
             case PONG:
-                //TODO
+                //DO NOTHING
                 break;
             case ERROR:
                 ErrorMessage error = new ErrorMessage("server", ((ErrorMessage) receivedMessage).getError());
@@ -141,6 +141,7 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 game.removePlayerFromLobby(usr);
+                //TODO implement the reset correctly
                 this.resetInstance();
                 break;
             default:

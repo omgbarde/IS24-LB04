@@ -35,4 +35,5 @@ overall testing and report:\
 - [ ] fix disconnection bug at the end of the game
 - [ ] fix reset game bug after connection loss
 - [ ] fix pass turn bug, where a player can pass without placing/drawing
+- [ ] fix incorrect card placement in cli: after the error it doesent select a card
 - [ ] moooooore testing

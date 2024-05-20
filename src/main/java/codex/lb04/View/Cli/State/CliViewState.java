@@ -6,5 +6,5 @@ public enum CliViewState {
     CREATE_GAME,
     LOBBY,
     BOARD,
-    END
+    CHAT, END
 }
