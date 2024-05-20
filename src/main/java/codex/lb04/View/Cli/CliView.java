@@ -17,6 +17,8 @@ public class CliView extends View implements Runnable{
     ArrayList<String> lobby ;
     CliBoardModel boardModel;
     CliController controller;
+    private ArrayList<String> chat;
+
     private static Scanner scanner;
 
     /**
@@ -26,6 +28,7 @@ public class CliView extends View implements Runnable{
         this.lobby = new ArrayList<>();
         this.boardModel = new CliBoardModel();
         this.controller = new CliController(this);
+        this.chat = new ArrayList<>();
         this.scanner = new Scanner(System.in);
     }
 
@@ -111,7 +114,7 @@ public class CliView extends View implements Runnable{
 
     private void displayCommands() {
        if(boardModel.getBoardState()== CliBoardState.PLACING || boardModel.getBoardState()== CliBoardState.SELECTING){
-           out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it");
+           out.println("First press 0,1 or 2 to select a card from your hand then,   F) to flip it     P) to place it    B) to deselect it ");
            //out.println("normal turn: first place then draw");
        }
         if(boardModel.getBoardState()== CliBoardState.DRAWING){
@@ -125,6 +128,7 @@ public class CliView extends View implements Runnable{
         if(boardModel.getInitialCard() != null) {
             out.println("First things first select the face of the initial card by pressing F if you want to flip it, once you've done it place it by pressing P");
         }
+        out.println("press 'C' to chat");
     }
 
     private void drawTurnLabel() {
@@ -196,6 +200,22 @@ public class CliView extends View implements Runnable{
         for(int i = 0; i < 50; i++){
             out.println();
         }
+    }
+
+    public void updateChat(String message) {
+        chat.add(message);
+    }
+
+    public void showChat(){
+        printSpaces();
+
+        out.println("----------------------------------------------------------------------------------- " +
+                "CHAT: " +
+                "-----------------------------------------------------------------------------------");
+        for (String message: chat){
+            out.println("   "+message);
+        }
+        out.println("write a message below or press 'B' to go back");
     }
 
     public CliViewState getState() {

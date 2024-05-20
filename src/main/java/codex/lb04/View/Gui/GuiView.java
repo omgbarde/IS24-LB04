@@ -783,7 +783,7 @@ public class GuiView extends View {
                         System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
 
                     });
-                    bsc.addRectangleToGridMap(gridRectangle); //TODO settare l'evento di click qua dentro
+                    bsc.addRectangleToGridMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle/*, label*/);
                 }
             }

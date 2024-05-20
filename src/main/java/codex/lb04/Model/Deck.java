@@ -49,7 +49,6 @@ public class Deck extends Observable {
         this.shuffleGold();
         this.shuffleObjectives();
         this.shuffleInitial();
-        //TODO uncomment the above when the view works
     }
 
     /**

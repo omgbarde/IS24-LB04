@@ -23,6 +23,7 @@ public class CliBoardModel {
     private String[][][] gridMap;
     private Card selectedCard;
 
+
     public CliBoardModel() {
         turnLabel = "not your turn";
         boardState = CliBoardState.END;
@@ -39,7 +40,7 @@ public class CliBoardModel {
 
 
     public void updateBoard(InitialCard initialCard) {
-        //TODO
+        //Not in use
     }
 
     public void placeCard(Integer x, Integer y, Card card) {

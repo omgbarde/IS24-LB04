@@ -155,7 +155,6 @@ public class GameControllerTest {
 
         //first player places a card
         Card toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
-        //TODO non la piazza perchè dice che non ci sono abbastanza animali
         PlaceCardMessage correct = new PlaceCardMessage(activePlayer, 1, 1, toPlace);
         gameController.onMessageReceived(correct);
         assertEquals(toPlace, game.getPlayerByName(activePlayer).getBoard().getCard(1, 1));

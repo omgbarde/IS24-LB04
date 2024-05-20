@@ -37,8 +37,8 @@ public class ClientParser {
             case PLAYERS_CONNECTED:
                 viewController.updateLobby(((PlayersConnectedMessage) input).getLobby());
                 break;
-            case DRAW_CARD: //TODO non verrà mai usato
-                viewController.drawCard(((DrawCardMessage) input).getCard());
+            case DRAW_CARD: //Not in use
+                //viewController.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
                 viewController.updateDrawableGold(((UpdateGoldMessage) input).getGold());

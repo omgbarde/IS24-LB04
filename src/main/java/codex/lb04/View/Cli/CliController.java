@@ -1,5 +1,6 @@
 package codex.lb04.View.Cli;
 
+import codex.lb04.Message.ChatMessage;
 import codex.lb04.Message.DrawMessage.DrawBoardMessage;
 import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.LoginMessage;
@@ -39,10 +40,6 @@ public class CliController extends ViewController {
         this.clientSocket = clientSocket;
     }
 
-    public void positionAvailable(){
-        System.out.println("Position available are:");
-        //TODO
-    }
 
     @Override
     public void drawLobbyScene() {
@@ -164,7 +161,9 @@ public class CliController extends ViewController {
 
     @Override
     public void updateChat(String message) {
-        //TODO
+        cliView.updateChat(message);
+        //if already in chat it refreshes the view
+        if (cliView.getState() == CliViewState.CHAT) cliView.showChat();
     }
 
     @Override
@@ -180,8 +179,19 @@ public class CliController extends ViewController {
             case LOBBY -> lobbyHandler(input);
             case CREATE_GAME -> createGameHandler(input);
             case BOARD -> boardHandler(input);
+            case CHAT -> chatHandler(input);
             case END -> endHandler(input);
         }
+    }
+
+    private void chatHandler(String input) {
+        if (input.equals("B")){
+            cliView.setState(CliViewState.BOARD);
+            drawBoardScene();
+            return;
+        }
+        String usr = clientSocket.getUsername();
+        clientSocket.sendMessage(new ChatMessage(usr,input));
     }
 
     private void helloHandler(String input) {
@@ -325,6 +335,12 @@ public class CliController extends ViewController {
 
     private void boardHandler(String input) {
         CliBoardState boardState = cliBoardModel.getBoardState();
+        if(input.equals("C")){
+                cliView.showChat();
+                cliView.setState(CliViewState.CHAT);
+                return;
+        }
+        //go to other handlers instead
         switch (boardState) {
             case SELECTING:
                 selectingCardHandler(input);

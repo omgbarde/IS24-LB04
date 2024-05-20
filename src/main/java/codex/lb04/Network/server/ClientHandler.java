@@ -53,6 +53,7 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
+            //uncomment to use pinger (to fix)
             //startPinger();
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
@@ -69,8 +70,7 @@ public class ClientHandler implements Runnable {
             System.out.println("client disconnected: " + getUsername());
 
         } catch (IOException | ClassNotFoundException e) {
-            //TODO separare i catch
-            e.printStackTrace();
+            System.out.println("error reading message from server");
         } finally {
             try {
                 clientSocket.close();
