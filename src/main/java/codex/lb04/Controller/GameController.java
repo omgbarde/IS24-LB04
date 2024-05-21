@@ -178,19 +178,19 @@ public class GameController {
                 }
                 break;
             case PICK_RESOURCE_CARD:
-                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)&&hasPlacedCard()&&!hasDrawnCard()) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
                     turnController.setDrawnCard(true);
                 } else {
-                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input or initial card side/secret objective not chosen"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "place a card from your hand first"), usr);
                 }
                 break;
             case PICK_GOLD_CARD:
-                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)&&hasPlacedCard()&&!hasDrawnCard()) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
                     turnController.setDrawnCard(true);
                 } else {
-                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input or initial card side/secret objective not chosen"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "place a card from your hand first"), usr);
                 }
                 break;
             case PLACE_CARD:
@@ -330,6 +330,14 @@ public class GameController {
      */
     public boolean isSecretObjectiveChosen(String player) {
         return game.getPlayerByName(player).getBoard().isSecretObjectiveChosen();
+    }
+
+    public boolean hasPlacedCard(){
+        return turnController.hasPlacedCard();
+    }
+
+    public boolean hasDrawnCard(){
+        return turnController.hasDrawnCard();
     }
 
     /**

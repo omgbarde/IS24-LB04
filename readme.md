@@ -31,5 +31,4 @@ overall testing and report:\
 - [x] crippling depression
 - [ ] add port choice to create game (cli and gui)
 - [ ] fix disconnection bug at the end of the game (sporadic)
-- [ ] fix pass turn bug, where a player can pass without placing/drawing (sporadic)
 - [ ] moooooore testing
