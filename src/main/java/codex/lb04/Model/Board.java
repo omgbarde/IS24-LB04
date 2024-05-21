@@ -68,8 +68,9 @@ public class Board extends Observable {
         this.Quills = 0;
         this.Inkwells = 0;
         this.Manuscripts = 0;
-        this.Points = 0;
-        this.PointsByGoldCards = 0;
+        //TODO revert to 0 after fix
+        this.Points = 19;
+        this.PointsByGoldCards = 19;
     }
 
     /**

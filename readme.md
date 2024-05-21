@@ -30,5 +30,6 @@ overall testing and report:\
 ## Todo list
 - [x] crippling depression
 - [ ] add port choice to create game (cli and gui)
-- [ ] fix disconnection bug at the end of the game (sporadic)
+- [ ] fix not sending cards after crashing ingame
+- [ ] fix gold card inkwell cost (need to check)
 - [ ] moooooore testing

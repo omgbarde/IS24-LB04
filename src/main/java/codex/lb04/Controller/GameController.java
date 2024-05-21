@@ -99,7 +99,7 @@ public class GameController {
                 }
                 break;
             case ENDED:
-                ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, play again or quit"), usr);
+                inEndState(receivedMessage);
                 break;
             default:
                 ServerApp.sendMessageToClient(new ErrorMessage("server", "game state not recognized"), usr);
@@ -144,7 +144,7 @@ public class GameController {
                 }
                 break;
             case DEAD_CLIENT:
-                game.removePlayerFromLobby(usr);
+                //game.removePlayerFromLobby(usr);
                 //TODO implement the reset correctly
                 this.resetInstance();
                 break;
@@ -212,7 +212,6 @@ public class GameController {
                 if (turnController.hasDrawnCard() && turnController.hasPlacedCard()) {
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
                         game.setGameState(GameState.END_GAME);
-                        endGame = true;
                         game.notifyEndGame();
                         triggerEndGame();
                     }
@@ -229,6 +228,7 @@ public class GameController {
                 ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
+                //game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:
@@ -258,21 +258,21 @@ public class GameController {
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid input"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input"), usr);
                 }
                 break;
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "invalid card placement"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid card placement"), usr);
                 }
                 break;
             case FLIP_CARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     flipCardHandler((FlipCardMessage) receivedMessage);
                 } else {
-                    ServerApp.sendMessageToClient(new ErrorMessage("server", "can't be flipped"), usr);
+                    ServerApp.sendMessageToClient(new InvalidInputMessage("server", "can't be flipped"), usr);
                 }
                 break;
             case END_TURN:
@@ -299,12 +299,31 @@ public class GameController {
                     ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
-                game.removePlayer(usr);
+                //game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:
                 ServerApp.sendMessageToClient(new ErrorMessage("server", "message not recognized"), usr);
                 break;
+        }
+    }
+
+    /**
+     * handles the messages received after the game is ended
+     * @param receivedMessage is the message received
+     */
+    private void inEndState(Message receivedMessage) {
+        String usr = receivedMessage.getUsername();
+        switch (receivedMessage.getMessageType()) {
+            case CREATE_GAME:
+                //TODO restart a new game (make a button send this message)
+                break;
+            case DEAD_CLIENT:
+                //game.removePlayer(usr);
+                this.resetInstance();
+                break;
+            default:
+                ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, play again or quit"), usr);
         }
     }
 
