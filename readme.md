@@ -29,8 +29,6 @@ overall testing and report:\
 
 ## Todo list
 - [x] crippling depression
-- [ ] add port choice to create game (cli and gui)
-- [ ] add button/options to switch to cli from gui and back
 - [ ] fix gui breaking after crashing ingame
 - [ ] fix gold card inkwell cost (need to check)
 - [ ] more testing

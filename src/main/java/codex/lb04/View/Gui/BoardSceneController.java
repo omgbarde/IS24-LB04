@@ -339,7 +339,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawBoardScene() {
-        guiView.drawBoardScene();
+        Platform.runLater(()->guiView.drawBoardScene());
     }
 
     /**

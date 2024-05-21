@@ -74,8 +74,7 @@ public class ClientParser {
                 viewController.displayAlert(input.toString());
                 break;
             case PING:
-                clientSocket.sendMessage(new PongMessage("pong"));
-                System.out.println("pinged!");
+                clientSocket.sendMessage(new PongMessage("pong" + System.currentTimeMillis()));
                 break;
             case DRAW_BOARD:
                 viewController.drawBoardScene();

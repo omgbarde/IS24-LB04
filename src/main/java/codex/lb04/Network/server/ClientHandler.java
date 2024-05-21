@@ -12,9 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * client handler class handles client-server comunication
@@ -25,7 +23,12 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private String username;
+
+    private BlockingQueue<Message> messageQueue;
+
     private ScheduledExecutorService pinger;
+    private long pingSentTime;
+    private long pongReceivedTime;
 
     /**
      * the client handler constructor creates a handler for a single client
@@ -37,6 +40,8 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
         this.server = server;
+        this.messageQueue = new LinkedBlockingQueue<>();
+        this.pongReceivedTime = System.currentTimeMillis();
         this.pinger = Executors.newSingleThreadScheduledExecutor();
         try {
             input = new ObjectInputStream(clientSocket.getInputStream());
@@ -53,8 +58,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            //uncomment to use pinger (to fix)
-            //startPinger();
+            startQueue();
+            startPinger();
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
                 if (message != null) {
@@ -62,19 +67,23 @@ public class ClientHandler implements Runnable {
                     if ((message.getMessageType() == MessageType.LOGIN_REQUEST|| message.getMessageType() == MessageType.CREATE_GAME) && this.username == null) {
                         this.username = message.getUsername();
                     }
+                    else if (message.getMessageType() == MessageType.PONG) {
+                        pongReceivedTime = System.currentTimeMillis();
+                        //don't forward the pong message to the server
+                        continue;
+                    }
                     //forward the message to the server
                     server.onMessageReceived(message);
                 }
             }
         } catch (SocketException | EOFException e) {
             System.out.println("client disconnected: " + getUsername());
-
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("error reading message from server");
         } finally {
             try {
-                clientSocket.close();
                 pinger.shutdown();
+                clientSocket.close();
                 server.onMessageReceived(new DeadClientMessage(this.username));
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -115,10 +124,40 @@ public class ClientHandler implements Runnable {
         this.username = username;
     }
 
+    private void startQueue(){
+        new Thread(() -> {
+            while (clientSocket.isConnected()) {
+                try {
+                    Message message = messageQueue.take();
+                    sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void addMessageToQueue(Message message){
+        messageQueue.add(message);
+    }
+
     /**
      * starts a new executor to ping the client
      */
     private void startPinger() {
-        pinger.scheduleAtFixedRate(()-> sendMessage(new PingMessage("ping")), 0, 10, TimeUnit.SECONDS);
+        pinger.scheduleAtFixedRate(()->{
+            pingSentTime = System.currentTimeMillis();
+            String s = "pinged at" + pingSentTime;
+            addMessageToQueue(new PingMessage(s));
+            //check for elapsed time
+            if(System.currentTimeMillis() - pongReceivedTime > 10000) {
+                try {
+                    clientSocket.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                pinger.shutdown();
+            }
+            }, 0, 5, TimeUnit.SECONDS);
     }
 }

@@ -79,7 +79,6 @@ public class CliView extends View implements Runnable{
 
         out.println("Welcome to Codex Naturalis Board Game!");
         out.println("Press 'C' to Create a Game or 'J' to Join a Game");
-        out.println("write 'GUI' to play in gui mode");
     }
 
     @Override

@@ -7,7 +7,6 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Network.server.ClientHandler;
 import codex.lb04.Utils.ConnectionUtil;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -36,7 +35,7 @@ public class ServerApp implements Runnable {
         for (ClientHandler clientHandler : clientHandlerList) {
             String clientName = clientHandler.getUsername();
             if (clientName.equals(username)) {
-                clientHandler.sendMessage(message);
+                clientHandler.addMessageToQueue(message);
             }
         }
     }
@@ -70,7 +69,7 @@ public class ServerApp implements Runnable {
      */
     public static void broadcast(Message message) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            clientHandler.sendMessage(message);
+            clientHandler.addMessageToQueue(message);
         }
     }
 

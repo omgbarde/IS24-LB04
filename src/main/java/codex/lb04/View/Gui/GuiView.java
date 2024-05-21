@@ -48,7 +48,6 @@ public class GuiView extends View {
 
     private Stage stageReference;
     private ClientSocket clientSocket;
-    private Button switchButton;
     private Label lobbyLabel;
     private TextArea chatText;
     BoardSceneController bsc;
@@ -68,7 +67,7 @@ public class GuiView extends View {
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
-        this.switchButton = new Button("Play in CLI mode");
+        this.alert = new Text("");
         this.lobbyLabel = new Label();
         this.chatText = new TextArea();
         this.points_display = new ArrayList<>();
@@ -111,13 +110,10 @@ public class GuiView extends View {
                 root.getChildren().add(titleLabel);
                 titleLabel.setTranslateY(-200);
                 joinGameButton.setTranslateY(50);
-                switchButton.setTranslateX(430);
-                switchButton.setTranslateY(250);
                 root.getChildren().add(createGameButton);
 
                 root.getChildren().add(joinGameButton);
 
-                root.getChildren().add(switchButton);
                 Scene scene = new Scene(root, 1520, 850);
                 scene.getStylesheets().add("/codexTheme.css");
                 stageReference.setScene(scene);
@@ -270,6 +266,10 @@ public class GuiView extends View {
         usernameField.setPromptText("choose a username");
         usernameField.setMaxWidth(200);
 
+        TextField portField = new TextField();
+        portField.setPromptText("server port (refer to serverApp):");
+        portField.setMaxWidth(200);
+
         Button confirmButton = new Button("Confirm");
         Button backButton = new Button("Back");
         Label errorLabel = new Label();
@@ -278,25 +278,47 @@ public class GuiView extends View {
         //adding listeners
         confirmButton.setOnAction(actionEvent -> {
             int num = 0;
+            int port = ConnectionUtil.defaultPort;
             try {
                 num = Integer.parseInt(numPlayersChoice.getText());
             } catch (NumberFormatException e) {
                 errorLabel.setText("Enter a valid number of players");
                 return;
             }
+            try {
+                port = Integer.parseInt(portField.getText());
+            } catch (NumberFormatException e) {
+                errorLabel.setText("Enter a valid number as port");
+                return;
+            }
             String usr = usernameField.getText();
+            confirmButton.setDisable(true);
             if (ConnectionUtil.checkValid(num, usr)) {
-                confirmButton.setDisable(true);
-                try {
-                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort,this.bsc);
+                if(ConnectionUtil.isValidPort(port)){
+                    try {
+                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.bsc);
+                        bsc.setClientSocket(clientSocket);
+                    } catch (IOException e) {
+                        errorLabel.setText("Server not available");
+                        confirmButton.setDisable(false);
+                        return;
+                    }
+                }
+                else {
+                    try {
+                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.bsc);
                     bsc.setClientSocket(clientSocket);
-                } catch (IOException e) {
-                    errorLabel.setText("Server not available");
-                    return;
+                    }
+                    catch (IOException e) {
+                        errorLabel.setText("Server not available");
+                        confirmButton.setDisable(false);
+                        return;
+                    }
                 }
                 clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
-            } else {
+            }else {
                 errorLabel.setText("Invalid input");
+                confirmButton.setDisable(false);
             }
         });
         backButton.setOnAction(actionEvent -> drawHelloScene());
@@ -306,15 +328,16 @@ public class GuiView extends View {
             root.getChildren().add(localHostLabel);
             localHostLabel.setTranslateY(-200);
             numPlayersChoice.setTranslateY(-50);
+            portField.setTranslateY(0);
             usernameField.setTranslateY(-100);
             confirmButton.setTranslateY(50);
             backButton.setTranslateY(50);
             errorLabel.setTranslateY(100);
-            errorLabel.setTranslateX(50);
             confirmButton.setTranslateX(50);
             backButton.setTranslateX(-50);
             root.getChildren().add(usernameField);
             root.getChildren().add(numPlayersChoice);
+            root.getChildren().add(portField);
             root.getChildren().add(confirmButton);
             root.getChildren().add(errorLabel);
             root.getChildren().add(backButton);
@@ -932,7 +955,4 @@ public class GuiView extends View {
         return turnText;
     }
 
-    public Button getSwitchButton() {
-        return switchButton;
-    }
 }

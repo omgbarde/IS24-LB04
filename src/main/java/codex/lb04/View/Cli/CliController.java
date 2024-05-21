@@ -10,7 +10,6 @@ import codex.lb04.Utils.ConnectionUtil;
 import codex.lb04.View.Cli.State.CliBoardState;
 import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.ViewController;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
@@ -228,10 +227,6 @@ public class CliController extends ViewController {
      */
     private void helloHandler(String input) {
         switch (input) {
-            case "GUI":
-                Platform.runLater(()->cliView.getTask().run());
-                cliView.setState(CliViewState.END);
-                break;
             case "C":
                 cliView.drawCreateGameScene();
                 cliView.setState(CliViewState.CREATE_GAME);
@@ -366,6 +361,7 @@ public class CliController extends ViewController {
                 if(num<2||num>4){
                     cliView.drawCreateGameScene();
                     out.println("Enter a valid number of players");
+                    break;
                 }
                 out.println("Enter your username:");
                 String usr = null;
@@ -374,17 +370,47 @@ public class CliController extends ViewController {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                if (ConnectionUtil.checkValid(num, usr)) {
-                    try {
-                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort,this);
-                        setClientSocket(clientSocket);
-                    } catch (IOException e) {
-                        cliView.drawHelloScene();
-                        out.println("Server was not available");
-                        cliView.setState(CliViewState.HELLO);
-                        return;
+                out.println("Enter the server port (refer to serverApp):");
+                String portChoice;
+                int portNumber;
+                try {
+                    portChoice = inputThread.call();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    portNumber = Integer.parseInt(portChoice);
+                } catch (NumberFormatException e) {
+                    cliView.drawCreateGameScene();
+                    out.println("enter a valid number");
+                    break;
+                }
+                if (ConnectionUtil.checkValid(num,usr)) {
+                    if(ConnectionUtil.isValidPort(portNumber)){
+                        try {
+                            clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), portNumber, this);
+                            setClientSocket(clientSocket);
+                        } catch (IOException e) {
+                            cliView.drawHelloScene();
+                            out.println("Server was not available");
+                            cliView.setState(CliViewState.HELLO);
+                            return;
+                        }
+                        //TODO remove port from this message
+                        clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+                    }else{
+                        cliView.drawCreateGameScene();
+                        out.println("Invalid port, trying to use default port..");
+                        try {
+                            clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort, this);
+                            setClientSocket(clientSocket);
+                        } catch (IOException e) {
+                            cliView.drawHelloScene();
+                            out.println("Server was not available");
+                            cliView.setState(CliViewState.HELLO);
+                            return;
+                        }
                     }
-                    clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
                 } else {
                     cliView.drawCreateGameScene();
                     out.println("Invalid input, please enter a valid number of players and username.");
