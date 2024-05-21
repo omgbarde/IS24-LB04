@@ -1,5 +1,6 @@
 package codex.lb04.View.Gui;
 
+import codex.lb04.View.Cli.CliView;
 import codex.lb04.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,6 +23,11 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         guiView = new GuiView(stage);
+        ((GuiView)guiView).getSwitchButton().setOnAction(e->{
+            new Thread(() -> new CliView().run()).start();
+            // Close the current JavaFX window
+            stage.close();
+        });
         guiView.drawHelloScene();
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
@@ -38,7 +44,6 @@ public class GuiLauncher extends Application {
      */
     public void stop() {
         Platform.exit();
-        System.exit(0);
     }
 
     public static View getGuiView() {

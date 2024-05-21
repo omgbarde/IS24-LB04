@@ -10,6 +10,8 @@ import codex.lb04.Utils.ConnectionUtil;
 import codex.lb04.View.Cli.State.CliBoardState;
 import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.ViewController;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class CliController extends ViewController {
     private ClientSocket clientSocket;
     private boolean firstTurn = true;
     private boolean placed = false;
+    Task task;
 
     /**
      * Constructor of the board scene controller
@@ -199,7 +202,7 @@ public class CliController extends ViewController {
             case CREATE_GAME -> createGameHandler(input);
             case BOARD -> boardHandler(input);
             case CHAT -> chatHandler(input);
-            case END -> endHandler(input);
+            case END -> {}
         }
     }
 
@@ -225,6 +228,10 @@ public class CliController extends ViewController {
      */
     private void helloHandler(String input) {
         switch (input) {
+            case "GUI":
+                Platform.runLater(()->cliView.getTask().run());
+                cliView.setState(CliViewState.END);
+                break;
             case "C":
                 cliView.drawCreateGameScene();
                 cliView.setState(CliViewState.CREATE_GAME);

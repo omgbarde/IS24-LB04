@@ -51,8 +51,10 @@ public class GameController {
         if (this.turnController != null) {
             this.turnController.resetInstance();
         }
-        this.inputController = new InputController(this, game);
         instance = null;
+        instance = getInstance();
+        this.inputController = new InputController(this, game);
+
     }
 
     /**

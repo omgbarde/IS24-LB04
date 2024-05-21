@@ -34,14 +34,14 @@ public class BoardSceneController extends ViewController {
     private Card selectedCard = null;
     private Rectangle selectedRectangle = null;
 
-    private Map<Rectangle, Card> drawableResources = new LinkedHashMap<>();
-    private Map<Rectangle, Card> drawableGold = new LinkedHashMap<>();
-    private Map<Rectangle, Card> hand = new LinkedHashMap<>();
-    private Map<Rectangle, Card> commonObjectives = new LinkedHashMap<>();
-    private Map<Rectangle, Card> secretObjectivesToChoose = new LinkedHashMap<>();
-    private Map<Rectangle, Card> secretObjective = new LinkedHashMap<>();
-    private Map<Rectangle, Card> initialCardDisplay = new LinkedHashMap<>();
-    private Map<Rectangle, Text> pointsDisplay = new LinkedHashMap<>();
+    private Map<Rectangle, Card> drawableResources;
+    private Map<Rectangle, Card> drawableGold;
+    private Map<Rectangle, Card> hand;
+    private Map<Rectangle, Card> commonObjectives;
+    private Map<Rectangle, Card> secretObjectivesToChoose;
+    private Map<Rectangle, Card> secretObjective;
+    private Map<Rectangle, Card> initialCardDisplay;
+    private Map<Rectangle, Text> pointsDisplay;
 
 
     /**
@@ -53,6 +53,15 @@ public class BoardSceneController extends ViewController {
         this.gridMap = new HashMap<>();
         this.guiView = guiView;
         this.stageReference = guiView.getStageReference();
+        this.drawableResources = new LinkedHashMap<>();
+        this.hand = new LinkedHashMap<>();
+        this.drawableGold = new LinkedHashMap<>();
+        this.commonObjectives = new LinkedHashMap<>();
+        this.secretObjectivesToChoose = new LinkedHashMap<>();
+        this.secretObjective = new LinkedHashMap<>();
+        this.initialCardDisplay = new LinkedHashMap<>();
+        this.pointsDisplay = new LinkedHashMap<>();
+
     }
 
     /**

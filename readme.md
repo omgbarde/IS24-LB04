@@ -30,6 +30,8 @@ overall testing and report:\
 ## Todo list
 - [x] crippling depression
 - [ ] add port choice to create game (cli and gui)
-- [ ] fix not sending cards after crashing ingame
+- [ ] add button/options to switch to cli from gui and back
+- [ ] fix gui breaking after crashing ingame
 - [ ] fix gold card inkwell cost (need to check)
-- [ ] moooooore testing
+- [ ] more testing
+- [ ] general refactor

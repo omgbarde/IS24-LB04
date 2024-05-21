@@ -37,14 +37,6 @@ import java.util.ArrayList;
  * class that represents the GUI view
  */
 public class GuiView extends View {
-    private Stage stageReference;
-    private ClientSocket clientSocket;
-    private Label lobbyLabel = new Label();
-    private TextArea chatText = new TextArea();
-    BoardSceneController bsc;
-
-    private ArrayList<Text> points_display = new ArrayList<>();
-
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
     double cardWidth = 124;
@@ -53,6 +45,15 @@ public class GuiView extends View {
     double resourceHeigth = 50;
     double stageWidth = 1000;
     double stageHeigth = 600;
+
+    private Stage stageReference;
+    private ClientSocket clientSocket;
+    private Button switchButton;
+    private Label lobbyLabel;
+    private TextArea chatText;
+    BoardSceneController bsc;
+
+    private ArrayList<Text> points_display ;
 
     Group movableRootReference;
     Group staticGroupReference;
@@ -67,14 +68,19 @@ public class GuiView extends View {
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
+        this.switchButton = new Button("Play in CLI mode");
+        this.lobbyLabel = new Label();
+        this.chatText = new TextArea();
+        this.points_display = new ArrayList<>();
         stageReference = stage;
-
-        bsc = new BoardSceneController(this);
     }
 
 
     @Override
     public void drawHelloScene() {
+        //every time it resets
+        bsc = new BoardSceneController(this);
+
         //creating elements
         StackPane root = new StackPane();
         InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_1080.jpg");
@@ -93,6 +99,8 @@ public class GuiView extends View {
         });
         Button joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(actionEvent -> drawLoginScene());
+
+
         Label titleLabel = new Label("Codex naturalis");
         //append elements to the root
         Platform.runLater(new Runnable() {
@@ -103,9 +111,13 @@ public class GuiView extends View {
                 root.getChildren().add(titleLabel);
                 titleLabel.setTranslateY(-200);
                 joinGameButton.setTranslateY(50);
+                switchButton.setTranslateX(430);
+                switchButton.setTranslateY(250);
                 root.getChildren().add(createGameButton);
 
                 root.getChildren().add(joinGameButton);
+
+                root.getChildren().add(switchButton);
                 Scene scene = new Scene(root, 1520, 850);
                 scene.getStylesheets().add("/codexTheme.css");
                 stageReference.setScene(scene);
@@ -547,8 +559,11 @@ public class GuiView extends View {
         messageField.setLayoutY(350);
         sendButton.setLayoutX(centerX + 50);
         sendButton.setLayoutY(350);
-        
-        chatRoot.getChildren().addAll(chatBox,chatText,messageField,sendButton);
+
+        chatRoot.getChildren().add(chatBox);
+        chatRoot.getChildren().add(chatText);
+        chatRoot.getChildren().add(messageField);
+        chatRoot.getChildren().add(sendButton);
 
         chatRoot.setVisible(false);
         setChatGroupReferece(chatRoot);
@@ -796,29 +811,27 @@ public class GuiView extends View {
         Translate cameraTranslate = new Translate();
         movableRoot.getTransforms().add(cameraTranslate);
 
-        Scene scene = new Scene(root, 1400, 900);
-
-        // Add key listeners to the scene to move the camera
-        scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case W:
-                    cameraTranslate.setY(cameraTranslate.getY() + 20);
-                    break;
-                case S:
-                    cameraTranslate.setY(cameraTranslate.getY() - 20);
-                    break;
-                case A:
-                    cameraTranslate.setX(cameraTranslate.getX() + 20);
-                    break;
-                case D:
-                    cameraTranslate.setX(cameraTranslate.getX() - 20);
-                    break;
-            }
-        });
-
         Platform.runLater(() -> {
-            stageReference.setTitle("Codex! - your board");
+            Scene scene = new Scene(root, 1400, 900);
+            // Add key listeners to the scene to move the camera
+            scene.setOnKeyPressed(e -> {
+                switch (e.getCode()) {
+                    case W:
+                        cameraTranslate.setY(cameraTranslate.getY() + 20);
+                        break;
+                    case S:
+                        cameraTranslate.setY(cameraTranslate.getY() - 20);
+                        break;
+                    case A:
+                        cameraTranslate.setX(cameraTranslate.getX() + 20);
+                        break;
+                    case D:
+                        cameraTranslate.setX(cameraTranslate.getX() - 20);
+                        break;
+                }
+            });
             scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setTitle("Codex! - your board");
             stageReference.setScene(scene);
             stageReference.setHeight(stageHeigth + 37);
             stageReference.setWidth(stageWidth);
@@ -917,5 +930,9 @@ public class GuiView extends View {
 
     public Text getTurnText() {
         return turnText;
+    }
+
+    public Button getSwitchButton() {
+        return switchButton;
     }
 }

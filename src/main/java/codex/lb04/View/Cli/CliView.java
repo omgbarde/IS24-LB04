@@ -3,6 +3,7 @@ package codex.lb04.View.Cli;
 import codex.lb04.View.Cli.State.CliBoardState;
 import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.View;
+import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,6 +19,7 @@ public class CliView extends View implements Runnable{
     CliBoardModel boardModel;
     CliController controller;
     private ArrayList<String> chat;
+    private Task task;
 
     private static Scanner scanner;
 
@@ -30,6 +32,16 @@ public class CliView extends View implements Runnable{
         this.controller = new CliController(this);
         this.chat = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+    }
+
+    public void setTask(Runnable runnable){
+        this.task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                runnable.run();
+                return null;
+            }
+        };
     }
 
     /**
@@ -67,6 +79,7 @@ public class CliView extends View implements Runnable{
 
         out.println("Welcome to Codex Naturalis Board Game!");
         out.println("Press 'C' to Create a Game or 'J' to Join a Game");
+        out.println("write 'GUI' to play in gui mode");
     }
 
     @Override
@@ -282,4 +295,7 @@ public class CliView extends View implements Runnable{
         return boardModel;
     }
 
+    public Task getTask() {
+        return this.task;
+    }
 }
