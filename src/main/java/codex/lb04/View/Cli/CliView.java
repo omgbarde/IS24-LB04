@@ -75,7 +75,8 @@ public class CliView extends View implements Runnable{
                 "| `\\| |   _ _ | ,_) _   _  _ __  _ _ | |(_) ___ \n" +
                 "| , ` | /'_` )| |  ( ) ( )( '__)'_` )| || /',__)\n" +
                 "| |`\\ |( (_| || |_ | (_) || | ( (_| || || \\__, \\\n" +
-                "(_) (_)`\\__,_)`\\__)`\\___/'(_) `\\__,_|___|_|____/");
+                "(_) (_)`\\__,_)`\\__)`\\___/'(_) `\\__,_|___|_|____/ \n" +
+                "by Pitesse, Barde, AlexIlLeone, Brio");
 
         out.println("Welcome to Codex Naturalis Board Game!");
         out.println("Press 'C' to Create a Game or 'J' to Join a Game");
