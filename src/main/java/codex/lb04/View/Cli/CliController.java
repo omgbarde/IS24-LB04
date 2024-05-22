@@ -547,6 +547,7 @@ public class CliController extends ViewController {
                     break;
                 }
                 clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(),x, y, cliBoardModel.getSelectedCard()));
+
                 cliBoardModel.deselectCard();
                 cliView.drawBoardScene();
                 break;

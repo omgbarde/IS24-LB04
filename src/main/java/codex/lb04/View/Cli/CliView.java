@@ -172,7 +172,6 @@ public class CliView extends View implements Runnable{
      * Draw the played cards
      */
     private void drawPlayedCards(){
-
         boardModel.printGridMap();
     }
 

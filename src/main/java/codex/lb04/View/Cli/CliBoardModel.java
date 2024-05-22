@@ -4,6 +4,7 @@ import codex.lb04.Model.*;
 import codex.lb04.View.Cli.State.CliBoardState;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.lang.System.out;
 
@@ -16,6 +17,7 @@ public class CliBoardModel {
     private ArrayList<GoldCard> visibleGold;
     private ArrayList<ResourceCard> visibleResources;
     private ArrayList<ObjectiveCard> objectiveCards;
+    private ArrayList<Card> playedCards;
     private ObjectiveCard secretObjective;
     private InitialCard initialCard;
     private ArrayList<ObjectiveCard> choices;
@@ -28,6 +30,7 @@ public class CliBoardModel {
         turnLabel = "not your turn";
         boardState = CliBoardState.END;
         hand = new ArrayList<>();
+        playedCards = new ArrayList<>();
         visibleGold = new ArrayList<>();
         visibleResources = new ArrayList<>();
         objectiveCards = new ArrayList<>();
@@ -51,9 +54,28 @@ public class CliBoardModel {
      */
     public void placeCard(Integer x, Integer y, Card card) {
         int k = gridSize/2;
-        //inverse transforms the coordinates and places the card
+        //inverse transforms the coordinates and places the card, if it's going to cover a corner
+        //the covered card will be rendered again
+        for(Card c: playedCards){
+            if(c!=null) {
+                if (c.getX() == x + 1 && c.getY() == y + 1) {
+                    c.getShownFace().getLowerLeft().setCovered(c);
+                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderIngame(c);
+                } else if (c.getX() == x + 1 && c.getY() == y - 1) {
+                    c.getShownFace().getUpperLeft().setCovered(c);
+                    gridMap[-c.getY() + k][k + c.getY()] = CardRenderer.renderIngame(c);
+                } else if (c.getX() == x - 1 && c.getY() == y + 1) {
+                    c.getShownFace().getLowerRight().setCovered(c);
+                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderIngame(c);
+                } else if(c.getX() == x - 1 && c.getY() == y - 1){
+                    c.getShownFace().getUpperRight().setCovered(c);
+                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderIngame(c);
+                }
+            }
+        }
+        playedCards.add(card);
+        card.setCoordinates(x,y);
         gridMap[-y+k][k+x] = CardRenderer.renderIngame(card);
-
     }
 
     /**
@@ -90,6 +112,8 @@ public class CliBoardModel {
     public String getTurnLabel() {
         return turnLabel;
     }
+
+    public ArrayList<Card> getPlayedCards(){return playedCards;}
 
     /**
      * sets the turn label
