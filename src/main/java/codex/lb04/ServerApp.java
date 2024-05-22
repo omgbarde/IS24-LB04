@@ -35,7 +35,7 @@ public class ServerApp implements Runnable {
         for (ClientHandler clientHandler : clientHandlerList) {
             String clientName = clientHandler.getUsername();
             if (clientName.equals(username)) {
-                clientHandler.addMessageToQueue(message);
+                clientHandler.sendMessage(message);
             }
         }
     }
@@ -69,7 +69,7 @@ public class ServerApp implements Runnable {
      */
     public static void broadcast(Message message) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            clientHandler.addMessageToQueue(message);
+            clientHandler.sendMessage(message);
         }
     }
 

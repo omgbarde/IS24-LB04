@@ -187,6 +187,14 @@ public class CliController extends ViewController {
         out.println(string);
     }
 
+    @Override
+    public void showWinners(String winner) {
+        //TODO: make another state for completeness
+        cliBoardModel.setBoardState(CliBoardState.END);
+        cliView.setState(CliViewState.END);
+        cliView.showWinners(winner);
+    }
+
     /**
      * Handle the input
      *
@@ -201,7 +209,7 @@ public class CliController extends ViewController {
             case CREATE_GAME -> createGameHandler(input);
             case BOARD -> boardHandler(input);
             case CHAT -> chatHandler(input);
-            case END -> {}
+            case END -> drawHelloScene();
         }
     }
 

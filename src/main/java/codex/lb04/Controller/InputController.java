@@ -88,7 +88,6 @@ public class InputController {
         Integer X = ((PlaceCardMessage) message).getX();
         Integer Y = ((PlaceCardMessage) message).getY();
         Card card = ((PlaceCardMessage) message).getCard();
-        //TODO reset players and lobby
         return game.getPlayerByName(message.getUsername()).getBoard().canBePlaced(X, Y, card);
     }
 

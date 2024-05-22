@@ -69,7 +69,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawLobbyScene() {
-        guiView.drawLobbyScene();
+        Platform.runLater(()->guiView.drawLobbyScene());
     }
 
     /**
@@ -77,7 +77,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawHelloScene() {
-        guiView.drawHelloScene();
+        Platform.runLater(()->guiView.drawHelloScene());
     }
 
     /**
@@ -85,7 +85,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void updateLobby(ArrayList<String> lobby) {
-        guiView.updateLobby(lobby);
+        Platform.runLater(()->guiView.updateLobby(lobby));
     }
 
 
@@ -259,9 +259,9 @@ public class BoardSceneController extends ViewController {
     public void toggleChat(){
         Group chatGroup = guiView.getChatGroup();
         if(chatGroup.isVisible()){
-            chatGroup.setVisible(false);
+            Platform.runLater(()->chatGroup.setVisible(false));
         }else{
-            chatGroup.setVisible(true);
+            Platform.runLater(()->chatGroup.setVisible(true));
         }
     }
 
@@ -331,7 +331,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void displayAlert(String alert) {
-        guiView.displayAlert(alert);
+        Platform.runLater(()->guiView.displayAlert(alert));
     }
 
     /**
@@ -339,7 +339,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawBoardScene() {
-        Platform.runLater(()->guiView.drawBoardScene());
+        guiView.drawBoardScene();
     }
 
     /**
@@ -347,7 +347,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void setYourTurnText() {
-        guiView.getTurnText().setText("YOUR TURN");
+        Platform.runLater(()->guiView.getTurnText().setText("YOUR TURN"));
 
     }
 
@@ -356,7 +356,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void cleanYourTurnText() {
-        guiView.getTurnText().setText("NOT YOUR TURN");
+        Platform.runLater(()->guiView.getTurnText().setText("NOT YOUR TURN"));
     }
 
     /**
@@ -473,6 +473,14 @@ public class BoardSceneController extends ViewController {
     @Override
     public void print(String string) {
 
+    }
+
+    @Override
+    public void showWinners(String winner) {
+        Platform.runLater(()->{
+            guiView.drawWinnerScene();
+            guiView.setWinnerLabel(winner);
+        });
     }
 
 
@@ -787,4 +795,17 @@ public class BoardSceneController extends ViewController {
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
     }
+
+    public void reset(){
+        this.gridMap = new HashMap<>();
+        this.drawableResources = new LinkedHashMap<>();
+        this.hand = new LinkedHashMap<>();
+        this.drawableGold = new LinkedHashMap<>();
+        this.commonObjectives = new LinkedHashMap<>();
+        this.secretObjectivesToChoose = new LinkedHashMap<>();
+        this.secretObjective = new LinkedHashMap<>();
+        this.initialCardDisplay = new LinkedHashMap<>();
+        this.pointsDisplay = new LinkedHashMap<>();
+    }
+
 }

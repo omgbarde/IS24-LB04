@@ -50,6 +50,7 @@ public class GameController {
         game.addObserver(gameObserver);
         if (this.turnController != null) {
             this.turnController.resetInstance();
+            this.turnController = null;
         }
         instance = null;
         instance = getInstance();
@@ -147,7 +148,6 @@ public class GameController {
                 break;
             case DEAD_CLIENT:
                 //game.removePlayerFromLobby(usr);
-                //TODO implement the reset correctly
                 this.resetInstance();
                 break;
             default:
@@ -317,15 +317,12 @@ public class GameController {
     private void inEndState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
         switch (receivedMessage.getMessageType()) {
-            case CREATE_GAME:
-                //TODO restart a new game (make a button send this message)
-                break;
             case DEAD_CLIENT:
                 //game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:
-                ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, play again or quit"), usr);
+                ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, go back to menu or quit"), usr);
         }
     }
 

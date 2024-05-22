@@ -45,4 +45,5 @@ public abstract class ViewController {
 
     public abstract void print(String string);
 
+    public abstract void showWinners(String winner);
 }

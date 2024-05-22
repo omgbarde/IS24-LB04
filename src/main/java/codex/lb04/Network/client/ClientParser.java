@@ -3,6 +3,7 @@ package codex.lb04.Network.client;
 import codex.lb04.Message.*;
 import codex.lb04.Message.DrawMessage.*;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
+import codex.lb04.Message.GameMessage.WinnersMessage;
 import codex.lb04.View.ViewController;
 
 /**
@@ -91,6 +92,9 @@ public class ClientParser {
                 break;
             case CHAT_MESSAGE:
                 viewController.updateChat(((ChatMessage)input).toString());
+                break;
+            case WINNERS:
+                viewController.showWinners(((WinnersMessage)input).getWinner());
                 break;
             default:
                 viewController.displayAlert("message not recognized");

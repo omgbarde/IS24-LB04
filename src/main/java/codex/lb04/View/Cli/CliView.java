@@ -294,7 +294,9 @@ public class CliView extends View implements Runnable{
         return boardModel;
     }
 
-    public Task getTask() {
-        return this.task;
+    public void showWinners(String winner) {
+        printSpaces();
+        out.println(winner);
+        out.println("press any key to continue");
     }
 }

@@ -12,7 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * client handler class handles client-server comunication
@@ -24,7 +26,7 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream input;
     private String username;
 
-    private BlockingQueue<Message> messageQueue;
+    //private BlockingQueue<Message> messageQueue;
 
     private ScheduledExecutorService pinger;
     private long pingSentTime;
@@ -40,7 +42,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, ServerApp server) {
         this.clientSocket = socket;
         this.server = server;
-        this.messageQueue = new LinkedBlockingQueue<>();
+        //this.messageQueue = new LinkedBlockingQueue<>();
         this.pongReceivedTime = System.currentTimeMillis();
         this.pinger = Executors.newSingleThreadScheduledExecutor();
         try {
@@ -58,7 +60,6 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            startQueue();
             startPinger();
             while (clientSocket.isConnected()) {
                 Message message = (Message) input.readObject();
@@ -124,7 +125,7 @@ public class ClientHandler implements Runnable {
         this.username = username;
     }
 
-    private void startQueue(){
+    /*private void startQueue(){
         new Thread(() -> {
             while (clientSocket.isConnected()) {
                 try {
@@ -135,11 +136,7 @@ public class ClientHandler implements Runnable {
                 }
             }
         }).start();
-    }
-
-    public void addMessageToQueue(Message message){
-        messageQueue.add(message);
-    }
+    }*/
 
     /**
      * starts a new executor to ping the client
@@ -148,16 +145,17 @@ public class ClientHandler implements Runnable {
         pinger.scheduleAtFixedRate(()->{
             pingSentTime = System.currentTimeMillis();
             String s = "pinged at" + pingSentTime;
-            addMessageToQueue(new PingMessage(s));
+            sendMessage(new PingMessage(s));
             //check for elapsed time
             if(System.currentTimeMillis() - pongReceivedTime > 10000) {
                 try {
+                    pinger.shutdown();
                     clientSocket.close();
+                    server.onMessageReceived(new DeadClientMessage(this.username));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                pinger.shutdown();
             }
-            }, 0, 5, TimeUnit.SECONDS);
+        }, 0, 5, TimeUnit.SECONDS);
     }
 }

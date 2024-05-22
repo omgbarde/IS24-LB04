@@ -5,6 +5,7 @@ import codex.lb04.Message.DrawMessage.UpdateCommonObjectivesMessage;
 import codex.lb04.Message.DrawMessage.UpdateSecretObjectiveToChooseMessage;
 import codex.lb04.Message.GameMessage.EndTurnMessage;
 import codex.lb04.Message.GameMessage.StartTurnMessage;
+import codex.lb04.Message.GameMessage.WinnersMessage;
 import codex.lb04.Message.GenericMessage;
 import codex.lb04.Message.LoginReply;
 import codex.lb04.Message.PlayersConnectedMessage;
@@ -349,16 +350,16 @@ public class Game extends Observable {
     public void notifyWinner(ArrayList<String> winners) {
         switch (winners.size()) {
             case 1:
-                notifyObserver(new GenericMessage("server", "The winner is: " + getWinners().getFirst()));
+                notifyObserver(new WinnersMessage("server", "The winner is: " + getWinners().getFirst()));
                 break;
             case 2:
-                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
+                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
                 break;
             case 3:
-                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
+                notifyObserver(new WinnersMessage(  "server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
                 break;
             case 4:
-                notifyObserver(new GenericMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));
+                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));
                 break;
             default:
                 break;
