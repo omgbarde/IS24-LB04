@@ -356,13 +356,13 @@ public class Board extends Observable {
         if (toBePlaced.getShownFace() == toBePlaced.getFront()) {
             switch (toBePlaced.getID()) {
                 case 41, 51, 63, 71:
-                    this.PointsByGoldCards += toBePlaced.getPoints() * (getQuills()+1);
+                    this.PointsByGoldCards += toBePlaced.getPoints() * (getQuills());
                     break;
                 case 42, 53, 61, 73:
-                    this.PointsByGoldCards += toBePlaced.getPoints() * (getInkwells()+1);
+                    this.PointsByGoldCards += toBePlaced.getPoints() * (getInkwells());
                     break;
                 case 43, 52, 62, 72:
-                    this.PointsByGoldCards += toBePlaced.getPoints() * (getManuscripts()+1);
+                    this.PointsByGoldCards += toBePlaced.getPoints() * (getManuscripts());
                     break;
                 case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76:
                     this.PointsByGoldCards += getCornerCovered(toBePlaced, toBePlaced.getX(), toBePlaced.getY()) * 2;
