@@ -470,7 +470,7 @@ public class Board extends Observable {
         this.Points = this.PointsByGoldCards;
         for (Card card : playedCards) {
             if (card.getClass() == ResourceCard.class || card.getClass() == Card.class) {
-                if (card.getPoints() != null) {
+                if (card.getPoints() != null && card.getShownFace() == card.getFront()) {
                     this.Points += card.getPoints();
                 }
             }

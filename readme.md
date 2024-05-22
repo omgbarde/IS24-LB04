@@ -31,7 +31,6 @@ overall testing and report:\
 
 ## Todo list
 - [x] crippling depression
-- [ ] fix gold card giving points even if flipped
 - [ ] fix winners message not sent in case of multiple winners
 - [ ] more testing
 - [ ] general refactor
