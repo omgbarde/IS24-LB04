@@ -100,14 +100,13 @@ public class GuiView extends View {
         joinGameButton.setOnAction(actionEvent -> drawLoginScene());
 
 
-        Label titleLabel = new Label("Codex naturalis");
-
         //append elements to the root
         stageReference.setTitle("Codex! - Welcome");
         root.getChildren().add(imageView);
-        root.getChildren().add(titleLabel);
-        titleLabel.setTranslateY(-200);
-        joinGameButton.setTranslateY(50);
+        joinGameButton.setTranslateY(120);
+        joinGameButton.setTranslateX(50);
+        createGameButton.setTranslateY(120);
+        createGameButton.setTranslateX(-50);
         root.getChildren().add(createGameButton);
         root.getChildren().add(joinGameButton);
         Scene scene = new Scene(root, 1520, 850);
