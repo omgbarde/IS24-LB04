@@ -122,6 +122,16 @@ public class GuiView extends View {
         //creating elements
         StackPane root = new StackPane();
 
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+        Image image = new Image(is);
+
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setPreserveRatio(true);
+
+        imageView.setFitWidth(root.computeAreaInScreen());
+        imageView.setFitHeight(root.computeAreaInScreen());
+
         TextField usernameField = new TextField();
         usernameField.setPromptText("username");
         usernameField.setMaxWidth(200);
@@ -182,6 +192,7 @@ public class GuiView extends View {
         backButton.setTranslateX(-50);
 
         root.getChildren().add(usernameField);
+        root.getChildren().add(imageView);
         root.getChildren().add(serverAddressField);
         root.getChildren().add(serverPortField);
         root.getChildren().add(loginButton);
@@ -200,6 +211,16 @@ public class GuiView extends View {
     public void drawLobbyScene() {
         StackPane root = new StackPane();
 
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+        Image image = new Image(is);
+
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setPreserveRatio(true);
+
+        imageView.setFitWidth(root.computeAreaInScreen());
+        imageView.setFitHeight(root.computeAreaInScreen());
+
         Label titleLabel = new Label("Players in the lobby");
 
         Button playButton = new Button("Play");
@@ -210,6 +231,8 @@ public class GuiView extends View {
         lobbyLabel.setTranslateY(-100);
 
         root.getChildren().add(lobbyLabel);
+        root.getChildren().add(imageView);
+
 
         playButton.setTranslateY(50);
         playButton.setTranslateX(50);
@@ -248,6 +271,16 @@ public class GuiView extends View {
     public void drawCreateGameScene() {
         //creating elements
         StackPane root = new StackPane();
+
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+        Image image = new Image(is);
+
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setPreserveRatio(true);
+
+        imageView.setFitWidth(root.computeAreaInScreen());
+        imageView.setFitHeight(root.computeAreaInScreen());
 
         Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalhost());
 
@@ -319,6 +352,7 @@ public class GuiView extends View {
         //append elements to the root
         stageReference.setTitle("Codex! - Create Game");
         root.getChildren().add(localHostLabel);
+        root.getChildren().add(imageView);
         localHostLabel.setTranslateY(-200);
         numPlayersChoice.setTranslateY(-50);
         portField.setTranslateY(0);
