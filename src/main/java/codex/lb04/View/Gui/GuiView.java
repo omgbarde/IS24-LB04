@@ -82,7 +82,7 @@ public class GuiView extends View {
     public void drawHelloScene() {
         //creating elements
         StackPane root = new StackPane();
-        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_1080.jpg");
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_minimal.png");
         Image image = new Image(is);
 
         ImageView imageView = new ImageView(image);
