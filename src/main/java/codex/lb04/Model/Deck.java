@@ -186,13 +186,15 @@ public class Deck extends Observable {
      */
     public void updateVisibleGold(int pick) {
         this.visibleGoldCards.remove(pick);
-        GoldCard topGold = getTopGold();
+        GoldCard topGold;
         switch(pick){
             case 0, 1:
                 drawGold();
+                topGold = getTopGold();
                 if(topGold!=null) visibleGoldCards.add(topGold);
                 break;
             case 2:
+                topGold = getTopGold();
                 if (topGold!= null) visibleGoldCards.add(getTopGold());
                 break;
         }
@@ -206,13 +208,15 @@ public class Deck extends Observable {
      */
     public void updateVisibleResource(int pick) {
         visibleResourceCards.remove(pick);
-        ResourceCard topResource = getTopResource();
+        ResourceCard topResource;
         switch(pick){
             case 0, 1:
                 drawResource();
+                topResource = getTopResource();
                 if(topResource != null) visibleResourceCards.add(topResource);
                 break;
             case 2:
+                topResource = getTopResource();
                 if(topResource != null) visibleResourceCards.add(topResource);
                 break;
         }
