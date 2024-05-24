@@ -9,7 +9,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class GameTest {
@@ -143,23 +144,6 @@ public class GameTest {
 
     @Test
     public void getLobby(){assertNotNull(game.getLobby());}
-
-
-    @Test
-    public void removePlayerFromLobby(){
-        game.removePlayerFromLobby("test");
-        assertFalse(game.getLobby().contains("test"));
-    }
-
-   @Test
-    public void checkWinner(){
-        player.getBoard().setSecretObjective(0);
-        player1.getBoard().setSecretObjective(1);
-        game.setCommonObjectivesForallPlayers();
-        player.getBoard().setPoints(10);
-        player1.getBoard().setPoints(5);
-        //assertTrue(game.checkWinner().contains(player.getUsername()));
-    }
 
 
 }

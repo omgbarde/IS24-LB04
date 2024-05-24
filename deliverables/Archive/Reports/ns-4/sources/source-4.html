@@ -81,19 +81,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import codex.lb04.Message.MessageType;
 &nbsp;import codex.lb04.Model.GoldCard;
 &nbsp;
+&nbsp;import java.io.Serial;
 &nbsp;import java.util.ArrayList;
 &nbsp;/**
 &nbsp; * Message to notify the user to update the gold cards.
 &nbsp; */
 &nbsp;public class UpdateGoldMessage extends Message {
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = -3141819156133549832L;
 &nbsp;
-&nbsp;    private ArrayList&lt;GoldCard&gt; gold;
+&nbsp;    private final ArrayList&lt;GoldCard&gt; gold;
 &nbsp;    /**
 &nbsp;     * Constructor for UpdateGoldMessage
 &nbsp;     * @param goldCards gold cards to update
 &nbsp;     */
 &nbsp;    public UpdateGoldMessage(ArrayList&lt;GoldCard&gt; goldCards) {
-<b class="fc">&nbsp;        super(&quot;&quot; , MessageType.UPDATE_GOLD);</b>
+<b class="fc">&nbsp;        super(&quot;server&quot; , MessageType.UPDATE_GOLD);</b>
 <b class="fc">&nbsp;        this.gold = goldCards;</b>
 &nbsp;    }
 &nbsp;    /**
@@ -129,7 +132,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

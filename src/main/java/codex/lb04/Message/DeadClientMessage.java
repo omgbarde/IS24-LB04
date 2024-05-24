@@ -7,7 +7,8 @@ import java.io.Serial;
  */
 public class DeadClientMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 8021243630716826873L;
+
     public DeadClientMessage(String username) {
         super(username, MessageType.DEAD_CLIENT);
     }

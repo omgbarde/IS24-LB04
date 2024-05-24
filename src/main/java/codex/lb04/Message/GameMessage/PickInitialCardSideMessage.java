@@ -11,10 +11,10 @@ import java.io.Serial;
  */
 public class PickInitialCardSideMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 16;
+    private static final long serialVersionUID = 2636533059607620184L;
 
-    private Face cardSide;
-    private InitialCard initialCard;
+    private final Face cardSide;
+    private final InitialCard initialCard;
 
     /**
      * Constructor for PickInitialCardSideMessage
@@ -33,13 +33,6 @@ public class PickInitialCardSideMessage extends Message {
      */
     public InitialCard getInitialCard() {
         return initialCard;
-    }
-    /**
-     * Getter for cardSide
-     * @return cardSide
-     */
-    public Face getCardSide() {
-        return cardSide;
     }
 
     /**

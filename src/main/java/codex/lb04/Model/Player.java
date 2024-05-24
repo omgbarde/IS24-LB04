@@ -4,8 +4,8 @@ package codex.lb04.Model;
  * This class represents a player
  */
 public class Player {
-    private String username;
-    private Board board;
+    private final String username;
+    private final Board board;
 
     /**
      * default constructor
@@ -18,6 +18,8 @@ public class Player {
         this.board = new Board();
     }
 
+    //GETTER
+
     /**
      * This method returns the username of the player
      *
@@ -27,7 +29,6 @@ public class Player {
         return username;
     }
 
-
     /**
      * This method returns the board of the player
      *
@@ -36,6 +37,5 @@ public class Player {
     public Board getBoard() {
         return board;
     }
-
 
 }

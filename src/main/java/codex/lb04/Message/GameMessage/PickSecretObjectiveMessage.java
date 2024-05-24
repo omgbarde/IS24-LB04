@@ -9,9 +9,9 @@ import java.io.Serial;
  */
 public class PickSecretObjectiveMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 18;
+    private static final long serialVersionUID = 5047465131254636392L;
 
-    private Integer cardPick;
+    private final Integer cardPick;
 
     /**
      * Constructor for PickSecretObjectiveMessage

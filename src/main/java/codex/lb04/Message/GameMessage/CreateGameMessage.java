@@ -6,13 +6,12 @@ import codex.lb04.Message.MessageType;
 import java.io.Serial;
 
 /**
- * Message sent to create a new game
+ * Message sent by a client to create a new game
  */
 public class CreateGameMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 10;
-    private int numberOfPlayers;
-    private int desiredPort;
+    private static final long serialVersionUID = -2584692589852687425L;
+    private final int numberOfPlayers;
 
     /**
      * Constructor for CreateGameMessage
@@ -20,20 +19,17 @@ public class CreateGameMessage extends Message {
      * @param port port the client wants to use
      * @param num number of players in the game
      */
-    public CreateGameMessage(String username, int port, int num) {
+    public CreateGameMessage(String username, int num) {
         super(username, MessageType.CREATE_GAME);
         this.numberOfPlayers = num;
-        this.desiredPort = port;
     }
 
     @Override
     public String toString() {
         return "CreateGameMessage{" +
                 "numberOfPlayers=" + numberOfPlayers +
-                ", desiredPort=" + desiredPort +
                 '}';
     }
-
 
     /**
      * getter for number of players

@@ -34,7 +34,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
- * class that represents the GUI view
+ * This class represents the view of the game in GUI mode
  */
 public class GuiView extends View {
     double centerX = 1000 / 2.0;
@@ -42,67 +42,71 @@ public class GuiView extends View {
     double cardWidth = 124;
     double cardHeight = 82.5;
     double resourceWidth = 50;
-    double resourceHeigth = 50;
+    double resourceHeight = 50;
     double stageWidth = 1000;
-    double stageHeigth = 600;
+    double stageHeight = 600;
 
-    private Stage stageReference;
+    private final Stage stageReference;
     private ClientSocket clientSocket;
-    private Label lobbyLabel;
+    private final Label lobbyLabel;
     private TextArea chatText;
-    private Label winnerLabel;
+    private final Label winnerLabel;
     BoardSceneController bsc;
-
-    private ArrayList<Text> points_display ;
 
     Group movableRootReference;
     Group staticGroupReference;
-    Group chatGroupReferece;
+    Group chatGroupReference;
 
     Rectangle initCardBackground;
-    Rectangle secretObjectivesBackground;
+    Rectangle secretObjectiveBackground;
     Text alert;
     Text turnText;
 
+    /**
+     * Constructor for the GUI view
+     * @param stage the javafx stage
+     */
     public GuiView(Stage stage) {
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.setResizable(false);//leave it to false because boardScene will be bugged when resized
+        stage.minHeightProperty().set(600);
+        stage.minWidthProperty().set(1000);
         this.alert = new Text("");
         this.lobbyLabel = new Label();
         this.chatText = new TextArea();
         this.winnerLabel = new Label();
-        this.points_display = new ArrayList<>();
         this.bsc = new BoardSceneController(this);
         stageReference = stage;
     }
 
-
+    /**
+     * method to instantiate the hello scene
+     */
     @Override
     public void drawHelloScene() {
         //creating elements
         StackPane root = new StackPane();
         InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_minimal.png");
-        Image image = new Image(is);
 
-        ImageView imageView = new ImageView(image);
-        imageView.setImage(image);
-        imageView.setPreserveRatio(true);
-
-        imageView.setFitWidth(root.computeAreaInScreen());
-        imageView.setFitHeight(root.computeAreaInScreen());
+        ImageView imageView = createImageView(root, is);
 
         Button createGameButton = new Button("Create Game");
-        createGameButton.setOnAction(actionEvent -> {
-            drawCreateGameScene();
-        });
+        createGameButton.setOnAction(actionEvent -> drawCreateGameScene());
         Button joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(actionEvent -> drawLoginScene());
 
+        Label creditsLabel = new Label("by Pitesse, Barde, AlexIlLeone, Brio");
+        creditsLabel.getStyleClass().remove("label");
+        creditsLabel.getStyleClass().add("credits-text");
 
         //append elements to the root
         stageReference.setTitle("Codex! - Welcome");
         root.getChildren().add(imageView);
+        root.getChildren().add(creditsLabel);
+
+        creditsLabel.setTranslateY(200);
+        joinGameButton.setTranslateY(50);
         joinGameButton.setTranslateY(120);
         joinGameButton.setTranslateX(50);
         createGameButton.setTranslateY(120);
@@ -116,13 +120,8 @@ public class GuiView extends View {
 
     }
 
-
-    @Override
-    public void drawLoginScene() {
-        //creating elements
-        StackPane root = new StackPane();
-
-        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+    private ImageView createImageView(StackPane root, InputStream is) {
+        assert is != null;
         Image image = new Image(is);
 
         ImageView imageView = new ImageView(image);
@@ -131,6 +130,19 @@ public class GuiView extends View {
 
         imageView.setFitWidth(root.computeAreaInScreen());
         imageView.setFitHeight(root.computeAreaInScreen());
+        return imageView;
+    }
+
+    /**
+     * method to instantiate the login scene
+     */
+    @Override
+    public void drawLoginScene() {
+        //creating elements
+        StackPane root = new StackPane();
+
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+        ImageView imageView = createImageView(root, is);
 
         TextField usernameField = new TextField();
         usernameField.setPromptText("username");
@@ -180,6 +192,7 @@ public class GuiView extends View {
 
         //append elements to the root
         stageReference.setTitle("Codex! - Login");
+        root.getChildren().add(imageView);
         root.getChildren().add(titleLabel);
         titleLabel.setTranslateY(-200);
         usernameField.setTranslateY(-100);
@@ -192,7 +205,6 @@ public class GuiView extends View {
         backButton.setTranslateX(-50);
 
         root.getChildren().add(usernameField);
-        root.getChildren().add(imageView);
         root.getChildren().add(serverAddressField);
         root.getChildren().add(serverPortField);
         root.getChildren().add(loginButton);
@@ -206,32 +218,23 @@ public class GuiView extends View {
 
     }
 
-
+    /**
+     * method to instantiate the lobby scene
+     */
     @Override
     public void drawLobbyScene() {
         StackPane root = new StackPane();
 
         InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
-        Image image = new Image(is);
-
-        ImageView imageView = new ImageView(image);
-        imageView.setImage(image);
-        imageView.setPreserveRatio(true);
-
-        imageView.setFitWidth(root.computeAreaInScreen());
-        imageView.setFitHeight(root.computeAreaInScreen());
+        ImageView imageView = createImageView(root, is);
 
         Label titleLabel = new Label("Players in the lobby");
 
         Button playButton = new Button("Play");
         Button backButton = new Button("Back");
-        root.getChildren().add(titleLabel);
 
         titleLabel.setTranslateY(-200);
         lobbyLabel.setTranslateY(-100);
-
-        root.getChildren().add(lobbyLabel);
-        root.getChildren().add(imageView);
 
 
         playButton.setTranslateY(50);
@@ -247,17 +250,23 @@ public class GuiView extends View {
         playButton.setOnMouseClicked(actionEvent -> clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername())));
 
         stageReference.setTitle("Codex! - Lobby");
+        root.getChildren().add(imageView);
+        root.getChildren().add(titleLabel);
+        root.getChildren().add(lobbyLabel);
         root.getChildren().add(playButton);
         root.getChildren().add(backButton);
 
-        Scene scene = new Scene(root, stageWidth, stageHeigth);
+        Scene scene = new Scene(root, stageWidth, stageHeight);
         scene.getStylesheets().add("/codexTheme.css");
         stageReference.setScene(scene);
         stageReference.show();
 
     }
 
-
+    /**
+     * method to update the lobby scene
+     * @param names the updated name list of the players in the lobby
+     */
     @Override
     public void updateLobby(ArrayList<String> names) {
         StringBuilder sb = new StringBuilder();
@@ -267,22 +276,19 @@ public class GuiView extends View {
         lobbyLabel.setText(sb.toString());
     }
 
+    /**
+     * method to instantiate the game creation scene
+     */
     @Override
     public void drawCreateGameScene() {
         //creating elements
         StackPane root = new StackPane();
 
         InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
-        Image image = new Image(is);
+        ImageView imageView = createImageView(root, is);
 
-        ImageView imageView = new ImageView(image);
-        imageView.setImage(image);
-        imageView.setPreserveRatio(true);
-
-        imageView.setFitWidth(root.computeAreaInScreen());
-        imageView.setFitHeight(root.computeAreaInScreen());
-
-        Label localHostLabel = new Label("Localhost: " + ConnectionUtil.getLocalhost());
+        Label localHostLabel = new Label("Insert username, number of players\n" +
+                                            "and server port to setup a game");
 
         TextField numPlayersChoice = new TextField();
         numPlayersChoice.setPromptText("number of players");
@@ -303,8 +309,8 @@ public class GuiView extends View {
 
         //adding listeners
         confirmButton.setOnAction(actionEvent -> {
-            int num = 0;
-            int port = ConnectionUtil.defaultPort;
+            int num;
+            int port;
             try {
                 num = Integer.parseInt(numPlayersChoice.getText());
             } catch (NumberFormatException e) {
@@ -341,7 +347,7 @@ public class GuiView extends View {
                         return;
                     }
                 }
-                clientSocket.sendMessage(new CreateGameMessage(usr, ConnectionUtil.defaultPort, num));
+                clientSocket.sendMessage(new CreateGameMessage(usr, num));
             }else {
                 errorLabel.setText("Invalid input");
                 confirmButton.setDisable(false);
@@ -351,8 +357,8 @@ public class GuiView extends View {
 
         //append elements to the root
         stageReference.setTitle("Codex! - Create Game");
-        root.getChildren().add(localHostLabel);
         root.getChildren().add(imageView);
+        root.getChildren().add(localHostLabel);
         localHostLabel.setTranslateY(-200);
         numPlayersChoice.setTranslateY(-50);
         portField.setTranslateY(0);
@@ -374,6 +380,10 @@ public class GuiView extends View {
         stageReference.setScene(scene);stageReference.show();
     }
 
+    //TODO: refactor this method, it's too long and has repeated code
+    /**
+     * method to instantiate the board scene
+     */
     @Override
     public void drawBoardScene() {
         bsc.reset();
@@ -401,7 +411,16 @@ public class GuiView extends View {
         alert.setFill(javafx.scene.paint.Color.WHITE);
         alert.setWrappingWidth(700);
         setAlert(alert);
-        displayCenteredTimedAlert("GAME CONTROLS:\nTo select a card LEFT click on it\nTo flip a card select it and click the flip card button\nTo pick the initial card and secret objective RIGHT click on it\nTo draw a card click on it\nTo pass the turn click on the end turn button\nTo place a card select it and click where you want to place it\nTo move the camera use WASD", 25);
+        displayTimedAlertText("""
+                        GAME CONTROLS:
+                        To select a card LEFT click on it
+                        To flip a card select it and click the flip card button
+                        To pick the initial card and secret objective RIGHT click on it
+                        To draw a card click on it
+                        To pass the turn click on the end turn button
+                        To place a card select it and click where you want to place it
+                        To move the camera use WASD""",
+                                    25);
 
         Text yourTurn = new Text("");
         yourTurn.setFill(javafx.scene.paint.Color.WHITE);
@@ -418,9 +437,7 @@ public class GuiView extends View {
         setStaticGroupReference(staticRoot);
 
 
-        /**
-         * STATIC PART OF THE STAGE
-         */
+        //STATIC PART OF THE STAGE
 
         // BOX THAT CONTAINS RESOURCE CARDS THAT CAN BE DRAWN
         double rectangleWidthOfResourceCardPicker = 130;
@@ -487,14 +504,14 @@ public class GuiView extends View {
         // COMMON OBJECTIVES BOX
         double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
         double rectangleHeightCommonObjectives = cardHeight + 6;
-        Rectangle CommonObjectivesBox = new Rectangle(0, stageHeigth - rectangleHeightCommonObjectives, rectangleWidthCommonObjectives, rectangleHeightCommonObjectives);
+        Rectangle CommonObjectivesBox = new Rectangle(0, stageHeight - rectangleHeightCommonObjectives, rectangleWidthCommonObjectives, rectangleHeightCommonObjectives);
         CommonObjectivesBox.setFill(Color.BLACK.getPaint());
 
         //common objectives
-        Rectangle CommonObjective1 = new Rectangle(3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        Rectangle CommonObjective1 = new Rectangle(3, stageHeight - cardHeight - 3, cardWidth, cardHeight);
         //CommonObjective1.setFill(Color.RED.getPaint());
 
-        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);
         //CommonObjective2.setFill(Color.RED.getPaint());
 
         bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
@@ -502,38 +519,38 @@ public class GuiView extends View {
         // SECRET OBJECTIVE BOX
         double rectangleWidthSecretObjective = cardWidth + 6;
         double rectangleHeightSecretObjective = cardHeight + 6;
-        Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeigth - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);
+        Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeight - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);
         SecretObjectiveBox.setFill(Color.BLACK.getPaint());
 
 
         //secret objective
-        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeigth - cardHeight - 3, cardWidth, cardHeight);
+        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);
         //SecretObjective.setFill(Color.RED.getPaint());
         bsc.setSecretObjectiveMap(SecretObjective);
 
         //INITIAL CARD DISPLAY FOR FACE SELECTION
         double rectangleWidthInitialCardDisplay = cardWidth + 6;
         double rectangleHeightInitialCardDisplay = cardHeight + 6;
-        Rectangle InitialCardDisplayBox = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50, stageHeigth / 2 - rectangleHeightInitialCardDisplay, rectangleWidthInitialCardDisplay, rectangleHeightInitialCardDisplay);
+        Rectangle InitialCardDisplayBox = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50, stageHeight / 2 - rectangleHeightInitialCardDisplay, rectangleWidthInitialCardDisplay, rectangleHeightInitialCardDisplay);
         InitialCardDisplayBox.setFill(Color.BLACK.getPaint());
         this.initCardBackground = InitialCardDisplayBox;
 
-        Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeigth / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
+        Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeight / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
         //InitialCardDisplay.setFill(Color.RED.getPaint());
         bsc.setUpInitialCardDisplay(InitialCardDisplay);
 
         //SECRET OBJECTIVES DISPLAY FOR SELECTION
         double rectangleWidthSecretObjectiveDisplay = cardWidth + 6;
         double rectangleHeightObjectiveCardsDisplay = 2 * cardHeight + 9;
-        Rectangle secretObjectivesDisplayBox = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4, rectangleWidthSecretObjectiveDisplay, rectangleHeightObjectiveCardsDisplay);
+        Rectangle secretObjectivesDisplayBox = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4, rectangleWidthSecretObjectiveDisplay, rectangleHeightObjectiveCardsDisplay);
         secretObjectivesDisplayBox.setFill(Color.BLACK.getPaint());
-        this.secretObjectivesBackground = secretObjectivesDisplayBox;
+        this.secretObjectiveBackground = secretObjectivesDisplayBox;
 
-        Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3, cardWidth, cardHeight);
+        Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3, cardWidth, cardHeight);
         //secretObjective1Display.setFill(Color.RED.getPaint());
         secretObjective1Display.setUserData(0);
 
-        Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeigth / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
+        Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
         //secretObjective2Display.setFill(Color.RED.getPaint());
         secretObjective2Display.setUserData(1);
         bsc.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);
@@ -563,10 +580,7 @@ public class GuiView extends View {
         endTurnButton.setMaxHeight(10);
         endTurnButton.setMaxWidth(75);
         endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
-        endTurnButton.setOnMouseClicked(e -> {
-
-            clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername()));
-        });
+        endTurnButton.setOnMouseClicked(e -> clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername())));
 
         //Chat Button
         Button chatButton = new Button("Chat");
@@ -574,9 +588,7 @@ public class GuiView extends View {
         chatButton.setLayoutY(295);
         chatButton.setMaxHeight(10);
         chatButton.setMaxWidth(75);
-        chatButton.setOnMouseClicked(e -> {
-            bsc.toggleChat();
-        });
+        chatButton.setOnMouseClicked(e -> bsc.toggleChat());
 
         // Chat group (can be toggled)
         chatText = new TextArea();
@@ -615,24 +627,23 @@ public class GuiView extends View {
         chatRoot.getChildren().add(sendButton);
 
         chatRoot.setVisible(false);
-        setChatGroupReferece(chatRoot);
+        setChatGroupReference(chatRoot);
 
         //resources & points box
-        double rectangleWidthPointsBox = 422.5;
-        double rectangleHeightPointsBox = cardHeight + 6;
-        Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeigth - rectangleHeightSecretObjective, rectangleWidthPointsBox, rectangleHeightSecretObjective);
+        double rectanglePointsBoxWidth = 422.5;
+        Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeight - rectangleHeightSecretObjective, rectanglePointsBoxWidth, rectangleHeightSecretObjective);
 
         PointsBox.setFill(Color.BLACK.getPaint());
 
         //resources
 
-        Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle mushrooms_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle mushrooms_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text mush_label = new Text("0");
         mush_label.setFill(javafx.scene.paint.Color.WHITE);
         mush_label.setFont(new Font("Nimbus Roman", 20));
         mush_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 + 5);
-        mush_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        mush_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(mushrooms_points, mush_label);
 
         try {
@@ -641,13 +652,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle animals_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle animals_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text animals_label = new Text("0");
         animals_label.setFont(new Font("Nimbus Roman", 20));
         animals_label.setFill(javafx.scene.paint.Color.WHITE);
         animals_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth + 5);
-        animals_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        animals_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(animals_points, animals_label);
 
         try {
@@ -656,13 +667,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle insect_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle insect_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text insect_label = new Text("0");
         insect_label.setFont(new Font("Nimbus Roman", 20));
         insect_label.setFill(javafx.scene.paint.Color.WHITE);
         insect_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2 + 5);
-        insect_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        insect_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(insect_points, insect_label);
 
 
@@ -672,13 +683,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle leaves_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle leaves_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text leaves_label = new Text("0");
         leaves_label.setFont(new Font("Nimbus Roman", 20));
         leaves_label.setFill(javafx.scene.paint.Color.WHITE);
         leaves_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3 + 5);
-        leaves_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        leaves_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(leaves_points, leaves_label);
 
         try {
@@ -687,13 +698,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle quills_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle quills_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text quills_label = new Text("0");
         quills_label.setFont(new Font("Nimbus Roman", 20));
         quills_label.setFill(javafx.scene.paint.Color.WHITE);
         quills_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4 + 5);
-        quills_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        quills_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(quills_points, quills_label);
 
         try {
@@ -702,13 +713,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle inkwells_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle inkwells_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text inkwells_label = new Text("0");
         inkwells_label.setFont(new Font("Nimbus Roman", 20));
         inkwells_label.setFill(javafx.scene.paint.Color.WHITE);
         inkwells_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5 + 5);
-        inkwells_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        inkwells_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(inkwells_points, inkwells_label);
 
         try {
@@ -717,13 +728,13 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle manuscript_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle manuscript_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text manuscript_label = new Text("0");
         manuscript_label.setFont(new Font("Nimbus Roman", 20));
         manuscript_label.setFill(javafx.scene.paint.Color.WHITE);
         manuscript_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6 + 5);
-        manuscript_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        manuscript_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(manuscript_points, manuscript_label);
 
         try {
@@ -732,18 +743,18 @@ public class GuiView extends View {
             throw new RuntimeException(e);
         }
 
-        Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeigth);
-        Rectangle Points_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3, resourceWidth, resourceHeigth);
+        Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);
+        Rectangle Points_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);
         Text points_label = new Text("0");
         points_label.setFont(new Font("Nimbus Roman", 20));
         points_label.setFill(javafx.scene.paint.Color.WHITE);
         points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);
-        points_label.setLayoutY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth + 3 + 20);
+        points_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
         bsc.addRectangleToPointsDisplay(Points_points, points_label);
         Text points_text = new Text("Points");
         points_text.setFont(new Font("Nimbus Roman", 20));
         points_text.setX(rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 18 + 20 + resourceWidth * 7 + 5);
-        points_text.setY(stageHeigth - rectangleHeightSecretObjective + resourceHeigth - 12);
+        points_text.setY(stageHeight - rectangleHeightSecretObjective + resourceHeight - 12);
         points_text.setFill(javafx.scene.paint.Color.WHITE);
         //points.setFill(Color.RED.getPaint());
 
@@ -813,9 +824,9 @@ public class GuiView extends View {
         staticRoot.getChildren().add(points_text);
 
         staticRoot.getChildren().add(chatRoot);
-        /**
-         * THE GRID
-         */
+
+        //THE GRID
+
         int gridSize = 20;
         double rectangleWidth = cardWidth - 30;//change these values to change di distance between rectangles
         double rectangleHeight = cardHeight - 33;
@@ -843,20 +854,16 @@ public class GuiView extends View {
                     coordinates.add(finalI);
                     coordinates.add(finalJ);
                     gridRectangle.setUserData(coordinates);
-                    gridRectangle.setOnMouseClicked(e -> {
-                        System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!");
-
-                    });
+                    gridRectangle.setOnMouseClicked(e -> System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!"));
                     bsc.addRectangleToGridMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle/*, label*/);
                 }
             }
         }
 
-        /**
-         * THE CAMERA
-         */
-        // Create a translate transformation for the movable group
+        //THE CAMERA
+
+        // Create a translation transform for the movable group
         Translate cameraTranslate = new Translate();
         movableRoot.getTransforms().add(cameraTranslate);
 
@@ -882,49 +889,97 @@ public class GuiView extends View {
                 scene.getStylesheets().add("/codexTheme.css");
                 stageReference.setTitle("Codex! - your board");
                 stageReference.setScene(scene);
-                stageReference.setHeight(stageHeigth + 37);
+                stageReference.setHeight(stageHeight + 37);
                 stageReference.setWidth(stageWidth);
                 stageReference.show();
             });
     }
 
+    /**
+     * method to instantiate the winners scene
+     */
+    @Override
+    public void drawWinnerScene() {
+        StackPane root = new StackPane();
+
+        InputStream is = getClass().getResourceAsStream("/graphics/CODEX_wallpaper_pattern.png");
+        ImageView imageView = createImageView(root, is);
+
+        Button backButton = new Button("Back to Menu");
+        backButton.setTranslateY(50);
+
+        backButton.setOnAction(actionEvent -> {
+            clientSocket.disconnect();
+            drawHelloScene();
+        });
+
+        stageReference.setTitle("Codex! - Game Ended");
+        root.getChildren().add(imageView);
+        root.getChildren().add(winnerLabel);
+        root.getChildren().add(backButton);
+
+        Scene scene = new Scene(root, stageWidth, stageHeight);
+        scene.getStylesheets().add("/codexTheme.css");
+        stageReference.setScene(scene);
+        stageReference.show();
+    }
+
+    /**
+     * utility method to display an alert
+     * @param alert the alert string to be displayed
+     */
     @Override
     public void displayAlert(String alert) {
         //show dialog box containing string alert
-         displayCenteredTimedAlert(alert, 7);
+         displayTimedAlertText(alert, 7);
     }
 
-    public void removeRectangleFromMovableRoot(Rectangle rectangle) {
-        movableRootReference.getChildren().remove(rectangle);
-    }
-
-    public void removeRectangleFromStaticRoot(Rectangle rectangle) {
-        staticGroupReference.getChildren().remove(rectangle);
-    }
-
-
-    public void setStaticGroupReference(Group staticGroupReference) {
+    /**
+     * method to set the static group reference for the board scene
+     * @param staticGroupReference the static group of the board scene
+     */
+    private void setStaticGroupReference(Group staticGroupReference) {
         this.staticGroupReference = staticGroupReference;
     }
 
-    public void setMovableRootReference(Group movableRootReference) {
-        this.movableRootReference = movableRootReference;
+    /**
+     * method to set the movable root reference for the board scene
+     * @param movableGroupReference the movable group of the board scene
+     */
+    private void setMovableRootReference(Group movableGroupReference) {
+        this.movableRootReference = movableGroupReference;
     }
 
-    public void setChatGroupReferece(Group chatGroup) {
-        this.chatGroupReferece = chatGroup;
+    /**
+     * method to set the chat group reference for the board scene
+     * @param chatGroup the chat group of the board scene
+     */
+    private void setChatGroupReference(Group chatGroup) {
+        this.chatGroupReference = chatGroup;
     }
 
+    /**
+     * method to set the alert text for the board scene
+     * @param alert the alert text to set in the board scene
+     */
     public void setAlert(Text alert) {
         this.alert = alert;
     }
 
+    /**
+     * method to set the text for the turn display in the board scene
+     * @param text the text to set in the turn display
+     */
     public void setYouTurnDisplay(Text text) {
         this.turnText = text;
     }
 
-
-    public void displayCenteredTimedAlert(String text, Integer timer) {
+    /**
+     * method to display a timed alert text
+     * @param text the text to display
+     * @param timer the time the text will be displayed
+     */
+    private void displayTimedAlertText(String text, Integer timer) {
         this.alert.setText(text);
         double stageWidth = stageReference.getWidth();
         double textWidth = alert.getLayoutBounds().getWidth();
@@ -938,37 +993,40 @@ public class GuiView extends View {
         delay.play();
     }
 
-    public Rectangle getSecretObjectivesBackground() {
-        return secretObjectivesBackground;
+    /**
+     * method to get the background rectangle of the secret objective
+     * @return the rectangle of the secret objective
+     */
+    public Rectangle getSecretObjectiveBackground() {
+        return secretObjectiveBackground;
     }
 
+    /**
+     * method to get the background rectangle of the initial card
+     * @return the rectangle of the initial card
+     */
     public Rectangle getInitCardBackground() {
         return initCardBackground;
     }
 
+    /**
+     * method that removes a rectangle node from the board and re adds it to bring it to the front
+     * @param rectangle the rectangle to bring to the front
+     */
     public void bringRectangleToFront(Rectangle rectangle) {
         Group parent = (Group) rectangle.getParent();
         parent.getChildren().remove(rectangle);
         parent.getChildren().add(rectangle);
     }
 
-    public void displayPoints(Rectangle rectangle, Integer points) {
-        Group parent = (Group) rectangle.getParent();
-        parent.getChildren().remove(rectangle);
-    }
-
-    //getters
-
-    public Stage getStageReference() {
-        return this.stageReference;
-    }
+    //GETTER
 
     public ClientSocket getClientSocket() {
         return clientSocket;
     }
 
     public Group getChatGroup() {
-        return chatGroupReferece;
+        return chatGroupReference;
     }
 
     public TextArea getChatText() {
@@ -981,28 +1039,5 @@ public class GuiView extends View {
 
     public void setWinnerLabel(String winner){
         winnerLabel.setText(winner);
-    }
-
-    public void drawWinnerScene() {
-        StackPane root = new StackPane();
-
-        Button backButton = new Button("Back to Menu");
-
-        winnerLabel.setTranslateY(-200);
-        backButton.setTranslateY(50);
-
-        backButton.setOnAction(actionEvent -> {
-            clientSocket.disconnect();
-            drawHelloScene();
-        });
-
-        stageReference.setTitle("Codex! - Game Ended");
-        root.getChildren().add(winnerLabel);
-        root.getChildren().add(backButton);
-
-        Scene scene = new Scene(root, stageWidth, stageHeigth);
-        scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);
-        stageReference.show();
     }
 }

@@ -55,15 +55,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (11/11)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    97,4%
+    100%
   </span>
   <span class="absValue">
-    (38/39)
+    (38/38)
   </span>
 </td>
 </tr>
@@ -87,15 +87,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * This class represents a face of a card.
 &nbsp; */
 &nbsp;public class Face implements Serializable {
-&nbsp;    private Corner UpperLeft;
-&nbsp;    private Corner UpperRight;
-&nbsp;    private Corner LowerLeft;
-&nbsp;    private Corner LowerRight;
+&nbsp;
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = 6583089448173609317L;
+&nbsp;
+&nbsp;    private final Corner UpperLeft;
+&nbsp;    private final Corner UpperRight;
+&nbsp;    private final Corner LowerLeft;
+&nbsp;    private final Corner LowerRight;
 <b class="fc">&nbsp;    private final ArrayList&lt;ResourceType&gt; CentralResources = new ArrayList&lt;&gt;();</b>
-&nbsp;
-<b class="nc">&nbsp;    public Face(){</b>
-&nbsp;
-&nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Default constructor for a face with no central resources
@@ -113,7 +113,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Default constructor
+&nbsp;     * Secondary constructor for a face with one central resource
 &nbsp;     *
 &nbsp;     * @param Ur       the upper left corner of the face
 &nbsp;     * @param Ul       the upper right corner of the face
@@ -168,6 +168,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        CentralResources.add(resource2);</b>
 <b class="fc">&nbsp;        CentralResources.add(resource3);</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    //GETTER
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Returns the upper left corner of the face
@@ -251,7 +253,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

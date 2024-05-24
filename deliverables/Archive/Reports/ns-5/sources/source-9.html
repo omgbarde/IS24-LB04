@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    83,3%
+    16,7%
   </span>
   <span class="absValue">
-    (5/6)
+    (1/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88,9%
+    44,4%
   </span>
   <span class="absValue">
-    (8/9)
+    (4/9)
   </span>
 </td>
 </tr>
@@ -84,27 +84,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
-&nbsp; * Message sent when a client places a card
+&nbsp; * Message sent when a client asks to place a card and is resent back if the placement is valid
 &nbsp; */
 &nbsp;public class PlaceCardMessage extends Message {
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 19;
+&nbsp;    private static final long serialVersionUID = 1467211930231572873L;
 &nbsp;
-&nbsp;    private Integer X, Y;
-&nbsp;    private Card card;
+&nbsp;    private final Integer x;
+&nbsp;    private final Integer y;
+&nbsp;    private final Card card;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Constructor for PlaceCardMessage
 &nbsp;     * @param username username of the player
-&nbsp;     * @param X x coordinate of the card
-&nbsp;     * @param Y y coordinate of the card
+&nbsp;     * @param x the x coordinate where you want to place the card
+&nbsp;     * @param y the y coordinate where you want to place the card
 &nbsp;     * @param card card to place
 &nbsp;     *
 &nbsp;     */
-&nbsp;    public PlaceCardMessage(String username, Integer X, Integer Y, Card card) {
+&nbsp;    public PlaceCardMessage(String username, Integer x, Integer y, Card card) {
 <b class="fc">&nbsp;        super(username, MessageType.PLACE_CARD);</b>
-<b class="fc">&nbsp;        this.X = X;</b>
-<b class="fc">&nbsp;        this.Y = Y;</b>
+<b class="fc">&nbsp;        this.x = x;</b>
+<b class="fc">&nbsp;        this.y = y;</b>
 <b class="fc">&nbsp;        this.card = card;</b>
 &nbsp;    }
 &nbsp;
@@ -113,23 +114,23 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return card
 &nbsp;     */
 &nbsp;    public Card getCard() {
-<b class="fc">&nbsp;        return card;</b>
+<b class="nc">&nbsp;        return card;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Getter for X
-&nbsp;     * @return X
+&nbsp;     * Getter for x coordinate
+&nbsp;     * @return the x coordinate
 &nbsp;     */
 &nbsp;    public Integer getX() {
-<b class="fc">&nbsp;        return X;</b>
+<b class="nc">&nbsp;        return x;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Getter for Y
-&nbsp;     * @return Y
+&nbsp;     * Getter for y coordinate
+&nbsp;     * @return the y coordinate
 &nbsp;     */
 &nbsp;    public Integer getY() {
-<b class="fc">&nbsp;        return Y;</b>
+<b class="nc">&nbsp;        return y;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -137,12 +138,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return username
 &nbsp;     */
 &nbsp;    public String getUsername() {
-<b class="fc">&nbsp;        return super.getUsername();</b>
+<b class="nc">&nbsp;        return super.getUsername();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;PlaceCardMessage{&quot; + &quot;nickname=&quot; + getUsername() + &quot;, X=&quot; + X + &quot;, Y=&quot; + Y + &quot;, cardID=&quot; + card + &#39;}&#39;;</b>
+<b class="nc">&nbsp;        return &quot;PlaceCardMessage{&quot; + &quot;nickname=&quot; + getUsername() + &quot;, X=&quot; + x + &quot;, Y=&quot; + y + &quot;, cardID=&quot; + card + &#39;}&#39;;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;}
@@ -169,7 +170,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

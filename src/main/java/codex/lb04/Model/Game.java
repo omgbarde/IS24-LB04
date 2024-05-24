@@ -21,10 +21,10 @@ import java.util.Objects;
  */
 public class Game extends Observable {
     private static Game instance;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private Deck deck;
     private GameState gameState;
-    private ArrayList<String> lobby;
+    private final ArrayList<String> lobby;
     private ArrayList<ObjectiveCard> inGameObjectiveCards;
     private int numPlayers;
     private int replies;
@@ -57,11 +57,14 @@ public class Game extends Observable {
         return instance;
     }
 
+    /**
+     * resets the instance of the game
+     */
     public void resetInstance() {
         if (this.deck != null) {
             this.deck.resetInstance();
         }
-        this.instance = null;
+        instance = null;
     }
 
     /**
@@ -75,20 +78,23 @@ public class Game extends Observable {
         player.getBoard().drawResourceCard(pick);
     }
 
+    /**
+     * gets the initial card for a player
+     * @param username the player desired
+     * @return his initial card
+     */
     public InitialCard getInitialCard(String username) {
         Player player = getPlayerByName(username);
         return player.getBoard().getInitialCard();
     }
 
     /**
-     * draws the initial card for a player
+     * draws the initial card for all players
      */
     public void setInitialCardForAllPlayers() {
         for (Player p : players) {
             p.getBoard().setInitialCard();
         }
-
-
     }
 
     /**
@@ -123,15 +129,6 @@ public class Game extends Observable {
     }
 
     /**
-     * returns the common objectives
-     *
-     * @return the common objectives
-     */
-    public ArrayList<ObjectiveCard> getCommonObjectives() {
-        return inGameObjectiveCards;
-    }
-
-    /**
      * sets the secret objective for a player
      *
      * @param username the player who picks the card
@@ -140,15 +137,6 @@ public class Game extends Observable {
     public void setSecretObjectives(String username, Integer pick) {
         Player player = getPlayerByName(username);
         player.getBoard().setSecretObjective(pick);
-    }
-
-    /**
-     * Returns the player names
-     *
-     * @return the player names
-     */
-    public ArrayList<String> getLobby() {
-        return lobby;
     }
 
     /**
@@ -175,31 +163,12 @@ public class Game extends Observable {
     }
 
     /**
-     * Removes a player name from the list
-     *
-     * @param player the player name to remove
-     */
-    public void removePlayerFromLobby(String player) {
-        this.lobby.remove(player);
-    }
-
-
-    /**
      * Adds a player to the game
      *
      * @param player the player to add
      */
     public void addPlayer(Player player) {
         this.players.add(player);
-    }
-
-    /**
-     * Removes a player from the game
-     *
-     * @param player the player to remove
-     */
-    public void removePlayer(String player) {
-        this.players.remove(getPlayerByName(player));
     }
 
     /**
@@ -218,42 +187,6 @@ public class Game extends Observable {
     }
 
     /**
-     * returns the game state
-     *
-     * @return the game state
-     */
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    /**
-     * sets the game state
-     *
-     * @param gameState the game state
-     */
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    /**
-     * returns the players
-     *
-     * @return the players
-     */
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    /**
-     * returns the deck
-     *
-     * @return the deck
-     */
-    public Deck getDeck() {
-        return deck;
-    }
-
-    /**
      * creates the players from the arraylist of usernames of the players
      */
     public void createPlayers() {
@@ -263,7 +196,7 @@ public class Game extends Observable {
             newPlayer.getBoard().setUsername(player);
             newPlayer.getBoard().addObserver(new GameObserver());
             notifyObserver(new UpdateSecretObjectiveToChooseMessage(player, newPlayer.getBoard().getSecretObjectiveToPick()));
-            if (newPlayer.getUsername() == lobby.getFirst()) {
+            if (Objects.equals(newPlayer.getUsername(), lobby.getFirst())) {
                 notifyObserver(new StartTurnMessage(newPlayer.getUsername()));
             } else {
                 notifyObserver(new EndTurnMessage(newPlayer.getUsername()));
@@ -339,9 +272,6 @@ public class Game extends Observable {
         return replies == lobby.size();
     }
 
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
-    }
 
     public void notifyEndGame() {
         notifyObserver(new GenericMessage("server", "someone reached 20 pts, end game started!"));
@@ -367,7 +297,71 @@ public class Game extends Observable {
 
     }
 
+
+    //GETTER
+
     public int getNumPlayers() {
         return numPlayers;
     }
+
+    /**
+     * Returns the player names
+     *
+     * @return the player names
+     */
+    public ArrayList<String> getLobby() {
+        return lobby;
+    }
+
+    /**
+     * returns the game state
+     *
+     * @return the game state
+     */
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    /**
+     * returns the players
+     *
+     * @return the players
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * returns the deck
+     *
+     * @return the deck
+     */
+    public Deck getDeck() {
+        return deck;
+    }
+
+    //SETTER
+
+    /**
+     * sets the game state
+     *
+     * @param gameState the game state
+     */
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    /**
+     * returns the common objectives
+     *
+     * @return the common objectives
+     */
+    public ArrayList<ObjectiveCard> getCommonObjectives() {
+        return inGameObjectiveCards;
+    }
+
 }

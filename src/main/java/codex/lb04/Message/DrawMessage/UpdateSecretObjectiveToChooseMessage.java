@@ -2,18 +2,19 @@ package codex.lb04.Message.DrawMessage;
 
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
-import codex.lb04.Model.Card;
-import codex.lb04.Model.GoldCard;
 import codex.lb04.Model.ObjectiveCard;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
- * Message to notify the user to update the gold cards.
+ * Message to notify the user with the secret objectives to choose.
  */
 public class UpdateSecretObjectiveToChooseMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = -6889126711482360128L;
 
-    private ArrayList<ObjectiveCard> objectives;
+    private final ArrayList<ObjectiveCard> objectives;
 
     /**
      * Constructor for UpdateGoldMessage

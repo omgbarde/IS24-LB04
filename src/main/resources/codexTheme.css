@@ -1,17 +1,25 @@
 .root {
-    -fx-background-color: #F5F5DC; /* Light Beige */
+    -fx-background-color: #000000 /* Black */;
+}
+
+.credits-text {
+    -fx-font-family: "Times New Roman";
+    -fx-text-alignment: center;
+    -fx-font-size: 15px;
+    -fx-text-fill: #F5F5DC; /* Light Beige */
 }
 
 .button {
+    -fx-text-alignment: center;
     -fx-background-color: #333333; /* Dark Grey */
     -fx-text-fill: #FFFFFF; /* White */
 }
 
 .label {
+    -fx-text-alignment: center;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-background-color: #F5F5DC; /* Light Beige */
-    -fx-text-fill: #000000 /* Black */;
+    -fx-text-fill: #F5F5DC; /* Light Beige */
 }
 
 .text-field {

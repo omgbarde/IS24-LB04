@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -52,18 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88,9%
+    100%
   </span>
   <span class="absValue">
-    (24/27)
+    (25/25)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    90,2%
+    62,5%
   </span>
   <span class="absValue">
-    (83/92)
+    (10/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,8%
+  </span>
+  <span class="absValue">
+    (91/95)
   </span>
 </td>
 </tr>
@@ -78,6 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.Model;
 &nbsp;
 &nbsp;import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
+&nbsp;import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
 &nbsp;import codex.lb04.Observer.GameObserver;
 &nbsp;import codex.lb04.Observer.Observable;
 &nbsp;
@@ -99,7 +112,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * Default constructor
 &nbsp;     */
-&nbsp;    //TODO shuffle doesnt&#39; work -- DON&#39;T FIX IT FOR NOW
 <b class="fc">&nbsp;    private Deck() {</b>
 <b class="fc">&nbsp;        resourceCards = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;        goldCards = new ArrayList&lt;&gt;();</b>
@@ -122,11 +134,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        objectiveCards = deckBuilder.createObjectiveCards();</b>
 <b class="fc">&nbsp;        VisibleGoldCards = setVisibleGoldCards();</b>
 <b class="fc">&nbsp;        VisibleResourceCards = setVisibleResourceCards();</b>
-&nbsp;        //this.shuffleResources();
-&nbsp;        //this.shuffleGold();
-&nbsp;        //this.shuffleObjectives();
-&nbsp;        //this.shuffleInitial();
-&nbsp;        //TODO uncomment the above when the view works
+<b class="fc">&nbsp;        this.shuffleResources();</b>
+<b class="fc">&nbsp;        this.shuffleGold();</b>
+<b class="fc">&nbsp;        this.shuffleObjectives();</b>
+<b class="fc">&nbsp;        this.shuffleInitial();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -149,14 +160,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        removeAllObservers();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;
 &nbsp;    /**
 &nbsp;     * this method draws a card from the deck of resources
 &nbsp;     *
 &nbsp;     * @return the card drawn
 &nbsp;     */
 &nbsp;    public ResourceCard drawResource() {
-<b class="fc">&nbsp;        if (resourceCards.isEmpty()) {</b>
+<b class="pc">&nbsp;        if (resourceCards.isEmpty()) {</b>
 <b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
 &nbsp;        }
 <b class="fc">&nbsp;        ResourceCard toDraw = resourceCards.getFirst();</b>
@@ -171,7 +181,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the card drawn
 &nbsp;     */
 &nbsp;    public GoldCard drawGold() {
-<b class="fc">&nbsp;        if (goldCards.isEmpty()) {</b>
+<b class="pc">&nbsp;        if (goldCards.isEmpty()) {</b>
 <b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
 &nbsp;        }
 <b class="fc">&nbsp;        GoldCard toDraw = goldCards.getFirst();</b>
@@ -181,21 +191,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * this method updates the visible gold cards
-&nbsp;     */
-&nbsp;    public void updateVisibleGold() {
-<b class="nc">&nbsp;        GoldCard toDraw = drawGold();</b>
-<b class="nc">&nbsp;        VisibleGoldCards.add(toDraw);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;
-&nbsp;    /**
 &nbsp;     * this method draws a card from the deck of objectives
 &nbsp;     *
 &nbsp;     * @return the card drawn
 &nbsp;     */
 &nbsp;    public ObjectiveCard drawObjective() {
-<b class="fc">&nbsp;        if (objectiveCards.isEmpty()) {</b>
+<b class="pc">&nbsp;        if (objectiveCards.isEmpty()) {</b>
 <b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
 &nbsp;        }
 <b class="fc">&nbsp;        ObjectiveCard toDraw = objectiveCards.getFirst();</b>
@@ -204,6 +205,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return toDraw;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * thi method sets the common objectives
+&nbsp;     * @return the common objectives arraylist
+&nbsp;     */
 &nbsp;    public ArrayList&lt;ObjectiveCard&gt; setCommonObjectives() {
 <b class="fc">&nbsp;        ArrayList&lt;ObjectiveCard&gt; chosenObjectives = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;        chosenObjectives.add(this.drawObjective());</b>
@@ -218,7 +223,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the card drawn
 &nbsp;     */
 &nbsp;    public InitialCard drawInitialCard() {
-<b class="fc">&nbsp;        if (initialCards.isEmpty()) {</b>
+<b class="pc">&nbsp;        if (initialCards.isEmpty()) {</b>
 <b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
 &nbsp;        }
 <b class="fc">&nbsp;        InitialCard toDraw = initialCards.getFirst();</b>
@@ -229,9 +234,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * this method draws the first three cards of the goldcards deck, and shows the front faces
+&nbsp;     * this method draws the first three cards of the gold cards deck, and shows the front faces
 &nbsp;     *
-&nbsp;     * @return the first two cards of the goldcards deck
+&nbsp;     * @return the first two cards of the gold cards deck
 &nbsp;     */
 &nbsp;    public ArrayList&lt;GoldCard&gt; setVisibleGoldCards() {
 <b class="fc">&nbsp;        GoldCard visible_gc1 = drawGold();</b>
@@ -239,18 +244,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        VisibleGoldCards.add(visible_gc1);</b>
 <b class="fc">&nbsp;        VisibleGoldCards.add(visible_gc2);</b>
 <b class="fc">&nbsp;        VisibleGoldCards.add(getTopGold());</b>
+&nbsp;        //noinspection unchecked
 <b class="fc">&nbsp;        ArrayList&lt;GoldCard&gt; toSend = ((ArrayList&lt;GoldCard&gt;) VisibleGoldCards.clone());</b>
 <b class="fc">&nbsp;        notifyObserver(new UpdateGoldMessage(toSend)); // broadcast</b>
 <b class="fc">&nbsp;        return VisibleGoldCards;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    /**
-&nbsp;     * this method updates the visible resource cards
-&nbsp;     */
-&nbsp;    public void updateVisibleResource() {
-<b class="nc">&nbsp;        ResourceCard toDraw = drawResource();</b>
-<b class="nc">&nbsp;        VisibleResourceCards.add(toDraw);</b>
-&nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * this method draws the first two cards of the resource cards deck, and shows the front faces
@@ -262,7 +261,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        VisibleResourceCards.add(visible_rc1);</b>
 <b class="fc">&nbsp;        VisibleResourceCards.add(visible_rc2);</b>
 <b class="fc">&nbsp;        VisibleResourceCards.add(getTopResource());</b>
-&nbsp;        //notifyObserver(new UpdateResourcesMessage(VisibleResourceCards)); // broadcast
+&nbsp;        //noinspection unchecked
+<b class="fc">&nbsp;        ArrayList&lt;ResourceCard&gt; toSend = ((ArrayList&lt;ResourceCard&gt;) VisibleResourceCards.clone());</b>
+<b class="fc">&nbsp;        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast</b>
 <b class="fc">&nbsp;        return VisibleResourceCards;</b>
 &nbsp;    }
 &nbsp;
@@ -270,36 +271,38 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * this method updates the visible gold cards
 &nbsp;     */
 &nbsp;    public void updateVisibleGold(int pick) {
-&nbsp;        GoldCard toDraw;
 <b class="fc">&nbsp;        this.VisibleGoldCards.remove(pick);</b>
-<b class="fc">&nbsp;        switch(pick){</b>
+<b class="pc">&nbsp;        switch(pick){</b>
 &nbsp;            case 0, 1:
-<b class="fc">&nbsp;                toDraw = drawGold();</b>
+<b class="fc">&nbsp;                drawGold();</b>
 <b class="fc">&nbsp;                VisibleGoldCards.add(getTopGold());</b>
-<b class="fc">&nbsp;                break;</b>
+&nbsp;                break;
 &nbsp;            case 2:
 <b class="fc">&nbsp;                VisibleGoldCards.add(getTopGold());</b>
 &nbsp;                break;
 &nbsp;        }
-<b class="fc">&nbsp;        notifyObserver(new UpdateGoldMessage(VisibleGoldCards)); // broadcast</b>
+&nbsp;        //noinspection unchecked
+<b class="fc">&nbsp;        ArrayList&lt;GoldCard&gt; toSend = ((ArrayList&lt;GoldCard&gt;) VisibleGoldCards.clone());</b>
+<b class="fc">&nbsp;        notifyObserver(new UpdateGoldMessage(toSend)); // broadcast</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * this method updates the visible resource cards
 &nbsp;     */
 &nbsp;    public void updateVisibleResource(int pick) {
-&nbsp;        ResourceCard toDraw;
 <b class="fc">&nbsp;        this.VisibleResourceCards.remove(pick);</b>
-<b class="fc">&nbsp;        switch(pick){</b>
+<b class="pc">&nbsp;        switch(pick){</b>
 &nbsp;            case 0, 1:
-<b class="fc">&nbsp;                toDraw = drawResource();</b>
+<b class="fc">&nbsp;                drawResource();</b>
 <b class="fc">&nbsp;                VisibleResourceCards.add(getTopResource());</b>
-<b class="fc">&nbsp;                break;</b>
+&nbsp;                break;
 &nbsp;            case 2:
 <b class="fc">&nbsp;                VisibleResourceCards.add(getTopResource());</b>
 &nbsp;                break;
 &nbsp;        }
-&nbsp;        //notifyObserver(new UpdateResourceMessage(VisibleResourceCards)); // broadcast
+&nbsp;        //noinspection unchecked
+<b class="fc">&nbsp;        ArrayList&lt;ResourceCard&gt; toSend = ((ArrayList&lt;ResourceCard&gt;) VisibleResourceCards.clone());</b>
+<b class="fc">&nbsp;        notifyObserver(new UpdateResourceMessage(toSend)); // broadcast</b>
 &nbsp;    }
 &nbsp;
 &nbsp;
@@ -380,9 +383,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    public void shuffleInitial() {
-<b class="nc">&nbsp;        Collections.shuffle(initialCards);</b>
+<b class="fc">&nbsp;        Collections.shuffle(initialCards);</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    //TODO: handle finished deck, also for resources and in client side
 &nbsp;    public ResourceCard getTopResource() {
 <b class="fc">&nbsp;        return resourceCards.getFirst();</b>
 &nbsp;    }
@@ -414,7 +418,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

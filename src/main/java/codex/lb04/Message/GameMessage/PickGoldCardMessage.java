@@ -9,9 +9,9 @@ import java.io.Serial;
  */
 public class PickGoldCardMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 15;
+    private static final long serialVersionUID = -7974300090234974456L;
 
-    private Integer cardPick;
+    private final Integer cardPick;
 
     /**
      * Constructor for PickGoldCardMessage

@@ -8,8 +8,7 @@ import java.io.Serializable;
  */
 public abstract class Message implements Serializable {
     @Serial
-    private static final long serialVersionUID = 6456;
-
+    private static final long serialVersionUID = -7732141462227877149L;
     private final String username;
     private final MessageType messageType;
     /**

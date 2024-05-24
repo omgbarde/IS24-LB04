@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GuiLauncher extends Application {
-    private static View guiView;
 
     /**
      * this method starts the GUI
@@ -21,7 +20,7 @@ public class GuiLauncher extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        guiView = new GuiView(stage);
+        View guiView = new GuiView(stage);
         guiView.drawHelloScene();
         try {
             stage.getIcons().add(new Image(new FileInputStream("src/main/resources/graphics/codex-naturalis-espt.jpg")));
@@ -39,10 +38,6 @@ public class GuiLauncher extends Application {
     public void stop() {
         Platform.exit();
         System.exit(0);
-    }
-
-    public static View getGuiView() {
-        return guiView;
     }
 
 }

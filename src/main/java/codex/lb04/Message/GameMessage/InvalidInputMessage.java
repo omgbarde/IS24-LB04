@@ -10,7 +10,7 @@ import java.io.Serial;
  */
 public class InvalidInputMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 14;
+    private static final long serialVersionUID = -226684372569875122L;
 
     String message;
     /**

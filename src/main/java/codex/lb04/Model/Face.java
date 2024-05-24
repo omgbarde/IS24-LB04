@@ -12,17 +12,13 @@ import java.util.ArrayList;
 public class Face implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 64363245;
+    private static final long serialVersionUID = 6583089448173609317L;
 
-    private Corner UpperLeft;
-    private Corner UpperRight;
-    private Corner LowerLeft;
-    private Corner LowerRight;
+    private final Corner UpperLeft;
+    private final Corner UpperRight;
+    private final Corner LowerLeft;
+    private final Corner LowerRight;
     private final ArrayList<ResourceType> CentralResources = new ArrayList<>();
-
-    public Face(){
-
-    }
 
     /**
      * Default constructor for a face with no central resources
@@ -40,7 +36,7 @@ public class Face implements Serializable {
     }
 
     /**
-     * Default constructor
+     * Secondary constructor for a face with one central resource
      *
      * @param Ur       the upper left corner of the face
      * @param Ul       the upper right corner of the face
@@ -95,6 +91,8 @@ public class Face implements Serializable {
         CentralResources.add(resource2);
         CentralResources.add(resource3);
     }
+
+    //GETTER
 
     /**
      * Returns the upper left corner of the face

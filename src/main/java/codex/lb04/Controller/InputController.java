@@ -11,8 +11,8 @@ import codex.lb04.Model.InitialCard;
  */
 public class InputController {
 
-    private GameController gameController;
-    private Game game;
+    private final GameController gameController;
+    private final Game game;
 
     /**
      * Constructor for InputController
@@ -38,8 +38,7 @@ public class InputController {
             case PICK_INITIAL_CARD_SIDE -> pickInitialCardSideCheck(message);
             case PLACE_CARD -> placeCardCheck(message);
             case FLIP_CARD -> flipCardCheck(message);
-            default -> // should never reach this statement.
-                    false;
+            default -> false;  // should never reach this statement
         };
     }
 
@@ -80,7 +79,7 @@ public class InputController {
     }
 
     /**
-     * chek if the card can be placed in the given coordinates
+     * check if the card can be placed in the given coordinates
      * @param message Message from Client.
      * @return {code @true} if card can be placed {@code false} otherwise.
      */

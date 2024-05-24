@@ -1,9 +1,12 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.Message.*;
 import codex.lb04.Message.DrawMessage.*;
 import codex.lb04.Message.GameMessage.PlaceCardMessage;
 import codex.lb04.Message.GameMessage.WinnersMessage;
+import codex.lb04.Message.LoginReply;
+import codex.lb04.Message.Message;
+import codex.lb04.Message.PlayersConnectedMessage;
+import codex.lb04.Message.PongMessage;
 import codex.lb04.View.ViewController;
 
 /**
@@ -14,6 +17,11 @@ public class ClientParser {
 
     ViewController viewController;
 
+    /**
+     * Constructor for ClientParser
+     * @param clientSocket the client socket
+     * @param viewController the view controller
+     */
     public ClientParser(ClientSocket clientSocket, ViewController viewController) {
         this.clientSocket = clientSocket;
         this.viewController = viewController;
@@ -30,16 +38,13 @@ public class ClientParser {
                 if (((LoginReply) input).isAccepted()) {
                     viewController.drawLobbyScene();
                 } else {
-                    viewController.print("login refused");
+                    viewController.displayAlert("login refused");
                     clientSocket.disconnect();
                     viewController.drawHelloScene();
                 }
                 break;
             case PLAYERS_CONNECTED:
                 viewController.updateLobby(((PlayersConnectedMessage) input).getLobby());
-                break;
-            case DRAW_CARD: //Not in use
-                //viewController.drawCard(((DrawCardMessage) input).getCard());
                 break;
             case UPDATE_GOLD:
                 viewController.updateDrawableGold(((UpdateGoldMessage) input).getGold());
@@ -91,12 +96,12 @@ public class ClientParser {
                 viewController.cleanYourTurnText();
                 break;
             case CHAT_MESSAGE:
-                viewController.updateChat(((ChatMessage)input).toString());
+                viewController.updateChat(input.toString());
                 break;
             case WINNERS:
                 viewController.showWinners(((WinnersMessage)input).getWinner());
                 break;
-            default:
+            default: //should never be reached
                 viewController.displayAlert("message not recognized");
                 clientSocket.disconnect();
                 break;

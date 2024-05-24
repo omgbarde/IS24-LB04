@@ -9,7 +9,7 @@ import java.io.Serial;
  */
 public class DrawBoardMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 20;
+    private static final long serialVersionUID = -7106562649821790587L;
     /**
      * Constructor for DrawBoardMessage
      * @param username username of the player

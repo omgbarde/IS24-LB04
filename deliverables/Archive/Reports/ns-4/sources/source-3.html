@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > ReadyMessage</title>
+  <title>Coverage Report > UpdateCommonObjectivesMessage</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">codex.lb04.Message.DrawMessage</a>
 </div>
 
-<h1>Coverage Summary for Class: ReadyMessage (codex.lb04.Message.DrawMessage)</h1>
+<h1>Coverage Summary for Class: UpdateCommonObjectivesMessage (codex.lb04.Message.DrawMessage)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ReadyMessage</td>
+  <td class="name">UpdateCommonObjectivesMessage</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -60,10 +60,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    66,7%
   </span>
   <span class="absValue">
-    (1/3)
+    (2/3)
   </span>
 </td>
 </tr>
@@ -79,29 +79,35 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import codex.lb04.Message.Message;
 &nbsp;import codex.lb04.Message.MessageType;
+&nbsp;import codex.lb04.Model.ObjectiveCard;
 &nbsp;
 &nbsp;import java.io.Serial;
+&nbsp;import java.util.ArrayList;
 &nbsp;/**
-&nbsp; * Message to notify the server that the user is ready.
+&nbsp; * Message to notify the user to update the gold cards.
 &nbsp; */
-&nbsp;public class ReadyMessage extends Message {
-&nbsp;
+&nbsp;public class UpdateCommonObjectivesMessage extends Message {
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 20;
+&nbsp;    private static final long serialVersionUID = 2212552467992985655L;
 &nbsp;
-&nbsp;    /** Constructor for ReadyMessage
-&nbsp;     * @param username username of the player, usually set as &quot;ready&quot;
+&nbsp;    private final ArrayList&lt;ObjectiveCard&gt; objective;
+&nbsp;    /**
+&nbsp;     * Constructor for UpdateCommonObjectivesMessage
+&nbsp;     * @param objectiveCards objective cards to update
 &nbsp;     */
-&nbsp;    public ReadyMessage(String username) {
-<b class="fc">&nbsp;        super(username, MessageType.READY);</b>
+&nbsp;    public UpdateCommonObjectivesMessage(ArrayList&lt;ObjectiveCard&gt; objectiveCards) {
+<b class="fc">&nbsp;        super(&quot;server&quot; , MessageType.UPDATE_COMMON_OBJECTIVES);</b>
+<b class="fc">&nbsp;        this.objective = objectiveCards;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for objective cards
+&nbsp;     * @return objective cards
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ObjectiveCard&gt; getCommonObjectives() {
+<b class="nc">&nbsp;        return objective;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;StartGameMessage{&quot; +</b>
-<b class="nc">&nbsp;                &quot;username=&quot; + super.getUsername() +</b>
-&nbsp;                &#39;}&#39;;
-&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -126,7 +132,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

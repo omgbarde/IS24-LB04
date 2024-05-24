@@ -3,9 +3,14 @@ package codex.lb04.Message;
 import java.io.Serial;
 import java.util.ArrayList;
 
+/**
+ * Message to notify the clients of the players connected to the server
+ * used to update the lobby in the view
+ */
 public class PlayersConnectedMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 9;
+    private static final long serialVersionUID = -891983015716649899L;
+
     ArrayList<String> lobby;
 
     /**

@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > LoginMessage</title>
+  <title>Coverage Report > GenericMessage</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">codex.lb04.Message</a>
 </div>
 
-<h1>Coverage Summary for Class: LoginMessage (codex.lb04.Message)</h1>
+<h1>Coverage Summary for Class: GenericMessage (codex.lb04.Message)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">LoginMessage</td>
+  <td class="name">GenericMessage</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -60,10 +60,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    66,7%
   </span>
   <span class="absValue">
-    (1/3)
+    (2/3)
   </span>
 </td>
 </tr>
@@ -80,25 +80,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
-&nbsp; * message that represents a login request from a client
+&nbsp; * Message exchange generic information, that does not need to be handled automatically.
 &nbsp; */
-&nbsp;public class LoginMessage extends Message{
+&nbsp;public class GenericMessage extends Message {
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 4;
-&nbsp;
+&nbsp;    private static final long serialVersionUID = -4779509558069870609L;
+&nbsp;    private final String msg;
 &nbsp;    /**
-&nbsp;     * Constructor for LoginMessage
-&nbsp;     * @param username username of the client that wants to login
+&nbsp;     * Constructor for GenericMessage
+&nbsp;     * @param username is the nickname of the user sending the message
+&nbsp;     * @param s is the message
 &nbsp;     */
-&nbsp;    public LoginMessage(String username) {
-<b class="fc">&nbsp;        super(username,MessageType.LOGIN_REQUEST);</b>
+&nbsp;    public GenericMessage(String username, String s) {
+<b class="fc">&nbsp;        super(username, MessageType.GENERIC_MESSAGE);</b>
+<b class="fc">&nbsp;        this.msg = s;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;LoginMessage{&quot; +</b>
-<b class="nc">&nbsp;                &quot;username=&#39;&quot; + getUsername() + &#39;\&#39;&#39; +</b>
-&nbsp;                &#39;}&#39;;
+<b class="nc">&nbsp;        return  msg;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -124,7 +124,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

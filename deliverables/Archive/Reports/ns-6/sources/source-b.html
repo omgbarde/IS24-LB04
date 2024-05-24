@@ -81,8 +81,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * This class represents a player
 &nbsp; */
 &nbsp;public class Player {
-&nbsp;    private String username;
-&nbsp;    private Board board;
+&nbsp;    private final String username;
+&nbsp;    private final Board board;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * default constructor
@@ -95,6 +95,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.board = new Board();</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    //GETTER
+&nbsp;
 &nbsp;    /**
 &nbsp;     * This method returns the username of the player
 &nbsp;     *
@@ -104,7 +106,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return username;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;
 &nbsp;    /**
 &nbsp;     * This method returns the board of the player
 &nbsp;     *
@@ -113,7 +114,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public Board getBoard() {
 <b class="fc">&nbsp;        return board;</b>
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;}
 </code>
@@ -139,7 +139,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

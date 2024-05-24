@@ -5,9 +5,12 @@ import codex.lb04.Message.MessageType;
 
 import java.io.Serial;
 
+/**
+ * Message sent when the game is ended and contains a string with the names of the winners
+ */
 public class WinnersMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 22;
+    private static final long serialVersionUID = 8754824018534389357L;
 
     private String winner;
 
@@ -17,8 +20,8 @@ public class WinnersMessage extends Message {
     }
 
     /**
-     * Getter for winner
-     * @return winner
+     * Getter for winner string
+     * @return the winner string already formatted
      */
     public String getWinner() {
         return winner;

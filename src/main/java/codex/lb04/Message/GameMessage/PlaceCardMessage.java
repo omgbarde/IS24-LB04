@@ -7,27 +7,28 @@ import codex.lb04.Model.Card;
 import java.io.Serial;
 
 /**
- * Message sent when a client places a card
+ * Message sent when a client asks to place a card and is resent back if the placement is valid
  */
 public class PlaceCardMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 19;
+    private static final long serialVersionUID = 1467211930231572873L;
 
-    private Integer X, Y;
-    private Card card;
+    private final Integer x;
+    private final Integer y;
+    private final Card card;
 
     /**
      * Constructor for PlaceCardMessage
      * @param username username of the player
-     * @param X x coordinate of the card
-     * @param Y y coordinate of the card
+     * @param x the x coordinate where you want to place the card
+     * @param y the y coordinate where you want to place the card
      * @param card card to place
      *
      */
-    public PlaceCardMessage(String username, Integer X, Integer Y, Card card) {
+    public PlaceCardMessage(String username, Integer x, Integer y, Card card) {
         super(username, MessageType.PLACE_CARD);
-        this.X = X;
-        this.Y = Y;
+        this.x = x;
+        this.y = y;
         this.card = card;
     }
 
@@ -40,19 +41,19 @@ public class PlaceCardMessage extends Message {
     }
 
     /**
-     * Getter for X
-     * @return X
+     * Getter for x coordinate
+     * @return the x coordinate
      */
     public Integer getX() {
-        return X;
+        return x;
     }
 
     /**
-     * Getter for Y
-     * @return Y
+     * Getter for y coordinate
+     * @return the y coordinate
      */
     public Integer getY() {
-        return Y;
+        return y;
     }
 
     /**
@@ -65,7 +66,7 @@ public class PlaceCardMessage extends Message {
 
     @Override
     public String toString() {
-        return "PlaceCardMessage{" + "nickname=" + getUsername() + ", X=" + X + ", Y=" + Y + ", cardID=" + card + '}';
+        return "PlaceCardMessage{" + "nickname=" + getUsername() + ", X=" + x + ", Y=" + y + ", cardID=" + card + '}';
     }
 
 }

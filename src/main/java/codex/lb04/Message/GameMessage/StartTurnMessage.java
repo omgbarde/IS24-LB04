@@ -5,11 +5,11 @@ import codex.lb04.Message.MessageType;
 
 import java.io.Serial;
 /**
- * Message sent by the server when a client starts his turn
+ * Message sent by the server when a client has to start his turn
  */
 public class StartTurnMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 21;
+    private static final long serialVersionUID = -5384739703591480338L;
     /**
      * Constructor for StartTurnMessage
      * @param usr username of the client that has started his turn

@@ -60,10 +60,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    75%
   </span>
   <span class="absValue">
-    (4/5)
+    (3/4)
   </span>
 </td>
 </tr>
@@ -83,13 +83,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
-&nbsp; * Message sent to create a new game
+&nbsp; * Message sent by a client to create a new game
 &nbsp; */
 &nbsp;public class CreateGameMessage extends Message {
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 10;
-&nbsp;    private int numberOfPlayers;
-&nbsp;    private int desiredPort;
+&nbsp;    private static final long serialVersionUID = -2584692589852687425L;
+&nbsp;    private final int numberOfPlayers;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Constructor for CreateGameMessage
@@ -97,20 +96,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param port port the client wants to use
 &nbsp;     * @param num number of players in the game
 &nbsp;     */
-&nbsp;    public CreateGameMessage(String username, int port, int num) {
+&nbsp;    public CreateGameMessage(String username, int num) {
 <b class="fc">&nbsp;        super(username, MessageType.CREATE_GAME);</b>
 <b class="fc">&nbsp;        this.numberOfPlayers = num;</b>
-<b class="fc">&nbsp;        this.desiredPort = port;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public String toString() {
 <b class="nc">&nbsp;        return &quot;CreateGameMessage{&quot; +</b>
 &nbsp;                &quot;numberOfPlayers=&quot; + numberOfPlayers +
-&nbsp;                &quot;, desiredPort=&quot; + desiredPort +
 &nbsp;                &#39;}&#39;;
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * getter for number of players
@@ -144,7 +140,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

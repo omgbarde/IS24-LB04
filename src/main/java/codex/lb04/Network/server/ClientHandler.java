@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * client handler class handles client-server comunication
+ * client handler class handles client-server communication
  */
 public class ClientHandler implements Runnable {
     private final ServerApp server;
@@ -26,9 +26,7 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream input;
     private String username;
 
-    //private BlockingQueue<Message> messageQueue;
-
-    private ScheduledExecutorService pinger;
+    private final ScheduledExecutorService pinger;
     private long pingSentTime;
     private long pongReceivedTime;
 
@@ -124,19 +122,6 @@ public class ClientHandler implements Runnable {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    /*private void startQueue(){
-        new Thread(() -> {
-            while (clientSocket.isConnected()) {
-                try {
-                    Message message = messageQueue.take();
-                    sendMessage(message);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }*/
 
     /**
      * starts a new executor to ping the client

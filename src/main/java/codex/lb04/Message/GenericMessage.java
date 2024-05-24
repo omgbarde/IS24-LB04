@@ -1,13 +1,14 @@
 package codex.lb04.Message;
 
 import java.io.Serial;
+
 /**
  * Message exchange generic information, that does not need to be handled automatically.
  */
 public class GenericMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 3;
-    private String msg;
+    private static final long serialVersionUID = -4779509558069870609L;
+    private final String msg;
     /**
      * Constructor for GenericMessage
      * @param username is the nickname of the user sending the message
@@ -16,13 +17,6 @@ public class GenericMessage extends Message {
     public GenericMessage(String username, String s) {
         super(username, MessageType.GENERIC_MESSAGE);
         this.msg = s;
-    }
-    /**
-     * Getter for message
-     * @return message
-     */
-    public String getMsg() {
-        return msg;
     }
 
     @Override

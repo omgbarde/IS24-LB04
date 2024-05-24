@@ -9,7 +9,7 @@ import java.io.Serial;
  */
 public class EndTurnMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 11;
+    private static final long serialVersionUID = 3046586501663263702L;
     /**
      * Constructor for EndTurnMessage
      * @param usr username of the client that has ended his turn

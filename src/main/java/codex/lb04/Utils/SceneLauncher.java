@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.util.Scanner;
 
 /**
- * This class is used as a testbench to launch the different scenes of the application.
+ * This class is used as a test bench to launch the different scenes of the application.
  */
 public class SceneLauncher extends Application{
     private GuiView guiView;
@@ -16,7 +16,7 @@ public class SceneLauncher extends Application{
     @Override
     public void start(Stage primaryStage) {
         this.guiView = new GuiView(primaryStage);
-        String arg = getParameters().getRaw().get(0);
+        String arg = getParameters().getRaw().getFirst();
         switch(arg){
             case "1":
                 Platform.runLater(()->guiView.drawHelloScene());
@@ -33,8 +33,11 @@ public class SceneLauncher extends Application{
             case "5":
                 Platform.runLater(()->guiView.drawBoardScene());
                 break;
+            case "6":
+                Platform.runLater(()->guiView.drawWinnerScene());
+                break;
             default:
-                System.out.println("cheffai");
+                System.out.println("what are you doing?");
                 break;
         }
     }
@@ -45,5 +48,4 @@ public class SceneLauncher extends Application{
         launch(String.valueOf(scanner.nextInt()));
     }
 
-    // Add more methods to launch other scenes as needed
 }

@@ -6,7 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CornerTest {
 
@@ -32,7 +33,7 @@ public class CornerTest {
     @Test
     public void setCovered() {
         corner.setCovered(cover);
-        assertEquals(cover, corner.getCover());
+        assertEquals(cover, corner.getCoveringCard());
     }
 
     @Test
@@ -44,7 +45,7 @@ public class CornerTest {
     @Test
     public void getCover() {
         corner.setCovered(cover);
-        assertEquals(cover, corner.getCover());
+        assertEquals(cover, corner.getCoveringCard());
     }
 
     @Test

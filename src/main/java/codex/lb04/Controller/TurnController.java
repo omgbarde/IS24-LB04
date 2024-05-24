@@ -11,14 +11,34 @@ import java.util.ArrayList;
  * TurnController class is responsible for managing the turns of the players in the game.
  */
 public class TurnController {
-
-    private String activePlayer;
-    private ArrayList<String> lobby;
-    private Game game;
-    private CircularIterator<String> playersQueueIterator;
     private static TurnController instance;
+
+    private final ArrayList<String> lobby;
+    private String activePlayer;
+    private final CircularIterator<String> playersQueueIterator;
     private boolean placedCard = false;
     private boolean drawnCard = false;
+
+    /**
+     * Singleton pattern for the TurnController class
+     * @return the instance of the TurnController
+     */
+    public static TurnController getInstance() {
+        if (instance == null) {
+            instance = new TurnController();
+        }
+        return instance;
+    }
+
+    /**
+     * Constructor for the TurnController class with the players list and the active player
+     */
+    private TurnController() {
+        Game game = Game.getInstance();
+        this.lobby = game.getLobby();
+        this.playersQueueIterator = new CircularIterator<>(lobby);
+        this.activePlayer = lobby.getFirst();
+    }
 
     /**
      * sets if the player has drawn a card
@@ -50,31 +70,10 @@ public class TurnController {
     }
 
     /**
-     * Singleton pattern for the TurnController class
-     * @return the instance of the TurnController
-     */
-    public static TurnController getInstance() {
-        if (instance == null) {
-            instance = new TurnController();
-        }
-        return instance;
-    }
-
-    /**
      * Method to reset the instance of the TurnController
      */
     public void resetInstance() {
         instance = null;
-    }
-
-    /**
-     * Constructor for the TurnController class with the players list and the active player
-     */
-    private TurnController() {
-        this.game = Game.getInstance();
-        this.lobby = game.getLobby();
-        this.playersQueueIterator = new CircularIterator<>(lobby);
-        this.activePlayer = lobby.getFirst();
     }
 
     /**
@@ -99,7 +98,5 @@ public class TurnController {
      * getter of the lobby
      * @return the name list of clients in the lobby
      */
-    public ArrayList<String> getLobby() {
-        return lobby;
-    }
+    public ArrayList<String> getLobby() { return lobby; }
 }

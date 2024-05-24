@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -55,7 +59,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/7)
+    (0/9)
   </span>
 </td>
 <td class="coverageStat">
@@ -63,7 +67,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
   </span>
 </td>
 </tr>
@@ -78,12 +90,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.Utils;
 &nbsp;
 &nbsp;import java.net.InetAddress;
+&nbsp;import java.net.NetworkInterface;
+&nbsp;import java.net.SocketException;
 &nbsp;import java.net.UnknownHostException;
+&nbsp;import java.util.Spliterator;
+&nbsp;import java.util.Spliterators;
+&nbsp;import java.util.stream.StreamSupport;
 &nbsp;
 &nbsp;/**
 &nbsp; * This class contains utility methods for the connection
 &nbsp; */
 <b class="nc">&nbsp;public class ConnectionUtil {</b>
+&nbsp;    //default port is set to the first free port
 <b class="nc">&nbsp;    public static int defaultPort = 49152;</b>
 &nbsp;
 &nbsp;    /**
@@ -106,35 +124,53 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        return port &gt;= 49152 &amp;&amp; port &lt;= 65535;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public static String getLocalHost() {
-<b class="nc">&nbsp;        String localhost = null;</b>
+&nbsp;    /**
+&nbsp;     * gets the localhost ip address
+&nbsp;     * @return the localhost ip address
+&nbsp;     */
+&nbsp;    public static String getLocalhost() {
+&nbsp;        String localhost;
 &nbsp;        try {
 <b class="nc">&nbsp;            localhost = InetAddress.getLocalHost().getHostAddress();</b>
 <b class="nc">&nbsp;        } catch (UnknownHostException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
-<b class="nc">&nbsp;        }</b>
+&nbsp;        }
 <b class="nc">&nbsp;        return localhost;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param usr
-&nbsp;     * @param addr
-&nbsp;     * @param port
-&nbsp;     * @return
+&nbsp;     * checks if the parameters are valid
+&nbsp;     * @param usr is the username to check
+&nbsp;     * @param addr is the address to check
+&nbsp;     * @param port is the port to check
+&nbsp;     * @return true if the parameters are all valid, false otherwise
 &nbsp;     */
 &nbsp;    public static boolean checkValid(String usr, String addr, int port) {
 <b class="nc">&nbsp;        return !usr.isEmpty() &amp;&amp; ConnectionUtil.isValidAddr(addr) &amp;&amp; ConnectionUtil.isValidPort(port);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param num
-&nbsp;     * @param usr
-&nbsp;     * @return
+&nbsp;     * checks if the parameters are valid
+&nbsp;     * @param num is the number of players
+&nbsp;     * @param usr is the username
+&nbsp;     * @return true if the parameters are all valid, false otherwise
 &nbsp;     */
 &nbsp;    public static boolean checkValid(int num, String usr) {
 <b class="nc">&nbsp;        return (!usr.isEmpty() &amp;&amp;  num &gt;= 2 &amp;&amp; num &lt;= 4);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * displays the network interfaces to the console to help the user connect to the server
+&nbsp;     * @throws SocketException if an error occurs
+&nbsp;     */
+&nbsp;    public static void displayInfo() throws SocketException {
+<b class="nc">&nbsp;        StreamSupport.stream(Spliterators.spliteratorUnknownSize(NetworkInterface.getNetworkInterfaces().asIterator(), Spliterator.ORDERED), false)</b>
+<b class="nc">&nbsp;                .flatMap(networkInterface -&gt; {</b>
+<b class="nc">&nbsp;                    return StreamSupport.stream(</b>
+<b class="nc">&nbsp;                            Spliterators.spliteratorUnknownSize(networkInterface.getInetAddresses().asIterator(), Spliterator.ORDERED), false);</b>
+&nbsp;                })
+<b class="nc">&nbsp;                .filter(inetAddress -&gt; inetAddress instanceof java.net.Inet4Address)</b>
+<b class="nc">&nbsp;                .forEach(inetAddress -&gt; System.out.println(&quot;interface: &quot; + inetAddress));</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -160,7 +196,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

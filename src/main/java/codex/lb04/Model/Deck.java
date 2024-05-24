@@ -145,9 +145,9 @@ public class Deck extends Observable {
 
 
     /**
-     * this method draws the first three cards of the goldcards deck, and shows the front faces
+     * this method draws the first three cards of the gold cards deck, and shows the front faces
      *
-     * @return the first two cards of the goldcards deck
+     * @return the first two cards of the gold cards deck
      */
     public ArrayList<GoldCard> setVisibleGoldCards() {
         GoldCard visible_gc1 = drawGold();
@@ -155,6 +155,7 @@ public class Deck extends Observable {
         VisibleGoldCards.add(visible_gc1);
         VisibleGoldCards.add(visible_gc2);
         VisibleGoldCards.add(getTopGold());
+        //noinspection unchecked
         ArrayList<GoldCard> toSend = ((ArrayList<GoldCard>) VisibleGoldCards.clone());
         notifyObserver(new UpdateGoldMessage(toSend)); // broadcast
         return VisibleGoldCards;
@@ -171,6 +172,7 @@ public class Deck extends Observable {
         VisibleResourceCards.add(visible_rc1);
         VisibleResourceCards.add(visible_rc2);
         VisibleResourceCards.add(getTopResource());
+        //noinspection unchecked
         ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
         notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
         return VisibleResourceCards;
@@ -180,17 +182,17 @@ public class Deck extends Observable {
      * this method updates the visible gold cards
      */
     public void updateVisibleGold(int pick) {
-        GoldCard toDraw;
         this.VisibleGoldCards.remove(pick);
         switch(pick){
             case 0, 1:
-                toDraw = drawGold();
+                drawGold();
                 VisibleGoldCards.add(getTopGold());
                 break;
             case 2:
                 VisibleGoldCards.add(getTopGold());
                 break;
         }
+        //noinspection unchecked
         ArrayList<GoldCard> toSend = ((ArrayList<GoldCard>) VisibleGoldCards.clone());
         notifyObserver(new UpdateGoldMessage(toSend)); // broadcast
     }
@@ -199,17 +201,17 @@ public class Deck extends Observable {
      * this method updates the visible resource cards
      */
     public void updateVisibleResource(int pick) {
-        ResourceCard toDraw;
         this.VisibleResourceCards.remove(pick);
         switch(pick){
             case 0, 1:
-                toDraw = drawResource();
+                drawResource();
                 VisibleResourceCards.add(getTopResource());
                 break;
             case 2:
                 VisibleResourceCards.add(getTopResource());
                 break;
         }
+        //noinspection unchecked
         ArrayList<ResourceCard> toSend = ((ArrayList<ResourceCard>) VisibleResourceCards.clone());
         notifyObserver(new UpdateResourceMessage(toSend)); // broadcast
     }
@@ -295,6 +297,7 @@ public class Deck extends Observable {
         Collections.shuffle(initialCards);
     }
 
+    //TODO: handle finished deck, also for resources and in client side
     public ResourceCard getTopResource() {
         return resourceCards.getFirst();
     }

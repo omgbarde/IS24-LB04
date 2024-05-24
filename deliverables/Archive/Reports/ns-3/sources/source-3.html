@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > GenericMessage</title>
+  <title>Coverage Report > ErrorMessage</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">codex.lb04.Message</a>
 </div>
 
-<h1>Coverage Summary for Class: GenericMessage (codex.lb04.Message)</h1>
+<h1>Coverage Summary for Class: ErrorMessage (codex.lb04.Message)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GenericMessage</td>
+  <td class="name">ErrorMessage</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    66,7%
   </span>
   <span class="absValue">
-    (1/3)
+    (2/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    40%
+    60%
   </span>
   <span class="absValue">
-    (2/5)
+    (3/5)
   </span>
 </td>
 </tr>
@@ -78,37 +78,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.Message;
 &nbsp;
 &nbsp;import java.io.Serial;
+&nbsp;
 &nbsp;/**
-&nbsp; * Message exchange generic information, that does not need to be handled automatically.
+&nbsp; * Message to notify an error to the user.
 &nbsp; */
-&nbsp;public class GenericMessage extends Message {
+&nbsp;public class ErrorMessage extends Message {
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 3;
-&nbsp;    private String msg;
+&nbsp;    private static final long serialVersionUID = 6018127259917713548L;
+&nbsp;
+&nbsp;    private final String error;
+&nbsp;
 &nbsp;    /**
-&nbsp;     * Constructor for GenericMessage
-&nbsp;     * @param username is the nickname of the user sending the message
-&nbsp;     * @param s is the message
+&nbsp;     * Constructor for ErrorMessage
+&nbsp;     * @param username is typically &quot;server&quot;
+&nbsp;     * @param error a brief description of the error
 &nbsp;     */
-&nbsp;    public GenericMessage(String username, String s) {
-<b class="fc">&nbsp;        super(username, MessageType.GENERIC_MESSAGE);</b>
-<b class="fc">&nbsp;        this.msg = s;</b>
+&nbsp;    public ErrorMessage(String username, String error) {
+<b class="fc">&nbsp;        super(username, MessageType.ERROR);</b>
+<b class="fc">&nbsp;        this.error = error;</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * Getter for message
-&nbsp;     * @return message
+&nbsp;     * Getter for error description
+&nbsp;     * @return error string
 &nbsp;     */
-&nbsp;    public String getMsg() {
-<b class="nc">&nbsp;        return msg;</b>
+&nbsp;    public String getError() {
+<b class="fc">&nbsp;        return error;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;Message{&quot; +</b>
+<b class="nc">&nbsp;        return &quot;ErrorMessage{&quot; +</b>
 <b class="nc">&nbsp;                &quot;nickname=&quot; + getUsername() +</b>
-&nbsp;                &quot;, message=&quot; + msg +
+&nbsp;                &quot;, error=&quot; + error +
 &nbsp;                &#39;}&#39;;
 &nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -133,7 +137,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

@@ -2,17 +2,17 @@ package codex.lb04.Controller;
 
 import codex.lb04.Message.DrawMessage.ReadyMessage;
 import codex.lb04.Message.ErrorMessage;
-import codex.lb04.Message.GameMessage.*;
+import codex.lb04.Message.GameMessage.CreateGameMessage;
 import codex.lb04.Message.LoginMessage;
-import codex.lb04.Model.*;
-import codex.lb04.Model.Enumerations.Color;
 import codex.lb04.Model.Enumerations.GameState;
+import codex.lb04.Model.Game;
 import codex.lb04.Observer.GameObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class GameControllerTest {
@@ -45,7 +45,7 @@ public class GameControllerTest {
 
     @Test
     public void testOnMessageReceived() {
-        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test" , 2));
 
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
@@ -60,7 +60,7 @@ public class GameControllerTest {
         assertEquals(GameState.LOGIN, game.getGameState());
 
         game.setGameState(GameState.LOGIN);
-        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test" , 2));
         gameController.onMessageReceived(new LoginMessage("test2"));
         gameController.onMessageReceived(new ReadyMessage("test"));
         gameController.onMessageReceived(new ReadyMessage("test2"));
@@ -73,7 +73,7 @@ public class GameControllerTest {
 
     @Test
     public void startGame() {
-        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test", 2));
 
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
@@ -84,7 +84,7 @@ public class GameControllerTest {
 
     @Test
     public void testGetTurnController() {
-        gameController.onMessageReceived(new CreateGameMessage("test" , 49153 , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test", 2));
 
         game.setGameState(GameState.LOGIN);
         game.addPlayerToLobby("test");
@@ -93,6 +93,8 @@ public class GameControllerTest {
         assertNotNull(gameController.getTurnController());
     }
 
+    //Deprecated test, has no more sense since the deck is shuffled
+    /*
     @Test
     public void simulationGame() {
         String player1 = "Pitesse";
@@ -102,7 +104,7 @@ public class GameControllerTest {
         String player5 = "Rafa Leao";
         Face randomFace = new Face(null, null, null, null);
 
-        CreateGameMessage createGameMessage = new CreateGameMessage(player1 , 49153 , 4);
+        CreateGameMessage createGameMessage = new CreateGameMessage(player1, 4);
         gameController.onMessageReceived(createGameMessage);
 
         LoginMessage login2 = new LoginMessage(player2);
@@ -1302,9 +1304,7 @@ public class GameControllerTest {
         gameController.onMessageReceived(EndFourthTurn);
         assertNotEquals(player4, gameController.getTurnController().getActivePlayer());
         assertEquals(player1, gameController.getTurnController().getActivePlayer());
-
-
     }
-
+*/
 
 }

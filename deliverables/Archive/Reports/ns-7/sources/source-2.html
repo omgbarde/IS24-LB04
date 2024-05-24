@@ -81,11 +81,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * This enum lists all the game states
 &nbsp; */
 <b class="fc">&nbsp;public enum GameState {</b>
-<b class="fc">&nbsp;    LOGIN,</b>
-<b class="fc">&nbsp;    INIT,</b>
-<b class="fc">&nbsp;    IN_GAME,</b>
-<b class="fc">&nbsp;    END_GAME,</b>
-<b class="fc">&nbsp;    ENDED</b>
+<b class="fc">&nbsp;    LOGIN,              //when the game is accepting connections</b>
+<b class="fc">&nbsp;    INIT,               //when the game is instantiating the controllers, players and relative boards</b>
+<b class="fc">&nbsp;    IN_GAME,            //when the game is running and players are alternating their turns</b>
+<b class="fc">&nbsp;    END_GAME,           //when a player reaches 20 points and the last turns are made for all players</b>
+<b class="fc">&nbsp;    ENDED               //when the game is over and the winners are declared</b>
 &nbsp;}
 </code>
 </pre>
@@ -110,7 +110,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

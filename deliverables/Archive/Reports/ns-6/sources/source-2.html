@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -52,18 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
+    88,9%
   </span>
   <span class="absValue">
-    (14/16)
+    (16/18)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    91,4%
+    100%
   </span>
   <span class="absValue">
-    (32/35)
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,5%
+  </span>
+  <span class="absValue">
+    (42/44)
   </span>
 </td>
 </tr>
@@ -79,41 +91,36 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import codex.lb04.Model.Enumerations.Color;
 &nbsp;
+&nbsp;import java.io.Serial;
 &nbsp;import java.io.Serializable;
 &nbsp;
 &nbsp;/**
 &nbsp; * This class represents a generic card
 &nbsp; */
 &nbsp;public class Card implements Serializable {
-&nbsp;    private Face ShownFace;
-&nbsp;    private Face front;
-&nbsp;    private Face back;
-&nbsp;    private Color color;
-&nbsp;    private Integer points;
+&nbsp;
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = 1978554446086060428L;
+&nbsp;
+&nbsp;    private final Face front;
+&nbsp;    private final Face back;
+&nbsp;    private boolean isShowingFront;
+&nbsp;
+&nbsp;    private final Color color;
+&nbsp;    private final Integer points;
 &nbsp;    private Integer x, y;
 &nbsp;    private Integer ID;
+&nbsp;
 <b class="fc">&nbsp;    private boolean usedForPositionalObjectives = false;</b>
 &nbsp;
-&nbsp;    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
-<b class="fc">&nbsp;        this.usedForPositionalObjectives = usedForPositionalObjectives;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public boolean isUsedForPositionalObjectives() {
-<b class="fc">&nbsp;        return usedForPositionalObjectives;</b>
-&nbsp;    }
-&nbsp;
-<b class="nc">&nbsp;    public Card(){</b>
-&nbsp;    }
-&nbsp;
 &nbsp;    /**
-&nbsp;     * Default constructor
+&nbsp;     * Test constructor for dummy cards with no points and no id
 &nbsp;     *
 &nbsp;     * @param front the face of the card
 &nbsp;     * @param back  the face of the card
 &nbsp;     * @param color the color of the card
 &nbsp;     */
 <b class="fc">&nbsp;    public Card(Color color, Face front, Face back) {</b>
-<b class="fc">&nbsp;        this.ShownFace = back;</b>
 <b class="fc">&nbsp;        this.color = color;</b>
 <b class="fc">&nbsp;        this.back = back;</b>
 <b class="fc">&nbsp;        this.front = front;</b>
@@ -129,9 +136,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param front the face of the card
 &nbsp;     * @param back  the face of the card
 &nbsp;     * @param color the color of the card
+&nbsp;     * @param points the points of the card
+&nbsp;     * @param ID the ID of the card
 &nbsp;     */
 <b class="fc">&nbsp;    public Card(Color color, Face front, Face back, Integer points , Integer ID) {</b>
-<b class="fc">&nbsp;        this.ShownFace = back;</b>
 <b class="fc">&nbsp;        this.color = color;</b>
 <b class="fc">&nbsp;        this.back = back;</b>
 <b class="fc">&nbsp;        this.front = front;</b>
@@ -142,35 +150,77 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
+&nbsp;     * constructor for cards with coordinates
+&nbsp;     * @param color the color of the card
+&nbsp;     * @param front the front face of the card
+&nbsp;     * @param back the back face of the card
+&nbsp;     * @param points the points of the card
+&nbsp;     * @param ID the ID of the card
+&nbsp;     * @param x the x coordinate of the card
+&nbsp;     * @param y the y coordinate of the card
+&nbsp;     * @param isShowingFront true if the card is showing the front face
+&nbsp;     * @param usedForPositionalObjectives true if the card is used for positional objectives
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(Color color, Face front, Face back, Integer points , Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives){</b>
+<b class="fc">&nbsp;        this.color = color;</b>
+<b class="fc">&nbsp;        this.back = back;</b>
+<b class="fc">&nbsp;        this.front = front;</b>
+<b class="fc">&nbsp;        this.points = points;</b>
+<b class="fc">&nbsp;        this.ID = ID;</b>
+<b class="fc">&nbsp;        this.x = x;</b>
+<b class="fc">&nbsp;        this.y = y;</b>
+<b class="fc">&nbsp;        this.isShowingFront = isShowingFront;</b>
+<b class="fc">&nbsp;        this.usedForPositionalObjectives = usedForPositionalObjectives;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
 &nbsp;     * This method flips the card
 &nbsp;     */
 &nbsp;    public void flip() {
-<b class="fc">&nbsp;        if (ShownFace == front) {</b>
-<b class="fc">&nbsp;            ShownFace = back;</b>
-&nbsp;        } else {
-<b class="fc">&nbsp;            ShownFace = front;</b>
-&nbsp;        }
+<b class="fc">&nbsp;        isShowingFront = !isShowingFront;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * returns the shown face of the card
-&nbsp;     *
-&nbsp;     * @return the shown face of the card
+&nbsp;     * This method returns the shown face of the card
+&nbsp;     * @return true if the card is showing the front face , false otherwise
 &nbsp;     */
+&nbsp;    public boolean isShowingFront() {
+<b class="fc">&nbsp;        return isShowingFront;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * this method returns if the card is used for positional objectives
+&nbsp;     * @return true if the card is used for positional objectives , false otherwise
+&nbsp;     */
+&nbsp;    public boolean isUsedForPositionalObjectives() {
+<b class="fc">&nbsp;        return usedForPositionalObjectives;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * override of the clone method to create a deep copy of the card to avoid problems in serialization
+&nbsp;     * @return a deep copy of the card
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Card clone(){
+<b class="nc">&nbsp;        return new Card(this.color,</b>
+&nbsp;                        this.front,
+&nbsp;                        this.back,
+&nbsp;                        this.points,
+&nbsp;                        this.ID ,
+&nbsp;                        this.x,
+&nbsp;                        this.y ,
+&nbsp;                        this.isShowingFront ,
+&nbsp;                        this.usedForPositionalObjectives);
+&nbsp;    }
+&nbsp;
+&nbsp;    //GETTER
+&nbsp;
 &nbsp;    public Face getShownFace() {
-<b class="fc">&nbsp;        return ShownFace;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public boolean iShowingFront(){
-<b class="nc">&nbsp;        return this.ShownFace == this.front;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * Set the coordinates of the card
-&nbsp;     */
-&nbsp;    public void setCoordinates(int x, int y) {
-<b class="fc">&nbsp;        this.x = x;</b>
-<b class="fc">&nbsp;        this.y = y;</b>
+<b class="fc">&nbsp;        if(isShowingFront) {</b>
+<b class="fc">&nbsp;            return front;</b>
+&nbsp;        }else {
+<b class="fc">&nbsp;            return back;</b>
+&nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    public Face getFront() {
@@ -196,7 +246,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    public Integer getID() {
-<b class="nc">&nbsp;        return ID;</b>
+<b class="fc">&nbsp;        return ID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //SETTER
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the coordinates of the card
+&nbsp;     */
+&nbsp;    public void setCoordinates(int x, int y) {
+<b class="fc">&nbsp;        this.x = x;</b>
+<b class="fc">&nbsp;        this.y = y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the shown face of the card
+&nbsp;     * @param showingFront true if the card needs to be showing the front face , false otherwise
+&nbsp;     */
+&nbsp;    public void setShowingFront(boolean showingFront) {
+<b class="fc">&nbsp;        this.isShowingFront = showingFront;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the card as already used for positional objectives
+&nbsp;     * this way the card will be counted only once for positional objectives
+&nbsp;     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
+&nbsp;     */
+&nbsp;    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
+<b class="nc">&nbsp;        this.usedForPositionalObjectives = usedForPositionalObjectives;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;}
@@ -223,7 +300,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

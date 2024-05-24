@@ -2,7 +2,6 @@ package codex.lb04.Model;
 
 import codex.lb04.Model.Enumerations.Color;
 
-import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -12,60 +11,27 @@ import java.io.Serializable;
 public class Card implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1978554446086060428L;
 
-
-
+    private final Face front;
+    private final Face back;
     private boolean isShowingFront;
-    private Face front;
-    private Face back;
-    private Color color;
-    private Integer points;
+
+    private final Color color;
+    private final Integer points;
     private Integer x, y;
     private Integer ID;
+
     private boolean usedForPositionalObjectives = false;
 
-    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
-        this.usedForPositionalObjectives = usedForPositionalObjectives;
-    }
-
-    public boolean isShowingFront() {
-        return isShowingFront;
-    }
-
-    public boolean isUsedForPositionalObjectives() {
-        return usedForPositionalObjectives;
-    }
-
-    public Card clone(){
-        return new Card(this.color, this.front, this.back, this.points, this.ID , this.x, this.y , this.isShowingFront , this.usedForPositionalObjectives);
-    }
-
-    public Card(Color color, Face front, Face back, Integer points , Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives){
-        this.color = color;
-        this.back = back;
-        this.front = front;
-        this.points = points;
-        this.ID = ID;
-        this.x = x;
-        this.y = y;
-        this.isShowingFront = isShowingFront;
-        this.usedForPositionalObjectives = usedForPositionalObjectives;
-    }
-
-    public Card(){
-
-    }
-
     /**
-     * Default constructor
+     * Test constructor for dummy cards with no points and no id
      *
      * @param front the face of the card
      * @param back  the face of the card
      * @param color the color of the card
      */
     public Card(Color color, Face front, Face back) {
-
         this.color = color;
         this.back = back;
         this.front = front;
@@ -75,16 +41,14 @@ public class Card implements Serializable {
         this.y = null;
     }
 
-    public void setShowingFront(boolean showingFront) {
-        this.isShowingFront = showingFront;
-    }
-
     /**
      * Default constructor for cards with points
      *
      * @param front the face of the card
      * @param back  the face of the card
      * @param color the color of the card
+     * @param points the points of the card
+     * @param ID the ID of the card
      */
     public Card(Color color, Face front, Face back, Integer points , Integer ID) {
         this.color = color;
@@ -97,36 +61,77 @@ public class Card implements Serializable {
     }
 
     /**
-     * This method flips the card
+     * constructor for cards with coordinates
+     * @param color the color of the card
+     * @param front the front face of the card
+     * @param back the back face of the card
+     * @param points the points of the card
+     * @param ID the ID of the card
+     * @param x the x coordinate of the card
+     * @param y the y coordinate of the card
+     * @param isShowingFront true if the card is showing the front face
+     * @param usedForPositionalObjectives true if the card is used for positional objectives
      */
-    public void flip() {
-        if(isShowingFront){
-            isShowingFront = false;
-        }else {
-            isShowingFront = true;
-        }
+    public Card(Color color, Face front, Face back, Integer points , Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives){
+        this.color = color;
+        this.back = back;
+        this.front = front;
+        this.points = points;
+        this.ID = ID;
+        this.x = x;
+        this.y = y;
+        this.isShowingFront = isShowingFront;
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
     /**
-     * returns the shown face of the card
-     *
-     * @return the shown face of the card
+     * This method flips the card
      */
+    public void flip() {
+        isShowingFront = !isShowingFront;
+    }
+
+    /**
+     * This method returns the shown face of the card
+     * @return true if the card is showing the front face , false otherwise
+     */
+    public boolean isShowingFront() {
+        return isShowingFront;
+    }
+
+    /**
+     * this method returns if the card is used for positional objectives
+     * @return true if the card is used for positional objectives , false otherwise
+     */
+    public boolean isUsedForPositionalObjectives() {
+        return usedForPositionalObjectives;
+    }
+
+    /**
+     * override of the clone method to create a deep copy of the card to avoid problems in serialization
+     * @return a deep copy of the card
+     */
+    @Override
+    public Card clone(){
+        return new Card(this.color,
+                        this.front,
+                        this.back,
+                        this.points,
+                        this.ID ,
+                        this.x,
+                        this.y ,
+                        this.isShowingFront ,
+                        this.usedForPositionalObjectives);
+    }
+
+    //GETTER
+
     public Face getShownFace() {
         if(isShowingFront) {
             return front;
         }else {
             return back;
         }
-    }
-
-
-    /**
-     * Set the coordinates of the card
-     */
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     public Face getFront() {
@@ -153,6 +158,33 @@ public class Card implements Serializable {
 
     public Integer getID() {
         return ID;
+    }
+
+    //SETTER
+
+    /**
+     * Set the coordinates of the card
+     */
+    public void setCoordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Set the shown face of the card
+     * @param showingFront true if the card needs to be showing the front face , false otherwise
+     */
+    public void setShowingFront(boolean showingFront) {
+        this.isShowingFront = showingFront;
+    }
+
+    /**
+     * Set the card as already used for positional objectives
+     * this way the card will be counted only once for positional objectives
+     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
+     */
+    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
 }

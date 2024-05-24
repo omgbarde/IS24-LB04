@@ -7,7 +7,8 @@ import java.io.Serial;
  */
 public class LoginReply extends Message{
     @Serial
-    private static final long serialVersionUID = 5;
+    private static final long serialVersionUID = 1114426406206630441L;
+
     private final boolean accepted;
 
     /**

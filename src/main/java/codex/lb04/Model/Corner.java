@@ -11,16 +11,11 @@ import java.io.Serializable;
 public class Corner implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 43562;
+    private static final long serialVersionUID = 1167113121676386863L;
 
-    private  ResourceType resource;
-    private boolean Covered;
-    private Card Cover;
-
-    public Corner(){
-
-    }
-
+    private final ResourceType resource;
+    private boolean isCovered;
+    private Card coveredBy;
 
     /**
      * Default constructor
@@ -29,8 +24,8 @@ public class Corner implements Serializable {
      */
     public Corner(ResourceType resource) {
         this.resource = resource;
-        Covered = false;
-        this.Cover = null;
+        isCovered = false;
+        this.coveredBy = null;
     }
 
     /**
@@ -38,31 +33,24 @@ public class Corner implements Serializable {
      */
     public Corner(boolean isCovered) {
         this.resource = null;
-        Covered = isCovered;
-        this.Cover = null;
+        this.isCovered = isCovered;
+        this.coveredBy = null;
     }
 
     /**
      * Secondary constructor
      *
      * @param resource the resource the corner has
-     * @param covered  tells if a corner is covered or not
+     * @param isCovered  tells if a corner is covered or not
      */
-    public Corner(ResourceType resource, boolean covered) {
+    public Corner(ResourceType resource, boolean isCovered) {
         this.resource = resource;
-        Covered = covered;
-        this.Cover = null;
+        this.isCovered = isCovered;
+        this.coveredBy = null;
     }
 
-    /**
-     * This method covers a corner by applying a card onto it
-     *
-     * @param Cover The Card that covers the corner
-     */
-    public void setCovered(Card Cover) {
-        this.Cover = Cover;
-        Covered = true;
-    }
+
+    //GETTER
 
     /**
      * This method tells if a corner is covered or not
@@ -70,7 +58,7 @@ public class Corner implements Serializable {
      * @return {@code true} if the corner is covered, {@code false} if it's not
      */
     public boolean isCovered() {
-        return Covered;
+        return isCovered;
     }
 
     /**
@@ -78,8 +66,8 @@ public class Corner implements Serializable {
      *
      * @return The card that covers the corner
      */
-    public Card getCover() {
-        return Cover;
+    public Card getCoveringCard() {
+        return coveredBy;
     }
 
     /**
@@ -89,5 +77,17 @@ public class Corner implements Serializable {
      */
     public ResourceType getResource() {
         return resource;
+    }
+
+    //SETTER
+
+    /**
+     * This method covers a corner by applying a card onto it
+     *
+     * @param Cover The Card that covers the corner
+     */
+    public void setCovered(Card Cover) {
+        this.coveredBy = Cover;
+        isCovered = true;
     }
 }

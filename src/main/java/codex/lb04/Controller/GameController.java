@@ -7,14 +7,15 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
-import codex.lb04.Model.Face;
 import codex.lb04.Model.Game;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.ServerApp;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 /**
- * The GameController class is the main controller of the game. It handles the messages received from the clients and
+ * The GameController class is the main controller of the game. It parses the messages received from the clients and
  * handles them based on the game state.
  */
 public class GameController {
@@ -25,8 +26,6 @@ public class GameController {
     private static GameController instance;
     private boolean endGame = false;
     private int countDown = -1;
-    private ArrayList<String> winners;
-    private boolean EndGame = false;
     GameObserver gameObserver;
 
     /**
@@ -70,10 +69,10 @@ public class GameController {
      */
     private void createGameController() {
         this.game = Game.getInstance();
-        gameObserver = new GameObserver();
-        game.addObserver(gameObserver);
+        this.gameObserver = new GameObserver();
+        this.game.addObserver(gameObserver);
+        this.game.setGameState(GameState.LOGIN);
         this.inputController = new InputController(this, game);
-        game.setGameState(GameState.LOGIN);
     }
 
 
@@ -135,19 +134,14 @@ public class GameController {
                 ServerApp.sendMessageToClient(error, usr);
                 break;
             case DRAW_BOARD:
-                if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
-                    game.drawBoard();
-                }
+                if (checkLobbySize()) game.drawBoard();
                 break;
             case READY:
                 if(game.checkReplies()) {
-                    if (game.getLobby().size() >= 2 && game.getLobby().size() <= 4) {
-                        startGame();
-                    }
+                    if (checkLobbySize()) startGame();
                 }
                 break;
             case DEAD_CLIENT:
-                //game.removePlayerFromLobby(usr);
                 this.resetInstance();
                 break;
             default:
@@ -157,6 +151,9 @@ public class GameController {
         }
     }
 
+    private boolean checkLobbySize(){
+        return game.getLobby().size() >= 2 && game.getLobby().size() <= 4;
+    }
 
     /**
      * handles the messages received only from the active player when the game is in progress
@@ -212,7 +209,7 @@ public class GameController {
                 break;
             case END_TURN:
                 if (turnController.hasDrawnCard() && turnController.hasPlacedCard()) {
-                    if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !EndGame) {
+                    if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !endGame) {
                         game.setGameState(GameState.END_GAME);
                         game.notifyEndGame();
                         triggerEndGame();
@@ -230,7 +227,6 @@ public class GameController {
                 ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
-                //game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:
@@ -278,20 +274,17 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                //if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20) {
-                //for(p:game.getPlayers()){
                 if (endGame && countDown != -1) {
-                        countDown--;
-                    }
+                    countDown--;
+                }
                 if (endGame && countDown == 0) {
-                        game.setGameState(GameState.ENDED);
-                        winners = game.getWinners();
-                        game.notifyWinner(winners);
-                    }
+                    game.setGameState(GameState.ENDED);
+                    ArrayList<String> winners = game.getWinners();
+                    game.notifyWinner(winners);
+                }
                 if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
-                        countDown = game.getLobby().size() - 1; //3;
-                    }
-                //}
+                    countDown = game.getLobby().size() - 1;
+                }
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);
                 game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);
@@ -301,7 +294,6 @@ public class GameController {
                     ServerApp.broadcast(receivedMessage);
                 break;
             case DEAD_CLIENT:
-                //game.removePlayer(usr);
                 this.resetInstance();
                 break;
             default:
@@ -316,13 +308,10 @@ public class GameController {
      */
     private void inEndState(Message receivedMessage) {
         String usr = receivedMessage.getUsername();
-        switch (receivedMessage.getMessageType()) {
-            case DEAD_CLIENT:
-                //game.removePlayer(usr);
-                this.resetInstance();
-                break;
-            default:
-                ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, go back to menu or quit"), usr);
+        if (Objects.requireNonNull(receivedMessage.getMessageType()) == MessageType.DEAD_CLIENT) {//game.removePlayer(usr);
+            this.resetInstance();
+        } else {
+            ServerApp.sendMessageToClient(new GenericMessage("server", "game is ended, go back to menu or quit"), usr);
         }
     }
 
@@ -411,30 +400,19 @@ public class GameController {
      */
     public void pickInitialCardSideHandler(PickInitialCardSideMessage pickMessage) {
         String username = pickMessage.getUsername();
-        Face side = pickMessage.getCardSide();
         if (pickMessage.getInitialCard().isShowingFront()){
-            if (game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {
-                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
-                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
-                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
-            }else{
+            if (!game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {
                 game.getPlayerByName(username).getBoard().getInitialCard().flip();
-                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
-                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
-                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
-            }
-        } else {
-            if(game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()){
-                game.getPlayerByName(username).getBoard().getInitialCard().flip();
-                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
-                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
-                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
-            }else{
-                game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
-                game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
-                game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
             }
         }
+        else {
+            if(game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()){
+                game.getPlayerByName(username).getBoard().getInitialCard().flip();
+            }
+        }
+        game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);
+        game.getPlayerByName(username).getBoard().setInitialCardChosen(true);
+        game.getPlayerByName(username).getBoard().setHasPlacedACard(false);
     }
 
     /**

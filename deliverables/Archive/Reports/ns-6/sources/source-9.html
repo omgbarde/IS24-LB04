@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    33,3%
   </span>
   <span class="absValue">
-    (1/2)
+    (1/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    33,3%
   </span>
   <span class="absValue">
-    (2/3)
+    (1/3)
   </span>
 </td>
 </tr>
@@ -79,32 +79,49 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import codex.lb04.Model.Enumerations.Color;
 &nbsp;
-&nbsp;import java.io.Serializable;
+&nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
 &nbsp; * This class represents initial cards
 &nbsp; */
-&nbsp;public class InitialCard extends Card implements Serializable {
+&nbsp;public class InitialCard extends Card  {
 &nbsp;
-&nbsp;    private Integer ID;
-&nbsp;
-&nbsp;    // No-argument constructor
-&nbsp;    public InitialCard() {
-<b class="nc">&nbsp;        super();</b>
-&nbsp;    }
-&nbsp;
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = 5499613247401499083L;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Default constructor
 &nbsp;     *
 &nbsp;     * @param front the face of the card
 &nbsp;     * @param back  the face of the card
+&nbsp;     * @param ID the id of the card
 &nbsp;     */
 &nbsp;    public InitialCard(Face front, Face back, Integer ID) {
 <b class="fc">&nbsp;        super(Color.YELLOW, front, back ,0 , ID);</b>
-<b class="fc">&nbsp;        this.ID = ID;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor for cards with coordinates
+&nbsp;     * @param front the face of the card
+&nbsp;     * @param back the face of the card
+&nbsp;     * @param ID the id of the card
+&nbsp;     * @param x the x coordinate of the card
+&nbsp;     * @param y the y coordinate of the card
+&nbsp;     * @param isShowingFront true if the card is showing the front face, false otherwise
+&nbsp;     * @param usedForPositionalObjectives true if the card is used for positional objectives, false otherwise
+&nbsp;     */
+&nbsp;    public InitialCard(Face front, Face back, Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives) {
+<b class="nc">&nbsp;        super(Color.YELLOW, front, back ,0 , ID , x, y , isShowingFront , usedForPositionalObjectives);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * override of the clone method to create a deep copy of the card to avoid problems in serialization
+&nbsp;     * @return a copy of the card
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public InitialCard clone(){
+<b class="nc">&nbsp;        return new InitialCard(this.getFront(), this.getBack(), this.getID() , this.getX(), this.getY() , this.isShowingFront() , this.isUsedForPositionalObjectives());</b>
+&nbsp;    }
 &nbsp;
 &nbsp;}
 </code>
@@ -130,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

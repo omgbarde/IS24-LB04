@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > PlayersConnectedMessage</title>
+  <title>Coverage Report > MessageType</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">codex.lb04.Message</a>
 </div>
 
-<h1>Coverage Summary for Class: PlayersConnectedMessage (codex.lb04.Message)</h1>
+<h1>Coverage Summary for Class: MessageType (codex.lb04.Message)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">PlayersConnectedMessage</td>
+  <td class="name">MessageType</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    100%
   </span>
   <span class="absValue">
-    (1/3)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    100%
   </span>
   <span class="absValue">
-    (2/4)
+    (31/31)
   </span>
 </td>
 </tr>
@@ -77,38 +77,52 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.Message;
 &nbsp;
-&nbsp;import java.io.Serial;
-&nbsp;import java.util.ArrayList;
-&nbsp;
-&nbsp;public class PlayersConnectedMessage extends Message {
-&nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 9;
-&nbsp;    ArrayList&lt;String&gt; lobby;
+&nbsp;/**
+&nbsp; * enum of all message types
+&nbsp; */
+<b class="fc">&nbsp;public enum MessageType {</b>
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Constructor for PlayersConnectedMessage
-&nbsp;     * @param username is usually &quot;server&quot;
-&nbsp;     * @param lobby list of players connected
-&nbsp;     */
-&nbsp;    public PlayersConnectedMessage(String username, ArrayList&lt;String&gt; lobby) {
-<b class="fc">&nbsp;        super(username, MessageType.PLAYERS_CONNECTED);</b>
-<b class="fc">&nbsp;        this.lobby = lobby;</b>
-&nbsp;    }
+&nbsp;     * network messages
+&nbsp;     **/
+<b class="fc">&nbsp;    GENERIC_MESSAGE,                //generic message</b>
+<b class="fc">&nbsp;    PING,                           //ping message sent from server to see if client is alive</b>
+<b class="fc">&nbsp;    PONG,                           //pong message sent from client to server to show that it is alive (sent by automatic response)</b>
+<b class="fc">&nbsp;    LOGIN_REQUEST,                  //login request message</b>
+<b class="fc">&nbsp;    LOGIN_REPLY,                    //login reply message based on game conditions</b>
+<b class="fc">&nbsp;    CHAT_MESSAGE,</b>
+<b class="fc">&nbsp;    ERROR,                          //error message signals a generic error in the game</b>
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Getter for lobby
-&nbsp;     * @return lobby
-&nbsp;     */
-&nbsp;    public ArrayList&lt;String&gt; getLobby() {
-<b class="nc">&nbsp;        return lobby;</b>
-&nbsp;    }
+&nbsp;     * game messages
+&nbsp;     **/
+<b class="fc">&nbsp;    PICK_SECRET_OBJECTIVE,              //message sent when the player picks a secret objective</b>
+<b class="fc">&nbsp;    PICK_RESOURCE_CARD,                 //message sent when the player picks a resource card to draw</b>
+<b class="fc">&nbsp;    PICK_GOLD_CARD,                     //message sent when the player picks a gold card to draw</b>
+<b class="fc">&nbsp;    PICK_INITIAL_CARD_SIDE,             //message sent when the player picks the side of the initial card</b>
+<b class="fc">&nbsp;    PLACE_CARD,                         //message sent when the player places a card on the board</b>
+<b class="fc">&nbsp;    END_TURN,                           //message sent when the player ends his turn</b>
+<b class="fc">&nbsp;    FLIP_CARD,                          //message sent when the player flips a card</b>
+<b class="fc">&nbsp;    DEAD_CLIENT,                        //message sent when a client is dead</b>
+<b class="fc">&nbsp;    START_TURN,                         //message sent to the new active player</b>
+<b class="fc">&nbsp;    PLAYERS_CONNECTED,                  //message that contains the clients connected sent when a client connects to the game</b>
+<b class="fc">&nbsp;    CREATE_GAME,                        //message sent when a client creates a game or automatically when the max number of players is reached</b>
+<b class="fc">&nbsp;    INVALID_INPUT,                      //message sent when the input is invalid</b>
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;PlayersConnectedMessage{&quot; +</b>
-&nbsp;                &quot;lobby=&quot; + lobby +
-&nbsp;                &#39;}&#39;;
-&nbsp;    }
+&nbsp;    /**
+&nbsp;     * messages to update the view
+&nbsp;     */
+<b class="fc">&nbsp;    READY,                              //message sent when the player is ready, after instantiating the board</b>
+<b class="fc">&nbsp;    UPDATE_GOLD,                        //message sent to a player to update the gold cards</b>
+<b class="fc">&nbsp;    DRAW_BOARD,                         //message sent to a player to draw the board</b>
+<b class="fc">&nbsp;    UPDATE_RESOURCE,                    //message sent to a player to update the resource cards visible</b>
+<b class="fc">&nbsp;    UPDATE_HAND,                        //message sent to a player to update his hand</b>
+<b class="fc">&nbsp;    UPDATE_COMMON_OBJECTIVES,           //message sent to a player at the start of the game to display the common objectives</b>
+<b class="fc">&nbsp;    UPDATE_INITIAL_CARD_DISPLAY,        //message sent to a player at the start of the game to display the initial card</b>
+<b class="fc">&nbsp;    UPDATE_SECRET_OBJECTIVE_TO_CHOOSE,  //message sent to a player to display the secret objectives to choose from</b>
+<b class="fc">&nbsp;    UPDATE_SECRET_OBJECTIVE,            //message sent to a player to display the secret objective that he has chosen</b>
+<b class="fc">&nbsp;    UPDATE_POINTS,                      //message sent to a player to update his points after every time he places a card</b>
+<b class="fc">&nbsp;    WINNERS                             //message sent to all players to show the winners</b>
 &nbsp;}
 </code>
 </pre>
@@ -133,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

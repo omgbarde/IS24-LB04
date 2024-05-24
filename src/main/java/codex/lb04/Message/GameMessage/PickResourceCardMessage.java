@@ -9,9 +9,9 @@ import java.io.Serial;
  */
 public class PickResourceCardMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 17;
+    private static final long serialVersionUID = 3067569892535805654L;
 
-    private Integer cardPick;
+    private final Integer cardPick;
 
     /**
      * constructor for PickResourceCardMessage

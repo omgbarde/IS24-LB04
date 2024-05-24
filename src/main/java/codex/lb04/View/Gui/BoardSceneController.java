@@ -14,22 +14,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 
 /**
- * This class represents the controller of the board scene
+ * Controller class for the GUI view (mainly for the board scene)
  */
 public class BoardSceneController extends ViewController {
-    private GuiView guiView;
+    private final GuiView guiView;
     private ClientSocket clientSocket;
-    private Stage stageReference;
-
-    // Declare the map
-    private Map<Rectangle, Card> gridMap = new HashMap<>();
+    //grid map fields
+    private Map<Rectangle, Card> gridMap;
 
     private Card selectedCard = null;
     private Rectangle selectedRectangle = null;
@@ -43,7 +40,6 @@ public class BoardSceneController extends ViewController {
     private Map<Rectangle, Card> initialCardDisplay;
     private Map<Rectangle, Text> pointsDisplay;
 
-
     /**
      * Constructor of the board scene controller
      *
@@ -52,7 +48,6 @@ public class BoardSceneController extends ViewController {
     public BoardSceneController(GuiView guiView) {
         this.gridMap = new HashMap<>();
         this.guiView = guiView;
-        this.stageReference = guiView.getStageReference();
         this.drawableResources = new LinkedHashMap<>();
         this.hand = new LinkedHashMap<>();
         this.drawableGold = new LinkedHashMap<>();
@@ -69,7 +64,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawLobbyScene() {
-        Platform.runLater(()->guiView.drawLobbyScene());
+        Platform.runLater(guiView::drawLobbyScene);
     }
 
     /**
@@ -77,7 +72,7 @@ public class BoardSceneController extends ViewController {
      */
     @Override
     public void drawHelloScene() {
-        Platform.runLater(()->guiView.drawHelloScene());
+        Platform.runLater(guiView::drawHelloScene);
     }
 
     /**
@@ -88,12 +83,6 @@ public class BoardSceneController extends ViewController {
         Platform.runLater(()->guiView.updateLobby(lobby));
     }
 
-
-    //not used in gui
-    @Override
-    public void drawCard(Card card) {}
-
-
     /**
      * draws the visible gold cards
      *
@@ -103,9 +92,7 @@ public class BoardSceneController extends ViewController {
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
         drawableGold.replaceAll((r, v) -> null);
         for (Rectangle rectangle : drawableGold.keySet()) {
-            Platform.runLater(() -> {
-                cleanImage(rectangle);
-            });
+            Platform.runLater(() -> cleanImage(rectangle));
         }
         for (int i = 0; i < goldCards.size(); i++) {
             GoldCard goldCard = goldCards.get(i);
@@ -130,9 +117,7 @@ public class BoardSceneController extends ViewController {
     public void updateDrawableResources(ArrayList<ResourceCard> resourceCards) {
         drawableResources.replaceAll((r, v) -> null);
         for (Rectangle rectangle : drawableResources.keySet()) {
-            Platform.runLater(() -> {
-                cleanImage(rectangle);
-            });
+            Platform.runLater(() -> cleanImage(rectangle));
         }
         for (int i = 0; i < resourceCards.size(); i++) {
             ResourceCard resourceCard = resourceCards.get(i);
@@ -157,9 +142,7 @@ public class BoardSceneController extends ViewController {
     public void updateHand(ArrayList<Card> handCards) {
         hand.replaceAll((r, v) -> null);
         for (Rectangle rectangle : hand.keySet()) {
-            Platform.runLater(() -> {
-                cleanImage(rectangle);
-            });
+            Platform.runLater(() -> cleanImage(rectangle));
         }
         for (int i = 0; i < handCards.size(); i++) {
             Card card = handCards.get(i);
@@ -238,17 +221,16 @@ public class BoardSceneController extends ViewController {
     /**
      * updates the secret objective
      *
-     * @param objectiveCards the objective cards arrayList
+     * @param objectiveCard the secret objective card chosen
      */
     @Override
-    public void updateSecretObjective(ObjectiveCard objectiveCards) {
-        ObjectiveCard card = objectiveCards;
-        secretObjective.put((Rectangle) secretObjective.keySet().toArray()[0], card);
+    public void updateSecretObjective(ObjectiveCard objectiveCard) {
+        secretObjective.put((Rectangle) secretObjective.keySet().toArray()[0], objectiveCard);
         Rectangle rectangle = (Rectangle) secretObjective.keySet().toArray()[0];
 
         Platform.runLater(() -> {
             try {
-                drawSecretObjective(rectangle, card);
+                drawSecretObjective(rectangle, objectiveCard);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -279,16 +261,17 @@ public class BoardSceneController extends ViewController {
     @Override
     public void placeCard(Integer x, Integer y, Card card) {
         for (Rectangle rectangle : gridMap.keySet()) {
+            //noinspection unchecked
             ArrayList<Integer> coordinates = (ArrayList<Integer>) rectangle.getUserData();
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
             if (Objects.equals(X, x) && Objects.equals(Y, y)) {
                 if (x == 0 && y == 0) {
-                    Rectangle todisable = (Rectangle) initialCardDisplay.keySet().toArray()[0];
-                    todisable.setOpacity(0);
-                    todisable.setHeight(0);
-                    todisable.setWidth(0);
-                    todisable.setDisable(true);
+                    Rectangle toDisable = (Rectangle) initialCardDisplay.keySet().toArray()[0];
+                    toDisable.setOpacity(0);
+                    toDisable.setHeight(0);
+                    toDisable.setWidth(0);
+                    toDisable.setDisable(true);
                     guiView.getInitCardBackground().setOpacity(0);
                     guiView.getInitCardBackground().setHeight(0);
                     guiView.getInitCardBackground().setWidth(0);
@@ -304,9 +287,7 @@ public class BoardSceneController extends ViewController {
                         throw new RuntimeException(e);
                     }
                 });
-                Platform.runLater(() -> {
-                    guiView.bringRectangleToFront(rectangle);
-                });
+                Platform.runLater(() -> guiView.bringRectangleToFront(rectangle));
 
             }
         }
@@ -367,6 +348,7 @@ public class BoardSceneController extends ViewController {
     public void onGridClick(MouseEvent event) {
         if (selectedCard != null && selectedRectangle != null) {
             Rectangle clickedRectangle = (Rectangle) event.getSource();
+            //noinspection unchecked
             ArrayList<Integer> coordinates = (ArrayList<Integer>) clickedRectangle.getUserData();
             Integer X = coordinates.get(0);
             Integer Y = coordinates.get(1);
@@ -450,9 +432,7 @@ public class BoardSceneController extends ViewController {
         for (int i = 0; i < points.size(); i++) {
             Rectangle rectangle = (Rectangle) pointsDisplay.keySet().toArray()[i];
             Integer point = points.get(i);
-            Platform.runLater(() -> {
-                drawPoints(rectangle, point);
-            });
+            Platform.runLater(() -> drawPoints(rectangle, point));
         }
     }
 
@@ -467,8 +447,8 @@ public class BoardSceneController extends ViewController {
     }
 
     /**
-     * Method to print a string
-     * @param string
+     * print utility method (not in use in GUI mode)
+     * @param string string to print
      */
     @Override
     public void print(String string) {
@@ -491,6 +471,7 @@ public class BoardSceneController extends ViewController {
 
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
         InputStream is = getClass().getResourceAsStream(imagePath);
+        assert is != null;
         Image image = new Image(is);
         ImagePattern imagePattern = new ImagePattern(image);
         rectangle.setFill(imagePattern);
@@ -502,7 +483,7 @@ public class BoardSceneController extends ViewController {
      * @param card the card
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -515,7 +496,7 @@ public class BoardSceneController extends ViewController {
 
 
     public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -532,7 +513,7 @@ public class BoardSceneController extends ViewController {
      * @param card      the card
      */
     public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -543,7 +524,7 @@ public class BoardSceneController extends ViewController {
     }
 
     public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -554,7 +535,7 @@ public class BoardSceneController extends ViewController {
     }
 
     public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -570,9 +551,9 @@ public class BoardSceneController extends ViewController {
         Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
         this.disableRectangle(toDisable1);
         this.disableRectangle(toDisable2);
-        this.disableRectangle(guiView.getSecretObjectivesBackground());
+        this.disableRectangle(guiView.getSecretObjectiveBackground());
 
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -583,7 +564,7 @@ public class BoardSceneController extends ViewController {
     }
 
     public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -596,7 +577,7 @@ public class BoardSceneController extends ViewController {
 
     public void drawGenericCard(Rectangle rectangle, Card card) throws FileNotFoundException {
         //InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
-        String imagePath = "/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png";
+        String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
@@ -610,7 +591,6 @@ public class BoardSceneController extends ViewController {
         }
 
     }
-
 
     /**
      * method to add a rectangle to the grid map
@@ -685,6 +665,10 @@ public class BoardSceneController extends ViewController {
         secretObjective.put(rectangle, null);
     }
 
+    /**
+     * method to disable a rectangle and make it invisible
+     * @param rectangle the rectangle to disable
+     */
     public void disableRectangle(Rectangle rectangle) {
         rectangle.setOpacity(0);
         rectangle.setHeight(0);
@@ -692,42 +676,49 @@ public class BoardSceneController extends ViewController {
         rectangle.setDisable(true);
     }
 
-
     /**
-     * sets up the drawable gold card
+     * sets up the drawable gold card rectangles
      *
      * @param Top the top rectangle
-     * @param v1  the first rectangle
-     * @param v2  the second rectangle
+     * @param mid the middle rectangle
+     * @param bottom the bottom rectangle
      */
-    public void setUpDrawableGold(Rectangle Top, Rectangle v1, Rectangle v2) {
+    public void setUpDrawableGold(Rectangle Top, Rectangle mid, Rectangle bottom) {
         addRectangleToDrawableGoldMap(Top);
-        addRectangleToDrawableGoldMap(v1);
-        addRectangleToDrawableGoldMap(v2);
+        addRectangleToDrawableGoldMap(mid);
+        addRectangleToDrawableGoldMap(bottom);
     }
 
     /**
      * sets up the drawable resources
      *
      * @param top the top rectangle
-     * @param v1  the first rectangle
-     * @param v2  the second rectangle
+     * @param mid the middle rectangle
+     * @param bottom the bottom rectangle
      */
-    public void setUpDrawableResources(Rectangle top, Rectangle v1, Rectangle v2) {
+    public void setUpDrawableResources(Rectangle top, Rectangle mid, Rectangle bottom) {
         addRectangleToDrawableResourcesMap(top);
-        addRectangleToDrawableResourcesMap(v1);
-        addRectangleToDrawableResourcesMap(v2);
+        addRectangleToDrawableResourcesMap(mid);
+        addRectangleToDrawableResourcesMap(bottom);
     }
 
-    public void setUpSecretObjectivesToChoose(Rectangle top, Rectangle v1) {
+    /**
+     * sets up the secret objectives to choose rectangles
+     * @param top the top rectangle
+     * @param bottom the bottom rectangle
+     */
+    public void setUpSecretObjectivesToChoose(Rectangle top, Rectangle bottom) {
         addRectangleToSecretObjectivesToChoose(top);
-        addRectangleToSecretObjectivesToChoose(v1);
+        addRectangleToSecretObjectivesToChoose(bottom);
     }
 
-    public void setUpInitialCardDisplay(Rectangle v1) {
-        addRectangleToInitialCardDisplay(v1);
+    /**
+     * sets up the initial card rectangle
+     * @param initialCardRectangle the rectangle that will display the initial card
+     */
+    public void setUpInitialCardDisplay(Rectangle initialCardRectangle) {
+        addRectangleToInitialCardDisplay(initialCardRectangle);
     }
-
 
     /**
      * sets up the hand map
@@ -762,6 +753,10 @@ public class BoardSceneController extends ViewController {
         addRectangleToSecretObjectiveMap(secret);
     }
 
+    /**
+     * method to flip a card in hand or in the initial card display
+     * @throws FileNotFoundException if the file for the card face is not found
+     */
     public void flipCard() throws FileNotFoundException {
         if (this.selectedCard != null && this.selectedRectangle != null) {
             if (hand.containsKey(selectedRectangle) || initialCardDisplay.containsKey(selectedRectangle)) {
@@ -771,31 +766,9 @@ public class BoardSceneController extends ViewController {
         }
     }
 
-
-    //GETTERS
-
     /**
-     * method to get the selected card
-     *
-     * @return the selected card
+     * method to reset the board scene controller
      */
-    public Card getSelectedCard() {
-        return this.selectedCard;
-    }
-
-    /**
-     * method to get the selected rectangle
-     *
-     * @return the selected rectangle
-     */
-    public Rectangle getSelectedRectangle() {
-        return this.selectedRectangle;
-    }
-
-    public void setClientSocket(ClientSocket clientSocket) {
-        this.clientSocket = clientSocket;
-    }
-
     public void reset(){
         this.gridMap = new HashMap<>();
         this.drawableResources = new LinkedHashMap<>();
@@ -806,6 +779,12 @@ public class BoardSceneController extends ViewController {
         this.secretObjective = new LinkedHashMap<>();
         this.initialCardDisplay = new LinkedHashMap<>();
         this.pointsDisplay = new LinkedHashMap<>();
+    }
+
+    //SETTER
+
+    public void setClientSocket(ClientSocket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 
 }

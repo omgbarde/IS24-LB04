@@ -10,7 +10,7 @@ import java.io.Serial;
 public class ReadyMessage extends Message {
 
     @Serial
-    private static final long serialVersionUID = 20;
+    private static final long serialVersionUID = -4911231621102811512L;
 
     /** Constructor for ReadyMessage
      * @param username username of the player, usually set as "ready"

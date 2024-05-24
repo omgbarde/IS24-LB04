@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > LoginReply</title>
+  <title>Coverage Report > LoginMessage</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">codex.lb04.Message</a>
 </div>
 
-<h1>Coverage Summary for Class: LoginReply (codex.lb04.Message)</h1>
+<h1>Coverage Summary for Class: LoginMessage (codex.lb04.Message)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">LoginReply</td>
+  <td class="name">LoginMessage</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    50%
   </span>
   <span class="absValue">
-    (1/3)
+    (1/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    40%
+    33,3%
   </span>
   <span class="absValue">
-    (2/5)
+    (1/3)
   </span>
 </td>
 </tr>
@@ -80,36 +80,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
-&nbsp; * message sent as reply to LoginMessage
+&nbsp; * message that represents a login request from a client
 &nbsp; */
-&nbsp;public class LoginReply extends Message{
+&nbsp;public class LoginMessage extends Message{
 &nbsp;    @Serial
-&nbsp;    private static final long serialVersionUID = 5;
-&nbsp;    private final boolean accepted;
+&nbsp;    private static final long serialVersionUID = 7477711891519850477L;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Constructor for LoginReply
-&nbsp;     * @param nickname nickname of the client
-&nbsp;     * @param accepted true if the login was accepted, false otherwise
+&nbsp;     * Constructor for LoginMessage
+&nbsp;     * @param username username of the client that wants to log in
 &nbsp;     */
-&nbsp;    public LoginReply(String nickname, boolean accepted) {
-<b class="fc">&nbsp;        super(nickname, MessageType.LOGIN_REPLY);</b>
-<b class="fc">&nbsp;        this.accepted = accepted;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * Getter for accepted
-&nbsp;     * @return accepted
-&nbsp;     */
-&nbsp;    public boolean isAccepted() {
-<b class="nc">&nbsp;        return accepted;</b>
+&nbsp;    public LoginMessage(String username) {
+<b class="fc">&nbsp;        super(username,MessageType.LOGIN_REQUEST);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public String toString() {
-<b class="nc">&nbsp;        return &quot;LoginReply{&quot; +</b>
-<b class="nc">&nbsp;                &quot;nickname=&quot; + getUsername() +</b>
-&nbsp;                &quot;, accepted=&quot; + accepted +
+<b class="nc">&nbsp;        return &quot;LoginMessage{&quot; +</b>
+<b class="nc">&nbsp;                &quot;username=&#39;&quot; + getUsername() + &#39;\&#39;&#39; +</b>
 &nbsp;                &#39;}&#39;;
 &nbsp;    }
 &nbsp;}
@@ -136,7 +124,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

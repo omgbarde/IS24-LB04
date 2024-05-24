@@ -3,7 +3,6 @@ package codex.lb04.View.Cli;
 import codex.lb04.View.Cli.State.CliBoardState;
 import codex.lb04.View.Cli.State.CliViewState;
 import codex.lb04.View.View;
-import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,15 +10,14 @@ import java.util.Scanner;
 import static java.lang.System.out;
 
 /**
- * This class represents the CLI view
+ * This class represents the view of the game in CLI mode
  */
 public class CliView extends View implements Runnable{
     private CliViewState state = CliViewState.HELLO;
     ArrayList<String> lobby ;
     CliBoardModel boardModel;
     CliController controller;
-    private ArrayList<String> chat;
-    private Task task;
+    private final ArrayList<String> chat;
 
     private static Scanner scanner;
 
@@ -31,17 +29,7 @@ public class CliView extends View implements Runnable{
         this.boardModel = new CliBoardModel();
         this.controller = new CliController(this);
         this.chat = new ArrayList<>();
-        this.scanner = new Scanner(System.in);
-    }
-
-    public void setTask(Runnable runnable){
-        this.task = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                runnable.run();
-                return null;
-            }
-        };
+        scanner = new Scanner(System.in);
     }
 
     /**
@@ -49,6 +37,8 @@ public class CliView extends View implements Runnable{
      */
     public void run() {
         drawHelloScene();
+        //game loop to keep the view running and waiting for input
+        //noinspection InfiniteLoopStatement
         while(true){
             String input = scanner.nextLine().trim().toUpperCase();
             controller.handleInput(input);
@@ -62,26 +52,29 @@ public class CliView extends View implements Runnable{
     @Override
     public void drawHelloScene() {
         printSpaces();
-        out.println(" ___               _                            \n" +
-                "(  _`\\            ( )                           \n" +
-                "| ( (_)   _      _| |   __                      \n" +
-                "| |  _  /'_`\\  /'_` | /'__`(`\\/')               \n" +
-                "| (_( )( (_) )( (_| |(  ___/>  <                \n" +
-                "(____/'`\\___/'`\\__,_)`\\____|_/\\_)               \n" +
-                "                                                \n" +
-                "                                                \n" +
-                " _   _         _                     _          \n" +
-                "( ) ( )       ( )_                  (_ ) _      \n" +
-                "| `\\| |   _ _ | ,_) _   _  _ __  _ _ | |(_) ___ \n" +
-                "| , ` | /'_` )| |  ( ) ( )( '__)'_` )| || /',__)\n" +
-                "| |`\\ |( (_| || |_ | (_) || | ( (_| || || \\__, \\\n" +
-                "(_) (_)`\\__,_)`\\__)`\\___/'(_) `\\__,_|___|_|____/ \n" +
-                "by Pitesse, Barde, AlexIlLeone, Brio");
-
+        out.println("""
+                 ___               _                           \s
+                (  _`\\            ( )                          \s
+                | ( (_)   _      _| |   __                     \s
+                | |  _  /'_`\\  /'_` | /'__`(`\\/')              \s
+                | (_( )( (_) )( (_| |(  ___/>  <               \s
+                (____/'`\\___/'`\\__,_)`\\____|_/\\_)              \s
+                 _   _         _                     _         \s
+                ( ) ( )       ( )_                  (_ ) _     \s
+                | `\\| |   _ _ | ,_) _   _  _ __  _ _ | |(_) ___\s
+                | , ` | /'_` )| |  ( ) ( )( '__)'_` )| || /',__)
+                | |`\\ |( (_| || |_ | (_) || | ( (_| || || \\__, \\
+                (_) (_)`\\__,_)`\\__)`\\___/'(_) `\\__,_|___|_|____/\s
+                by Pitesse, Barde, AlexIlLeone, Brio""");
+        out.println();
+        out.println();
         out.println("Welcome to Codex Naturalis Board Game!");
         out.println("Press 'C' to Create a Game or 'J' to Join a Game");
     }
 
+    /**
+     * Draw the login scene
+     */
     @Override
     public void drawLoginScene(){
         printSpaces();
@@ -89,6 +82,9 @@ public class CliView extends View implements Runnable{
 
     }
 
+    /**
+     * Draw the lobby scene
+     */
     @Override
     public void drawLobbyScene() {
         setState(CliViewState.LOBBY);
@@ -100,6 +96,9 @@ public class CliView extends View implements Runnable{
         out.println("If you want to go back press 'B', else press 'P' to start the game");
     }
 
+    /**
+     * Draw the create game scene
+     */
     @Override
     public void drawCreateGameScene() {
         printSpaces();
@@ -108,6 +107,9 @@ public class CliView extends View implements Runnable{
     }
 
 
+    /**
+     * Draw the board scene
+     */
     @Override
     public void drawBoardScene() {
         printSpaces();
@@ -121,11 +123,16 @@ public class CliView extends View implements Runnable{
         displayCommands();
     }
 
-
+    /**
+     * Draw the hand from the local model
+     */
     private void drawHand() {
         boardModel.printHand();
     }
 
+    /**
+     * Draw the initial card from the local model
+     */
     private void drawInitialCard() {
         boardModel.printInitial();
     }
@@ -153,7 +160,7 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Draw the turn label
+     * Draw the turn label from the local model
      */
     private void drawTurnLabel() {
         out.println("-----------------------------------------------------------------------------------" +
@@ -162,7 +169,7 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Draw the visible cards
+     * Draw the visible cards from the local model
      */
     private void drawVisibleCards(){
         boardModel.printVisibleCards();
@@ -170,14 +177,14 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Draw the played cards
+     * Draw the played cards from the local model
      */
     private void drawPlayedCards(){
         boardModel.printGridMap();
     }
 
     /**
-     * Draw the choices
+     * Draw the choices from the local model
      */
     private void drawChoices(){
 
@@ -185,19 +192,35 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Draw the objectives
-     */
-    private void drawObjectives(){
-        boardModel.printObjectives();
-    }
-
-    /**
-     * Display the points
+     * Display the points from the local model
      */
     private void displayPoints(){
         out.println("Score: " + boardModel.printPoints());
     }
 
+    /**
+     * Draw the winner scene scaffold
+     */
+    @Override
+    public void drawWinnerScene() {
+        printSpaces();
+        out.println("The game is over!");
+        out.println("press any key to continue");
+        out.println();
+    }
+
+    /**
+     * print the winner
+     * @param winner the winner string already formatted passed by the controller
+     */
+    public void showWinners(String winner) {
+        out.println(winner);
+    }
+
+    /**
+     * Update the lobby and draw it
+     * @param lobby the arraylist of players in the lobby
+     */
     @Override
     public void updateLobby(ArrayList<String> lobby) {
         this.lobby = lobby;
@@ -205,7 +228,10 @@ public class CliView extends View implements Runnable{
         drawLobbyScene();
     }
 
-
+    /**
+     * Display an alert by redrawing the state and adding the alert
+     * @param alert the alert to be displayed
+     */
     @Override
     public void displayAlert(String alert) {
         drawState();
@@ -213,7 +239,7 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Draw the current state
+     * Draw the current scene based on the state
      */
     private void drawState() {
         switch (state){
@@ -236,7 +262,6 @@ public class CliView extends View implements Runnable{
                 break;
         }
     }
-
 
     /**
      * Print spaces to the standard output
@@ -270,8 +295,10 @@ public class CliView extends View implements Runnable{
         out.println("write a message below or press 'B' to go back");
     }
 
+    //GETTER
+
     /**
-     * Get the state
+     * Gets the state
      * @return the state
      */
     public CliViewState getState() {
@@ -279,24 +306,21 @@ public class CliView extends View implements Runnable{
     }
 
     /**
-     * Set the state
-     * @param state the state
-     */
-    public void setState(CliViewState state) {
-        this.state = state;
-    }
-
-    /**
-     * Get the board
+     * Gets the board
      * @return the board
      */
     public CliBoardModel getBoard() {
         return boardModel;
     }
 
-    public void showWinners(String winner) {
-        printSpaces();
-        out.println(winner);
-        out.println("press any key to continue");
+    //SETTER
+
+    /**
+     * Sets the state
+     * @param state the state
+     */
+    public void setState(CliViewState state) {
+        this.state = state;
     }
+
 }

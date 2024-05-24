@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
+    100%
   </span>
   <span class="absValue">
-    (7/8)
+    (8/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,9%
+    100%
   </span>
   <span class="absValue">
-    (13/14)
+    (18/18)
   </span>
 </td>
 </tr>
@@ -79,22 +79,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import codex.lb04.Model.Enumerations.Color;
 &nbsp;
-&nbsp;import java.io.Serializable;
+&nbsp;import java.io.Serial;
 &nbsp;
 &nbsp;/**
 &nbsp; * Class that represents a Gold Card
 &nbsp; */
-&nbsp;public class GoldCard extends Card implements Serializable {
-&nbsp;    //number of points you gain from the &quot;objective&quot;
-&nbsp;    private int points;
-&nbsp;    private int mushroom_needed;
-&nbsp;    private int animals_needed;
-&nbsp;    private int insects_needed;
-&nbsp;    private int leaf_needed;
-&nbsp;    private Integer ID;
+&nbsp;public class GoldCard extends Card{
 &nbsp;
-<b class="nc">&nbsp;    public GoldCard(){</b>
-&nbsp;    }
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = -4833730647298877958L;
+&nbsp;
+&nbsp;    //number of points you gain from the &quot;multiplier&quot;
+&nbsp;    private final int points;
+&nbsp;    private final int mushroom_needed;
+&nbsp;    private final int animals_needed;
+&nbsp;    private final int insects_needed;
+&nbsp;    private final int leaf_needed;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Default constructor
@@ -102,11 +102,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param color the color of the card
 &nbsp;     * @param front the face of the card
 &nbsp;     * @param back  the face of the card
-&nbsp;     * @param points the number of points you gain from the &quot;objective&quot;
-&nbsp;     * @param mushroom_needed the number of mushrooms needed to complete the &quot;objective&quot;
-&nbsp;     * @param animals_needed the number of animals needed to complete the &quot;objective&quot;
-&nbsp;     * @param leaf_needed the number of leafs needed to complete the &quot;objective&quot;
-&nbsp;     * @param insects_needed the number of insects needed to complete the &quot;objective&quot;
+&nbsp;     * @param points the number of points you gain from the &quot;multiplier&quot;
+&nbsp;     * @param mushroom_needed the number of mushrooms needed to place the card
+&nbsp;     * @param animals_needed the number of animals needed to place the card
+&nbsp;     * @param leaf_needed the number of leafs needed to place the card
+&nbsp;     * @param insects_needed the number of insects needed to place the card
+&nbsp;     * @param ID the ID of the card
 &nbsp;     */
 &nbsp;    public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed, Integer ID) {
 <b class="fc">&nbsp;        super(color, front, back , points, ID);</b>
@@ -115,8 +116,42 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.animals_needed = animals_needed;</b>
 <b class="fc">&nbsp;        this.insects_needed = insects_needed;</b>
 <b class="fc">&nbsp;        this.leaf_needed = leaf_needed;</b>
-<b class="fc">&nbsp;        this.ID = ID;</b>
 &nbsp;    }
+&nbsp;    /**
+&nbsp;     * Constructor for the GoldCard with coordinates
+&nbsp;     * @param color the color of the card
+&nbsp;     * @param front the face of the card
+&nbsp;     * @param back the face of the card
+&nbsp;     * @param points the number of points you gain from the &quot;multiplier&quot;
+&nbsp;     * @param mushroom_needed the number of mushrooms needed to place the card
+&nbsp;     * @param animals_needed the number of animals needed to place the card
+&nbsp;     * @param leaf_needed the number of leafs needed to place the card
+&nbsp;     * @param insects_needed the number of insects needed to place the card
+&nbsp;     * @param ID the ID of the card
+&nbsp;     * @param x the x coordinate of the card
+&nbsp;     * @param y the y coordinate of the card
+&nbsp;     * @param isShowingFront true if the card is showing the front, false otherwise
+&nbsp;     * @param usedForPositionalObjectives true if the card is used for positional objectives, false otherwise
+&nbsp;     */
+&nbsp;    public GoldCard(Color color, Face front, Face back, int points, int mushroom_needed, int animals_needed, int leaf_needed, int insects_needed, Integer ID , Integer x, Integer y , boolean isShowingFront , boolean usedForPositionalObjectives) {
+<b class="fc">&nbsp;        super(color, front, back , points, ID , x, y , isShowingFront , usedForPositionalObjectives);</b>
+<b class="fc">&nbsp;        this.points = points;</b>
+<b class="fc">&nbsp;        this.mushroom_needed = mushroom_needed;</b>
+<b class="fc">&nbsp;        this.animals_needed = animals_needed;</b>
+<b class="fc">&nbsp;        this.insects_needed = insects_needed;</b>
+<b class="fc">&nbsp;        this.leaf_needed = leaf_needed;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * override of the clone method to create a deep copy of the card to avoid problems in serialization
+&nbsp;     * @return a copy of the card
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GoldCard clone(){
+<b class="fc">&nbsp;        return new GoldCard(this.getColor(), this.getFront(), this.getBack(), this.points, this.mushroom_needed, this.animals_needed, this.leaf_needed, this.insects_needed, this.getID() , this.getX(), this.getY() , this.isShowingFront() , this.isUsedForPositionalObjectives());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //GETTER
 &nbsp;
 &nbsp;    public Integer getPoints() {
 <b class="fc">&nbsp;        return points;</b>
@@ -137,11 +172,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public Integer getLeaf_needed() {
 <b class="fc">&nbsp;        return leaf_needed;</b>
 &nbsp;    }
-&nbsp;
-&nbsp;    public Integer getID() {
-<b class="fc">&nbsp;        return ID;</b>
-&nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;}
 </code>
@@ -167,7 +197,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-09 19:03</div>
+    <div style="float:right;">generated on 2024-05-24 14:56</div>
 </div>
 </body>
 </html>

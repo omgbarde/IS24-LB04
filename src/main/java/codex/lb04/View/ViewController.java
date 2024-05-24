@@ -4,14 +4,16 @@ import codex.lb04.Model.*;
 
 import java.util.ArrayList;
 
+/**
+ * ViewController abstract class that is extended by controller classes that need to update the view in the different modes (GUI or CLI).
+ */
 public abstract class ViewController {
+
     public abstract void drawLobbyScene();
 
     public abstract void drawHelloScene() ;
 
     public abstract void updateLobby(ArrayList<String> lobby);
-
-    public abstract void drawCard(Card card) ;
 
     public abstract void updateDrawableGold(ArrayList<GoldCard> gold) ;
 
@@ -35,6 +37,8 @@ public abstract class ViewController {
 
     public abstract void drawBoardScene() ;
 
+    public abstract void showWinners(String winner);
+
     public abstract void setYourTurnText();
 
     public abstract void updatePoints(ArrayList<Integer> points);
@@ -45,5 +49,4 @@ public abstract class ViewController {
 
     public abstract void print(String string);
 
-    public abstract void showWinners(String winner);
 }

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * This class represents a circular iterator
+ * This class implements an iterator that iterates over a list in a circular way
  *
  * @param <T> the type of the iterator
  */
 public class CircularIterator<T> implements Iterator<T> {
-    private ArrayList<T> list;
+    private final ArrayList<T> list;
     private int current = 0;
 
     public CircularIterator(ArrayList<T> list) {

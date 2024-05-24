@@ -3,16 +3,18 @@ package codex.lb04.Message.DrawMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Card;
-import codex.lb04.Model.GoldCard;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
  * Message to notify the user to update the gold cards.
  */
 public class UpdateHandMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = -8787726164243701177L;
 
-    private ArrayList<Card> hand;
+    private final ArrayList<Card> hand;
 
     /**
      * Constructor for UpdateGoldMessage

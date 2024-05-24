@@ -643,7 +643,7 @@ public class DeckBuilder {
      * @return an array list of all the gold cards
      */
     public ArrayList<GoldCard> createGoldCards() {
-        ArrayList<GoldCard> goldCards = new ArrayList<GoldCard>();
+        ArrayList<GoldCard> goldCards = new ArrayList<>();
 
         //red gold cards
         //red card 41

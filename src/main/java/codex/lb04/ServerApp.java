@@ -20,10 +20,9 @@ import java.util.List;
 public class ServerApp implements Runnable {
     //default port
     private static int port;
-    private ServerSocket serverSocket;
     //list of all client handlers
-    private static List<ClientHandler> clientHandlerList = new ArrayList<>();
-    private GameController gameController = GameController.getInstance();
+    private static final List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private final GameController gameController = GameController.getInstance();
 
     /**
      * sends a message to a specific client
@@ -47,7 +46,7 @@ public class ServerApp implements Runnable {
     @Override
     public void run() {
         try {
-            serverSocket = new ServerSocket(port);
+            ServerSocket serverSocket = new ServerSocket(port);
             print("Server is running:\n" + serverSocket);
             ConnectionUtil.displayInfo();
             while (!serverSocket.isClosed()) {
@@ -65,7 +64,7 @@ public class ServerApp implements Runnable {
     /**
      * send message to all connected clients
      *
-     * @param message message to be broadcasted
+     * @param message message to be broadcast
      */
     public static void broadcast(Message message) {
         for (ClientHandler clientHandler : clientHandlerList) {
@@ -98,10 +97,6 @@ public class ServerApp implements Runnable {
             }
         }
         new Thread(new ServerApp()).start();
-    }
-
-    private boolean checkValid(int port, int numPlayers) {
-        return (ConnectionUtil.isValidPort(port) &&  numPlayers >= 2 && numPlayers <= 4);
     }
 
     public void onMessageReceived(Message receivedMessage) {

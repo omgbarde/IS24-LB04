@@ -1,8 +1,6 @@
 package codex.lb04;
-import codex.lb04.Utils.GraphicUtil;
 import codex.lb04.View.Cli.CliView;
 import codex.lb04.View.Gui.GuiLauncher;
-import codex.lb04.View.View;
 import javafx.application.Application;
 /**
  * class for the client app launcher
@@ -27,17 +25,6 @@ public class CodexClientApp {
             //launches GUI by default
             System.out.println("error parsing the launch command");
             Application.launch(GuiLauncher.class);
-        }
-    }
-    /**
-     * this method returns the view associated with the clientApp
-     * @return the view of the client
-     */
-    public static View getView() {
-        if (GraphicUtil.mode.equals("GUI")) {
-            return GuiLauncher.getGuiView();
-        } else {
-            return null;
         }
     }
     /**

@@ -10,9 +10,9 @@ import java.io.Serial;
  */
 public class FlipCardMessage extends Message {
     @Serial
-    private static final long serialVersionUID = 12;
+    private static final long serialVersionUID = -5242076736742108786L;
 
-    private Card card;
+    private final Card card;
 
     /**
      * Constructor for FlipCardMessage

@@ -16,10 +16,10 @@ import java.net.SocketException;
  * this class represents a client connection
  */
 public class ClientSocket {
-    private String username;
-    private Socket socket;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
+    private final String username;
+    private final Socket socket;
+    private final ObjectOutputStream output;
+    private final ObjectInputStream input;
     private ClientParser clientParser;
 
     /**
@@ -34,13 +34,9 @@ public class ClientSocket {
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
             this.clientParser = new ClientParser( this,controller);
-            readmessage();
+            readMessage();
     }
 
-
-    public String getUsername() {
-        return username;
-    }
 
     /**
      * method to close the socket
@@ -56,7 +52,7 @@ public class ClientSocket {
     }
 
     /**
-     * this method reads messages from the inteface and sends them to the server (invoked by the interface)
+     * this method reads messages from the interface and sends them to the server (invoked by the interface)
      *
      * @param message is the message passed from the server
      */
@@ -73,7 +69,7 @@ public class ClientSocket {
     /**
      * starts a new thread to listen for incoming messages
      */
-    public void readmessage() {
+    public void readMessage() {
         (new Thread(() -> {
             while (!socket.isClosed()) {
                 try {
@@ -92,4 +88,14 @@ public class ClientSocket {
         })).start();
     }
 
+    //GETTER
+
+    /**
+     * getter for the username
+     *
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
 }

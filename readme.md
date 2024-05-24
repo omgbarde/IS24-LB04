@@ -10,28 +10,33 @@
 ## Functionalities
 |     Feature      | state |
 |:----------------:|:-----:|
-| complete ruleset |  ✅  |
-| socket handling  |  ✅  |
-|  GUI interface   |  ✅  |
-|  CLI interface   |  ✅  |
-|   ingame chat    |  ✅  |
+| complete ruleset |   ✅   |
+| socket handling  |   ✅   |
+|  GUI interface   |   ✅   |
+|  CLI interface   |   ✅   |
+|   in-game chat   |   ✅   |
 
 [documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables/Archive)
 
 ## Main testing progress
 (% methods covered)\
 test model:\
-  🟦🟦🟦🟦🟦🟦🟦🟦🟦⬜ 89% \
+  🟦🟦🟦🟦🟦🟦🟦⬜⬜ 83% \
+test view:\
+  🟦🟦🟦🟦🟦🟦🟦⬜⬜⬜ 67% \
 test controller:\
-  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
+  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 39%\
 test observer:\
   🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
-overall testing and report:\
-  🟦🟦🟦🟦🟦🟦⬜⬜⬜⬜ 62%
+overall:\
+  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 43%
 
 ## Todo list
 - [x] crippling depression
 - [ ] fix winners message not sent in case of multiple winners
+- [ ] fix finishing resource/gold cards deck
+- [ ] fix not sending error message when trying to join a started game
+- [ ] make board resizable
 - [ ] more testing
 - [ ] general refactor
 
@@ -42,7 +47,7 @@ overall testing and report:\
 ## Getting started
 1. first launch the serverApp on the desired port (omit arguments to use the default)
     ```sh
-    java -jar serverApp.jar "portnumber"
+    java -jar serverApp.jar "port-number"
     ```
 2. then launch the clients in the desired mode (omit arguments to play in GUI)\
    start CLI:
@@ -61,5 +66,5 @@ overall testing and report:\
   - to join a game use the correct ip address and port of the person hosting the game (the network interfaces are also displayed in the console by the serverApp)
 
 ## How to play
-- [codex rulebook](https://github.com/omgbarde/IS24-LB04/blob/master/src/main/resources/graphics/CODEX_Rulebook_IT.pdf) 
+- [codex rulebook](https://github.com/omgbarde/IS24-LB04/blob/bd00eed9bb266829cce41ff64434404faad6cba2/src/main/resources/CODEX_Rulebook_IT.pdf)
 - the controls are displayed in the view based on the graphic mode
