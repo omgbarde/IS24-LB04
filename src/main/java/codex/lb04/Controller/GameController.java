@@ -266,6 +266,7 @@ public class GameController {
             case PICK_RESOURCE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && hasPlacedCard()&&!hasDrawnCard()&& isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
+                    turnController.setDrawnCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input"), usr);
                 }
@@ -273,6 +274,7 @@ public class GameController {
             case PICK_GOLD_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && hasPlacedCard()&&!hasDrawnCard() && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
+                    turnController.setDrawnCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input"), usr);
                 }
@@ -280,6 +282,7 @@ public class GameController {
             case PLACE_CARD:
                 if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
+                    turnController.setPlacedCard(true);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid card placement"), usr);
                 }
@@ -378,11 +381,11 @@ public class GameController {
         game.setCommonObjectivesForallPlayers();
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
-        //TODO: remove this
+        /* toggle to test empty deck
         for(int i=0; i<30; i++){
             game.getDeck().drawResource();
             game.getDeck().drawGold();
-        }
+        }*/
         game.setGameState(GameState.IN_GAME);
     }
 

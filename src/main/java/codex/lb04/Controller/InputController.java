@@ -58,7 +58,7 @@ public class InputController {
      */
     public boolean pickResourceCardCheck(Message message) {
         Integer pick = ((PickResourceCardMessage) message).getCardPick();
-        return pick >= 0 && pick <= 2 && game.getDeck().getVisibleResourceCards().get(pick) != null;
+        return pick >= 0 && pick <= 2 && pick < game.getDeck().getVisibleResourceCards().size();
     }
 
     /**
@@ -68,7 +68,7 @@ public class InputController {
      */
     public boolean pickGoldCardCheck(Message message) {
         Integer pick = ((PickGoldCardMessage) message).getCardPick();
-        return pick >= 0 && pick <= 2 && game.getDeck().getVisibleGoldCards().get(pick) != null;
+        return pick >= 0 && pick <= 2 && pick < game.getDeck().getVisibleGoldCards().size();
     }
 
     /**

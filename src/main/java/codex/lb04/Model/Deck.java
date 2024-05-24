@@ -7,7 +7,6 @@ import codex.lb04.Observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -187,13 +186,14 @@ public class Deck extends Observable {
      */
     public void updateVisibleGold(int pick) {
         this.visibleGoldCards.remove(pick);
+        GoldCard topGold = getTopGold();
         switch(pick){
             case 0, 1:
                 drawGold();
-                visibleGoldCards.add(getTopGold());
+                if(topGold!=null) visibleGoldCards.add(topGold);
                 break;
             case 2:
-                visibleGoldCards.add(getTopGold());
+                if (topGold!= null) visibleGoldCards.add(getTopGold());
                 break;
         }
         //noinspection unchecked
@@ -205,14 +205,15 @@ public class Deck extends Observable {
      * this method updates the visible resource cards
      */
     public void updateVisibleResource(int pick) {
-        this.visibleResourceCards.remove(pick);
+        visibleResourceCards.remove(pick);
+        ResourceCard topResource = getTopResource();
         switch(pick){
             case 0, 1:
                 drawResource();
-                visibleResourceCards.add(getTopResource());
+                if(topResource != null) visibleResourceCards.add(topResource);
                 break;
             case 2:
-                visibleResourceCards.add(getTopResource());
+                if(topResource != null) visibleResourceCards.add(topResource);
                 break;
         }
         //noinspection unchecked
@@ -339,7 +340,7 @@ public class Deck extends Observable {
      * @return true if all the decks are empty
      */
     public boolean isEmpty(){
-        return goldCards.contains(null) && resourceCards.contains(null) && visibleGoldCards.containsAll(List.of(null,null)) && visibleResourceCards.containsAll(List.of(null,null));
+        return goldCards.isEmpty() && resourceCards.isEmpty() && visibleGoldCards.isEmpty() && visibleResourceCards.isEmpty();
     }
 
 }
