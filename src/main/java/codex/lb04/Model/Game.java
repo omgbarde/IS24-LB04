@@ -151,6 +151,7 @@ public class Game extends Observable {
             notifyObserver(new LoginReply(player, true));
 
             //creates a clone to avoid discarding serialized messages
+            //noinspection unchecked
             ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
 
             notifyObserver(new PlayersConnectedMessage("server", lobbyClone));
@@ -263,18 +264,35 @@ public class Game extends Observable {
         return true;
     }
 
+    /**
+     * sends a message used to start drawing the board
+     */
     public void drawBoard() {
         notifyObserver(new DrawBoardMessage("server"));
     }
 
+    /**
+     * checks if all players ave replied with a ready message
+     * @return true if all players have replies, false otherwise
+     */
     public boolean checkReplies() {
         replies += 1;
         return replies == lobby.size();
     }
 
 
+    /**
+     * sends a message that someone reached 20 points
+     */
     public void notifyEndGame() {
         notifyObserver(new GenericMessage("server", "someone reached 20 pts, end game started!"));
+    }
+
+    /**
+     * sends a message that the decks and visible decks are finished
+     */
+    public void notifyFinishedDeck(){
+        notifyObserver(new GenericMessage("server", "Deck is finished, end game started!"));
     }
 
     public void notifyWinner(ArrayList<String> winners) {

@@ -165,7 +165,7 @@ public class Board extends Observable {
      */
     public void flipCardInHand(Card toFlip) {
         for (Card card : hand) {
-            if (card.equals(toFlip)) {
+            if (card!= null && card.equals(toFlip)) {
                 card.flip();
             }
         }
@@ -181,7 +181,8 @@ public class Board extends Observable {
     public ArrayList<Card> cloneHand() {
         ArrayList<Card> clone = new ArrayList<>();
         for (Card card : hand) {
-            clone.add(card.clone());
+            if(card!=null) clone.add(card.clone());
+            else clone.add(null);
         }
         return clone;
     }
@@ -222,7 +223,7 @@ public class Board extends Observable {
 
                 Integer idToRemove = toBePlacedClone.getID();
                 for (Card card : hand) {
-                    if (Objects.equals(card.getID(), idToRemove)) {
+                    if (card != null && Objects.equals(card.getID(), idToRemove)) {
                         hand.remove(card);
                         break;
                     }

@@ -208,10 +208,15 @@ public class GameController {
                 }
                 break;
             case END_TURN:
-                if (turnController.hasDrawnCard() && turnController.hasPlacedCard()) {
+                if (conditionToEndTurn()) {
                     if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() >= 20 && !endGame) {
                         game.setGameState(GameState.END_GAME);
                         game.notifyEndGame();
+                        triggerEndGame();
+                    }
+                    else if(game.getDeck().isEmpty() && !endGame){
+                        game.setGameState(GameState.END_GAME);
+                        game.notifyFinishedDeck();
                         triggerEndGame();
                     }
                     game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
@@ -235,6 +240,19 @@ public class GameController {
         }
     }
 
+    /**
+     * checks if the player can pass the turn based on the deck state
+     * @return true if the player can pass the turn, false otherwise
+     */
+    private boolean conditionToEndTurn(){
+        if(game.getDeck().isEmpty()){
+            return turnController.hasPlacedCard();
+        }
+        else {
+            return turnController.hasDrawnCard() && turnController.hasPlacedCard();
+        }
+    }
+
 
     /**
      * handles the messages received only from the active player when the game is in end game state
@@ -246,49 +264,51 @@ public class GameController {
         //no need to check if initial card is placed or secret objective is chosen because they have to in order to get to endgame state
         switch (receivedMessage.getMessageType()) {
             case PICK_RESOURCE_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && hasPlacedCard()&&!hasDrawnCard()&& isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawResourceCardHandler((PickResourceCardMessage) receivedMessage);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input"), usr);
                 }
                 break;
             case PICK_GOLD_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && hasPlacedCard()&&!hasDrawnCard() && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     drawGoldCardHandler((PickGoldCardMessage) receivedMessage);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid input"), usr);
                 }
                 break;
             case PLACE_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     placeCardHandler((PlaceCardMessage) receivedMessage);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "invalid card placement"), usr);
                 }
                 break;
             case FLIP_CARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                if (inputController.verifyReceivedData(receivedMessage) && isInitCardPlaced(usr) && isSecretObjectiveChosen(usr)) {
                     flipCardHandler((FlipCardMessage) receivedMessage);
                 } else {
                     ServerApp.sendMessageToClient(new InvalidInputMessage("server", "can't be flipped"), usr);
                 }
                 break;
             case END_TURN:
-                if (endGame && countDown != -1) {
-                    countDown--;
+                if (conditionToEndTurn()) {
+                    if (endGame && countDown != -1) {
+                        countDown--;
+                    }
+                    if (endGame && countDown == 0) {
+                        game.setGameState(GameState.ENDED);
+                        ArrayList<String> winners = game.getWinners();
+                        game.notifyWinner(winners);
+                    }
+                    if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
+                        countDown = game.getLobby().size() - 1;
+                    }
+                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
+                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);
+                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);
+                    turnController.changeTurn();
                 }
-                if (endGame && countDown == 0) {
-                    game.setGameState(GameState.ENDED);
-                    ArrayList<String> winners = game.getWinners();
-                    game.notifyWinner(winners);
-                }
-                if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
-                    countDown = game.getLobby().size() - 1;
-                }
-                game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();
-                game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);
-                game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);
-                turnController.changeTurn();
                 break;
                 case CHAT_MESSAGE:
                     ServerApp.broadcast(receivedMessage);
@@ -358,6 +378,11 @@ public class GameController {
         game.setCommonObjectivesForallPlayers();
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
+        //TODO: remove this
+        for(int i=0; i<30; i++){
+            game.getDeck().drawResource();
+            game.getDeck().drawGold();
+        }
         game.setGameState(GameState.IN_GAME);
     }
 

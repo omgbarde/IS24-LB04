@@ -57,7 +57,8 @@ public class InputController {
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickResourceCardCheck(Message message) {
-        return ((PickResourceCardMessage) message).getCardPick() >= 0 && ((PickResourceCardMessage) message).getCardPick() <= 2;
+        Integer pick = ((PickResourceCardMessage) message).getCardPick();
+        return pick >= 0 && pick <= 2 && game.getDeck().getVisibleResourceCards().get(pick) != null;
     }
 
     /**
@@ -66,7 +67,8 @@ public class InputController {
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickGoldCardCheck(Message message) {
-        return ((PickGoldCardMessage) message).getCardPick() >= 0 && ((PickGoldCardMessage) message).getCardPick() <= 2;
+        Integer pick = ((PickGoldCardMessage) message).getCardPick();
+        return pick >= 0 && pick <= 2 && game.getDeck().getVisibleGoldCards().get(pick) != null;
     }
 
     /**

@@ -483,27 +483,30 @@ public class BoardSceneController extends ViewController {
      * @param card the card
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
+        if(card != null){
+            String imagePath;
+            if (card.isShowingFront()) {
+                imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
+            } else {
+                imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
+            }
+            setImageToRectangle(imagePath, rectangle);
+            drawableGold.put(rectangle, card);
         }
-
-        setImageToRectangle(imagePath, rectangle);
-        drawableGold.put(rectangle, card);
     }
 
 
     public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
+        if(card != null) {
+            String imagePath;
+            if (card.isShowingFront()) {
+                imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
+            } else {
+                imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
+            }
+            setImageToRectangle(imagePath, rectangle);
+            drawableResources.put(rectangle, card);
         }
-        setImageToRectangle(imagePath, rectangle);
-        drawableResources.put(rectangle, card);
     }
 
     /**
