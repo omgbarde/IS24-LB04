@@ -44,12 +44,12 @@ public class Deck extends Observable {
         goldCards = deckBuilder.createGoldCards();
         initialCards = deckBuilder.createInitialCards();
         objectiveCards = deckBuilder.createObjectiveCards();
-        visibleGoldCards = setVisibleGoldCards();
-        visibleResourceCards = setVisibleResourceCards();
         this.shuffleResources();
         this.shuffleGold();
         this.shuffleObjectives();
         this.shuffleInitial();
+        visibleGoldCards = setVisibleGoldCards();
+        visibleResourceCards = setVisibleResourceCards();
     }
 
     /**
