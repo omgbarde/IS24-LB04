@@ -216,38 +216,42 @@ public class Game extends Observable {
      * if there is more than one player, the player with the most objectives completed wins
      */
     public ArrayList<String> getWinners() {
-        Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
-        ArrayList<String> obj_winners = new ArrayList<>();
+        ArrayList<String> objWinners = new ArrayList<>();
+        int max = 0;
         for (Player player : players) {
             player.getBoard().finalPointsUpdate();
-            //System.out.println("Player " + player.getUsername() + " points after update: " + player.getBoard().getPoints());
-            if (player.getBoard().getPoints() > max) {
+            int playerPoints = player.getBoard().getPoints();
+            String username = player.getUsername();
+
+            if (playerPoints > max) {
                 winners.clear();
                 winners.add(player.getUsername());
-                max = player.getBoard().getPoints();
+                max = playerPoints;
             }
-            if (Objects.equals(player.getBoard().getPoints(), max) && !winners.contains(player.getUsername())) {
-                winners.add(player.getUsername());
+            else if (playerPoints == max){
+                winners.add(username);
             }
         }
+
         if (winners.size() > 1) {
-            Integer obj = 0;
+            int maxObj = 0;
             for (String p : winners) {
-                //System.out.println("Player " + p + " number of objectives: " + getPlayerByName(p).getBoard().checkNumberObjectives());
-                if (getPlayerByName(p).getBoard().checkNumberObjectives() > obj) {
-                    obj_winners.clear();
-                    obj_winners.add(p);
-                    obj = getPlayerByName(p).getBoard().checkNumberObjectives();
+                int completedObjectives = getPlayerByName(p).getBoard().checkNumberObjectives();
+
+                if (completedObjectives > maxObj) {
+                    objWinners.clear();
+                    objWinners.add(p);
+                    maxObj = completedObjectives;
                 }
-                if (Objects.equals(getPlayerByName(p).getBoard().getPoints(), obj)) {
-                    obj_winners.add(p);
+                else if (completedObjectives == maxObj){
+                    objWinners.add(p);
                 }
             }
         } else {
-            obj_winners = winners;
+            objWinners = winners;
         }
-        return obj_winners;
+        return objWinners;
 
     }
 

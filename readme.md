@@ -32,13 +32,8 @@ overall:\
   🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 43%
 
 ## Todo list
-- [x] crippling depression
-- [ ] fix winners message not sent in case of multiple winners
-- [ ] fix finishing resource/gold cards deck
-- [ ] fix not sending error message when trying to join a started game
 - [ ] make board resizable
 - [ ] more testing
-- [ ] general refactor
 
 ## Requirements
 - A working LAN connection is required to play with multiple pc.

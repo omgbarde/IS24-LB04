@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,21 +17,24 @@ import static org.junit.Assert.assertNotNull;
 public class GameTest {
     private GameObserver observer;
     private Game game;
-    private Corner corner = new Corner(ResourceType.ANIMAL);
-    private Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
-    private ResourceCard card = new ResourceCard(Color.BLUE, face, face,0,1);
+    private final Corner corner = new Corner(ResourceType.ANIMAL);
+    private final Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
+    private final ResourceCard card = new ResourceCard(Color.BLUE, face, face,0,1);
     private Player player;
     private Player player1;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private final ArrayList<Player> players = new ArrayList<Player>();
     private Board board;
     private Deck deck;
-    private Corner CoveredCorner = new Corner(true);
-    private Face BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+    private final Corner CoveredCorner = new Corner(true);
+    private final Face BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
     private ObjectiveCard cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
     private ObjectiveCard cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
-    private ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-    private ArrayList<Card> cards = new ArrayList<>();
-    private ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
+    private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+    private final ArrayList<Card> cards = new ArrayList<>();
+    private final ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
+    ObjectiveCard threeMushroom = new ObjectiveCard(Color.RED, BlankFace, BlankFace, 2, 95);
+    ObjectiveCard objective_card_96 = new ObjectiveCard(Color.GREEN, BlankFace, BlankFace, 2, 96);
+
 
 
     @Before
@@ -145,5 +149,28 @@ public class GameTest {
     @Test
     public void getLobby(){assertNotNull(game.getLobby());}
 
+    @Test
+    public void getWinnersTest(){
+        //sets up a dummy condition where the players have the same score and same amount of objectives
+        game.getPlayers().get(0).getBoard().setPoints(21,21);
+        game.getPlayers().get(1).getBoard().setPoints(21,21);
+
+        game.getPlayers().get(0).getBoard().setCommonObjectives(new ArrayList<>(List.of(threeMushroom, objective_card_96)));
+        game.getPlayers().get(1).getBoard().setCommonObjectives(new ArrayList<>(List.of(threeMushroom, objective_card_96)));
+
+        game.getPlayers().get(0).getBoard().setSecretObjective(1);
+        game.getPlayers().get(1).getBoard().setSecretObjective(1);
+
+        game.getPlayers().get(0).getBoard().setMushroom(3);
+        game.getPlayers().get(1).getBoard().setMushroom(3);
+
+        ArrayList<String> names = new ArrayList<>();
+        for(Player p : game.getPlayers()){
+           names.add(p.getUsername());
+        }
+
+        assertEquals(names, game.getWinners());
+
+    }
 
 }

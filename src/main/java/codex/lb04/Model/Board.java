@@ -763,6 +763,24 @@ public class Board extends Observable {
     //SETTERS
 
     /**
+     * test method to set the points
+     * @param points the points
+     * @param pointsByGoldCars the points by gold cards
+     */
+    protected void setPoints(Integer points, Integer pointsByGoldCars){
+        this.points = points;
+        this.pointsByGoldCards = pointsByGoldCars;
+    }
+
+    /**
+     * test method to set the resources
+     * @param i the amount
+     */
+    protected void setMushroom(int i) {
+        this.mushrooms = i;
+    }
+
+    /**
      * This method sets the initial card
      */
     public void setInitialCard() {
