@@ -18,22 +18,8 @@
 
 [documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables/Archive)
 
-## Main testing progress
-(% methods covered)\
-test model:\
-  🟦🟦🟦🟦🟦🟦🟦⬜⬜ 83% \
-test view:\
-  🟦🟦🟦🟦🟦🟦🟦⬜⬜⬜ 67% \
-test controller:\
-  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 39%\
-test observer:\
-  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
-overall:\
-  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 43%
-
 ## Todo list
 - [ ] make board resizable
-- [ ] more testing
 
 ## Requirements
 - A working LAN connection is required to play with multiple pc.

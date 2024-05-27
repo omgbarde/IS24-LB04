@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    40%
+    90%
   </span>
   <span class="absValue">
-    (4/10)
+    (9/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    100%
   </span>
   <span class="absValue">
-    (1/2)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    57,1%
+    95,2%
   </span>
   <span class="absValue">
-    (12/21)
+    (20/21)
   </span>
 </td>
 </tr>
@@ -113,7 +113,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the instance of the TurnController
 &nbsp;     */
 &nbsp;    public static TurnController getInstance() {
-<b class="pc">&nbsp;        if (instance == null) {</b>
+<b class="fc">&nbsp;        if (instance == null) {</b>
 <b class="fc">&nbsp;            instance = new TurnController();</b>
 &nbsp;        }
 <b class="fc">&nbsp;        return instance;</b>
@@ -134,28 +134,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param drawnCard is true if the player has drawn a card and false otherwise
 &nbsp;     */
 &nbsp;    public void setDrawnCard(boolean drawnCard) {
-<b class="nc">&nbsp;        this.drawnCard = drawnCard;</b>
+<b class="fc">&nbsp;        this.drawnCard = drawnCard;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * sets if the player has placed a card
 &nbsp;     * @param placedCard is true if the player has placed a card and false otherwise
 &nbsp;     */
 &nbsp;    public void setPlacedCard(boolean placedCard) {
-<b class="nc">&nbsp;        this.placedCard = placedCard;</b>
+<b class="fc">&nbsp;        this.placedCard = placedCard;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * sets if the player has drawn a card
 &nbsp;     * @return true if the player has drawn a card and false otherwise
 &nbsp;     */
 &nbsp;    public boolean hasDrawnCard() {
-<b class="nc">&nbsp;        return drawnCard;</b>
+<b class="fc">&nbsp;        return drawnCard;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * sets if the player has placed a card
 &nbsp;     * @return true if the player has placed a card and false otherwise
 &nbsp;     */
 &nbsp;    public boolean hasPlacedCard() {
-<b class="nc">&nbsp;        return placedCard;</b>
+<b class="fc">&nbsp;        return placedCard;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -177,10 +177,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * method to set the next player active player and change turn
 &nbsp;     */
 &nbsp;    public void changeTurn() {
-<b class="nc">&nbsp;        setDrawnCard(false);</b>
-<b class="nc">&nbsp;        setPlacedCard(false);</b>
-<b class="nc">&nbsp;        activePlayer = playersQueueIterator.next();</b>
-<b class="nc">&nbsp;        ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);</b>
+<b class="fc">&nbsp;        setDrawnCard(false);</b>
+<b class="fc">&nbsp;        setPlacedCard(false);</b>
+<b class="fc">&nbsp;        activePlayer = playersQueueIterator.next();</b>
+<b class="fc">&nbsp;        ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -212,7 +212,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-24 14:56</div>
+    <div style="float:right;">generated on 2024-05-27 12:25</div>
 </div>
 </body>
 </html>

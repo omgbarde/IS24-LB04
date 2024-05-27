@@ -51,7 +51,7 @@ public class GuiView extends View {
     private final Label lobbyLabel;
     private TextArea chatText;
     private final Label winnerLabel;
-    BoardSceneController bsc;
+    GuiController controller;
 
     Group movableRootReference;
     Group staticGroupReference;
@@ -76,7 +76,7 @@ public class GuiView extends View {
         this.lobbyLabel = new Label();
         this.chatText = new TextArea();
         this.winnerLabel = new Label();
-        this.bsc = new BoardSceneController(this);
+        this.controller = new GuiController(this);
         stageReference = stage;
     }
 
@@ -174,8 +174,8 @@ public class GuiView extends View {
             }
             if (ConnectionUtil.checkValid(usr, addr, port)) {
                 try {
-                    clientSocket = new ClientSocket(usr, addr, port,this.bsc);
-                    bsc.setClientSocket(clientSocket);
+                    clientSocket = new ClientSocket(usr, addr, port,this.controller);
+                    controller.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
                     return;
@@ -328,8 +328,8 @@ public class GuiView extends View {
             if (ConnectionUtil.checkValid(num, usr)) {
                 if(ConnectionUtil.isValidPort(port)){
                     try {
-                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.bsc);
-                        bsc.setClientSocket(clientSocket);
+                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.controller);
+                        controller.setClientSocket(clientSocket);
                     } catch (IOException e) {
                         errorLabel.setText("Server not available");
                         confirmButton.setDisable(false);
@@ -338,8 +338,8 @@ public class GuiView extends View {
                 }
                 else {
                     try {
-                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.bsc);
-                    bsc.setClientSocket(clientSocket);
+                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.controller);
+                    controller.setClientSocket(clientSocket);
                     }
                     catch (IOException e) {
                         errorLabel.setText("Server not available");
@@ -386,7 +386,7 @@ public class GuiView extends View {
      */
     @Override
     public void drawBoardScene() {
-        bsc.reset();
+        controller.reset();
         // Create a group for static elements
         Group staticRoot = new Group();
         // Add static elements to staticRoot here
@@ -458,7 +458,7 @@ public class GuiView extends View {
         //ResourceCard3.setFill(Color.RED.getPaint());
         ResourceCard3.setUserData(2);
 
-        bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
+        controller.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);
 
 
         // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
@@ -481,7 +481,7 @@ public class GuiView extends View {
         Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         //GoldCard3.setFill(Color.RED.getPaint());
         GoldCard3.setUserData(2);
-        bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
+        controller.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);
 
         // HAND BOX
         double rectangleWidthHand = 130;
@@ -499,7 +499,7 @@ public class GuiView extends View {
         Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
         //HandCard3.setFill(Color.RED.getPaint());
 
-        bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);
+        controller.setUpHandMap(HandCard1, HandCard2, HandCard3);
 
         // COMMON OBJECTIVES BOX
         double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;
@@ -514,7 +514,7 @@ public class GuiView extends View {
         Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);
         //CommonObjective2.setFill(Color.RED.getPaint());
 
-        bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
+        controller.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);
 
         // SECRET OBJECTIVE BOX
         double rectangleWidthSecretObjective = cardWidth + 6;
@@ -526,7 +526,7 @@ public class GuiView extends View {
         //secret objective
         Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);
         //SecretObjective.setFill(Color.RED.getPaint());
-        bsc.setSecretObjectiveMap(SecretObjective);
+        controller.setSecretObjectiveMap(SecretObjective);
 
         //INITIAL CARD DISPLAY FOR FACE SELECTION
         double rectangleWidthInitialCardDisplay = cardWidth + 6;
@@ -537,7 +537,7 @@ public class GuiView extends View {
 
         Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeight / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);
         //InitialCardDisplay.setFill(Color.RED.getPaint());
-        bsc.setUpInitialCardDisplay(InitialCardDisplay);
+        controller.setUpInitialCardDisplay(InitialCardDisplay);
 
         //SECRET OBJECTIVES DISPLAY FOR SELECTION
         double rectangleWidthSecretObjectiveDisplay = cardWidth + 6;
@@ -553,7 +553,7 @@ public class GuiView extends View {
         Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);
         //secretObjective2Display.setFill(Color.RED.getPaint());
         secretObjective2Display.setUserData(1);
-        bsc.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);
+        controller.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);
 
 
         //Button to flip the card selected
@@ -566,7 +566,7 @@ public class GuiView extends View {
         flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));
         flipButton.setOnMouseClicked(e -> {
             try {
-                bsc.flipCard();
+                controller.flipCard();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -588,7 +588,7 @@ public class GuiView extends View {
         chatButton.setLayoutY(295);
         chatButton.setMaxHeight(10);
         chatButton.setMaxWidth(75);
-        chatButton.setOnMouseClicked(e -> bsc.toggleChat());
+        chatButton.setOnMouseClicked(e -> controller.toggleChat());
 
         // Chat group (can be toggled)
         chatText = new TextArea();
@@ -644,10 +644,10 @@ public class GuiView extends View {
         mush_label.setFont(new Font("Nimbus Roman", 20));
         mush_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 + 5);
         mush_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(mushrooms_points, mush_label);
+        controller.addRectangleToPointsDisplay(mushrooms_points, mush_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
+            controller.setImageToRectangle("/board_icons/mushroom_icon.png", mushrooms);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -659,10 +659,10 @@ public class GuiView extends View {
         animals_label.setFill(javafx.scene.paint.Color.WHITE);
         animals_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth + 5);
         animals_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(animals_points, animals_label);
+        controller.addRectangleToPointsDisplay(animals_points, animals_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/animal_icon.png", animals);
+            controller.setImageToRectangle("/board_icons/animal_icon.png", animals);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -674,11 +674,11 @@ public class GuiView extends View {
         insect_label.setFill(javafx.scene.paint.Color.WHITE);
         insect_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2 + 5);
         insect_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(insect_points, insect_label);
+        controller.addRectangleToPointsDisplay(insect_points, insect_label);
 
 
         try {
-            bsc.setImageToRectangle("/board_icons/insect_icon.png", insect);
+            controller.setImageToRectangle("/board_icons/insect_icon.png", insect);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -690,10 +690,10 @@ public class GuiView extends View {
         leaves_label.setFill(javafx.scene.paint.Color.WHITE);
         leaves_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3 + 5);
         leaves_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(leaves_points, leaves_label);
+        controller.addRectangleToPointsDisplay(leaves_points, leaves_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
+            controller.setImageToRectangle("/board_icons/leaf_icon.png", leaves);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -705,10 +705,10 @@ public class GuiView extends View {
         quills_label.setFill(javafx.scene.paint.Color.WHITE);
         quills_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4 + 5);
         quills_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(quills_points, quills_label);
+        controller.addRectangleToPointsDisplay(quills_points, quills_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/quill_icon.png", quills);
+            controller.setImageToRectangle("/board_icons/quill_icon.png", quills);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -720,10 +720,10 @@ public class GuiView extends View {
         inkwells_label.setFill(javafx.scene.paint.Color.WHITE);
         inkwells_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5 + 5);
         inkwells_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(inkwells_points, inkwells_label);
+        controller.addRectangleToPointsDisplay(inkwells_points, inkwells_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
+            controller.setImageToRectangle("/board_icons/inkwell_icon.png", inkwells);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -735,10 +735,10 @@ public class GuiView extends View {
         manuscript_label.setFill(javafx.scene.paint.Color.WHITE);
         manuscript_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6 + 5);
         manuscript_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(manuscript_points, manuscript_label);
+        controller.addRectangleToPointsDisplay(manuscript_points, manuscript_label);
 
         try {
-            bsc.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
+            controller.setImageToRectangle("/board_icons/manuscript_icon.png", manuscript);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -750,7 +750,7 @@ public class GuiView extends View {
         points_label.setFill(javafx.scene.paint.Color.WHITE);
         points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);
         points_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);
-        bsc.addRectangleToPointsDisplay(Points_points, points_label);
+        controller.addRectangleToPointsDisplay(Points_points, points_label);
         Text points_text = new Text("Points");
         points_text.setFont(new Font("Nimbus Roman", 20));
         points_text.setX(rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 18 + 20 + resourceWidth * 7 + 5);
@@ -855,7 +855,7 @@ public class GuiView extends View {
                     coordinates.add(finalJ);
                     gridRectangle.setUserData(coordinates);
                     gridRectangle.setOnMouseClicked(e -> System.out.println("Rectangle at (" + finalI + ", " + finalJ + ") was clicked!"));
-                    bsc.addRectangleToGridMap(gridRectangle);
+                    controller.addRectangleToGridMap(gridRectangle);
                     movableRoot.getChildren().addAll(gridRectangle/*, label*/);
                 }
             }

@@ -390,11 +390,6 @@ public class GameController {
         game.setCommonObjectivesForallPlayers();
         game.setInitialCardForAllPlayers();
         turnController = TurnController.getInstance();
-        /* toggle to test empty deck
-        for(int i=0; i<30; i++){
-            game.getDeck().drawResource();
-            game.getDeck().drawGold();
-        }*/
         game.setGameState(GameState.IN_GAME);
     }
 

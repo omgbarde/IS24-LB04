@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * Controller class for the GUI view (mainly for the board scene)
  */
-public class BoardSceneController extends ViewController {
+public class GuiController extends ViewController {
     private final GuiView guiView;
     private ClientSocket clientSocket;
     //grid map fields
@@ -45,7 +45,7 @@ public class BoardSceneController extends ViewController {
      *
      * @param guiView the view
      */
-    public BoardSceneController(GuiView guiView) {
+    public GuiController(GuiView guiView) {
         this.gridMap = new HashMap<>();
         this.guiView = guiView;
         this.drawableResources = new LinkedHashMap<>();
@@ -102,7 +102,7 @@ public class BoardSceneController extends ViewController {
                 try {
                     drawDrawableGold(rectangle, goldCard);
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("card image for gold card not found");
                 }
             });
         }
@@ -127,7 +127,7 @@ public class BoardSceneController extends ViewController {
                 try {
                     drawDrawableResource(rectangle, resourceCard);
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("card image for resource card not found");
                 }
             });
         }
@@ -152,7 +152,8 @@ public class BoardSceneController extends ViewController {
                 try {
                     drawHand(rectangle, card);
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("card image for a card in hand not found");
+
                 }
             });
         }
@@ -173,7 +174,7 @@ public class BoardSceneController extends ViewController {
                 try {
                     drawCommonObjectives(rectangle, card);
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("card image for objective not found");
                 }
             });
         }
@@ -192,7 +193,8 @@ public class BoardSceneController extends ViewController {
             try {
                 drawInitialCardDisplay(rectangle, card);
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println("card image for initial card not found");
+
             }
         });
     }
@@ -212,7 +214,7 @@ public class BoardSceneController extends ViewController {
                 try {
                     drawSecretObjectivesToChoose(rectangle, card);
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("card image for secret objective card not found");
                 }
             });
         }
@@ -232,7 +234,7 @@ public class BoardSceneController extends ViewController {
             try {
                 drawSecretObjective(rectangle, objectiveCard);
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println("card image for secret objective card not found");
             }
         });
 
@@ -284,7 +286,7 @@ public class BoardSceneController extends ViewController {
                     try {
                         drawGenericCard(rectangle, card);
                     } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("card image for placed card not found");
                     }
                 });
                 Platform.runLater(() -> guiView.bringRectangleToFront(rectangle));
@@ -464,11 +466,22 @@ public class BoardSceneController extends ViewController {
     }
 
 
+    /**
+     * sets the point text on the board
+     * @param rectangle the rectangle containing the points
+     * @param point the points to display
+     */
     public void drawPoints(Rectangle rectangle, Integer point) {
         Text text = pointsDisplay.get(rectangle);
         text.setText(point.toString());
     }
 
+    /**
+     * sets the image to a rectangle on the board view
+     * @param imagePath the file path to the image
+     * @param rectangle the rectangle to set the image to
+     * @throws FileNotFoundException if the file is not found
+     */
     public void setImageToRectangle(String imagePath, Rectangle rectangle) throws FileNotFoundException {
         InputStream is = getClass().getResourceAsStream(imagePath);
         assert is != null;
@@ -480,30 +493,28 @@ public class BoardSceneController extends ViewController {
     /**
      * adds a gold card to the map
      *
+     * @param rectangle the rectangle to set the image to
      * @param card the card
+     * @throws FileNotFoundException if the file is not found
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
         if(card != null){
-            String imagePath;
-            if (card.isShowingFront()) {
-                imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-            } else {
-                imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-            }
+            String imagePath =loadImagePath(card);
             setImageToRectangle(imagePath, rectangle);
             drawableGold.put(rectangle, card);
         }
     }
 
 
+    /**
+     * adds a resource card to the map
+     * @param rectangle the rectangle to set the image to
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
         if(card != null) {
-            String imagePath;
-            if (card.isShowingFront()) {
-                imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-            } else {
-                imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-            }
+            String imagePath =loadImagePath(card);
             setImageToRectangle(imagePath, rectangle);
             drawableResources.put(rectangle, card);
         }
@@ -513,42 +524,45 @@ public class BoardSceneController extends ViewController {
      * method to draw the common objectives
      *
      * @param rectangle the rectangle
-     * @param card      the card
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
      */
     public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-        }
+        String imagePath =loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         commonObjectives.put(rectangle, card);
     }
 
+    /**
+     * method to draw card images in hand
+     * @param rectangle the rectangle containing the card in hand
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-        }
+        String imagePath =loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         hand.put(rectangle, card);
     }
 
+    /**
+     * method to draw the initial card display
+     * @param rectangle the rectangle to set the image to
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-        }
+        String imagePath =loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         initialCardDisplay.put(rectangle, card);
     }
 
-
+    /**
+     * method to draw the secret objective
+     * @param rectangle the rectangle to set the image to
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
         Rectangle toDisable1 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[0];
         Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
@@ -556,43 +570,53 @@ public class BoardSceneController extends ViewController {
         this.disableRectangle(toDisable2);
         this.disableRectangle(guiView.getSecretObjectiveBackground());
 
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-        }
+        String imagePath =loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         secretObjective.put(rectangle, card);
     }
 
+    /**
+     * method to draw the secret objectives to choose
+     * @param rectangle the rectangle to set the image to
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath;
-        if (card.isShowingFront()) {
-            imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
-        } else {
-            imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
-        }
+        String imagePath =loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
 
         secretObjectivesToChoose.put(rectangle, card);
     }
 
+    /**
+     * method to draw a generic card placed on the board
+     * @param rectangle the rectangle to set the image to
+     * @param card the card
+     * @throws FileNotFoundException if the file is not found
+     */
     public void drawGenericCard(Rectangle rectangle, Card card) throws FileNotFoundException {
-        //InputStream is = getClass().getResourceAsStream("/cards_images/CODEX_cards_gold_front/427371a2-5897-4015-8c67-34dd8707c4ba-001.png");
+        String imagePath =loadImagePath(card);
+        setImageToRectangle(imagePath, rectangle);
+
+        if (initialCardDisplay.containsKey(selectedRectangle)) {
+            initialCardDisplay.put(rectangle, card);
+        }
+
+    }
+
+    /**
+     * method to compose the image path of a card based on its side and id
+     * @param card the card
+     * @return the image path to the showing side of the card
+     */
+    private String loadImagePath(Card card){
         String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
         } else {
             imagePath = "/cards_images/CODEX_cards_back/card_back_" + card.getID() + ".png";
         }
-        setImageToRectangle(imagePath, rectangle);
-
-
-        if (initialCardDisplay.containsKey(selectedRectangle)) {
-            initialCardDisplay.put(rectangle, card);
-        }
-
+        return imagePath;
     }
 
     /**
@@ -605,17 +629,30 @@ public class BoardSceneController extends ViewController {
         gridMap.put(rectangle, null);
     }
 
+    /**
+     * method to add a rectangle to the secret objectives to choose map
+     * @param rectangle the rectangle to add to the map
+     */
     public void addRectangleToSecretObjectivesToChoose(Rectangle rectangle) {
         rectangle.setOnContextMenuRequested(this::onSecretObjectivePick);
         secretObjectivesToChoose.put(rectangle, null);
     }
 
+    /**
+     * method to add a rectangle to the initial card display map
+     * @param rectangle the rectangle to add to the map
+     */
     public void addRectangleToInitialCardDisplay(Rectangle rectangle) {
         rectangle.setOnMouseClicked(this::onSelectCardClick);
         rectangle.setOnContextMenuRequested(this::onInitialCardSelection);
         initialCardDisplay.put(rectangle, null);
     }
 
+    /**
+     * method to add a rectangle to the points display map
+     * @param rectangle the rectangle to add to the map
+     * @param text the text to display
+     */
     public void addRectangleToPointsDisplay(Rectangle rectangle, Text text) {
         pointsDisplay.put(rectangle, text);
     }

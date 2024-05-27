@@ -45,26 +45,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">InputController</td>
 <td class="coverageStat">
   <span class="percent">
-    22,2%
+    100%
   </span>
   <span class="absValue">
-    (2/9)
+    (9/9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    77,3%
   </span>
   <span class="absValue">
-    (0/20)
+    (17/22)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    19%
+    95,8%
   </span>
   <span class="absValue">
-    (4/21)
+    (23/24)
   </span>
 </td>
 </tr>
@@ -72,18 +72,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">InputController$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
   </tr>
@@ -91,26 +91,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    20%
+    100%
   </span>
   <span class="absValue">
-    (2/10)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    77,3%
   </span>
   <span class="absValue">
-    (0/20)
+    (17/22)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    18,2%
+    96%
   </span>
   <span class="absValue">
-    (4/22)
+    (24/25)
   </span>
 </td>
 </tr>
@@ -127,8 +127,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import codex.lb04.Message.Message;
 &nbsp;import codex.lb04.Model.Card;
 &nbsp;import codex.lb04.Model.Game;
-&nbsp;import codex.lb04.Model.InitialCard;
-&nbsp;
 &nbsp;/**
 &nbsp; * InputController class is responsible for verifying the data sent by the client to the server.
 &nbsp; */
@@ -154,13 +152,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return true if Message contains valid data false otherwise.
 &nbsp;     */
 &nbsp;    public boolean verifyReceivedData(Message message) {
-<b class="nc">&nbsp;        return switch (message.getMessageType()) {</b>
-<b class="nc">&nbsp;            case PICK_SECRET_OBJECTIVE -&gt; pickSecretObjectiveCheck(message);</b>
-<b class="nc">&nbsp;            case PICK_RESOURCE_CARD -&gt; pickResourceCardCheck(message);</b>
-<b class="nc">&nbsp;            case PICK_GOLD_CARD -&gt; pickGoldCardCheck(message);</b>
-<b class="nc">&nbsp;            case PICK_INITIAL_CARD_SIDE -&gt; pickInitialCardSideCheck(message);</b>
-<b class="nc">&nbsp;            case PLACE_CARD -&gt; placeCardCheck(message);</b>
-<b class="nc">&nbsp;            case FLIP_CARD -&gt; flipCardCheck(message);</b>
+<b class="pc">&nbsp;        return switch (message.getMessageType()) {</b>
+<b class="fc">&nbsp;            case PICK_SECRET_OBJECTIVE -&gt; pickSecretObjectiveCheck(message);</b>
+<b class="fc">&nbsp;            case PICK_RESOURCE_CARD -&gt; pickResourceCardCheck(message);</b>
+<b class="fc">&nbsp;            case PICK_GOLD_CARD -&gt; pickGoldCardCheck(message);</b>
+<b class="fc">&nbsp;            case PICK_INITIAL_CARD_SIDE -&gt; pickInitialCardSideCheck(message);</b>
+<b class="fc">&nbsp;            case PLACE_CARD -&gt; placeCardCheck(message);</b>
+<b class="fc">&nbsp;            case FLIP_CARD -&gt; flipCardCheck(message);</b>
 <b class="nc">&nbsp;            default -&gt; false;  // should never reach this statement</b>
 &nbsp;        };
 &nbsp;    }
@@ -171,7 +169,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card pick is valid {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean pickSecretObjectiveCheck(Message message) {
-<b class="nc">&nbsp;        return ((PickSecretObjectiveMessage) message).getCardPick() &gt;= 0 &amp;&amp; ((PickSecretObjectiveMessage) message).getCardPick() &lt;= 1;</b>
+<b class="pc">&nbsp;        return ((PickSecretObjectiveMessage) message).getCardPick() &gt;= 0 &amp;&amp; ((PickSecretObjectiveMessage) message).getCardPick() &lt;= 1;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -180,7 +178,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card pick is valid {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean pickResourceCardCheck(Message message) {
-<b class="nc">&nbsp;        return ((PickResourceCardMessage) message).getCardPick() &gt;= 0 &amp;&amp; ((PickResourceCardMessage) message).getCardPick() &lt;= 2;</b>
+<b class="fc">&nbsp;        Integer pick = ((PickResourceCardMessage) message).getCardPick();</b>
+<b class="pc">&nbsp;        return pick &gt;= 0 &amp;&amp; pick &lt;= 2 &amp;&amp; pick &lt; game.getDeck().getVisibleResourceCards().size();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -189,7 +188,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card pick is valid {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean pickGoldCardCheck(Message message) {
-<b class="nc">&nbsp;        return ((PickGoldCardMessage) message).getCardPick() &gt;= 0 &amp;&amp; ((PickGoldCardMessage) message).getCardPick() &lt;= 2;</b>
+<b class="fc">&nbsp;        Integer pick = ((PickGoldCardMessage) message).getCardPick();</b>
+<b class="pc">&nbsp;        return pick &gt;= 0 &amp;&amp; pick &lt;= 2 &amp;&amp; pick &lt; game.getDeck().getVisibleGoldCards().size();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -198,7 +198,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card pick is valid {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean pickInitialCardSideCheck(Message message) {
-<b class="nc">&nbsp;        return ((PickInitialCardSideMessage) message).getInitialCard().getClass() == InitialCard.class;</b>
+<b class="fc">&nbsp;        String usr = message.getUsername();</b>
+<b class="fc">&nbsp;        return ((PickInitialCardSideMessage) message).getInitialCard().getID().equals(game.getPlayerByName(usr).getBoard().getInitialCard().getID());</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -207,10 +208,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card can be placed {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean placeCardCheck(Message message) {
-<b class="nc">&nbsp;        Integer X = ((PlaceCardMessage) message).getX();</b>
-<b class="nc">&nbsp;        Integer Y = ((PlaceCardMessage) message).getY();</b>
-<b class="nc">&nbsp;        Card card = ((PlaceCardMessage) message).getCard();</b>
-<b class="nc">&nbsp;        return game.getPlayerByName(message.getUsername()).getBoard().canBePlaced(X, Y, card);</b>
+<b class="fc">&nbsp;        Integer X = ((PlaceCardMessage) message).getX();</b>
+<b class="fc">&nbsp;        Integer Y = ((PlaceCardMessage) message).getY();</b>
+<b class="fc">&nbsp;        Card card = ((PlaceCardMessage) message).getCard();</b>
+<b class="fc">&nbsp;        return game.getPlayerByName(message.getUsername()).getBoard().canBePlaced(X, Y, card);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -219,7 +220,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return {code @true} if card can be flipped {@code false} otherwise.
 &nbsp;     */
 &nbsp;    public boolean flipCardCheck(Message message) {
-<b class="nc">&nbsp;        return game.getPlayerByName(message.getUsername()).getBoard().isInHand(((FlipCardMessage) message).getCard());</b>
+<b class="fc">&nbsp;        return game.getPlayerByName(message.getUsername()).getBoard().isInHand(((FlipCardMessage) message).getCard());</b>
 &nbsp;
 &nbsp;    }
 &nbsp;
@@ -255,7 +256,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-24 14:56</div>
+    <div style="float:right;">generated on 2024-05-27 12:25</div>
 </div>
 </body>
 </html>

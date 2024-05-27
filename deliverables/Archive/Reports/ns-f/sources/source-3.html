@@ -174,7 +174,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private final Label lobbyLabel;
 &nbsp;    private TextArea chatText;
 &nbsp;    private final Label winnerLabel;
-&nbsp;    BoardSceneController bsc;
+&nbsp;    GuiController controller;
 &nbsp;
 &nbsp;    Group movableRootReference;
 &nbsp;    Group staticGroupReference;
@@ -199,7 +199,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        this.lobbyLabel = new Label();</b>
 <b class="nc">&nbsp;        this.chatText = new TextArea();</b>
 <b class="nc">&nbsp;        this.winnerLabel = new Label();</b>
-<b class="nc">&nbsp;        this.bsc = new BoardSceneController(this);</b>
+<b class="nc">&nbsp;        this.controller = new GuiController(this);</b>
 <b class="nc">&nbsp;        stageReference = stage;</b>
 &nbsp;    }
 &nbsp;
@@ -297,8 +297,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            }
 <b class="nc">&nbsp;            if (ConnectionUtil.checkValid(usr, addr, port)) {</b>
 &nbsp;                try {
-<b class="nc">&nbsp;                    clientSocket = new ClientSocket(usr, addr, port,this.bsc);</b>
-<b class="nc">&nbsp;                    bsc.setClientSocket(clientSocket);</b>
+<b class="nc">&nbsp;                    clientSocket = new ClientSocket(usr, addr, port,this.controller);</b>
+<b class="nc">&nbsp;                    controller.setClientSocket(clientSocket);</b>
 <b class="nc">&nbsp;                } catch (IOException e) {</b>
 <b class="nc">&nbsp;                    errorLabel.setText(&quot;Server not available&quot;);</b>
 &nbsp;                    return;
@@ -451,8 +451,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            if (ConnectionUtil.checkValid(num, usr)) {</b>
 <b class="nc">&nbsp;                if(ConnectionUtil.isValidPort(port)){</b>
 &nbsp;                    try {
-<b class="nc">&nbsp;                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.bsc);</b>
-<b class="nc">&nbsp;                        bsc.setClientSocket(clientSocket);</b>
+<b class="nc">&nbsp;                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.controller);</b>
+<b class="nc">&nbsp;                        controller.setClientSocket(clientSocket);</b>
 <b class="nc">&nbsp;                    } catch (IOException e) {</b>
 <b class="nc">&nbsp;                        errorLabel.setText(&quot;Server not available&quot;);</b>
 <b class="nc">&nbsp;                        confirmButton.setDisable(false);</b>
@@ -461,8 +461,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;                else {
 &nbsp;                    try {
-<b class="nc">&nbsp;                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.bsc);</b>
-<b class="nc">&nbsp;                    bsc.setClientSocket(clientSocket);</b>
+<b class="nc">&nbsp;                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.controller);</b>
+<b class="nc">&nbsp;                    controller.setClientSocket(clientSocket);</b>
 &nbsp;                    }
 <b class="nc">&nbsp;                    catch (IOException e) {</b>
 <b class="nc">&nbsp;                        errorLabel.setText(&quot;Server not available&quot;);</b>
@@ -509,7 +509,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void drawBoardScene() {
-<b class="nc">&nbsp;        bsc.reset();</b>
+<b class="nc">&nbsp;        controller.reset();</b>
 &nbsp;        // Create a group for static elements
 <b class="nc">&nbsp;        Group staticRoot = new Group();</b>
 &nbsp;        // Add static elements to staticRoot here
@@ -581,7 +581,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        //ResourceCard3.setFill(Color.RED.getPaint());
 <b class="nc">&nbsp;        ResourceCard3.setUserData(2);</b>
 &nbsp;
-<b class="nc">&nbsp;        bsc.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);</b>
+<b class="nc">&nbsp;        controller.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);</b>
 &nbsp;
 &nbsp;
 &nbsp;        // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
@@ -604,7 +604,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
 &nbsp;        //GoldCard3.setFill(Color.RED.getPaint());
 <b class="nc">&nbsp;        GoldCard3.setUserData(2);</b>
-<b class="nc">&nbsp;        bsc.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);</b>
+<b class="nc">&nbsp;        controller.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);</b>
 &nbsp;
 &nbsp;        // HAND BOX
 <b class="nc">&nbsp;        double rectangleWidthHand = 130;</b>
@@ -622,7 +622,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
 &nbsp;        //HandCard3.setFill(Color.RED.getPaint());
 &nbsp;
-<b class="nc">&nbsp;        bsc.setUpHandMap(HandCard1, HandCard2, HandCard3);</b>
+<b class="nc">&nbsp;        controller.setUpHandMap(HandCard1, HandCard2, HandCard3);</b>
 &nbsp;
 &nbsp;        // COMMON OBJECTIVES BOX
 <b class="nc">&nbsp;        double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;</b>
@@ -637,7 +637,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);</b>
 &nbsp;        //CommonObjective2.setFill(Color.RED.getPaint());
 &nbsp;
-<b class="nc">&nbsp;        bsc.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);</b>
+<b class="nc">&nbsp;        controller.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);</b>
 &nbsp;
 &nbsp;        // SECRET OBJECTIVE BOX
 <b class="nc">&nbsp;        double rectangleWidthSecretObjective = cardWidth + 6;</b>
@@ -649,7 +649,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        //secret objective
 <b class="nc">&nbsp;        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);</b>
 &nbsp;        //SecretObjective.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        bsc.setSecretObjectiveMap(SecretObjective);</b>
+<b class="nc">&nbsp;        controller.setSecretObjectiveMap(SecretObjective);</b>
 &nbsp;
 &nbsp;        //INITIAL CARD DISPLAY FOR FACE SELECTION
 <b class="nc">&nbsp;        double rectangleWidthInitialCardDisplay = cardWidth + 6;</b>
@@ -660,7 +660,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;        Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeight / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);</b>
 &nbsp;        //InitialCardDisplay.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        bsc.setUpInitialCardDisplay(InitialCardDisplay);</b>
+<b class="nc">&nbsp;        controller.setUpInitialCardDisplay(InitialCardDisplay);</b>
 &nbsp;
 &nbsp;        //SECRET OBJECTIVES DISPLAY FOR SELECTION
 <b class="nc">&nbsp;        double rectangleWidthSecretObjectiveDisplay = cardWidth + 6;</b>
@@ -676,7 +676,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
 &nbsp;        //secretObjective2Display.setFill(Color.RED.getPaint());
 <b class="nc">&nbsp;        secretObjective2Display.setUserData(1);</b>
-<b class="nc">&nbsp;        bsc.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);</b>
+<b class="nc">&nbsp;        controller.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);</b>
 &nbsp;
 &nbsp;
 &nbsp;        //Button to flip the card selected
@@ -689,7 +689,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));</b>
 <b class="nc">&nbsp;        flipButton.setOnMouseClicked(e -&gt; {</b>
 &nbsp;            try {
-<b class="nc">&nbsp;                bsc.flipCard();</b>
+<b class="nc">&nbsp;                controller.flipCard();</b>
 <b class="nc">&nbsp;            } catch (FileNotFoundException ex) {</b>
 <b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
 &nbsp;            }
@@ -711,7 +711,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        chatButton.setLayoutY(295);</b>
 <b class="nc">&nbsp;        chatButton.setMaxHeight(10);</b>
 <b class="nc">&nbsp;        chatButton.setMaxWidth(75);</b>
-<b class="nc">&nbsp;        chatButton.setOnMouseClicked(e -&gt; bsc.toggleChat());</b>
+<b class="nc">&nbsp;        chatButton.setOnMouseClicked(e -&gt; controller.toggleChat());</b>
 &nbsp;
 &nbsp;        // Chat group (can be toggled)
 <b class="nc">&nbsp;        chatText = new TextArea();</b>
@@ -767,10 +767,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        mush_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
 <b class="nc">&nbsp;        mush_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 + 5);</b>
 <b class="nc">&nbsp;        mush_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(mushrooms_points, mush_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(mushrooms_points, mush_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/mushroom_icon.png&quot;, mushrooms);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/mushroom_icon.png&quot;, mushrooms);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -782,10 +782,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        animals_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        animals_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth + 5);</b>
 <b class="nc">&nbsp;        animals_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(animals_points, animals_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(animals_points, animals_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/animal_icon.png&quot;, animals);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/animal_icon.png&quot;, animals);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -797,11 +797,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        insect_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        insect_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2 + 5);</b>
 <b class="nc">&nbsp;        insect_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(insect_points, insect_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(insect_points, insect_label);</b>
 &nbsp;
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/insect_icon.png&quot;, insect);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/insect_icon.png&quot;, insect);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -813,10 +813,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        leaves_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        leaves_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3 + 5);</b>
 <b class="nc">&nbsp;        leaves_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(leaves_points, leaves_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(leaves_points, leaves_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/leaf_icon.png&quot;, leaves);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/leaf_icon.png&quot;, leaves);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -828,10 +828,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        quills_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        quills_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4 + 5);</b>
 <b class="nc">&nbsp;        quills_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(quills_points, quills_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(quills_points, quills_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/quill_icon.png&quot;, quills);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/quill_icon.png&quot;, quills);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -843,10 +843,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        inkwells_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        inkwells_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5 + 5);</b>
 <b class="nc">&nbsp;        inkwells_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(inkwells_points, inkwells_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(inkwells_points, inkwells_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/inkwell_icon.png&quot;, inkwells);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/inkwell_icon.png&quot;, inkwells);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -858,10 +858,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        manuscript_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        manuscript_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6 + 5);</b>
 <b class="nc">&nbsp;        manuscript_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(manuscript_points, manuscript_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(manuscript_points, manuscript_label);</b>
 &nbsp;
 &nbsp;        try {
-<b class="nc">&nbsp;            bsc.setImageToRectangle(&quot;/board_icons/manuscript_icon.png&quot;, manuscript);</b>
+<b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/manuscript_icon.png&quot;, manuscript);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
@@ -873,7 +873,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        points_label.setFill(javafx.scene.paint.Color.WHITE);</b>
 <b class="nc">&nbsp;        points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);</b>
 <b class="nc">&nbsp;        points_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
-<b class="nc">&nbsp;        bsc.addRectangleToPointsDisplay(Points_points, points_label);</b>
+<b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(Points_points, points_label);</b>
 <b class="nc">&nbsp;        Text points_text = new Text(&quot;Points&quot;);</b>
 <b class="nc">&nbsp;        points_text.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
 <b class="nc">&nbsp;        points_text.setX(rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 18 + 20 + resourceWidth * 7 + 5);</b>
@@ -978,7 +978,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    coordinates.add(finalJ);</b>
 <b class="nc">&nbsp;                    gridRectangle.setUserData(coordinates);</b>
 <b class="nc">&nbsp;                    gridRectangle.setOnMouseClicked(e -&gt; System.out.println(&quot;Rectangle at (&quot; + finalI + &quot;, &quot; + finalJ + &quot;) was clicked!&quot;));</b>
-<b class="nc">&nbsp;                    bsc.addRectangleToGridMap(gridRectangle);</b>
+<b class="nc">&nbsp;                    controller.addRectangleToGridMap(gridRectangle);</b>
 <b class="nc">&nbsp;                    movableRoot.getChildren().addAll(gridRectangle/*, label*/);</b>
 &nbsp;                }
 &nbsp;            }
@@ -1187,7 +1187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-24 14:56</div>
+    <div style="float:right;">generated on 2024-05-27 12:25</div>
 </div>
 </body>
 </html>

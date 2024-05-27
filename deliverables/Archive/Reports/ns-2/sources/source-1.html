@@ -45,26 +45,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">GameController</td>
 <td class="coverageStat">
   <span class="percent">
-    43,5%
+    79,2%
   </span>
   <span class="absValue">
-    (10/23)
+    (19/24)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    14,8%
+    30,1%
   </span>
   <span class="absValue">
-    (19/128)
+    (50/166)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,1%
+    55,2%
   </span>
   <span class="absValue">
-    (52/157)
+    (96/174)
   </span>
 </td>
 </tr>
@@ -91,26 +91,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    45,8%
+    80%
   </span>
   <span class="absValue">
-    (11/24)
+    (20/25)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    14,8%
+    30,1%
   </span>
   <span class="absValue">
-    (19/128)
+    (50/166)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    34%
+    55,7%
   </span>
   <span class="absValue">
-    (54/159)
+    (98/176)
   </span>
 </td>
 </tr>
@@ -123,11 +123,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.Controller;
 &nbsp;
-&nbsp;import codex.lb04.Message.ErrorMessage;
+&nbsp;import codex.lb04.Message.*;
 &nbsp;import codex.lb04.Message.GameMessage.*;
-&nbsp;import codex.lb04.Message.GenericMessage;
-&nbsp;import codex.lb04.Message.Message;
-&nbsp;import codex.lb04.Message.MessageType;
 &nbsp;import codex.lb04.Model.Card;
 &nbsp;import codex.lb04.Model.Enumerations.GameState;
 &nbsp;import codex.lb04.Model.Game;
@@ -214,16 +211,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                ServerApp.sendMessageToClient(new GenericMessage(&quot;server&quot;, &quot;invalid in this phase&quot;), usr);</b>
 &nbsp;                break;
 &nbsp;            case IN_GAME:
+<b class="fc">&nbsp;                if(receivedMessage.getMessageType() == MessageType.LOGIN_REQUEST){</b>
+<b class="fc">&nbsp;                    ServerApp.sendMessageToClient(new LoginReply(&quot;server&quot;, false), usr);</b>
+&nbsp;                    break;
+&nbsp;                }
 <b class="pc">&nbsp;                if (inputController.checkUser(receivedMessage) || receivedMessage.getMessageType() == MessageType.CHAT_MESSAGE) { // check if the message is from the active player or a chat message</b>
 <b class="fc">&nbsp;                    inGameState(receivedMessage);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case END_GAME:
+<b class="nc">&nbsp;                if(receivedMessage.getMessageType() == MessageType.LOGIN_REQUEST){</b>
+<b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new LoginReply(&quot;server&quot;, false), usr);</b>
+&nbsp;                    break;
+&nbsp;                }
 <b class="nc">&nbsp;                if (inputController.checkUser(receivedMessage) | receivedMessage.getMessageType() == MessageType.CHAT_MESSAGE) { // check if the message is from the active player or a chat message</b>
 <b class="nc">&nbsp;                    inEndGameState(receivedMessage);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case ENDED:
+<b class="nc">&nbsp;                if(receivedMessage.getMessageType() == MessageType.LOGIN_REQUEST){</b>
+<b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new LoginReply(&quot;server&quot;, false), usr);</b>
+&nbsp;                    break;
+&nbsp;                }
 <b class="nc">&nbsp;                inEndState(receivedMessage);</b>
 &nbsp;                break;
 &nbsp;            default:
@@ -286,23 +295,23 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        String usr = receivedMessage.getUsername();</b>
 <b class="pc">&nbsp;        switch (receivedMessage.getMessageType()) {</b>
 &nbsp;            case PICK_INITIAL_CARD_SIDE:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
-<b class="nc">&nbsp;                    pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);</b>
+<b class="pc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
+<b class="fc">&nbsp;                    pickInitialCardSideHandler((PickInitialCardSideMessage) receivedMessage);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid input&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case PICK_SECRET_OBJECTIVE:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr)) {</b>
-<b class="nc">&nbsp;                    setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);</b>
+<b class="pc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr)) {</b>
+<b class="fc">&nbsp;                    setSecretObjectiveHandler((PickSecretObjectiveMessage) receivedMessage);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;choose the initial card face first&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case PICK_RESOURCE_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)&amp;&amp;hasPlacedCard()&amp;&amp;!hasDrawnCard()) {</b>
-<b class="nc">&nbsp;                    drawResourceCardHandler((PickResourceCardMessage) receivedMessage);</b>
-<b class="nc">&nbsp;                    turnController.setDrawnCard(true);</b>
+<b class="pc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)&amp;&amp;hasPlacedCard()&amp;&amp;!hasDrawnCard()) {</b>
+<b class="fc">&nbsp;                    drawResourceCardHandler((PickResourceCardMessage) receivedMessage);</b>
+<b class="fc">&nbsp;                    turnController.setDrawnCard(true);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;place a card from your hand first&quot;), usr);</b>
 &nbsp;                }
@@ -316,11 +325,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case PLACE_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
-<b class="nc">&nbsp;                    placeCardHandler((PlaceCardMessage) receivedMessage);</b>
-<b class="nc">&nbsp;                    turnController.setPlacedCard(true);</b>
+<b class="pc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
+<b class="fc">&nbsp;                    placeCardHandler((PlaceCardMessage) receivedMessage);</b>
+<b class="fc">&nbsp;                    turnController.setPlacedCard(true);</b>
 &nbsp;                } else {
-<b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid card placement or initial card side/secret objective not chosen&quot;), usr);</b>
+<b class="fc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid card placement or initial card side/secret objective not chosen&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case FLIP_CARD:
@@ -331,19 +340,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case END_TURN:
-<b class="nc">&nbsp;                if (turnController.hasDrawnCard() &amp;&amp; turnController.hasPlacedCard()) {</b>
-<b class="nc">&nbsp;                    if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() &gt;= 20 &amp;&amp; !endGame) {</b>
+<b class="fc">&nbsp;                if (conditionToEndTurn()) {</b>
+<b class="pc">&nbsp;                    if (game.getPlayerByName(turnController.getActivePlayer()).getBoard().getPoints() &gt;= 20 &amp;&amp; !endGame) {</b>
 <b class="nc">&nbsp;                        game.setGameState(GameState.END_GAME);</b>
 <b class="nc">&nbsp;                        game.notifyEndGame();</b>
 <b class="nc">&nbsp;                        triggerEndGame();</b>
 &nbsp;                    }
-<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();</b>
-<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);</b>
-<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);</b>
-<b class="nc">&nbsp;                    turnController.changeTurn();</b>
+<b class="pc">&nbsp;                    else if(game.getDeck().isEmpty() &amp;&amp; !endGame){</b>
+<b class="nc">&nbsp;                        game.setGameState(GameState.END_GAME);</b>
+<b class="nc">&nbsp;                        game.notifyFinishedDeck();</b>
+<b class="nc">&nbsp;                        triggerEndGame();</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();</b>
+<b class="fc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);</b>
+<b class="fc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);</b>
+<b class="fc">&nbsp;                    turnController.changeTurn();</b>
 &nbsp;                    break;
 &nbsp;                }else {
-<b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;finish turn actions first (place &amp; draw a card)&quot;), usr);</b>
+<b class="fc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;finish turn actions first (place &amp; draw a card)&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case CHAT_MESSAGE:
@@ -358,6 +372,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * checks if the player can pass the turn based on the deck state
+&nbsp;     * @return true if the player can pass the turn, false otherwise
+&nbsp;     */
+&nbsp;    private boolean conditionToEndTurn(){
+<b class="pc">&nbsp;        if(game.getDeck().isEmpty()){</b>
+<b class="nc">&nbsp;            return turnController.hasPlacedCard();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            return turnController.hasDrawnCard() &amp;&amp; turnController.hasPlacedCard();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * handles the messages received only from the active player when the game is in end game state
@@ -369,49 +396,54 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        //no need to check if initial card is placed or secret objective is chosen because they have to in order to get to endgame state
 <b class="nc">&nbsp;        switch (receivedMessage.getMessageType()) {</b>
 &nbsp;            case PICK_RESOURCE_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
+<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; hasPlacedCard()&amp;&amp;!hasDrawnCard()&amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
 <b class="nc">&nbsp;                    drawResourceCardHandler((PickResourceCardMessage) receivedMessage);</b>
+<b class="nc">&nbsp;                    turnController.setDrawnCard(true);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid input&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case PICK_GOLD_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
+<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; hasPlacedCard()&amp;&amp;!hasDrawnCard() &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
 <b class="nc">&nbsp;                    drawGoldCardHandler((PickGoldCardMessage) receivedMessage);</b>
+<b class="nc">&nbsp;                    turnController.setDrawnCard(true);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid input&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case PLACE_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
+<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
 <b class="nc">&nbsp;                    placeCardHandler((PlaceCardMessage) receivedMessage);</b>
+<b class="nc">&nbsp;                    turnController.setPlacedCard(true);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;invalid card placement&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case FLIP_CARD:
-<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage)) {</b>
+<b class="nc">&nbsp;                if (inputController.verifyReceivedData(receivedMessage) &amp;&amp; isInitCardPlaced(usr) &amp;&amp; isSecretObjectiveChosen(usr)) {</b>
 <b class="nc">&nbsp;                    flipCardHandler((FlipCardMessage) receivedMessage);</b>
 &nbsp;                } else {
 <b class="nc">&nbsp;                    ServerApp.sendMessageToClient(new InvalidInputMessage(&quot;server&quot;, &quot;can&#39;t be flipped&quot;), usr);</b>
 &nbsp;                }
 &nbsp;                break;
 &nbsp;            case END_TURN:
-<b class="nc">&nbsp;                if (endGame &amp;&amp; countDown != -1) {</b>
-<b class="nc">&nbsp;                    countDown--;</b>
+<b class="nc">&nbsp;                if (conditionToEndTurn()) {</b>
+<b class="nc">&nbsp;                    if (endGame &amp;&amp; countDown != -1) {</b>
+<b class="nc">&nbsp;                        countDown--;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (endGame &amp;&amp; countDown == 0) {</b>
+<b class="nc">&nbsp;                        game.setGameState(GameState.ENDED);</b>
+<b class="nc">&nbsp;                        ArrayList&lt;String&gt; winners = game.getWinners();</b>
+<b class="nc">&nbsp;                        game.notifyWinner(winners);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (endGame &amp;&amp; turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {</b>
+<b class="nc">&nbsp;                        countDown = game.getLobby().size() - 1;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();</b>
+<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);</b>
+<b class="nc">&nbsp;                    game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);</b>
+<b class="nc">&nbsp;                    turnController.changeTurn();</b>
 &nbsp;                }
-<b class="nc">&nbsp;                if (endGame &amp;&amp; countDown == 0) {</b>
-<b class="nc">&nbsp;                    game.setGameState(GameState.ENDED);</b>
-<b class="nc">&nbsp;                    ArrayList&lt;String&gt; winners = game.getWinners();</b>
-<b class="nc">&nbsp;                    game.notifyWinner(winners);</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if (endGame &amp;&amp; turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {</b>
-<b class="nc">&nbsp;                    countDown = game.getLobby().size() - 1;</b>
-&nbsp;                }
-<b class="nc">&nbsp;                game.getPlayerByName(turnController.getActivePlayer()).getBoard().notifyEndTurn();</b>
-<b class="nc">&nbsp;                game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasPlacedACard(false);</b>
-<b class="nc">&nbsp;                game.getPlayerByName(turnController.getActivePlayer()).getBoard().setHasDrawnACard(false);</b>
-<b class="nc">&nbsp;                turnController.changeTurn();</b>
 &nbsp;                break;
 &nbsp;                case CHAT_MESSAGE:
 <b class="nc">&nbsp;                    ServerApp.broadcast(receivedMessage);</b>
@@ -451,7 +483,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return true if the initial card is placed, false otherwise
 &nbsp;     */
 &nbsp;    public boolean isInitCardPlaced(String player) {
-<b class="nc">&nbsp;        return game.getPlayerByName(player).getBoard().isInitialCardChosen();</b>
+<b class="fc">&nbsp;        return game.getPlayerByName(player).getBoard().isInitialCardChosen();</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * Checks if the secret objective is chosen
@@ -459,15 +491,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return true if the secret objective is chosen, false otherwise
 &nbsp;     */
 &nbsp;    public boolean isSecretObjectiveChosen(String player) {
-<b class="nc">&nbsp;        return game.getPlayerByName(player).getBoard().isSecretObjectiveChosen();</b>
+<b class="fc">&nbsp;        return game.getPlayerByName(player).getBoard().isSecretObjectiveChosen();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public boolean hasPlacedCard(){
-<b class="nc">&nbsp;        return turnController.hasPlacedCard();</b>
+<b class="fc">&nbsp;        return turnController.hasPlacedCard();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public boolean hasDrawnCard(){
-<b class="nc">&nbsp;        return turnController.hasDrawnCard();</b>
+<b class="fc">&nbsp;        return turnController.hasDrawnCard();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -489,10 +521,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param pickMessage the message containing the pick
 &nbsp;     */
 &nbsp;    public void setSecretObjectiveHandler(PickSecretObjectiveMessage pickMessage) {
-<b class="nc">&nbsp;        Integer pick = pickMessage.getCardPick();</b>
-<b class="nc">&nbsp;        String username = pickMessage.getUsername();</b>
+<b class="fc">&nbsp;        Integer pick = pickMessage.getCardPick();</b>
+<b class="fc">&nbsp;        String username = pickMessage.getUsername();</b>
 &nbsp;
-<b class="nc">&nbsp;        game.setSecretObjectives(username, pick);</b>
+<b class="fc">&nbsp;        game.setSecretObjectives(username, pick);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -500,10 +532,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param pickMessage the message containing the pick
 &nbsp;     */
 &nbsp;    public void drawResourceCardHandler(PickResourceCardMessage pickMessage) {
-<b class="nc">&nbsp;        Integer pick = pickMessage.getCardPick();</b>
-<b class="nc">&nbsp;        String username = pickMessage.getUsername();</b>
+<b class="fc">&nbsp;        Integer pick = pickMessage.getCardPick();</b>
+<b class="fc">&nbsp;        String username = pickMessage.getUsername();</b>
 &nbsp;
-<b class="nc">&nbsp;        game.drawResourceCard(username, pick);</b>
+<b class="fc">&nbsp;        game.drawResourceCard(username, pick);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -522,9 +554,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param pickMessage the message containing the side
 &nbsp;     */
 &nbsp;    public void pickInitialCardSideHandler(PickInitialCardSideMessage pickMessage) {
-<b class="nc">&nbsp;        String username = pickMessage.getUsername();</b>
-<b class="nc">&nbsp;        if (pickMessage.getInitialCard().isShowingFront()){</b>
-<b class="nc">&nbsp;            if (!game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {</b>
+<b class="fc">&nbsp;        String username = pickMessage.getUsername();</b>
+<b class="pc">&nbsp;        if (pickMessage.getInitialCard().isShowingFront()){</b>
+<b class="pc">&nbsp;            if (!game.getPlayerByName(username).getBoard().getInitialCard().isShowingFront()) {</b>
 <b class="nc">&nbsp;                game.getPlayerByName(username).getBoard().getInitialCard().flip();</b>
 &nbsp;            }
 &nbsp;        }
@@ -533,9 +565,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                game.getPlayerByName(username).getBoard().getInitialCard().flip();</b>
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);</b>
-<b class="nc">&nbsp;        game.getPlayerByName(username).getBoard().setInitialCardChosen(true);</b>
-<b class="nc">&nbsp;        game.getPlayerByName(username).getBoard().setHasPlacedACard(false);</b>
+<b class="fc">&nbsp;        game.getPlayerByName(username).getBoard().placeCard(game.getPlayerByName(username).getBoard().getInitialCard(), 0, 0);</b>
+<b class="fc">&nbsp;        game.getPlayerByName(username).getBoard().setInitialCardChosen(true);</b>
+<b class="fc">&nbsp;        game.getPlayerByName(username).getBoard().setHasPlacedACard(false);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -543,12 +575,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param placeCardMessage the message containing the card and the position
 &nbsp;     */
 &nbsp;    public void placeCardHandler(PlaceCardMessage placeCardMessage) {
-<b class="nc">&nbsp;        Card card = placeCardMessage.getCard();</b>
-<b class="nc">&nbsp;        Integer x = placeCardMessage.getX();</b>
-<b class="nc">&nbsp;        Integer y = placeCardMessage.getY();</b>
-<b class="nc">&nbsp;        String username = placeCardMessage.getUsername();</b>
+<b class="fc">&nbsp;        Card card = placeCardMessage.getCard();</b>
+<b class="fc">&nbsp;        Integer x = placeCardMessage.getX();</b>
+<b class="fc">&nbsp;        Integer y = placeCardMessage.getY();</b>
+<b class="fc">&nbsp;        String username = placeCardMessage.getUsername();</b>
 &nbsp;
-<b class="nc">&nbsp;        game.placeCard(card, x, y, game.getPlayerByName(username));</b>
+<b class="fc">&nbsp;        game.placeCard(card, x, y, game.getPlayerByName(username));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -593,7 +625,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-24 14:56</div>
+    <div style="float:right;">generated on 2024-05-27 12:25</div>
 </div>
 </body>
 </html>

@@ -4,8 +4,6 @@ import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Message.Message;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Game;
-import codex.lb04.Model.InitialCard;
-
 /**
  * InputController class is responsible for verifying the data sent by the client to the server.
  */
@@ -77,7 +75,8 @@ public class InputController {
      * @return {code @true} if card pick is valid {@code false} otherwise.
      */
     public boolean pickInitialCardSideCheck(Message message) {
-        return ((PickInitialCardSideMessage) message).getInitialCard().getClass() == InitialCard.class;
+        String usr = message.getUsername();
+        return ((PickInitialCardSideMessage) message).getInitialCard().getID().equals(game.getPlayerByName(usr).getBoard().getInitialCard().getID());
     }
 
     /**
