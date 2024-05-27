@@ -160,6 +160,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks if the lobby size is between 2 and 4
+     * @return true if the lobby size is between 2 and 4, false otherwise
+     */
     private boolean checkLobbySize(){
         return game.getLobby().size() >= 2 && game.getLobby().size() <= 4;
     }
@@ -371,10 +375,18 @@ public class GameController {
         return game.getPlayerByName(player).getBoard().isSecretObjectiveChosen();
     }
 
+    /**
+     * Checks if the player has placed a card
+     * @return true if the player has placed a card, false otherwise
+     */
     public boolean hasPlacedCard(){
         return turnController.hasPlacedCard();
     }
 
+    /**
+     * Checks if the player has drawn a card
+     * @return true if the player has drawn a card, false otherwise
+     */
     public boolean hasDrawnCard(){
         return turnController.hasDrawnCard();
     }

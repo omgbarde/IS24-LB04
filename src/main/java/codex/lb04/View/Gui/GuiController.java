@@ -240,6 +240,9 @@ public class GuiController extends ViewController {
 
     }
 
+    /**
+     * this method shows or covers the chat scene
+     */
     public void toggleChat(){
         Group chatGroup = guiView.getChatGroup();
         if(chatGroup.isVisible()){
@@ -249,6 +252,10 @@ public class GuiController extends ViewController {
         }
     }
 
+    /**
+     * Method to clean an image
+     * @param rectangle the part to clean
+     */
     public void cleanImage(Rectangle rectangle) {
         rectangle.setFill(Color.BLACK);
     }
@@ -457,6 +464,11 @@ public class GuiController extends ViewController {
 
     }
 
+    /**
+     * Method to show the winners
+     *
+     * @param winner the winner
+     */
     @Override
     public void showWinners(String winner) {
         Platform.runLater(()->{
@@ -823,6 +835,10 @@ public class GuiController extends ViewController {
 
     //SETTER
 
+    /**
+     * method to set the client socket
+     * @param clientSocket the client socket
+     */
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
     }

@@ -41,6 +41,9 @@ public class Game extends Observable {
         this.replies = 0;
     }
 
+    /**
+     * sets the deck
+     */
     public void setDeck() {
         this.deck = Deck.getInstance();
     }
@@ -205,6 +208,9 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * draws the initial hand for all players, drawing one gold card and two resource cards
+     */
     public void drawHandForAllPlayers() {
         for (Player player : players) {
             player.getBoard().drawInitial();
@@ -299,6 +305,10 @@ public class Game extends Observable {
         notifyObserver(new GenericMessage("server", "Deck is finished, end game started!"));
     }
 
+    /**
+     * notifies the winner or winners to the observer
+     * @param winners the winners
+     */
     public void notifyWinner(ArrayList<String> winners) {
         switch (winners.size()) {
             case 1:
@@ -322,6 +332,11 @@ public class Game extends Observable {
 
     //GETTER
 
+    /**
+     * Returns the number of players
+     *
+     * @return the number of players
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
@@ -373,6 +388,11 @@ public class Game extends Observable {
         this.gameState = gameState;
     }
 
+    /**
+     * sets the number of players
+     *
+     * @param numPlayers the number of players
+     */
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }

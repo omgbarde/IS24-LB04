@@ -14,6 +14,11 @@ public class WinnersMessage extends Message {
 
     private String winner;
 
+    /**
+     * Constructor for WinnersMessage
+     * @param username username of the player
+     * @param winner string with the names of the winners
+     */
     public WinnersMessage(String username , String winner) {
         super(username, MessageType.WINNERS);
         this.winner = winner;

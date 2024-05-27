@@ -120,6 +120,12 @@ public class GuiView extends View {
 
     }
 
+    /**
+     * method to display an image
+     * @param root the stack pane
+     * @param is the input stream
+     * @return
+     */
     private ImageView createImageView(StackPane root, InputStream is) {
         assert is != null;
         Image image = new Image(is);
@@ -1021,22 +1027,42 @@ public class GuiView extends View {
 
     //GETTER
 
+    /**
+     * method to get the client socket
+     * @return the client socket
+     */
     public ClientSocket getClientSocket() {
         return clientSocket;
     }
 
+    /**
+     * method to get the chat group
+     * @return the chat group reference
+     */
     public Group getChatGroup() {
         return chatGroupReference;
     }
 
+    /**
+     * method to get the place to append the chat text
+     * @return the chat text
+     */
     public TextArea getChatText() {
         return chatText;
     }
 
+    /**
+     * method to get the place to append the turn text
+     * @return the chat text
+     */
     public Text getTurnText() {
         return turnText;
     }
 
+    /**
+     * method to set the winner label
+     * @param winner the winner
+     */
     public void setWinnerLabel(String winner){
         winnerLabel.setText(winner);
     }

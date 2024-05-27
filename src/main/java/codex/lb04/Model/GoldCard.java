@@ -76,22 +76,42 @@ public class GoldCard extends Card{
 
     //GETTER
 
+    /**
+     * Getter for the points
+     * @return the points
+     */
     public Integer getPoints() {
         return points;
     }
 
+    /**
+     * Getter for the mushrooms needed from a gold card to be placed
+     * @return the mushrooms needed
+     */
     public Integer getMushroom_needed() {
         return mushroom_needed;
     }
 
+    /**
+     * Getter for the animals needed from a gold card to be placed
+     * @return the mushrooms needed
+     */
     public Integer getAnimals_needed() {
         return animals_needed;
     }
 
+    /**
+     * Getter for the insects needed from a gold card to be placed
+     * @return the mushrooms needed
+     */
     public Integer getInsects_needed() {
         return insects_needed;
     }
 
+    /**
+     * Getter for the leafs needed from a gold card to be placed
+     * @return the mushrooms needed
+     */
     public Integer getLeaf_needed() {
         return leaf_needed;
     }

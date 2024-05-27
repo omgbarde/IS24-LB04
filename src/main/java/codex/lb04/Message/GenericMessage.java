@@ -9,6 +9,7 @@ public class GenericMessage extends Message {
     @Serial
     private static final long serialVersionUID = -4779509558069870609L;
     private final String msg;
+
     /**
      * Constructor for GenericMessage
      * @param username is the nickname of the user sending the message

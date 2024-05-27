@@ -99,6 +99,11 @@ public class ServerApp implements Runnable {
         new Thread(new ServerApp()).start();
     }
 
+    /**
+     * method that is called when a message is received
+     *
+     * @param receivedMessage is the message received
+     */
     public void onMessageReceived(Message receivedMessage) {
         if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT){
             String usr = receivedMessage.getUsername();
