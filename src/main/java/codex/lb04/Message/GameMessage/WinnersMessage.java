@@ -12,15 +12,21 @@ public class WinnersMessage extends Message {
     @Serial
     private static final long serialVersionUID = 8754824018534389357L;
 
-    private String winner;
+    private final String winner;
 
-    public WinnersMessage(String username , String winner) {
+    /**
+     * Constructor for WinnersMessage
+     * @param username username of the player
+     * @param winner string with the names of the winners
+     */
+    public WinnersMessage(String username, String winner) {
         super(username, MessageType.WINNERS);
         this.winner = winner;
     }
 
     /**
      * Getter for winner string
+     *
      * @return the winner string already formatted
      */
     public String getWinner() {

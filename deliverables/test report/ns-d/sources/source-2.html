@@ -1,0 +1,540 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CliBoardModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">codex.lb04.View.Cli</a>
+</div>
+
+<h1>Coverage Summary for Class: CliBoardModel (codex.lb04.View.Cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CliBoardModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40,6%
+  </span>
+  <span class="absValue">
+    (13/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70,8%
+  </span>
+  <span class="absValue">
+    (51/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,9%
+  </span>
+  <span class="absValue">
+    (76/119)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package codex.lb04.View.Cli;
+&nbsp;
+&nbsp;import codex.lb04.Model.*;
+&nbsp;import codex.lb04.View.Cli.State.CliBoardState;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;import static java.lang.System.out;
+&nbsp;
+&nbsp;/**
+&nbsp; * simplified model to keep a copy of the game board when playing in CLI mode
+&nbsp; */
+&nbsp;public class CliBoardModel {
+&nbsp;    private static final int gridSize = 20;
+&nbsp;
+&nbsp;    private CliBoardState boardState;
+&nbsp;    private String turnLabel;
+&nbsp;    private ArrayList&lt;Card&gt; hand;
+&nbsp;    private ArrayList&lt;GoldCard&gt; visibleGold;
+&nbsp;    private ArrayList&lt;ResourceCard&gt; visibleResources;
+&nbsp;    private ArrayList&lt;ObjectiveCard&gt; objectiveCards;
+&nbsp;    private ArrayList&lt;Card&gt; playedCards;
+&nbsp;    private ObjectiveCard secretObjective;
+&nbsp;    private InitialCard initialCard;
+&nbsp;    private ArrayList&lt;ObjectiveCard&gt; choices;
+&nbsp;    private ArrayList&lt;Integer&gt; points;
+&nbsp;    private String[][][] gridMap;
+&nbsp;    private Card selectedCard;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor for the CliBoardModel
+&nbsp;     */
+<b class="fc">&nbsp;    public CliBoardModel() {</b>
+<b class="fc">&nbsp;        resetBoard();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method to reset the board at startup and every time a player is in the lobby (before restarting a game)
+&nbsp;     */
+&nbsp;    public void resetBoard(){
+<b class="fc">&nbsp;        this.turnLabel = &quot;not your turn&quot;;</b>
+<b class="fc">&nbsp;        this.boardState = CliBoardState.END;</b>
+<b class="fc">&nbsp;        this.hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.playedCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.visibleGold = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.visibleResources = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.objectiveCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.choices = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.points = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.gridMap = new String[gridSize][gridSize][3];</b>
+<b class="fc">&nbsp;        gridMapInit();</b>
+<b class="fc">&nbsp;        this.selectedCard = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * updates the board by placing a card
+&nbsp;     *
+&nbsp;     * @param x    x coordinate
+&nbsp;     * @param y    y coordinate
+&nbsp;     * @param card card to be placed
+&nbsp;     */
+&nbsp;    public void placeCard(Integer x, Integer y, Card card) {
+<b class="fc">&nbsp;        int k = gridSize / 2;</b>
+&nbsp;        //inverse transforms the coordinates and places the card, if it&#39;s going to cover a corner
+&nbsp;        //the covered card will be rendered again
+<b class="fc">&nbsp;        for (Card c : playedCards) {</b>
+&nbsp;            //sets corners as not visible for the card being covered by the one you are placing
+<b class="pc">&nbsp;            if (c != null) {</b>
+<b class="pc">&nbsp;                if (c.getX() == x + 1 &amp;&amp; c.getY() == y + 1) {</b>
+<b class="nc">&nbsp;                    c.getShownFace().getLowerLeft().setCovered(c);</b>
+<b class="nc">&nbsp;                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);</b>
+<b class="pc">&nbsp;                } else if (c.getX() == x + 1 &amp;&amp; c.getY() == y - 1) {</b>
+<b class="fc">&nbsp;                    c.getShownFace().getUpperLeft().setCovered(c);</b>
+<b class="fc">&nbsp;                    gridMap[-c.getY() + k][k + c.getY()] = CardRenderer.renderInGame(c);</b>
+<b class="pc">&nbsp;                } else if (c.getX() == x - 1 &amp;&amp; c.getY() == y + 1) {</b>
+<b class="nc">&nbsp;                    c.getShownFace().getLowerRight().setCovered(c);</b>
+<b class="nc">&nbsp;                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);</b>
+<b class="pc">&nbsp;                } else if (c.getX() == x - 1 &amp;&amp; c.getY() == y - 1) {</b>
+<b class="fc">&nbsp;                    c.getShownFace().getUpperRight().setCovered(c);</b>
+<b class="fc">&nbsp;                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        playedCards.add(card);</b>
+<b class="fc">&nbsp;        card.setCoordinates(x, y);</b>
+&nbsp;
+<b class="fc">&nbsp;        gridMap[-y + k][k + x] = CardRenderer.renderInGame(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * initializes the grid map with placeholders and coordinates
+&nbsp;     */
+&nbsp;    public void gridMapInit() {
+<b class="fc">&nbsp;        int k = gridSize / 2;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; gridSize; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; gridSize; j++) {</b>
+&nbsp;                //fills the grid in a checkered pattern with transformed x and y to match the game system of coordinates
+<b class="fc">&nbsp;                if ((i % 2 == 0 &amp;&amp; j % 2 == 0) || (i % 2 != 0 &amp;&amp; j % 2 != 0)) {</b>
+<b class="fc">&nbsp;                    gridMap[i][j] = CardRenderer.renderPlaceHolder((j - k) + &quot;,&quot; + (k - i));</b>
+<b class="fc">&nbsp;                } else gridMap[i][j] = CardRenderer.renderPlaceHolder(&quot;&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deselect a card
+&nbsp;     */
+&nbsp;    public void deselectCard() {
+<b class="nc">&nbsp;        this.selectedCard = null;</b>
+&nbsp;        //deselect is called after placing (the initial card too) so you need to return to selecting only if you were in placing
+<b class="nc">&nbsp;        if (boardState == CliBoardState.PLACING) setBoardState(CliBoardState.SELECTING);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the points
+&nbsp;     *
+&nbsp;     * @return the arraylist of all resources and points
+&nbsp;     */
+&nbsp;    public String printPoints() {
+&nbsp;        //emojis for the resources visible, the order is consistent with the order of the points array (server convention)
+<b class="fc">&nbsp;        String[] emojis = {&quot;\uD83C\uDF44&quot;, &quot;\uD83D\uDC3A&quot;, &quot;\uD83E\uDD8B&quot;, &quot;\uD83C\uDF43&quot;, &quot;\uD83E\uDEB6&quot;, &quot;\uD83E\uDED9&quot;, &quot;\uD83D\uDCDC&quot;, &quot;points&quot;};</b>
+<b class="fc">&nbsp;        StringBuilder pointsBuilder = new StringBuilder();</b>
+&nbsp;        int p;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 8; i++) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                p = points.get(i);</b>
+<b class="fc">&nbsp;            } catch (IndexOutOfBoundsException e) {</b>
+<b class="fc">&nbsp;                p = 0;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            pointsBuilder.append(emojis[i]).append(&quot;: &quot;).append(p).append(&quot; &quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return pointsBuilder.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * prints the grid map
+&nbsp;     */
+&nbsp;    public void printGridMap() {
+&nbsp;        //prints the grid map by the rows and iterating over the 3 layers of the grid
+&nbsp;        //(nested for loops are inverted to print each row 3 times, once every component of the card)
+<b class="fc">&nbsp;        for (int i = 0; i &lt; gridSize; i++) {</b>
+<b class="fc">&nbsp;            for (int k = 0; k &lt; 3; k++) {</b>
+<b class="fc">&nbsp;                for (int j = 0; j &lt; gridSize; j++) {</b>
+<b class="fc">&nbsp;                    System.out.print(gridMap[i][j][k]);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                System.out.println();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * prints the initial card
+&nbsp;     */
+&nbsp;    public void printInitial() {
+<b class="pc">&nbsp;        if (initialCard != null) System.out.println(CardRenderer.printInHand(initialCard));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * flips the initial card
+&nbsp;     */
+&nbsp;    public void flipInitialCard() {
+<b class="nc">&nbsp;        if (initialCard != null) initialCard.flip();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * displays the choices
+&nbsp;     */
+&nbsp;    public void displayChoices() {
+<b class="pc">&nbsp;        if (secretObjective == null) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;secret objectives to choose from (press 1 or 2):&quot;);</b>
+<b class="pc">&nbsp;            for (int i = 0; i &lt; choices.size(); i++) {</b>
+<b class="nc">&nbsp;                String renderedObjective = CardRenderer.renderObjective(choices.get(i).getID());</b>
+<b class="nc">&nbsp;                System.out.print(i + 1 + &quot;)&quot; + renderedObjective + &quot;     &quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            System.out.println();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            printObjectives();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * prints the objectives
+&nbsp;     */
+&nbsp;    public void printObjectives() {
+<b class="nc">&nbsp;        System.out.println(&quot;Your common objectives are:&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; objectiveCards.size(); i++) {</b>
+<b class="nc">&nbsp;            String renderedObjective = CardRenderer.renderObjective(objectiveCards.get(i).getID());</b>
+<b class="nc">&nbsp;            System.out.println(&quot;    &quot; + (i + 1) + &quot;)&quot; + renderedObjective);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.print(&quot;Your secret objective is:\n&quot;);</b>
+<b class="nc">&nbsp;        out.println(&quot;   &quot; + CardRenderer.renderObjective(secretObjective.getID()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * prints the hand
+&nbsp;     */
+&nbsp;    public void printHand() {
+<b class="fc">&nbsp;        String[][] printableHand = new String[3][5];</b>
+&nbsp;        String[] toAdd;
+<b class="fc">&nbsp;        out.println(&quot;Your hand is:&quot;);</b>
+<b class="pc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++) {</b>
+<b class="nc">&nbsp;            Card toRender = hand.get(i);</b>
+&nbsp;            //if the card is null it adds spaces to the hand
+<b class="nc">&nbsp;            if (toRender == null)</b>
+<b class="nc">&nbsp;                toAdd = new String[]{&quot;          &quot;, &quot;          &quot;, &quot;          &quot;, &quot;          &quot;, &quot;          &quot;};</b>
+<b class="nc">&nbsp;            else toAdd = CardRenderer.renderInHand(toRender);</b>
+<b class="nc">&nbsp;            printableHand[i] = toAdd;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; 3; i++) {</b>
+<b class="fc">&nbsp;                String toPrint = printableHand[i][j];</b>
+<b class="pc">&nbsp;                if (toPrint == null) toPrint = &quot;&quot;;</b>
+<b class="fc">&nbsp;                out.print(toPrint);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            out.println();</b>
+&nbsp;        }
+&nbsp;        //prints the index of the cards in the hand to help the player choose
+<b class="fc">&nbsp;        out.println(&quot;         0                   1                   2&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * prints the visible cards
+&nbsp;     */
+&nbsp;    public void printVisibleCards() {
+<b class="fc">&nbsp;        String[][] printableCards = new String[6][5];</b>
+&nbsp;        String[] toAdd;
+<b class="fc">&nbsp;        out.println(&quot;Drawable cards:&quot;);</b>
+<b class="pc">&nbsp;        for (int i = 0; i &lt; visibleResources.size(); i++) {</b>
+<b class="nc">&nbsp;            Card toRender = visibleResources.get(i);</b>
+<b class="nc">&nbsp;            toAdd = CardRenderer.renderInHand(toRender);</b>
+<b class="nc">&nbsp;            printableCards[i] = toAdd;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        for (int i = 0; i &lt; visibleGold.size(); i++) {</b>
+<b class="nc">&nbsp;            Card toRender = visibleGold.get(i);</b>
+<b class="nc">&nbsp;            toAdd = CardRenderer.renderInHand(toRender);</b>
+<b class="nc">&nbsp;            printableCards[i + 3] = toAdd;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; 6; i++) {</b>
+<b class="fc">&nbsp;                String toPrint = printableCards[i][j];</b>
+&nbsp;                //if the card is null it adds spaces to the screen
+<b class="pc">&nbsp;                if (toPrint == null) toPrint = &quot;&quot;;</b>
+<b class="fc">&nbsp;                out.print(toPrint);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            out.println();</b>
+&nbsp;        }
+&nbsp;        //prints the index of the drawable cards to help the player choose
+<b class="fc">&nbsp;        out.println(&quot;          3                   4                   5                   6                   7                   8&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the initial card
+&nbsp;     */
+&nbsp;    public InitialCard getInitialCard() {
+<b class="fc">&nbsp;        return initialCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //GETTER
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the turn label
+&nbsp;     *
+&nbsp;     * @return turn label
+&nbsp;     */
+&nbsp;    public String getTurnLabel() {
+<b class="fc">&nbsp;        return turnLabel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the hand
+&nbsp;     *
+&nbsp;     * @return the arraylist of cards in the hand
+&nbsp;     */
+&nbsp;    public ArrayList&lt;Card&gt; getHand() {
+<b class="nc">&nbsp;        return hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the objective cards
+&nbsp;     *
+&nbsp;     * @return the arraylist of objective cards
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ObjectiveCard&gt; getObjectiveCards() {
+<b class="nc">&nbsp;        return objectiveCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the choices
+&nbsp;     *
+&nbsp;     * @return the arraylist of objective cards to choose from
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ObjectiveCard&gt; getChoices() {
+<b class="nc">&nbsp;        return choices;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the secret objective
+&nbsp;     *
+&nbsp;     * @return the secret objective card
+&nbsp;     */
+&nbsp;    public ObjectiveCard getSecretObjective() {
+<b class="nc">&nbsp;        return secretObjective;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the selected card
+&nbsp;     *
+&nbsp;     * @return the currently selected card
+&nbsp;     */
+&nbsp;    public Card getSelectedCard() {
+<b class="nc">&nbsp;        return selectedCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the board state
+&nbsp;     *
+&nbsp;     * @return the current state of the board
+&nbsp;     */
+&nbsp;    public CliBoardState getBoardState() {
+<b class="fc">&nbsp;        return boardState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //SETTER
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the turn label
+&nbsp;     *
+&nbsp;     * @param turnLabel turn label
+&nbsp;     */
+&nbsp;    public void setTurnLabel(String turnLabel) {
+<b class="nc">&nbsp;        this.turnLabel = turnLabel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the initial card
+&nbsp;     */
+&nbsp;    public void setInitialCard(InitialCard initialCard) {
+<b class="nc">&nbsp;        this.initialCard = initialCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the hand
+&nbsp;     *
+&nbsp;     * @param hand the arraylist of cards in the hand
+&nbsp;     */
+&nbsp;    public void setHand(ArrayList&lt;Card&gt; hand) {
+<b class="nc">&nbsp;        this.hand = hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the visible gold cards
+&nbsp;     *
+&nbsp;     * @param visibleGold the arraylist of gold cards to set as visible
+&nbsp;     */
+&nbsp;    public void setVisibleGold(ArrayList&lt;GoldCard&gt; visibleGold) {
+<b class="nc">&nbsp;        this.visibleGold = visibleGold;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the visible resource cards
+&nbsp;     *
+&nbsp;     * @param visibleResources the arraylist of resource cards to set as visible
+&nbsp;     */
+&nbsp;    public void setVisibleResources(ArrayList&lt;ResourceCard&gt; visibleResources) {
+<b class="nc">&nbsp;        this.visibleResources = visibleResources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the choices
+&nbsp;     */
+&nbsp;    public void setChoices(ArrayList&lt;ObjectiveCard&gt; secretObjectivesToChooseFrom) {
+<b class="nc">&nbsp;        this.choices = secretObjectivesToChooseFrom;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the objective cards
+&nbsp;     *
+&nbsp;     * @param objectiveCards the arraylist of objective cards to set
+&nbsp;     */
+&nbsp;    public void setObjectiveCards(ArrayList&lt;ObjectiveCard&gt; objectiveCards) {
+<b class="nc">&nbsp;        this.objectiveCards = objectiveCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the secret objective
+&nbsp;     *
+&nbsp;     * @param secretObjective the secret objective card to set
+&nbsp;     */
+&nbsp;    public void setSecretObjective(ObjectiveCard secretObjective) {
+<b class="nc">&nbsp;        this.secretObjective = secretObjective;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the selected card
+&nbsp;     *
+&nbsp;     * @param selectedCard the card to set as selected
+&nbsp;     */
+&nbsp;    public void setSelectedCard(Card selectedCard) {
+<b class="nc">&nbsp;        this.selectedCard = selectedCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the points
+&nbsp;     *
+&nbsp;     * @param points the arraylist of all resources and points
+&nbsp;     */
+&nbsp;    public void setPoints(ArrayList&lt;Integer&gt; points) {
+<b class="nc">&nbsp;        this.points = points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the board state
+&nbsp;     *
+&nbsp;     * @param boardState the state to set the board to
+&nbsp;     */
+&nbsp;    public void setBoardState(CliBoardState boardState) {
+<b class="nc">&nbsp;        this.boardState = boardState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-28 12:20</div>
+</div>
+</body>
+</html>

@@ -57,6 +57,7 @@ public class CliController extends ViewController {
 
     /**
      * updates the lobby
+     *
      * @param lobby the arraylist of names of the players in the lobby
      */
     @Override
@@ -70,12 +71,13 @@ public class CliController extends ViewController {
      * @param goldCards the gold cards
      */
     public void updateDrawableGold(ArrayList<GoldCard> goldCards) {
-         cliBoardModel.setVisibleGold(goldCards);
-         cliView.drawBoardScene();
+        cliBoardModel.setVisibleGold(goldCards);
+        cliView.drawBoardScene();
     }
 
     /**
      * Update the drawable resources in the model and re calls the draw method of the view
+     *
      * @param resourceCards the resource cards
      */
     @Override
@@ -87,6 +89,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the secret objective in the model and re calls the draw method of the view
+     *
      * @param secretObjective the secret objective
      */
     @Override
@@ -98,6 +101,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the hand in the model and re calls the draw method of the view
+     *
      * @param hand the hand
      */
     @Override
@@ -108,6 +112,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the common objectives in the model and re calls the draw method of the view
+     *
      * @param commonObjectives the common objectives
      */
     @Override
@@ -119,6 +124,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the initial card in the model and re calls the draw method of the view
+     *
      * @param initialCard the initial card
      */
     @Override
@@ -130,6 +136,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the secret objectives to choose in the model and re calls the draw method of the view
+     *
      * @param secretObjectives the secret objectives
      */
     @Override
@@ -142,15 +149,16 @@ public class CliController extends ViewController {
     /**
      * Place the card in the local model and re calls the draw method of the view
      * (after confirmation from the server)
-     * @param x the x coordinate
-     * @param y the y coordinate
+     *
+     * @param x    the x coordinate
+     * @param y    the y coordinate
      * @param card the card to place
      */
     @Override
     public void placeCard(Integer x, Integer y, Card card) {
         cliBoardModel.placeCard(x, y, card);
         //if the reply is for an initial card the state is changed to choose secret
-        if (card.getClass().equals(InitialCard.class)){
+        if (card.getClass().equals(InitialCard.class)) {
             cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
         }
         //else if the reply is for other cards the state is changed to drawing
@@ -171,6 +179,7 @@ public class CliController extends ViewController {
 
     /**
      * Display an alert
+     *
      * @param alert the alert string
      */
     @Override
@@ -192,11 +201,10 @@ public class CliController extends ViewController {
      */
     @Override
     public void setYourTurnText() {
-        if (firstTurn){
+        if (firstTurn) {
             firstTurn = false;
             cliBoardModel.setBoardState(CliBoardState.CHOOSE_INIT);
-        }
-        else cliBoardModel.setBoardState(CliBoardState.SELECTING);
+        } else cliBoardModel.setBoardState(CliBoardState.SELECTING);
         placed = false;
         cliBoardModel.setTurnLabel("YOUR TURN");
         cliView.drawBoardScene();
@@ -204,6 +212,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the points in the model and re calls the draw method of the view
+     *
      * @param points the points
      */
     @Override
@@ -224,6 +233,7 @@ public class CliController extends ViewController {
 
     /**
      * Update the chat in the model and re calls the draw method of the chat if the state is CHAT
+     *
      * @param message the message
      */
     @Override
@@ -235,6 +245,7 @@ public class CliController extends ViewController {
 
     /**
      * print utility method
+     *
      * @param string the string to print
      */
     @Override
@@ -244,15 +255,17 @@ public class CliController extends ViewController {
 
     /**
      * Show the winners of the game
+     *
      * @param winner the winners string already formatted as received from the server
      */
     @Override
     public void showWinners(String winner) {
-        //TODO: make another state for completeness
         cliBoardModel.setBoardState(CliBoardState.END);
+        cliBoardModel.resetBoard();
         cliView.setState(CliViewState.END);
         cliView.drawWinnerScene();
         cliView.showWinners(winner);
+        clientSocket.disconnect();
     }
 
     /**
@@ -262,7 +275,7 @@ public class CliController extends ViewController {
      */
     public void handleInput(String input) {
         CliViewState cliState = this.cliView.getState();
-        switch (cliState){
+        switch (cliState) {
             case HELLO -> helloHandler(input);
             case LOGIN -> loginHandler(input);
             case LOBBY -> lobbyHandler(input);
@@ -279,13 +292,13 @@ public class CliController extends ViewController {
      * @param input the input
      */
     private void chatHandler(String input) {
-        if (input.equals("B")){
+        if (input.equals("B")) {
             cliView.setState(CliViewState.BOARD);
             drawBoardScene();
             return;
         }
         String usr = clientSocket.getUsername();
-        clientSocket.sendMessage(new ChatMessage(usr,input));
+        clientSocket.sendMessage(new ChatMessage(usr, input));
     }
 
     /**
@@ -344,7 +357,7 @@ public class CliController extends ViewController {
                 String portString;
                 try {
                     portString = inputThread.call();
-                }catch (IOException e){
+                } catch (IOException e) {
                     out.println("Error reading port");
                     break;
                 }
@@ -356,7 +369,7 @@ public class CliController extends ViewController {
                 }
                 if (ConnectionUtil.checkValid(usr, addr, port)) {
                     try {
-                        clientSocket = new ClientSocket( usr, addr, port,this);
+                        clientSocket = new ClientSocket(usr, addr, port, this);
                         setClientSocket(clientSocket);
                     } catch (IOException e) {
                         cliView.drawHelloScene();
@@ -490,10 +503,10 @@ public class CliController extends ViewController {
      */
     private void boardHandler(String input) {
         CliBoardState boardState = cliBoardModel.getBoardState();
-        if(input.equals("C")){
-                cliView.showChat();
-                cliView.setState(CliViewState.CHAT);
-                return;
+        if (input.equals("C")) {
+            cliView.showChat();
+            cliView.setState(CliViewState.CHAT);
+            return;
         }
         //go to other handlers instead
         switch (boardState) {
@@ -527,48 +540,48 @@ public class CliController extends ViewController {
      */
     private void drawingHandler(String input) {
         int pick;
-        switch(input){
+        switch (input) {
             case "3":
-                pick = Integer.parseInt(input)-3;
+                pick = Integer.parseInt(input) - 3;
                 out.println("You selected the first resource card");
-                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
                 break;
             case "4":
                 pick = Integer.parseInt(input) - 3;
                 out.println("You selected the second resource card");
-                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
                 break;
             case "5":
-                pick = Integer.parseInt(input)-3;
+                pick = Integer.parseInt(input) - 3;
                 out.println("You selected the third resource card");
-                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickResourceCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
 
                 break;
             case "6":
-                pick = Integer.parseInt(input)-6;
+                pick = Integer.parseInt(input) - 6;
                 out.println("You selected the first gold card");
-                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
 
                 break;
             case "7":
-                pick = Integer.parseInt(input)-6;
+                pick = Integer.parseInt(input) - 6;
                 out.println("You selected the second gold card");
-                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
                 break;
             case "8":
-                pick = Integer.parseInt(input)-6;
+                pick = Integer.parseInt(input) - 6;
                 out.println("You selected the third gold card");
-                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(),pick));
+                clientSocket.sendMessage(new PickGoldCardMessage(clientSocket.getUsername(), pick));
                 cliBoardModel.setBoardState(CliBoardState.END);
                 out.println("turn ended press 'E' to end turn");
                 break;
@@ -582,42 +595,42 @@ public class CliController extends ViewController {
      *
      * @param input the input
      */
-    private void placingHandler(String input){
+    private void placingHandler(String input) {
         Card selected = cliBoardModel.getSelectedCard();
         switch (input) {
             case "F":
-                if(selected!=null) cliBoardModel.getSelectedCard().flip();
+                if (selected != null) cliBoardModel.getSelectedCard().flip();
                 cliView.drawBoardScene();
                 break;
             case "P":
-                if(selected == null) {
+                if (selected == null) {
                     out.println("select a card first");
                     break;
                 }
                 out.println("Enter the x,y coordinates:");
                 String coordinates;
                 try {
-                     coordinates = inputThread.call();
+                    coordinates = inputThread.call();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 String[] coords = coordinates.split(",");
-                int x,y;
+                int x, y;
                 try {
                     x = Integer.parseInt(coords[0]);
                     y = Integer.parseInt(coords[1]);
 
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     out.println("Invalid coordinates, please enter two numbers separated by a comma");
                     break;
                 }
-                clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(),x, y, cliBoardModel.getSelectedCard()));
+                clientSocket.sendMessage(new PlaceCardMessage(clientSocket.getUsername(), x, y, cliBoardModel.getSelectedCard()));
 
                 cliBoardModel.deselectCard();
                 cliView.drawBoardScene();
                 break;
-            case"B":
-                if(!placed) {
+            case "B":
+                if (!placed) {
                     cliBoardModel.deselectCard();
                     out.println("You deselected the card");
                     cliBoardModel.setBoardState(CliBoardState.SELECTING);
@@ -663,13 +676,13 @@ public class CliController extends ViewController {
         switch (input) {
             case "1":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().getFirst());
-                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(),0));
+                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(), 0));
                 cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
                 break;
             case "2":
                 cliBoardModel.setSecretObjective(cliBoardModel.getChoices().get(1));
-                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(),1));
+                clientSocket.sendMessage(new PickSecretObjectiveMessage(clientSocket.getUsername(), 1));
                 cliBoardModel.setBoardState(CliBoardState.SELECTING);
                 cliView.drawBoardScene();
                 break;
@@ -687,20 +700,20 @@ public class CliController extends ViewController {
     private void initialCardHandler(String input) {
         switch (input) {
             case "F":
-                if(cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
+                if (cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
                     cliBoardModel.flipInitialCard();
                     cliView.drawBoardScene();
-                }else{
+                } else {
                     System.out.println("It's not your turn, you can't flip the initial card");
                 }
                 break;
             case "P":
-                if(cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
-                    clientSocket.sendMessage(new PickInitialCardSideMessage(clientSocket.getUsername(),cliBoardModel.getInitialCard()));
+                if (cliBoardModel.getTurnLabel().equals("YOUR TURN")) {
+                    clientSocket.sendMessage(new PickInitialCardSideMessage(clientSocket.getUsername(), cliBoardModel.getInitialCard()));
                     cliBoardModel.setInitialCard(null);
                     drawBoardScene();
                     cliBoardModel.setBoardState(CliBoardState.CHOOSE_SECRET);
-                }else{
+                } else {
                     System.out.println("It's not your turn, you can't place the initial card");
                 }
                 break;

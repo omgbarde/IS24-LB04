@@ -14,16 +14,20 @@ public class UpdateInitialCardDisplayMessage extends Message {
     private static final long serialVersionUID = -5484271686300635977L;
 
     private final InitialCard card;
+
     /**
      * Constructor for UpdateInitialCardDisplayMessage
+     *
      * @param initialCard card cards to update
      */
-    public UpdateInitialCardDisplayMessage(String username , InitialCard initialCard) {
-        super(username , MessageType.UPDATE_INITIAL_CARD_DISPLAY);
+    public UpdateInitialCardDisplayMessage(String username, InitialCard initialCard) {
+        super(username, MessageType.UPDATE_INITIAL_CARD_DISPLAY);
         this.card = initialCard;
     }
+
     /**
      * Getter for card cards
+     *
      * @return card cards
      */
     public InitialCard getInitialCard() {

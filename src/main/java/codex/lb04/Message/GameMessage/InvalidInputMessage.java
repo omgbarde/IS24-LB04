@@ -13,19 +13,22 @@ public class InvalidInputMessage extends Message {
     private static final long serialVersionUID = -226684372569875122L;
 
     String message;
+
     /**
      * Constructor for InvalidInputMessage
+     *
      * @param username is usually "server"
-     * @param message the message that the server wants to send to the client
+     * @param message  the message that the server wants to send to the client
      */
-    public InvalidInputMessage(String username , String message) {
+    public InvalidInputMessage(String username, String message) {
         super(username, MessageType.INVALID_INPUT);
         this.message = message;
     }
+
     @Override
     public String toString() {
         return "Invalid input: " +
-                 message;
+                message;
     }
 
 

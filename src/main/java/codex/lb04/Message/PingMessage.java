@@ -9,6 +9,10 @@ public class PingMessage extends Message {
     @Serial
     private static final long serialVersionUID = -7633821512465690662L;
 
+    /**
+     * Constructor for PingMessage
+     * @param s is the message
+     */
     public PingMessage(String s) {
         super(s, MessageType.PING);
     }

@@ -165,7 +165,7 @@ public class Board extends Observable {
      */
     public void flipCardInHand(Card toFlip) {
         for (Card card : hand) {
-            if (card.equals(toFlip)) {
+            if (card != null && card.equals(toFlip)) {
                 card.flip();
             }
         }
@@ -181,7 +181,8 @@ public class Board extends Observable {
     public ArrayList<Card> cloneHand() {
         ArrayList<Card> clone = new ArrayList<>();
         for (Card card : hand) {
-            clone.add(card.clone());
+            if (card != null) clone.add(card.clone());
+            else clone.add(null);
         }
         return clone;
     }
@@ -222,7 +223,7 @@ public class Board extends Observable {
 
                 Integer idToRemove = toBePlacedClone.getID();
                 for (Card card : hand) {
-                    if (Objects.equals(card.getID(), idToRemove)) {
+                    if (card != null && Objects.equals(card.getID(), idToRemove)) {
                         hand.remove(card);
                         break;
                     }
@@ -703,6 +704,15 @@ public class Board extends Observable {
         notifyObserver(new EndTurnMessage(this.username));
     }
 
+    /**
+     * this method checks if the player has placed the initial card
+     *
+     * @return true if the player has placed the initial card, false otherwise
+     */
+    public boolean isInitialCardChosen() {
+        return initialCardChosen;
+    }
+
 
     //GETTERS
 
@@ -742,24 +752,55 @@ public class Board extends Observable {
         return CommonObjectives;
     }
 
+    /**
+     * getter for the secret objective
+     *
+     * @return the secret objective chosen by the player
+     */
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
 
+    /**
+     * getter for the cards in the Hand of a player
+     *
+     * @return the cards a player has in his hand as an array list
+     */
     public ArrayList<Card> getHand() {
         return hand;
     }
 
+
+    /**
+     * getter for the secret objectives to choose from
+     *
+     * @return the secret objectives as an array list
+     */
     public ArrayList<ObjectiveCard> getSecretObjectiveToPick() {
         return secretObjectiveToPick;
     }
 
-    public boolean isInitialCardChosen() {
-        return initialCardChosen;
+    //SETTERS
+
+    /**
+     * test method to set the points
+     *
+     * @param points           the points
+     * @param pointsByGoldCars the points by gold cards
+     */
+    protected void setPoints(Integer points, Integer pointsByGoldCars) {
+        this.points = points;
+        this.pointsByGoldCards = pointsByGoldCars;
     }
 
-
-    //SETTERS
+    /**
+     * test method to set the resources
+     *
+     * @param i the amount
+     */
+    protected void setMushroom(int i) {
+        this.mushrooms = i;
+    }
 
     /**
      * This method sets the initial card
@@ -769,6 +810,11 @@ public class Board extends Observable {
         notifyObserver(new UpdateInitialCardDisplayMessage(this.username, initialCard));
     }
 
+    /**
+     * This method sets a boolean as true when the initial card has been played
+     *
+     * @param initialCardChosen the boolean to set
+     */
     public void setInitialCardChosen(boolean initialCardChosen) {
         this.initialCardChosen = initialCardChosen;
     }
@@ -804,14 +850,29 @@ public class Board extends Observable {
         notifyObserver(new UpdateSecretObjectiveMessage(username, this.secretObjective));
     }
 
+    /**
+     * This method sets a boolean as true after the player has placed a card
+     *
+     * @param hasPlacedACard the boolean to set
+     */
     public void setHasPlacedACard(boolean hasPlacedACard) {
         this.hasPlacedACard = hasPlacedACard;
     }
 
+    /**
+     * This method sets a boolean as true after the player has drawn a card
+     *
+     * @param hasDrawnACard the boolean to set
+     */
     public void setHasDrawnACard(boolean hasDrawnACard) {
         this.hasDrawnACard = hasDrawnACard;
     }
 
+    /**
+     * This method sets the username of the player
+     *
+     * @param username the username to set
+     */
     public void setUsername(String username) {
         this.username = username;
     }

@@ -71,7 +71,7 @@ public class DeckTest {
 
     @Test
     public void getInstance() {
-        assertNotNull(deck.getInstance());
+        assertNotNull(Deck.getInstance());
     }
 
     @Test

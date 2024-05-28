@@ -12,11 +12,12 @@ public class InputThread implements Callable<String> {
 
     /**
      * gets the input from the user, called by the CLI controller
+     *
      * @return the input from the user converted to uppercase for consistency of checks
      * @throws IOException if an input/output error occurs
      */
     @Override
-    public String call() throws IOException{
+    public String call() throws IOException {
         return scanner.nextLine().trim().toUpperCase();
     }
 

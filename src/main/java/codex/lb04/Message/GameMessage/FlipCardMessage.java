@@ -5,6 +5,7 @@ import codex.lb04.Message.MessageType;
 import codex.lb04.Model.Card;
 
 import java.io.Serial;
+
 /**
  * Message sent when a client flips a card
  */
@@ -16,6 +17,7 @@ public class FlipCardMessage extends Message {
 
     /**
      * Constructor for FlipCardMessage
+     *
      * @param username username of the player
      */
     public FlipCardMessage(String username, Card card) {
@@ -25,6 +27,7 @@ public class FlipCardMessage extends Message {
 
     /**
      * Getter for card
+     *
      * @return card
      */
     public Card getCard() {
@@ -33,6 +36,7 @@ public class FlipCardMessage extends Message {
 
     /**
      * Getter for username
+     *
      * @return username
      */
     public String getUsername() {

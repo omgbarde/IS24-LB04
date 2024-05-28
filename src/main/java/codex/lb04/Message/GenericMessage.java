@@ -9,10 +9,12 @@ public class GenericMessage extends Message {
     @Serial
     private static final long serialVersionUID = -4779509558069870609L;
     private final String msg;
+
     /**
      * Constructor for GenericMessage
+     *
      * @param username is the nickname of the user sending the message
-     * @param s is the message
+     * @param s        is the message
      */
     public GenericMessage(String username, String s) {
         super(username, MessageType.GENERIC_MESSAGE);
@@ -21,6 +23,6 @@ public class GenericMessage extends Message {
 
     @Override
     public String toString() {
-        return  msg;
+        return msg;
     }
 }

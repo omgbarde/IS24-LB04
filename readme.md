@@ -18,49 +18,34 @@
 
 [documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables/Archive)
 
-## Main testing progress
-(% methods covered)\
-test model:\
-  🟦🟦🟦🟦🟦🟦🟦⬜⬜ 83% \
-test view:\
-  🟦🟦🟦🟦🟦🟦🟦⬜⬜⬜ 67% \
-test controller:\
-  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 39%\
-test observer:\
-  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦 100%\
-overall:\
-  🟦🟦🟦🟦⬜⬜⬜⬜⬜⬜ 43%
-
 ## Todo list
-- [x] crippling depression
-- [ ] fix winners message not sent in case of multiple winners
-- [ ] fix finishing resource/gold cards deck
-- [ ] fix not sending error message when trying to join a started game
 - [ ] make board resizable
-- [ ] more testing
-- [ ] general refactor
 
 ## Requirements
 - A working LAN connection is required to play with multiple pc.
-- OpenJDK 21 and Junit 4.13.1
+- to build and run: OpenJDK 21
+- to test: Junit 4.13.1
 
 ## Getting started
-1. first launch the serverApp on the desired port (omit arguments to use the default)
+in command line navigate to the deliverables folder and run the following commands:
+1. first launch the serverApp and choose the default port when asked in the command line\
+   to start Server:
     ```sh
-    java -jar serverApp.jar "port-number"
+    java -jar CodexLauncher.jar --ser
     ```
-2. then launch the clients in the desired mode (omit arguments to play in GUI)\
-   start CLI:
+2. then launch the clients in the desired mode (omit arguments to play in default mode GUI)\
+    to start CLI:
    
     ```sh
-    java -jar codexClientApp.jar -cli
+    java -jar CodexLauncher.jar --cli
     ```
     
-    start GUI:
+    to start GUI:
   
     ```sh
-    java -jar codexClientApp.jar -gui
+    java -jar CodexLauncher.jar --gui
     ```
+   
 3. lastly create or join a game
   - to create a game use the port displayed by the serverApp in the console.
   - to join a game use the correct ip address and port of the person hosting the game (the network interfaces are also displayed in the console by the serverApp)

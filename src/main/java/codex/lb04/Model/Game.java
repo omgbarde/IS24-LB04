@@ -41,6 +41,9 @@ public class Game extends Observable {
         this.replies = 0;
     }
 
+    /**
+     * sets the deck
+     */
     public void setDeck() {
         this.deck = Deck.getInstance();
     }
@@ -80,6 +83,7 @@ public class Game extends Observable {
 
     /**
      * gets the initial card for a player
+     *
      * @param username the player desired
      * @return his initial card
      */
@@ -151,6 +155,7 @@ public class Game extends Observable {
             notifyObserver(new LoginReply(player, true));
 
             //creates a clone to avoid discarding serialized messages
+            //noinspection unchecked
             ArrayList<String> lobbyClone = (ArrayList<String>) this.lobby.clone();
 
             notifyObserver(new PlayersConnectedMessage("server", lobbyClone));
@@ -204,6 +209,9 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * draws the initial hand for all players, drawing one gold card and two resource cards
+     */
     public void drawHandForAllPlayers() {
         for (Player player : players) {
             player.getBoard().drawInitial();
@@ -215,38 +223,40 @@ public class Game extends Observable {
      * if there is more than one player, the player with the most objectives completed wins
      */
     public ArrayList<String> getWinners() {
-        Integer max = 0;
         ArrayList<String> winners = new ArrayList<>();
-        ArrayList<String> obj_winners = new ArrayList<>();
+        ArrayList<String> objWinners = new ArrayList<>();
+        int max = 0;
         for (Player player : players) {
             player.getBoard().finalPointsUpdate();
-            //System.out.println("Player " + player.getUsername() + " points after update: " + player.getBoard().getPoints());
-            if (player.getBoard().getPoints() > max) {
+            int playerPoints = player.getBoard().getPoints();
+            String username = player.getUsername();
+
+            if (playerPoints > max) {
                 winners.clear();
                 winners.add(player.getUsername());
-                max = player.getBoard().getPoints();
-            }
-            if (Objects.equals(player.getBoard().getPoints(), max) && !winners.contains(player.getUsername())) {
-                winners.add(player.getUsername());
+                max = playerPoints;
+            } else if (playerPoints == max) {
+                winners.add(username);
             }
         }
+
         if (winners.size() > 1) {
-            Integer obj = 0;
+            int maxObj = 0;
             for (String p : winners) {
-                //System.out.println("Player " + p + " number of objectives: " + getPlayerByName(p).getBoard().checkNumberObjectives());
-                if (getPlayerByName(p).getBoard().checkNumberObjectives() > obj) {
-                    obj_winners.clear();
-                    obj_winners.add(p);
-                    obj = getPlayerByName(p).getBoard().checkNumberObjectives();
-                }
-                if (Objects.equals(getPlayerByName(p).getBoard().getPoints(), obj)) {
-                    obj_winners.add(p);
+                int completedObjectives = getPlayerByName(p).getBoard().checkNumberObjectives();
+
+                if (completedObjectives > maxObj) {
+                    objWinners.clear();
+                    objWinners.add(p);
+                    maxObj = completedObjectives;
+                } else if (completedObjectives == maxObj) {
+                    objWinners.add(p);
                 }
             }
         } else {
-            obj_winners = winners;
+            objWinners = winners;
         }
-        return obj_winners;
+        return objWinners;
 
     }
 
@@ -263,20 +273,42 @@ public class Game extends Observable {
         return true;
     }
 
+    /**
+     * sends a message used to start drawing the board
+     */
     public void drawBoard() {
         notifyObserver(new DrawBoardMessage("server"));
     }
 
+    /**
+     * checks if all players ave replied with a ready message
+     *
+     * @return true if all players have replies, false otherwise
+     */
     public boolean checkReplies() {
         replies += 1;
         return replies == lobby.size();
     }
 
 
+    /**
+     * sends a message that someone reached 20 points
+     */
     public void notifyEndGame() {
         notifyObserver(new GenericMessage("server", "someone reached 20 pts, end game started!"));
     }
 
+    /**
+     * sends a message that the decks and visible decks are finished
+     */
+    public void notifyFinishedDeck() {
+        notifyObserver(new GenericMessage("server", "Deck is finished, end game started!"));
+    }
+
+    /**
+     * notifies the winner or winners to the observer
+     * @param winners the winners
+     */
     public void notifyWinner(ArrayList<String> winners) {
         switch (winners.size()) {
             case 1:
@@ -286,7 +318,7 @@ public class Game extends Observable {
                 notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
                 break;
             case 3:
-                notifyObserver(new WinnersMessage(  "server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
+                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
                 break;
             case 4:
                 notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));
@@ -300,6 +332,11 @@ public class Game extends Observable {
 
     //GETTER
 
+    /**
+     * Returns the number of players
+     *
+     * @return the number of players
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
@@ -351,6 +388,11 @@ public class Game extends Observable {
         this.gameState = gameState;
     }
 
+    /**
+     * sets the number of players
+     *
+     * @param numPlayers the number of players
+     */
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }

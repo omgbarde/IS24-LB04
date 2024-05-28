@@ -15,8 +15,9 @@ public class PlayersConnectedMessage extends Message {
 
     /**
      * Constructor for PlayersConnectedMessage
+     *
      * @param username is usually "server"
-     * @param lobby list of players connected
+     * @param lobby    list of players connected
      */
     public PlayersConnectedMessage(String username, ArrayList<String> lobby) {
         super(username, MessageType.PLAYERS_CONNECTED);
@@ -25,6 +26,7 @@ public class PlayersConnectedMessage extends Message {
 
     /**
      * Getter for lobby
+     *
      * @return lobby
      */
     public ArrayList<String> getLobby() {

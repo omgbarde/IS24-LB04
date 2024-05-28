@@ -4,7 +4,6 @@ import codex.lb04.Message.DeadClientMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Message.PingMessage;
-import codex.lb04.ServerApp;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * client handler class handles client-server communication
  */
 public class ClientHandler implements Runnable {
-    private final ServerApp server;
+    private final Server server;
     private final Socket clientSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
@@ -34,10 +33,10 @@ public class ClientHandler implements Runnable {
      * the client handler constructor creates a handler for a single client
      *
      * @param socket is the socket of the client
-     * //@param server is the serverApp instance that the client is connected to
+     *               //@param server is the serverApp instance that the client is connected to
      */
     /* @param game is the game instance that the player wants to join */
-    public ClientHandler(Socket socket, ServerApp server) {
+    public ClientHandler(Socket socket, Server server) {
         this.clientSocket = socket;
         this.server = server;
         //this.messageQueue = new LinkedBlockingQueue<>();
@@ -63,10 +62,9 @@ public class ClientHandler implements Runnable {
                 Message message = (Message) input.readObject();
                 if (message != null) {
                     //just check if the message is a login request and set the username
-                    if ((message.getMessageType() == MessageType.LOGIN_REQUEST|| message.getMessageType() == MessageType.CREATE_GAME) && this.username == null) {
+                    if ((message.getMessageType() == MessageType.LOGIN_REQUEST || message.getMessageType() == MessageType.CREATE_GAME) && this.username == null) {
                         this.username = message.getUsername();
-                    }
-                    else if (message.getMessageType() == MessageType.PONG) {
+                    } else if (message.getMessageType() == MessageType.PONG) {
                         pongReceivedTime = System.currentTimeMillis();
                         //don't forward the pong message to the server
                         continue;
@@ -127,12 +125,12 @@ public class ClientHandler implements Runnable {
      * starts a new executor to ping the client
      */
     private void startPinger() {
-        pinger.scheduleAtFixedRate(()->{
+        pinger.scheduleAtFixedRate(() -> {
             pingSentTime = System.currentTimeMillis();
             String s = "pinged at" + pingSentTime;
             sendMessage(new PingMessage(s));
             //check for elapsed time
-            if(System.currentTimeMillis() - pongReceivedTime > 10000) {
+            if (System.currentTimeMillis() - pongReceivedTime > 10000) {
                 try {
                     pinger.shutdown();
                     clientSocket.close();

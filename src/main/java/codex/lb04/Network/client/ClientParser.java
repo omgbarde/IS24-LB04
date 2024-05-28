@@ -19,7 +19,8 @@ public class ClientParser {
 
     /**
      * Constructor for ClientParser
-     * @param clientSocket the client socket
+     *
+     * @param clientSocket   the client socket
      * @param viewController the view controller
      */
     public ClientParser(ClientSocket clientSocket, ViewController viewController) {
@@ -52,8 +53,8 @@ public class ClientParser {
             case UPDATE_RESOURCE:
                 viewController.updateDrawableResources(((UpdateResourceMessage) input).getResource());
                 break;
-             case UPDATE_SECRET_OBJECTIVE:
-                viewController.updateSecretObjective(((UpdateSecretObjectiveMessage) input) . getSecretObjective());
+            case UPDATE_SECRET_OBJECTIVE:
+                viewController.updateSecretObjective(((UpdateSecretObjectiveMessage) input).getSecretObjective());
                 break;
             case UPDATE_HAND:
                 viewController.updateHand(((UpdateHandMessage) input).getHand());
@@ -68,7 +69,7 @@ public class ClientParser {
                 viewController.updateSecretObjectiveToChoose(((UpdateSecretObjectiveToChooseMessage) input).getSecretObjectives());
                 break;
             case PLACE_CARD:
-                viewController.placeCard(((PlaceCardMessage) input).getX() , ((PlaceCardMessage) input).getY() , ((PlaceCardMessage) input).getCard());
+                viewController.placeCard(((PlaceCardMessage) input).getX(), ((PlaceCardMessage) input).getY(), ((PlaceCardMessage) input).getCard());
                 viewController.deselectCard();
                 break;
             case ERROR:
@@ -99,7 +100,7 @@ public class ClientParser {
                 viewController.updateChat(input.toString());
                 break;
             case WINNERS:
-                viewController.showWinners(((WinnersMessage)input).getWinner());
+                viewController.showWinners(((WinnersMessage) input).getWinner());
                 break;
             default: //should never be reached
                 viewController.displayAlert("message not recognized");

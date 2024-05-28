@@ -4,6 +4,7 @@ import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 
 import java.io.Serial;
+
 /**
  * Message sent when a client picks a gold card
  */
@@ -15,6 +16,7 @@ public class PickGoldCardMessage extends Message {
 
     /**
      * Constructor for PickGoldCardMessage
+     *
      * @param username username of the player
      * @param cardPick choice of the card to pick
      */
@@ -25,6 +27,7 @@ public class PickGoldCardMessage extends Message {
 
     /**
      * Getter for cardPick
+     *
      * @return cardPick
      */
     public Integer getCardPick() {
@@ -33,6 +36,7 @@ public class PickGoldCardMessage extends Message {
 
     /**
      * Getter for username
+     *
      * @return username
      */
     public String getUsername() {

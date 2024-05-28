@@ -14,16 +14,20 @@ public class UpdateSecretObjectiveMessage extends Message {
     private static final long serialVersionUID = -3185609100175093365L;
 
     private final ObjectiveCard card;
+
     /**
      * Constructor for UpdateSecretObjectiveMessage
+     *
      * @param secretObjective card cards to update
      */
-    public UpdateSecretObjectiveMessage(String username , ObjectiveCard secretObjective) {
-        super(username , MessageType.UPDATE_SECRET_OBJECTIVE);
+    public UpdateSecretObjectiveMessage(String username, ObjectiveCard secretObjective) {
+        super(username, MessageType.UPDATE_SECRET_OBJECTIVE);
         this.card = secretObjective;
     }
+
     /**
      * Getter for card cards
+     *
      * @return card cards
      */
     public ObjectiveCard getSecretObjective() {
