@@ -165,7 +165,7 @@ public class Board extends Observable {
      */
     public void flipCardInHand(Card toFlip) {
         for (Card card : hand) {
-            if (card!= null && card.equals(toFlip)) {
+            if (card != null && card.equals(toFlip)) {
                 card.flip();
             }
         }
@@ -181,7 +181,7 @@ public class Board extends Observable {
     public ArrayList<Card> cloneHand() {
         ArrayList<Card> clone = new ArrayList<>();
         for (Card card : hand) {
-            if(card!=null) clone.add(card.clone());
+            if (card != null) clone.add(card.clone());
             else clone.add(null);
         }
         return clone;
@@ -784,16 +784,18 @@ public class Board extends Observable {
 
     /**
      * test method to set the points
-     * @param points the points
+     *
+     * @param points           the points
      * @param pointsByGoldCars the points by gold cards
      */
-    protected void setPoints(Integer points, Integer pointsByGoldCars){
+    protected void setPoints(Integer points, Integer pointsByGoldCars) {
         this.points = points;
         this.pointsByGoldCards = pointsByGoldCars;
     }
 
     /**
      * test method to set the resources
+     *
      * @param i the amount
      */
     protected void setMushroom(int i) {

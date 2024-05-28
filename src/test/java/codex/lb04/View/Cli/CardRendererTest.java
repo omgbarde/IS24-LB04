@@ -11,8 +11,9 @@ public class CardRendererTest {
     private CardRenderer cardRenderer;
     private Game game;
     private Deck deck;
+
     @Before
-    public void setUp(){
+    public void setUp() {
         cardRenderer = new CardRenderer();
         game = Game.getInstance();
         deck = Deck.getInstance();
@@ -20,14 +21,14 @@ public class CardRendererTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         cardRenderer = null;
         game = null;
         deck = null;
     }
 
     @Test
-    public void testPrintInGame(){
+    public void testPrintInGame() {
         for (Card c : deck.getGoldCards()) {
             System.out.println(cardRenderer.printInGame(c));
             c.flip();
@@ -51,30 +52,31 @@ public class CardRendererTest {
     }
 
     @Test
-    public void testPrintInHand(){
+    public void testPrintInHand() {
         for (Card c : deck.getInitialCards()) {
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
             c.flip();
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
         }
         for (Card c : deck.getGoldCards()) {
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
             c.flip();
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
         }
         for (Card c : deck.getResourceCards()) {
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
             c.flip();
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
         }
         for (Card c : deck.getObjectiveCards()) {
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
             c.flip();
-            System.out.println(cardRenderer.printInHand(c));
+            System.out.println(CardRenderer.printInHand(c));
         }
     }
+
     @Test
-    public void testPrintEmoji(){
+    public void testPrintEmoji() {
         System.out.println("\uD83C\uDF44 \uD83E\uDD8A \uD83E\uDD8B \uD83C\uDF43");
     }
 }

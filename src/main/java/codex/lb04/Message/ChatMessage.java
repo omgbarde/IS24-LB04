@@ -13,8 +13,9 @@ public class ChatMessage extends Message {
 
     /**
      * Constructor for ChatMessage
+     *
      * @param username is the username of the client that sent the message
-     * @param text is the message
+     * @param text     is the message
      */
     public ChatMessage(String username, String text) {
         super(username, MessageType.CHAT_MESSAGE);
@@ -23,6 +24,7 @@ public class ChatMessage extends Message {
 
     /**
      * custom toString method to directly print the message
+     *
      * @return the message with the username of the sender
      */
     @Override

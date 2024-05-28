@@ -51,7 +51,7 @@ public class GameControllerTest {
 
     @Test
     public void testOnMessageReceived() {
-        gameController.onMessageReceived(new CreateGameMessage("test" , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test", 2));
 
         gameController.onMessageReceived(new ErrorMessage("test", "Error"));
         assertEquals(GameState.LOGIN, game.getGameState());
@@ -66,7 +66,7 @@ public class GameControllerTest {
         assertEquals(GameState.LOGIN, game.getGameState());
 
         game.setGameState(GameState.LOGIN);
-        gameController.onMessageReceived(new CreateGameMessage("test" , 2));
+        gameController.onMessageReceived(new CreateGameMessage("test", 2));
         gameController.onMessageReceived(new LoginMessage("test2"));
         gameController.onMessageReceived(new ReadyMessage("test"));
         gameController.onMessageReceived(new ReadyMessage("test2"));
@@ -186,7 +186,7 @@ public class GameControllerTest {
         toPlace = game.getPlayerByName(activePlayer).getBoard().getHand().get(1);
         PlaceCardMessage incorrect = new PlaceCardMessage(activePlayer, 0, 0, toPlace);
         gameController.onMessageReceived(incorrect);
-        assertNotEquals(game.getPlayerByName(activePlayer).getBoard().getCard(0, 0),toPlace);
+        assertNotEquals(game.getPlayerByName(activePlayer).getBoard().getCard(0, 0), toPlace);
 
         //second player picks the side of the initial card
         pick1 = new PickInitialCardSideMessage(activePlayer, game.getPlayerByName(activePlayer).getBoard().getInitialCard());

@@ -83,6 +83,7 @@ public class Game extends Observable {
 
     /**
      * gets the initial card for a player
+     *
      * @param username the player desired
      * @return his initial card
      */
@@ -234,8 +235,7 @@ public class Game extends Observable {
                 winners.clear();
                 winners.add(player.getUsername());
                 max = playerPoints;
-            }
-            else if (playerPoints == max){
+            } else if (playerPoints == max) {
                 winners.add(username);
             }
         }
@@ -249,8 +249,7 @@ public class Game extends Observable {
                     objWinners.clear();
                     objWinners.add(p);
                     maxObj = completedObjectives;
-                }
-                else if (completedObjectives == maxObj){
+                } else if (completedObjectives == maxObj) {
                     objWinners.add(p);
                 }
             }
@@ -283,6 +282,7 @@ public class Game extends Observable {
 
     /**
      * checks if all players ave replied with a ready message
+     *
      * @return true if all players have replies, false otherwise
      */
     public boolean checkReplies() {
@@ -301,7 +301,7 @@ public class Game extends Observable {
     /**
      * sends a message that the decks and visible decks are finished
      */
-    public void notifyFinishedDeck(){
+    public void notifyFinishedDeck() {
         notifyObserver(new GenericMessage("server", "Deck is finished, end game started!"));
     }
 
@@ -318,7 +318,7 @@ public class Game extends Observable {
                 notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
                 break;
             case 3:
-                notifyObserver(new WinnersMessage(  "server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
+                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
                 break;
             case 4:
                 notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));

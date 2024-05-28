@@ -18,10 +18,11 @@ public class CardRenderer {
 
     /**
      * this method returns the color code to use based on the color of the card you want to render
+     *
      * @param color the color of the card
      * @return the color code
      */
-    private static String colorMap(Color color){
+    private static String colorMap(Color color) {
         return switch (color) {
             case RED -> "\u001B[31m";
             case GREEN -> "\u001B[32m";
@@ -33,6 +34,7 @@ public class CardRenderer {
 
     /**
      * This method converts resource types to emojis
+     *
      * @param r the resource type to be converted
      * @return the emoji representation of the resource type
      */
@@ -40,7 +42,7 @@ public class CardRenderer {
         return switch (r) {
             case INSECT -> "\uD83E\uDD8B";
             case MUSHROOM -> "\uD83C\uDF44";
-            case ANIMAL -> "\uD83E\uDD8A";
+            case ANIMAL -> "\uD83D\uDC3A";
             case LEAF -> "\uD83C\uDF43";
             case QUILL -> "\uD83E\uDEB6";
             case INKWELL -> "\uD83E\uDED9";
@@ -50,6 +52,7 @@ public class CardRenderer {
 
     /**
      * This method converts resource types to emojis
+     *
      * @param ID the id of the card
      * @return the emoji representation of the multiplier
      */
@@ -58,13 +61,14 @@ public class CardRenderer {
             case 41, 51, 63, 71 -> "\uD83E\uDEB6"; //quill
             case 42, 53, 61, 73 -> "\uD83E\uDED9"; //inkwell
             case 43, 52, 62, 72 -> "\uD83D\uDCDC"; //manuscript
-            case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76 -> "⬛"; //angle
+            case 44, 45, 46, 54, 55, 56, 64, 65, 66, 74, 75, 76 -> "\u2B1B"; //angle
             default -> "  ";
         };
     }
 
     /**
      * This method renders the objective of the card
+     *
      * @param ID the id of the card
      * @return the string representing the objective of the card
      */
@@ -96,13 +100,14 @@ public class CardRenderer {
 
     /**
      * method to print the card in board format (used only as a test method)
+     *
      * @param card the card to be printed
      * @return the string representing the card already formatted
      */
-    public String printInGame(Card card){
+    public String printInGame(Card card) {
         String[] components = renderInGame(card);
         StringBuilder stringBuilder = new StringBuilder();
-        for(String s:components){
+        for (String s : components) {
             stringBuilder.append(s);
             stringBuilder.append("\n");
         }
@@ -111,10 +116,11 @@ public class CardRenderer {
 
     /**
      * This method renders the card in the game
+     *
      * @param card the card to be rendered
      * @return the array of string components representing the card
      */
-    public static String[] renderInGame(Card card){
+    public static String[] renderInGame(Card card) {
         StringBuilder stringBuilder = new StringBuilder();
         String colorCode = colorMap(card.getColor());
         //get the corners of the card
@@ -131,13 +137,13 @@ public class CardRenderer {
         renderEdgeInGame(stringBuilder, colorCode, upperLeft, upperRight);
 
         componentsArray[0] = stringBuilder.toString();
-        
+
         stringBuilder = new StringBuilder();
         stringBuilder.append(colorCode).append("|");
         //middle part
         stringBuilder.append(" ".repeat(Math.max(0, padding)));
 
-        for(ResourceType r:centralResources){
+        for (ResourceType r : centralResources) {
             stringBuilder.append(resourceMap(r));
         }
         stringBuilder.append(" ".repeat(Math.max(0, padding)));
@@ -158,34 +164,36 @@ public class CardRenderer {
 
     /**
      * This method renders the edge of the card (upper/lower)
+     *
      * @param stringBuilder the string builder to append the components
-     * @param colorCode the color code of the card
-     * @param corner1 one of the corners of the card
-     * @param corner2 another corner of the card
+     * @param colorCode     the color code of the card
+     * @param corner1       one of the corners of the card
+     * @param corner2       another corner of the card
      */
     private static void renderEdgeInGame(StringBuilder stringBuilder, String colorCode, Corner corner1, Corner corner2) {
-        if (!corner1.isCovered()){
+        if (!corner1.isCovered()) {
             ResourceType resource = corner1.getResource();
-            if(resource!=null)stringBuilder.append(resourceMap(resource));
-            else stringBuilder.append("⬜");
-        }else stringBuilder.append("⬛");
+            if (resource != null) stringBuilder.append(resourceMap(resource));
+            else stringBuilder.append("\u2B1C");
+        } else stringBuilder.append("\u2B1B");
 
         stringBuilder.append(colorCode).append("----").append(resetCode);
 
-        if (!corner2.isCovered()){
+        if (!corner2.isCovered()) {
             ResourceType resource = corner2.getResource();
-            if(resource!=null)stringBuilder.append(resourceMap(resource));
-            else stringBuilder.append("⬜");
-        }else stringBuilder.append("⬛");
+            if (resource != null) stringBuilder.append(resourceMap(resource));
+            else stringBuilder.append("\u2B1C");
+        } else stringBuilder.append("\u2B1B");
     }
 
     /**
      * This method renders the placeholder for the card in the board
+     *
      * @param coordinates the coordinates of the card
      * @return the array of string components representing the placeholder
      */
-    public static String[] renderPlaceHolder(String coordinates){
-        String[]components = new String[3];
+    public static String[] renderPlaceHolder(String coordinates) {
+        String[] components = new String[3];
         int padding = 7 - coordinates.length();
         components[0] = " ------- ";
 
@@ -199,13 +207,14 @@ public class CardRenderer {
 
     /**
      * method to print the card in hand format (to use as a test method or to draw the initial card)
+     *
      * @param card the card to be printed
      * @return the string representing the card already formatted
      */
-    public static String printInHand(Card card){
+    public static String printInHand(Card card) {
         String[] components = renderInHand(card);
         StringBuilder stringBuilder = new StringBuilder();
-        for(String s:components){
+        for (String s : components) {
             stringBuilder.append(s);
             stringBuilder.append("  \n");
         }
@@ -214,11 +223,13 @@ public class CardRenderer {
 
     /**
      * This method renders the card in the hand
+     *
      * @param card the card to be rendered
      * @return the array of string components representing the card
      */
-    public static String[] renderInHand(Card card){
-        if (card == null) return new String[]{"              ","                ","               ","             ","                "};
+    public static String[] renderInHand(Card card) {
+        if (card == null)
+            return new String[]{"              ", "                ", "               ", "             ", "                "};
         StringBuilder cardString = new StringBuilder();
         String colorCode = colorMap(card.getColor());
         ArrayList<Integer> resourcesNeededArray = new ArrayList<>();
@@ -238,7 +249,7 @@ public class CardRenderer {
 
         //get the array of costs for the card
         boolean isGold = card.getClass() == GoldCard.class;
-        if(isGold){
+        if (isGold) {
             resourcesNeededArray = getResourcesNeeded((GoldCard) card);
         }
 
@@ -250,17 +261,16 @@ public class CardRenderer {
         cardString = new StringBuilder();
 
         //get the points
-        if(card.isShowingFront() && card.getPoints()!=0){
+        if (card.isShowingFront() && card.getPoints() != 0) {
             cardString.append(colorCode).append("|        ").append(points).append(multiplier).append("       |").append(resetCode);
-        }
-        else cardString.append(colorCode).append("|                  |").append(resetCode);
+        } else cardString.append(colorCode).append("|                  |").append(resetCode);
 
-        componentsArray[1]=cardString.toString();
+        componentsArray[1] = cardString.toString();
 
         //middle part
         cardString = new StringBuilder();
         cardString.append(colorCode).append("|").append(resetCode);
-        switch(centralResources.size()){
+        switch (centralResources.size()) {
             case 0:
                 cardString.append("                  ");
                 break;
@@ -271,14 +281,14 @@ public class CardRenderer {
                 break;
             case 2:
                 cardString.append("       ");
-                for(ResourceType r:centralResources){
+                for (ResourceType r : centralResources) {
                     cardString.append(resourceMap(r));
                 }
                 cardString.append("       ");
                 break;
             case 3:
                 cardString.append("     ");
-                for(ResourceType r:centralResources){
+                for (ResourceType r : centralResources) {
                     cardString.append(resourceMap(r));
                 }
                 cardString.append("      ");
@@ -290,25 +300,25 @@ public class CardRenderer {
         cardString = new StringBuilder();
 
         //if the card is showing the front, draw the costs
-        if(card.isShowingFront() && isGold) {
-            switch(getNumberResourcesNeeded((GoldCard) card)){
+        if (card.isShowingFront() && isGold) {
+            switch (getNumberResourcesNeeded((GoldCard) card)) {
                 case 3:
                     cardString.append(colorCode).append("|     ").append(resetCode);
-                    for(int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 4; i++) {
                         cardString.append(String.valueOf(emojis.get(resourcesNeededArray.get(i))).repeat(Math.max(0, resourcesNeededArray.get(i))));
                     }
                     cardString.append(colorCode).append("      |").append(resetCode);
                     break;
                 case 4:
                     cardString.append(colorCode).append("|     ").append(resetCode);
-                    for(int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 4; i++) {
                         cardString.append(String.valueOf(emojis.get(resourcesNeededArray.get(i))).repeat(Math.max(0, resourcesNeededArray.get(i))));
                     }
                     cardString.append(colorCode).append("    |").append(resetCode);
                     break;
                 case 5:
                     cardString.append(colorCode).append("|    ").append(resetCode);
-                    for(int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 4; i++) {
                         cardString.append(String.valueOf(emojis.get(i)).repeat(Math.max(0, resourcesNeededArray.get(i))));
                     }
                     cardString.append(colorCode).append("   |").append(resetCode);
@@ -329,29 +339,31 @@ public class CardRenderer {
 
     /**
      * This method renders the edge of the card (upper/lower) in the hand
+     *
      * @param cardString the string builder to append the components
-     * @param colorCode the color code of the card
-     * @param corner1 one of the corners of the card
-     * @param corner2 another corner of the card
+     * @param colorCode  the color code of the card
+     * @param corner1    one of the corners of the card
+     * @param corner2    another corner of the card
      */
     private static void renderEdgeInHand(StringBuilder cardString, String colorCode, Corner corner1, Corner corner2) {
-        if (!corner1.isCovered()){
+        if (!corner1.isCovered()) {
             ResourceType r = corner1.getResource();
-            if(r!=null)cardString.append(resourceMap(r));
-            else cardString.append("⬜");
-        }else cardString.append("⬛");
+            if (r != null) cardString.append(resourceMap(r));
+            else cardString.append("\u2B1C");
+        } else cardString.append("\u2B1B");
 
         cardString.append(colorCode).append("----------------").append(resetCode);
 
-        if (!corner2.isCovered()){
+        if (!corner2.isCovered()) {
             ResourceType r = corner2.getResource();
-            if(r!=null)cardString.append(resourceMap(r));
-            else cardString.append("⬜");
-        }else cardString.append("⬛");
+            if (r != null) cardString.append(resourceMap(r));
+            else cardString.append("\u2B1C");
+        } else cardString.append("\u2B1B");
     }
 
     /**
      * This method returns the resources needed for a gold card
+     *
      * @param card the gold card
      * @return the array list of resources needed for the gold card
      */
@@ -366,11 +378,12 @@ public class CardRenderer {
 
     /**
      * This method returns the number of resources needed for a gold card
+     *
      * @param card the gold card
      * @return the number of resources needed for the gold card
      */
-    private static Integer getNumberResourcesNeeded(GoldCard card){
-        Integer cost=0;
+    private static Integer getNumberResourcesNeeded(GoldCard card) {
+        Integer cost = 0;
         for (int i = 0; i < 4; i++) {
             cost += getResourcesNeeded(card).get(i);
         }

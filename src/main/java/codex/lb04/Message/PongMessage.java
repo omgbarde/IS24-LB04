@@ -14,6 +14,6 @@ public class PongMessage extends Message {
      * @param s is the message
      */
     public PongMessage(String s) {
-        super(s,MessageType.PONG);
+        super(s, MessageType.PONG);
     }
 }

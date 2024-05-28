@@ -1,6 +1,6 @@
 package codex.lb04.View;
 
-import codex.lb04.CodexClientApp;
+import codex.lb04.CodexLauncher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public abstract class View {
     public void print(String string) {
-        CodexClientApp.print(string);
+        CodexLauncher.print(string);
     }
 
     public abstract void drawHelloScene();

@@ -5,7 +5,7 @@ import java.io.Serial;
 /**
  * message sent as reply to LoginMessage
  */
-public class LoginReply extends Message{
+public class LoginReply extends Message {
     @Serial
     private static final long serialVersionUID = 1114426406206630441L;
 
@@ -13,6 +13,7 @@ public class LoginReply extends Message{
 
     /**
      * Constructor for LoginReply
+     *
      * @param nickname nickname of the client
      * @param accepted true if the login was accepted, false otherwise
      */
@@ -23,6 +24,7 @@ public class LoginReply extends Message{
 
     /**
      * Getter for accepted
+     *
      * @return accepted
      */
     public boolean isAccepted() {

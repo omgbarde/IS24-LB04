@@ -1,6 +1,6 @@
 package codex.lb04.Network.client;
 
-import codex.lb04.CodexClientApp;
+import codex.lb04.CodexLauncher;
 import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.View.ViewController;
@@ -20,7 +20,7 @@ public class ClientSocket {
     private final Socket socket;
     private final ObjectOutputStream output;
     private final ObjectInputStream input;
-    private ClientParser clientParser;
+    private final ClientParser clientParser;
 
     /**
      * generates a client socket with the parameters in input
@@ -29,12 +29,12 @@ public class ClientSocket {
      * @param port    is the desired port
      */
     public ClientSocket(String username, String address, int port, ViewController controller) throws IOException {
-            this.username = username;
-            this.socket = new Socket(address, port);
-            this.output = new ObjectOutputStream(socket.getOutputStream());
-            this.input = new ObjectInputStream(socket.getInputStream());
-            this.clientParser = new ClientParser( this,controller);
-            readMessage();
+        this.username = username;
+        this.socket = new Socket(address, port);
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
+        this.clientParser = new ClientParser(this, controller);
+        readMessage();
     }
 
 
@@ -77,7 +77,7 @@ public class ClientSocket {
                     //CodexClientApp.print(message.toString());
                     clientParser.handleInput(message);
                 } catch (SocketException | EOFException e) {
-                    CodexClientApp.print("server disconnected");
+                    CodexLauncher.print("server disconnected");
                     clientParser.handleInput(new ErrorMessage("server", "server disconnected"));
                     disconnect();
                 } catch (IOException | ClassNotFoundException e) {

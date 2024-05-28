@@ -17,6 +17,7 @@ public class ConnectionUtil {
 
     /**
      * checks if the ip address is valid
+     *
      * @param addr is the address to check
      * @return true if the address is valid, false otherwise
      */
@@ -27,6 +28,7 @@ public class ConnectionUtil {
 
     /**
      * checks if the port is valid
+     *
      * @param port is the port to check
      * @return true if the port is valid, false otherwise
      */
@@ -37,6 +39,7 @@ public class ConnectionUtil {
 
     /**
      * gets the localhost ip address
+     *
      * @return the localhost ip address
      */
     public static String getLocalhost() {
@@ -51,7 +54,8 @@ public class ConnectionUtil {
 
     /**
      * checks if the parameters are valid
-     * @param usr is the username to check
+     *
+     * @param usr  is the username to check
      * @param addr is the address to check
      * @param port is the port to check
      * @return true if the parameters are all valid, false otherwise
@@ -62,16 +66,18 @@ public class ConnectionUtil {
 
     /**
      * checks if the parameters are valid
+     *
      * @param num is the number of players
      * @param usr is the username
      * @return true if the parameters are all valid, false otherwise
      */
     public static boolean checkValid(int num, String usr) {
-        return (!usr.isEmpty() &&  num >= 2 && num <= 4);
+        return (!usr.isEmpty() && num >= 2 && num <= 4);
     }
 
     /**
      * displays the network interfaces to the console to help the user connect to the server
+     *
      * @throws SocketException if an error occurs
      */
     public static void displayInfo() throws SocketException {

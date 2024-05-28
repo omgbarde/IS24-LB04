@@ -64,6 +64,7 @@ public class GuiView extends View {
 
     /**
      * Constructor for the GUI view
+     *
      * @param stage the javafx stage
      */
     public GuiView(Stage stage) {
@@ -180,7 +181,7 @@ public class GuiView extends View {
             }
             if (ConnectionUtil.checkValid(usr, addr, port)) {
                 try {
-                    clientSocket = new ClientSocket(usr, addr, port,this.controller);
+                    clientSocket = new ClientSocket(usr, addr, port, this.controller);
                     controller.setClientSocket(clientSocket);
                 } catch (IOException e) {
                     errorLabel.setText("Server not available");
@@ -271,6 +272,7 @@ public class GuiView extends View {
 
     /**
      * method to update the lobby scene
+     *
      * @param names the updated name list of the players in the lobby
      */
     @Override
@@ -294,7 +296,7 @@ public class GuiView extends View {
         ImageView imageView = createImageView(root, is);
 
         Label localHostLabel = new Label("Insert username, number of players\n" +
-                                            "and server port to setup a game");
+                "and server port to setup a game");
 
         TextField numPlayersChoice = new TextField();
         numPlayersChoice.setPromptText("number of players");
@@ -332,9 +334,18 @@ public class GuiView extends View {
             String usr = usernameField.getText();
             confirmButton.setDisable(true);
             if (ConnectionUtil.checkValid(num, usr)) {
-                if(ConnectionUtil.isValidPort(port)){
+                if (ConnectionUtil.isValidPort(port)) {
                     try {
-                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port ,this.controller);
+                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), port, this.controller);
+                        controller.setClientSocket(clientSocket);
+                    } catch (IOException e) {
+                        errorLabel.setText("Server not available");
+                        confirmButton.setDisable(false);
+                        return;
+                    }
+                } else {
+                    try {
+                        clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort, this.controller);
                         controller.setClientSocket(clientSocket);
                     } catch (IOException e) {
                         errorLabel.setText("Server not available");
@@ -342,19 +353,8 @@ public class GuiView extends View {
                         return;
                     }
                 }
-                else {
-                    try {
-                    clientSocket = new ClientSocket(usr, ConnectionUtil.getLocalhost(), ConnectionUtil.defaultPort ,this.controller);
-                    controller.setClientSocket(clientSocket);
-                    }
-                    catch (IOException e) {
-                        errorLabel.setText("Server not available");
-                        confirmButton.setDisable(false);
-                        return;
-                    }
-                }
                 clientSocket.sendMessage(new CreateGameMessage(usr, num));
-            }else {
+            } else {
                 errorLabel.setText("Invalid input");
                 confirmButton.setDisable(false);
             }
@@ -383,10 +383,12 @@ public class GuiView extends View {
 
         Scene scene = new Scene(root, 1520, 850);
         scene.getStylesheets().add("/codexTheme.css");
-        stageReference.setScene(scene);stageReference.show();
+        stageReference.setScene(scene);
+        stageReference.show();
     }
 
     //TODO: refactor this method, it's too long and has repeated code
+
     /**
      * method to instantiate the board scene
      */
@@ -426,7 +428,7 @@ public class GuiView extends View {
                         To pass the turn click on the end turn button
                         To place a card select it and click where you want to place it
                         To move the camera use WASD""",
-                                    25);
+                25);
 
         Text yourTurn = new Text("");
         yourTurn.setFill(javafx.scene.paint.Color.WHITE);
@@ -457,7 +459,7 @@ public class GuiView extends View {
         ResourceCard1.setUserData(0);
 
         Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);
-       // ResourceCard2.setFill(Color.RED.getPaint());
+        // ResourceCard2.setFill(Color.RED.getPaint());
         ResourceCard2.setUserData(1);
 
         Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);
@@ -621,7 +623,7 @@ public class GuiView extends View {
         chatBox.setLayoutY(centerY - chatBox.getHeight() / 2 - 150);
         chatText.setPrefSize(400, 350);
         chatText.setLayoutX(centerX - 200);
-        chatText.setLayoutY(centerY-300);
+        chatText.setLayoutY(centerY - 300);
         messageField.setLayoutX(centerX - 100);
         messageField.setLayoutY(350);
         sendButton.setLayoutX(centerX + 50);
@@ -873,32 +875,32 @@ public class GuiView extends View {
         Translate cameraTranslate = new Translate();
         movableRoot.getTransforms().add(cameraTranslate);
 
-            Scene scene = new Scene(root, 1400, 900);
-            // Add key listeners to the scene to move the camera
-            scene.setOnKeyPressed(e -> {
-                switch (e.getCode()) {
-                    case W:
-                        cameraTranslate.setY(cameraTranslate.getY() + 20);
-                        break;
-                    case S:
-                        cameraTranslate.setY(cameraTranslate.getY() - 20);
-                        break;
-                    case A:
-                        cameraTranslate.setX(cameraTranslate.getX() + 20);
-                        break;
-                    case D:
-                        cameraTranslate.setX(cameraTranslate.getX() - 20);
-                        break;
-                }
-            });
-            Platform.runLater(()-> {
-                scene.getStylesheets().add("/codexTheme.css");
-                stageReference.setTitle("Codex! - your board");
-                stageReference.setScene(scene);
-                stageReference.setHeight(stageHeight + 37);
-                stageReference.setWidth(stageWidth);
-                stageReference.show();
-            });
+        Scene scene = new Scene(root, 1400, 900);
+        // Add key listeners to the scene to move the camera
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case W:
+                    cameraTranslate.setY(cameraTranslate.getY() + 20);
+                    break;
+                case S:
+                    cameraTranslate.setY(cameraTranslate.getY() - 20);
+                    break;
+                case A:
+                    cameraTranslate.setX(cameraTranslate.getX() + 20);
+                    break;
+                case D:
+                    cameraTranslate.setX(cameraTranslate.getX() - 20);
+                    break;
+            }
+        });
+        Platform.runLater(() -> {
+            scene.getStylesheets().add("/codexTheme.css");
+            stageReference.setTitle("Codex! - your board");
+            stageReference.setScene(scene);
+            stageReference.setHeight(stageHeight + 37);
+            stageReference.setWidth(stageWidth);
+            stageReference.show();
+        });
     }
 
     /**
@@ -932,16 +934,18 @@ public class GuiView extends View {
 
     /**
      * utility method to display an alert
+     *
      * @param alert the alert string to be displayed
      */
     @Override
     public void displayAlert(String alert) {
         //show dialog box containing string alert
-         displayTimedAlertText(alert, 7);
+        displayTimedAlertText(alert, 7);
     }
 
     /**
      * method to set the static group reference for the board scene
+     *
      * @param staticGroupReference the static group of the board scene
      */
     private void setStaticGroupReference(Group staticGroupReference) {
@@ -950,6 +954,7 @@ public class GuiView extends View {
 
     /**
      * method to set the movable root reference for the board scene
+     *
      * @param movableGroupReference the movable group of the board scene
      */
     private void setMovableRootReference(Group movableGroupReference) {
@@ -958,6 +963,7 @@ public class GuiView extends View {
 
     /**
      * method to set the chat group reference for the board scene
+     *
      * @param chatGroup the chat group of the board scene
      */
     private void setChatGroupReference(Group chatGroup) {
@@ -966,6 +972,7 @@ public class GuiView extends View {
 
     /**
      * method to set the alert text for the board scene
+     *
      * @param alert the alert text to set in the board scene
      */
     public void setAlert(Text alert) {
@@ -974,6 +981,7 @@ public class GuiView extends View {
 
     /**
      * method to set the text for the turn display in the board scene
+     *
      * @param text the text to set in the turn display
      */
     public void setYouTurnDisplay(Text text) {
@@ -982,7 +990,8 @@ public class GuiView extends View {
 
     /**
      * method to display a timed alert text
-     * @param text the text to display
+     *
+     * @param text  the text to display
      * @param timer the time the text will be displayed
      */
     private void displayTimedAlertText(String text, Integer timer) {
@@ -1001,6 +1010,7 @@ public class GuiView extends View {
 
     /**
      * method to get the background rectangle of the secret objective
+     *
      * @return the rectangle of the secret objective
      */
     public Rectangle getSecretObjectiveBackground() {
@@ -1009,6 +1019,7 @@ public class GuiView extends View {
 
     /**
      * method to get the background rectangle of the initial card
+     *
      * @return the rectangle of the initial card
      */
     public Rectangle getInitCardBackground() {
@@ -1017,6 +1028,7 @@ public class GuiView extends View {
 
     /**
      * method that removes a rectangle node from the board and re adds it to bring it to the front
+     *
      * @param rectangle the rectangle to bring to the front
      */
     public void bringRectangleToFront(Rectangle rectangle) {
@@ -1063,7 +1075,7 @@ public class GuiView extends View {
      * method to set the winner label
      * @param winner the winner
      */
-    public void setWinnerLabel(String winner){
+    public void setWinnerLabel(String winner) {
         winnerLabel.setText(winner);
     }
 }

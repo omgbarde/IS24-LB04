@@ -80,7 +80,7 @@ public class GuiController extends ViewController {
      */
     @Override
     public void updateLobby(ArrayList<String> lobby) {
-        Platform.runLater(()->guiView.updateLobby(lobby));
+        Platform.runLater(() -> guiView.updateLobby(lobby));
     }
 
     /**
@@ -109,7 +109,7 @@ public class GuiController extends ViewController {
     }
 
     /**
-     *  updates the drawable resources
+     * updates the drawable resources
      *
      * @param resourceCards the resource cards arrayList
      */
@@ -243,12 +243,12 @@ public class GuiController extends ViewController {
     /**
      * this method shows or covers the chat scene
      */
-    public void toggleChat(){
+    public void toggleChat() {
         Group chatGroup = guiView.getChatGroup();
-        if(chatGroup.isVisible()){
-            Platform.runLater(()->chatGroup.setVisible(false));
-        }else{
-            Platform.runLater(()->chatGroup.setVisible(true));
+        if (chatGroup.isVisible()) {
+            Platform.runLater(() -> chatGroup.setVisible(false));
+        } else {
+            Platform.runLater(() -> chatGroup.setVisible(true));
         }
     }
 
@@ -306,8 +306,8 @@ public class GuiController extends ViewController {
      * Method to deselect a card
      */
     @Override
-    public void deselectCard(){
-        if(this.selectedRectangle!= null && this.selectedCard != null){
+    public void deselectCard() {
+        if (this.selectedRectangle != null && this.selectedCard != null) {
             this.selectedRectangle.setEffect(new Glow(0));
             this.selectedCard = null;
             this.selectedRectangle = null;
@@ -321,7 +321,7 @@ public class GuiController extends ViewController {
      */
     @Override
     public void displayAlert(String alert) {
-        Platform.runLater(()->guiView.displayAlert(alert));
+        Platform.runLater(() -> guiView.displayAlert(alert));
     }
 
     /**
@@ -337,7 +337,7 @@ public class GuiController extends ViewController {
      */
     @Override
     public void setYourTurnText() {
-        Platform.runLater(()->guiView.getTurnText().setText("YOUR TURN"));
+        Platform.runLater(() -> guiView.getTurnText().setText("YOUR TURN"));
 
     }
 
@@ -346,7 +346,7 @@ public class GuiController extends ViewController {
      */
     @Override
     public void cleanYourTurnText() {
-        Platform.runLater(()->guiView.getTurnText().setText("NOT YOUR TURN"));
+        Platform.runLater(() -> guiView.getTurnText().setText("NOT YOUR TURN"));
     }
 
     /**
@@ -452,11 +452,12 @@ public class GuiController extends ViewController {
      */
     @Override
     public void updateChat(String message) {
-        Platform.runLater(()-> guiView.getChatText().appendText(message));
+        Platform.runLater(() -> guiView.getChatText().appendText(message));
     }
 
     /**
      * print utility method (not in use in GUI mode)
+     *
      * @param string string to print
      */
     @Override
@@ -471,7 +472,7 @@ public class GuiController extends ViewController {
      */
     @Override
     public void showWinners(String winner) {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             guiView.drawWinnerScene();
             guiView.setWinnerLabel(winner);
         });
@@ -480,8 +481,9 @@ public class GuiController extends ViewController {
 
     /**
      * sets the point text on the board
+     *
      * @param rectangle the rectangle containing the points
-     * @param point the points to display
+     * @param point     the points to display
      */
     public void drawPoints(Rectangle rectangle, Integer point) {
         Text text = pointsDisplay.get(rectangle);
@@ -490,6 +492,7 @@ public class GuiController extends ViewController {
 
     /**
      * sets the image to a rectangle on the board view
+     *
      * @param imagePath the file path to the image
      * @param rectangle the rectangle to set the image to
      * @throws FileNotFoundException if the file is not found
@@ -506,12 +509,12 @@ public class GuiController extends ViewController {
      * adds a gold card to the map
      *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawDrawableGold(Rectangle rectangle, Card card) throws FileNotFoundException {
-        if(card != null){
-            String imagePath =loadImagePath(card);
+        if (card != null) {
+            String imagePath = loadImagePath(card);
             setImageToRectangle(imagePath, rectangle);
             drawableGold.put(rectangle, card);
         }
@@ -520,13 +523,14 @@ public class GuiController extends ViewController {
 
     /**
      * adds a resource card to the map
+     *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawDrawableResource(Rectangle rectangle, Card card) throws FileNotFoundException {
-        if(card != null) {
-            String imagePath =loadImagePath(card);
+        if (card != null) {
+            String imagePath = loadImagePath(card);
             setImageToRectangle(imagePath, rectangle);
             drawableResources.put(rectangle, card);
         }
@@ -536,43 +540,46 @@ public class GuiController extends ViewController {
      * method to draw the common objectives
      *
      * @param rectangle the rectangle
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawCommonObjectives(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         commonObjectives.put(rectangle, card);
     }
 
     /**
      * method to draw card images in hand
+     *
      * @param rectangle the rectangle containing the card in hand
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawHand(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         hand.put(rectangle, card);
     }
 
     /**
      * method to draw the initial card display
+     *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawInitialCardDisplay(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         initialCardDisplay.put(rectangle, card);
     }
 
     /**
      * method to draw the secret objective
+     *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawSecretObjective(Rectangle rectangle, Card card) throws FileNotFoundException {
@@ -582,19 +589,20 @@ public class GuiController extends ViewController {
         this.disableRectangle(toDisable2);
         this.disableRectangle(guiView.getSecretObjectiveBackground());
 
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
         secretObjective.put(rectangle, card);
     }
 
     /**
      * method to draw the secret objectives to choose
+     *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawSecretObjectivesToChoose(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
 
         secretObjectivesToChoose.put(rectangle, card);
@@ -602,12 +610,13 @@ public class GuiController extends ViewController {
 
     /**
      * method to draw a generic card placed on the board
+     *
      * @param rectangle the rectangle to set the image to
-     * @param card the card
+     * @param card      the card
      * @throws FileNotFoundException if the file is not found
      */
     public void drawGenericCard(Rectangle rectangle, Card card) throws FileNotFoundException {
-        String imagePath =loadImagePath(card);
+        String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
 
         if (initialCardDisplay.containsKey(selectedRectangle)) {
@@ -618,10 +627,11 @@ public class GuiController extends ViewController {
 
     /**
      * method to compose the image path of a card based on its side and id
+     *
      * @param card the card
      * @return the image path to the showing side of the card
      */
-    private String loadImagePath(Card card){
+    private String loadImagePath(Card card) {
         String imagePath;
         if (card.isShowingFront()) {
             imagePath = "/cards_images/CODEX_cards_front/card_front_" + card.getID() + ".png";
@@ -643,6 +653,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to add a rectangle to the secret objectives to choose map
+     *
      * @param rectangle the rectangle to add to the map
      */
     public void addRectangleToSecretObjectivesToChoose(Rectangle rectangle) {
@@ -652,6 +663,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to add a rectangle to the initial card display map
+     *
      * @param rectangle the rectangle to add to the map
      */
     public void addRectangleToInitialCardDisplay(Rectangle rectangle) {
@@ -662,8 +674,9 @@ public class GuiController extends ViewController {
 
     /**
      * method to add a rectangle to the points display map
+     *
      * @param rectangle the rectangle to add to the map
-     * @param text the text to display
+     * @param text      the text to display
      */
     public void addRectangleToPointsDisplay(Rectangle rectangle, Text text) {
         pointsDisplay.put(rectangle, text);
@@ -719,6 +732,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to disable a rectangle and make it invisible
+     *
      * @param rectangle the rectangle to disable
      */
     public void disableRectangle(Rectangle rectangle) {
@@ -731,8 +745,8 @@ public class GuiController extends ViewController {
     /**
      * sets up the drawable gold card rectangles
      *
-     * @param Top the top rectangle
-     * @param mid the middle rectangle
+     * @param Top    the top rectangle
+     * @param mid    the middle rectangle
      * @param bottom the bottom rectangle
      */
     public void setUpDrawableGold(Rectangle Top, Rectangle mid, Rectangle bottom) {
@@ -744,8 +758,8 @@ public class GuiController extends ViewController {
     /**
      * sets up the drawable resources
      *
-     * @param top the top rectangle
-     * @param mid the middle rectangle
+     * @param top    the top rectangle
+     * @param mid    the middle rectangle
      * @param bottom the bottom rectangle
      */
     public void setUpDrawableResources(Rectangle top, Rectangle mid, Rectangle bottom) {
@@ -756,7 +770,8 @@ public class GuiController extends ViewController {
 
     /**
      * sets up the secret objectives to choose rectangles
-     * @param top the top rectangle
+     *
+     * @param top    the top rectangle
      * @param bottom the bottom rectangle
      */
     public void setUpSecretObjectivesToChoose(Rectangle top, Rectangle bottom) {
@@ -766,6 +781,7 @@ public class GuiController extends ViewController {
 
     /**
      * sets up the initial card rectangle
+     *
      * @param initialCardRectangle the rectangle that will display the initial card
      */
     public void setUpInitialCardDisplay(Rectangle initialCardRectangle) {
@@ -807,6 +823,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to flip a card in hand or in the initial card display
+     *
      * @throws FileNotFoundException if the file for the card face is not found
      */
     public void flipCard() throws FileNotFoundException {
@@ -821,7 +838,7 @@ public class GuiController extends ViewController {
     /**
      * method to reset the board scene controller
      */
-    public void reset(){
+    public void reset() {
         this.gridMap = new HashMap<>();
         this.drawableResources = new LinkedHashMap<>();
         this.hand = new LinkedHashMap<>();

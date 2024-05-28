@@ -12,23 +12,24 @@ import org.junit.Test;
 
 public class CliBoardModelTest {
     CliBoardModel model;
+
     @Before
     public void setUp() {
         model = new CliBoardModel();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         model = null;
     }
 
     @Test
-    public void testPrintGrid(){
+    public void testPrintGrid() {
         model.printGridMap();
     }
 
     @Test
-    public void testPlacecard(){
+    public void testPlacecard() {
 
         Corner corner_Ur_rc1 = new Corner(false);
         Corner corner_Lr_rc1 = new Corner(true);
@@ -42,7 +43,7 @@ public class CliBoardModelTest {
         Face back_rc1 = new Face(cornerB_Ur_rc1, cornerB_Ul_rc1, cornerB_Lr_rc1, cornerB_Ll_rc1, ResourceType.MUSHROOM);
         ResourceCard resource_card_1 = new ResourceCard(Color.RED, front_rc1, back_rc1, 0, 1);
         resource_card_1.setShowingFront(false);
-        model.placeCard(0,0,resource_card_1);
+        model.placeCard(0, 0, resource_card_1);
         model.printGridMap();
 
 
@@ -59,7 +60,7 @@ public class CliBoardModelTest {
         GoldCard gold_card_43 = new GoldCard(Color.RED, front_gc43, back_gc43, 1, 2, 0, 0, 1, 43);
         gold_card_43.setShowingFront(true);
 
-        model.placeCard(1,1,gold_card_43);
+        model.placeCard(1, 1, gold_card_43);
         model.printGridMap();
 
         //red card 2
@@ -76,7 +77,7 @@ public class CliBoardModelTest {
         ResourceCard resource_card_2 = new ResourceCard(Color.RED, front_rc2, back_rc2, 0, 2);
         resource_card_2.setShowingFront(true);
 
-        model.placeCard(-1,1,resource_card_2);
+        model.placeCard(-1, 1, resource_card_2);
         model.printGridMap();
     }
 

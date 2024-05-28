@@ -6,6 +6,7 @@ import codex.lb04.Model.Face;
 import codex.lb04.Model.InitialCard;
 
 import java.io.Serial;
+
 /**
  * Message sent when a client picks a side of the initial card
  */
@@ -18,8 +19,8 @@ public class PickInitialCardSideMessage extends Message {
 
     /**
      * Constructor for PickInitialCardSideMessage
-     * @param username username of the player
      *
+     * @param username username of the player
      */
     public PickInitialCardSideMessage(String username, InitialCard initialCard) {
         super(username, MessageType.PICK_INITIAL_CARD_SIDE);
@@ -29,6 +30,7 @@ public class PickInitialCardSideMessage extends Message {
 
     /**
      * Getter for initialCard
+     *
      * @return initialCard
      */
     public InitialCard getInitialCard() {
@@ -37,6 +39,7 @@ public class PickInitialCardSideMessage extends Message {
 
     /**
      * Getter for username
+     *
      * @return username
      */
     public String getUsername() {

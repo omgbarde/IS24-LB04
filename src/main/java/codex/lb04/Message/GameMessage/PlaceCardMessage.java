@@ -19,11 +19,11 @@ public class PlaceCardMessage extends Message {
 
     /**
      * Constructor for PlaceCardMessage
-     * @param username username of the player
-     * @param x the x coordinate where you want to place the card
-     * @param y the y coordinate where you want to place the card
-     * @param card card to place
      *
+     * @param username username of the player
+     * @param x        the x coordinate where you want to place the card
+     * @param y        the y coordinate where you want to place the card
+     * @param card     card to place
      */
     public PlaceCardMessage(String username, Integer x, Integer y, Card card) {
         super(username, MessageType.PLACE_CARD);
@@ -34,6 +34,7 @@ public class PlaceCardMessage extends Message {
 
     /**
      * Getter for card
+     *
      * @return card
      */
     public Card getCard() {
@@ -42,6 +43,7 @@ public class PlaceCardMessage extends Message {
 
     /**
      * Getter for x coordinate
+     *
      * @return the x coordinate
      */
     public Integer getX() {
@@ -50,6 +52,7 @@ public class PlaceCardMessage extends Message {
 
     /**
      * Getter for y coordinate
+     *
      * @return the y coordinate
      */
     public Integer getY() {
@@ -58,6 +61,7 @@ public class PlaceCardMessage extends Message {
 
     /**
      * Getter for username
+     *
      * @return username
      */
     public String getUsername() {

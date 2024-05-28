@@ -13,15 +13,18 @@ public class ErrorMessage extends Message {
 
     /**
      * Constructor for ErrorMessage
+     *
      * @param username is typically "server"
-     * @param error a brief description of the error
+     * @param error    a brief description of the error
      */
     public ErrorMessage(String username, String error) {
         super(username, MessageType.ERROR);
         this.error = error;
     }
+
     /**
      * Getter for error description
+     *
      * @return error string
      */
     public String getError() {

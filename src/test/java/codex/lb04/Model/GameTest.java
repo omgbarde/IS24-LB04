@@ -19,14 +19,14 @@ public class GameTest {
     private Game game;
     private final Corner corner = new Corner(ResourceType.ANIMAL);
     private final Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
-    private final ResourceCard card = new ResourceCard(Color.BLUE, face, face,0,1);
+    private final ResourceCard card = new ResourceCard(Color.BLUE, face, face, 0, 1);
     private Player player;
     private Player player1;
     private final ArrayList<Player> players = new ArrayList<Player>();
     private Board board;
     private Deck deck;
     private final Corner CoveredCorner = new Corner(true);
-    private final Face BlankFace = new Face(CoveredCorner,CoveredCorner,CoveredCorner,CoveredCorner);
+    private final Face BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
     private ObjectiveCard cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
     private ObjectiveCard cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
     private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
@@ -34,7 +34,6 @@ public class GameTest {
     private final ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
     ObjectiveCard threeMushroom = new ObjectiveCard(Color.RED, BlankFace, BlankFace, 2, 95);
     ObjectiveCard objective_card_96 = new ObjectiveCard(Color.GREEN, BlankFace, BlankFace, 2, 96);
-
 
 
     @Before
@@ -100,60 +99,62 @@ public class GameTest {
     }
 
     @Test
-    public void drawResourceCard(){
+    public void drawResourceCard() {
         game.drawResourceCard("test", 0);
         assertNotNull(player.getBoard().getHand());
     }
 
     @Test
-    public void drawGoldCard(){
+    public void drawGoldCard() {
         game.drawGoldCard("test", 0);
         assertNotNull(player.getBoard().getHand());
     }
 
     @Test
-    public void getInitialCard(){
+    public void getInitialCard() {
         game.getPlayerByName("test").getBoard().setInitialCard();
         assertNotNull(game.getInitialCard("test"));
     }
 
     @Test
-    public void setInitialCardForAllPlayers(){
+    public void setInitialCardForAllPlayers() {
         game.setInitialCardForAllPlayers();
-        for(Player p : game.getPlayers()){
+        for (Player p : game.getPlayers()) {
             assertNotNull(p.getBoard().getInitialCard());
         }
     }
 
     @Test
-    public void setCommonObjectivesForallPlayers(){
+    public void setCommonObjectivesForallPlayers() {
         game.setCommonObjectivesForallPlayers();
-        for(Player p :players){
+        for (Player p : players) {
             assertEquals(p.getBoard().getCommonObjectives(), game.getCommonObjectives());
         }
     }
 
     @Test
-    public void getCommonObjectives(){
+    public void getCommonObjectives() {
         assertNotNull(game.getCommonObjectives());
     }
 
 
     @Test
-    public void setSecretObjectives(){
+    public void setSecretObjectives() {
         ObjectiveCard card1 = player.getBoard().getSecretObjectiveToPick().get(0);
         game.setSecretObjectives("test", 0);
-        assertEquals(card1,player.getBoard().getSecretObjective());
+        assertEquals(card1, player.getBoard().getSecretObjective());
     }
 
     @Test
-    public void getLobby(){assertNotNull(game.getLobby());}
+    public void getLobby() {
+        assertNotNull(game.getLobby());
+    }
 
     @Test
-    public void getWinnersTest(){
+    public void getWinnersTest() {
         //sets up a dummy condition where the players have the same score and same amount of objectives
-        game.getPlayers().get(0).getBoard().setPoints(21,21);
-        game.getPlayers().get(1).getBoard().setPoints(21,21);
+        game.getPlayers().get(0).getBoard().setPoints(21, 21);
+        game.getPlayers().get(1).getBoard().setPoints(21, 21);
 
         game.getPlayers().get(0).getBoard().setCommonObjectives(new ArrayList<>(List.of(threeMushroom, objective_card_96)));
         game.getPlayers().get(1).getBoard().setCommonObjectives(new ArrayList<>(List.of(threeMushroom, objective_card_96)));
@@ -165,8 +166,8 @@ public class GameTest {
         game.getPlayers().get(1).getBoard().setMushroom(3);
 
         ArrayList<String> names = new ArrayList<>();
-        for(Player p : game.getPlayers()){
-           names.add(p.getUsername());
+        for (Player p : game.getPlayers()) {
+            names.add(p.getUsername());
         }
 
         assertEquals(names, game.getWinners());

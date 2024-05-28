@@ -4,6 +4,7 @@ import codex.lb04.Message.DrawMessage.UpdateGoldMessage;
 import codex.lb04.Message.DrawMessage.UpdateResourceMessage;
 import codex.lb04.Observer.GameObserver;
 import codex.lb04.Observer.Observable;
+import codex.lb04.Utils.DeckBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,15 +36,16 @@ public class Deck extends Observable {
     }
 
     /**
-     * this method creates the deck of cards and adds an observer to it
+     * this method creates the deck of cards by deserializing the deck builder and adds an observer to it
      */
     public void initializeDeck() {
+        DeckBuilder deckBuilder = DeckBuilder.deserialize();
+
         this.addObserver(new GameObserver());
-        DeckBuilder deckBuilder = new DeckBuilder();
-        resourceCards = deckBuilder.createResourceCards();
-        goldCards = deckBuilder.createGoldCards();
-        initialCards = deckBuilder.createInitialCards();
-        objectiveCards = deckBuilder.createObjectiveCards();
+        resourceCards = deckBuilder.getResourceCards();
+        goldCards = deckBuilder.getGoldCards();
+        initialCards = deckBuilder.getInitialCards();
+        objectiveCards = deckBuilder.getObjectiveCards();
         this.shuffleResources();
         this.shuffleGold();
         this.shuffleObjectives();
@@ -51,6 +53,7 @@ public class Deck extends Observable {
         visibleGoldCards = setVisibleGoldCards();
         visibleResourceCards = setVisibleResourceCards();
     }
+
 
     /**
      * returns the deck instance
@@ -83,8 +86,7 @@ public class Deck extends Observable {
             resourceCards.removeFirst();
             toDraw.flip();
             return toDraw;
-        }
-        else return null;
+        } else return null;
     }
 
     /**
@@ -98,8 +100,7 @@ public class Deck extends Observable {
             goldCards.removeFirst();
             toDraw.flip();
             return toDraw;
-        }
-        else return null;
+        } else return null;
     }
 
     /**
@@ -119,6 +120,7 @@ public class Deck extends Observable {
 
     /**
      * thi method sets the common objectives
+     *
      * @return the common objectives arraylist
      */
     public ArrayList<ObjectiveCard> setCommonObjectives() {
@@ -140,8 +142,7 @@ public class Deck extends Observable {
             toDraw.flip();
             initialCards.removeFirst();
             return toDraw;
-        }
-        else return null;
+        } else return null;
     }
 
 
@@ -167,6 +168,7 @@ public class Deck extends Observable {
 
     /**
      * this method draws the first two cards of the resource cards deck, and shows the front faces
+     *
      * @return the first two cards of the resource cards deck
      */
     public ArrayList<ResourceCard> setVisibleResourceCards() {
@@ -187,15 +189,15 @@ public class Deck extends Observable {
     public void updateVisibleGold(int pick) {
         this.visibleGoldCards.remove(pick);
         GoldCard topGold;
-        switch(pick){
+        switch (pick) {
             case 0, 1:
                 drawGold();
                 topGold = getTopGold();
-                if(topGold!=null) visibleGoldCards.add(topGold);
+                if (topGold != null) visibleGoldCards.add(topGold);
                 break;
             case 2:
                 topGold = getTopGold();
-                if (topGold!= null) visibleGoldCards.add(getTopGold());
+                if (topGold != null) visibleGoldCards.add(getTopGold());
                 break;
         }
         //noinspection unchecked
@@ -209,15 +211,15 @@ public class Deck extends Observable {
     public void updateVisibleResource(int pick) {
         visibleResourceCards.remove(pick);
         ResourceCard topResource;
-        switch(pick){
+        switch (pick) {
             case 0, 1:
                 drawResource();
                 topResource = getTopResource();
-                if(topResource != null) visibleResourceCards.add(topResource);
+                if (topResource != null) visibleResourceCards.add(topResource);
                 break;
             case 2:
                 topResource = getTopResource();
-                if(topResource != null) visibleResourceCards.add(topResource);
+                if (topResource != null) visibleResourceCards.add(topResource);
                 break;
         }
         //noinspection unchecked
@@ -230,6 +232,7 @@ public class Deck extends Observable {
 
     /**
      * getter for the visible gold cards
+     *
      * @return the visible gold cards arrayList
      */
     public ArrayList<GoldCard> getVisibleGoldCards() {
@@ -238,6 +241,7 @@ public class Deck extends Observable {
 
     /**
      * returns the visible resource cards
+     *
      * @return the visible resource cards
      */
     public ArrayList<ResourceCard> getVisibleResourceCards() {
@@ -282,7 +286,6 @@ public class Deck extends Observable {
 
     /**
      * this method shuffles the deck of resources cards
-     *
      */
     public void shuffleResources() {
         Collections.shuffle(resourceCards);
@@ -311,14 +314,14 @@ public class Deck extends Observable {
 
     /**
      * this method returns the first resource card
+     *
      * @return the first resource card
      */
     public ResourceCard getTopResource() {
         ResourceCard top;
-        try{
+        try {
             top = resourceCards.getFirst();
-        }
-        catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return null;
         }
         return top;
@@ -326,24 +329,25 @@ public class Deck extends Observable {
 
     /**
      * this method returns the first gold card
+     *
      * @return the first gold card
      */
     public GoldCard getTopGold() {
         GoldCard top;
-        try{
+        try {
             top = goldCards.getFirst();
-        }catch(NoSuchElementException e){
-            return  null;
+        } catch (NoSuchElementException e) {
+            return null;
         }
         return top;
     }
 
-    //TODO: handle null differently
     /**
      * this method returns true if all the decks are empty
+     *
      * @return true if all the decks are empty
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return goldCards.isEmpty() && resourceCards.isEmpty() && visibleGoldCards.isEmpty() && visibleResourceCards.isEmpty();
     }
 

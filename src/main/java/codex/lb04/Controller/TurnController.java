@@ -2,7 +2,7 @@ package codex.lb04.Controller;
 
 import codex.lb04.Message.GameMessage.StartTurnMessage;
 import codex.lb04.Model.Game;
-import codex.lb04.ServerApp;
+import codex.lb04.Network.server.Server;
 import codex.lb04.Utils.CircularIterator;
 
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ public class TurnController {
 
     /**
      * Singleton pattern for the TurnController class
+     *
      * @return the instance of the TurnController
      */
     public static TurnController getInstance() {
@@ -42,27 +43,34 @@ public class TurnController {
 
     /**
      * sets if the player has drawn a card
+     *
      * @param drawnCard is true if the player has drawn a card and false otherwise
      */
     public void setDrawnCard(boolean drawnCard) {
         this.drawnCard = drawnCard;
     }
+
     /**
      * sets if the player has placed a card
+     *
      * @param placedCard is true if the player has placed a card and false otherwise
      */
     public void setPlacedCard(boolean placedCard) {
         this.placedCard = placedCard;
     }
+
     /**
      * sets if the player has drawn a card
+     *
      * @return true if the player has drawn a card and false otherwise
      */
     public boolean hasDrawnCard() {
         return drawnCard;
     }
+
     /**
      * sets if the player has placed a card
+     *
      * @return true if the player has placed a card and false otherwise
      */
     public boolean hasPlacedCard() {
@@ -78,6 +86,7 @@ public class TurnController {
 
     /**
      * getter of the active player
+     *
      * @return the active player
      */
     public String getActivePlayer() {
@@ -91,12 +100,15 @@ public class TurnController {
         setDrawnCard(false);
         setPlacedCard(false);
         activePlayer = playersQueueIterator.next();
-        ServerApp.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);
+        Server.sendMessageToClient(new StartTurnMessage(activePlayer), activePlayer);
     }
 
     /**
      * getter of the lobby
+     *
      * @return the name list of clients in the lobby
      */
-    public ArrayList<String> getLobby() { return lobby; }
+    public ArrayList<String> getLobby() {
+        return lobby;
+    }
 }

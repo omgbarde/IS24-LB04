@@ -10,8 +10,7 @@ public class Player {
     /**
      * default constructor
      *
-     * @param username        username
-     *
+     * @param username username
      */
     public Player(String username) {
         this.username = username;

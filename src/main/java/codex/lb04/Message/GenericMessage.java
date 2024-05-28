@@ -12,8 +12,9 @@ public class GenericMessage extends Message {
 
     /**
      * Constructor for GenericMessage
+     *
      * @param username is the nickname of the user sending the message
-     * @param s is the message
+     * @param s        is the message
      */
     public GenericMessage(String username, String s) {
         super(username, MessageType.GENERIC_MESSAGE);
@@ -22,6 +23,6 @@ public class GenericMessage extends Message {
 
     @Override
     public String toString() {
-        return  msg;
+        return msg;
     }
 }

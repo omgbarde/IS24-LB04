@@ -21,7 +21,7 @@ public class TurnControllerTest {
         gameController = GameController.getInstance();
         String player1 = "player1";
         String player2 = "player2";
-        CreateGameMessage createGameMessage = new CreateGameMessage("player1",2);
+        CreateGameMessage createGameMessage = new CreateGameMessage("player1", 2);
         gameController.onMessageReceived(createGameMessage);
         LoginMessage loginMessage2 = new LoginMessage(player2);
         gameController.onMessageReceived(loginMessage2);
@@ -38,7 +38,7 @@ public class TurnControllerTest {
         game.resetInstance();
         game = null;
         turnController.resetInstance();
-        turnController= null;
+        turnController = null;
         gameController.resetInstance();
         gameController = null;
     }
