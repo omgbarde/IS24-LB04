@@ -15,10 +15,9 @@ public class Card implements Serializable {
 
     private final Face front;
     private final Face back;
-    private boolean isShowingFront;
-
     private final Color color;
     private final Integer points;
+    private boolean isShowingFront;
     private Integer x, y;
     private Integer ID;
 
@@ -102,12 +101,33 @@ public class Card implements Serializable {
     }
 
     /**
+     * Set the shown face of the card
+     *
+     * @param showingFront true if the card needs to be showing the front face , false otherwise
+     */
+    public void setShowingFront(boolean showingFront) {
+        this.isShowingFront = showingFront;
+    }
+
+    /**
      * this method returns if the card is used for positional objectives
      *
      * @return true if the card is used for positional objectives , false otherwise
      */
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
+    }
+
+    //GETTER
+
+    /**
+     * Set the card as already used for positional objectives
+     * this way the card will be counted only once for positional objectives
+     *
+     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
+     */
+    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
     /**
@@ -128,10 +148,9 @@ public class Card implements Serializable {
                 this.usedForPositionalObjectives);
     }
 
-    //GETTER
-
     /**
      * This method returns the shown face of the card
+     *
      * @return the shown face of the card
      */
     public Face getShownFace() {
@@ -144,6 +163,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the front of the card
+     *
      * @return the front of the card
      */
     public Face getFront() {
@@ -152,6 +172,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the back of the card
+     *
      * @return the back of the card
      */
     public Face getBack() {
@@ -160,6 +181,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the color of the card
+     *
      * @return the color of the card
      */
     public Color getColor() {
@@ -168,6 +190,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the points of the card
+     *
      * @return the points of the card
      */
     public Integer getPoints() {
@@ -176,23 +199,32 @@ public class Card implements Serializable {
 
     /**
      * This method returns the x coordinate of the card
+     *
      * @return the x coordinate of the card
      */
-    public Integer getX() {return x;}
+    public Integer getX() {
+        return x;
+    }
+
+    //SETTER
 
     /**
      * This method returns the y coordinate of the card
+     *
      * @return the y coordinate of the card
      */
-    public Integer getY() {return y;}
+    public Integer getY() {
+        return y;
+    }
 
     /**
      * This method returns the ID of the card
+     *
      * @return the ID of the card
      */
-    public Integer getID() {return ID;}
-
-    //SETTER
+    public Integer getID() {
+        return ID;
+    }
 
     /**
      * Set the coordinates of the card
@@ -200,25 +232,6 @@ public class Card implements Serializable {
     public void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    /**
-     * Set the shown face of the card
-     *
-     * @param showingFront true if the card needs to be showing the front face , false otherwise
-     */
-    public void setShowingFront(boolean showingFront) {
-        this.isShowingFront = showingFront;
-    }
-
-    /**
-     * Set the card as already used for positional objectives
-     * this way the card will be counted only once for positional objectives
-     *
-     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
-     */
-    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
-        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
 }

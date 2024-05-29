@@ -37,6 +37,9 @@ import java.util.ArrayList;
  * This class represents the view of the game in GUI mode
  */
 public class GuiView extends View {
+    private final Stage stageReference;
+    private final Label lobbyLabel;
+    private final Label winnerLabel;
     double centerX = 1000 / 2.0;
     double centerY = 600 / 2.0;
     double cardWidth = 124;
@@ -45,22 +48,16 @@ public class GuiView extends View {
     double resourceHeight = 50;
     double stageWidth = 1000;
     double stageHeight = 600;
-
-    private final Stage stageReference;
-    private ClientSocket clientSocket;
-    private final Label lobbyLabel;
-    private TextArea chatText;
-    private final Label winnerLabel;
     GuiController controller;
-
     Group movableRootReference;
     Group staticGroupReference;
     Group chatGroupReference;
-
     Rectangle initCardBackground;
     Rectangle secretObjectiveBackground;
     Text alert;
     Text turnText;
+    private ClientSocket clientSocket;
+    private TextArea chatText;
 
     /**
      * Constructor for the GUI view
@@ -123,8 +120,9 @@ public class GuiView extends View {
 
     /**
      * method to display an image
+     *
      * @param root the stack pane
-     * @param is the input stream
+     * @param is   the input stream
      * @return
      */
     private ImageView createImageView(StackPane root, InputStream is) {
@@ -1041,6 +1039,7 @@ public class GuiView extends View {
 
     /**
      * method to get the client socket
+     *
      * @return the client socket
      */
     public ClientSocket getClientSocket() {
@@ -1049,6 +1048,7 @@ public class GuiView extends View {
 
     /**
      * method to get the chat group
+     *
      * @return the chat group reference
      */
     public Group getChatGroup() {
@@ -1057,6 +1057,7 @@ public class GuiView extends View {
 
     /**
      * method to get the place to append the chat text
+     *
      * @return the chat text
      */
     public TextArea getChatText() {
@@ -1065,6 +1066,7 @@ public class GuiView extends View {
 
     /**
      * method to get the place to append the turn text
+     *
      * @return the chat text
      */
     public Text getTurnText() {
@@ -1073,6 +1075,7 @@ public class GuiView extends View {
 
     /**
      * method to set the winner label
+     *
      * @param winner the winner
      */
     public void setWinnerLabel(String winner) {

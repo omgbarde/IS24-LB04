@@ -11,6 +11,7 @@ public class PongMessage extends Message {
 
     /**
      * Constructor for PongMessage
+     *
      * @param s is the message
      */
     public PongMessage(String s) {

@@ -11,6 +11,7 @@ public class PingMessage extends Message {
 
     /**
      * Constructor for PingMessage
+     *
      * @param s is the message
      */
     public PingMessage(String s) {

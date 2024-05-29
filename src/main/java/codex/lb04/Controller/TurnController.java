@@ -14,10 +14,20 @@ public class TurnController {
     private static TurnController instance;
 
     private final ArrayList<String> lobby;
-    private String activePlayer;
     private final CircularIterator<String> playersQueueIterator;
+    private String activePlayer;
     private boolean placedCard = false;
     private boolean drawnCard = false;
+
+    /**
+     * Constructor for the TurnController class with the players list and the active player
+     */
+    private TurnController() {
+        Game game = Game.getInstance();
+        this.lobby = game.getLobby();
+        this.playersQueueIterator = new CircularIterator<>(lobby);
+        this.activePlayer = lobby.getFirst();
+    }
 
     /**
      * Singleton pattern for the TurnController class
@@ -29,16 +39,6 @@ public class TurnController {
             instance = new TurnController();
         }
         return instance;
-    }
-
-    /**
-     * Constructor for the TurnController class with the players list and the active player
-     */
-    private TurnController() {
-        Game game = Game.getInstance();
-        this.lobby = game.getLobby();
-        this.playersQueueIterator = new CircularIterator<>(lobby);
-        this.activePlayer = lobby.getFirst();
     }
 
     /**

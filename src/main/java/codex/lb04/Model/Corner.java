@@ -62,6 +62,16 @@ public class Corner implements Serializable {
     }
 
     /**
+     * This method covers a corner by applying a card onto it
+     *
+     * @param Cover The Card that covers the corner
+     */
+    public void setCovered(Card Cover) {
+        this.coveredBy = Cover;
+        isCovered = true;
+    }
+
+    /**
      * This method returns the card that covers the corner
      *
      * @return The card that covers the corner
@@ -70,6 +80,8 @@ public class Corner implements Serializable {
         return coveredBy;
     }
 
+    //SETTER
+
     /**
      * Returns the resource
      *
@@ -77,17 +89,5 @@ public class Corner implements Serializable {
      */
     public ResourceType getResource() {
         return resource;
-    }
-
-    //SETTER
-
-    /**
-     * This method covers a corner by applying a card onto it
-     *
-     * @param Cover The Card that covers the corner
-     */
-    public void setCovered(Card Cover) {
-        this.coveredBy = Cover;
-        isCovered = true;
     }
 }

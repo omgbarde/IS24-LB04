@@ -21,7 +21,7 @@ public class GuiLauncher extends Application {
         View guiView = new GuiView(stage);
         guiView.drawHelloScene();
         /*try {*/
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/codex-naturalis-espt.jpg")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/codex-naturalis-espt.jpg")));
        /* } catch (FileNotFoundException e) {
             System.out.println("window icon not found");
         }*/

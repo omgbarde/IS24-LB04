@@ -15,26 +15,25 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class GameTest {
-    private GameObserver observer;
-    private Game game;
     private final Corner corner = new Corner(ResourceType.ANIMAL);
     private final Face face = new Face(corner, corner, corner, corner, ResourceType.INSECT);
     private final ResourceCard card = new ResourceCard(Color.BLUE, face, face, 0, 1);
-    private Player player;
-    private Player player1;
+    private final ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
     private final ArrayList<Player> players = new ArrayList<Player>();
-    private Board board;
-    private Deck deck;
     private final Corner CoveredCorner = new Corner(true);
     private final Face BlankFace = new Face(CoveredCorner, CoveredCorner, CoveredCorner, CoveredCorner);
     private ObjectiveCard cardOb = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
     private ObjectiveCard cardOb2 = new ObjectiveCard(Color.BLUE, BlankFace, BlankFace, 2, 89);
-    private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-    private final ArrayList<Card> cards = new ArrayList<>();
-    private final ObjectiveCard SecretobjectiveCard = new ObjectiveCard(Color.BLUE, face, face, 2, 87);
     ObjectiveCard threeMushroom = new ObjectiveCard(Color.RED, BlankFace, BlankFace, 2, 95);
     ObjectiveCard objective_card_96 = new ObjectiveCard(Color.GREEN, BlankFace, BlankFace, 2, 96);
-
+    private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+    private final ArrayList<Card> cards = new ArrayList<>();
+    private GameObserver observer;
+    private Game game;
+    private Player player;
+    private Player player1;
+    private Board board;
+    private Deck deck;
 
     @Before
     public void setUp() {

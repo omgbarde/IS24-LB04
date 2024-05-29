@@ -254,6 +254,7 @@ public class GuiController extends ViewController {
 
     /**
      * Method to clean an image
+     *
      * @param rectangle the part to clean
      */
     public void cleanImage(Rectangle rectangle) {
@@ -854,6 +855,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to set the client socket
+     *
      * @param clientSocket the client socket
      */
     public void setClientSocket(ClientSocket clientSocket) {
