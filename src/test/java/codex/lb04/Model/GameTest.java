@@ -164,12 +164,7 @@ public class GameTest {
         game.getPlayers().get(0).getBoard().setMushroom(3);
         game.getPlayers().get(1).getBoard().setMushroom(3);
 
-        ArrayList<String> names = new ArrayList<>();
-        for (Player p : game.getPlayers()) {
-            names.add(p.getUsername());
-        }
-
-        assertEquals(names, game.getWinners());
+        assertEquals(game.getPlayers(), game.getWinners());
 
     }
 

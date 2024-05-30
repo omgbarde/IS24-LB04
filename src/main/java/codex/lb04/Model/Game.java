@@ -227,35 +227,34 @@ public class Game extends Observable {
      *
      * @return the winner names
      */
-    public ArrayList<String> getWinners() {
-        ArrayList<String> winners = new ArrayList<>();
-        ArrayList<String> objWinners = new ArrayList<>();
+    public ArrayList<Player> getWinners() {
+        ArrayList<Player> winners = new ArrayList<>();
+        ArrayList<Player> objWinners = new ArrayList<>();
         int max = 0;
         for (Player player : players) {
             player.getBoard().finalPointsUpdate();
             int playerPoints = player.getBoard().getPoints();
-            String username = player.getUsername();
 
             if (playerPoints > max) {
                 winners.clear();
-                winners.add(player.getUsername());
+                winners.add(player);
                 max = playerPoints;
             } else if (playerPoints == max) {
-                winners.add(username);
+                winners.add(player);
             }
         }
 
         if (winners.size() > 1) {
             int maxObj = 0;
-            for (String p : winners) {
-                int completedObjectives = getPlayerByName(p).getBoard().checkNumberObjectives();
+            for (Player player : winners) {
+                int completedObjectives = player.getBoard().checkNumberObjectives();
 
                 if (completedObjectives > maxObj) {
                     objWinners.clear();
-                    objWinners.add(p);
+                    objWinners.add(player);
                     maxObj = completedObjectives;
                 } else if (completedObjectives == maxObj) {
-                    objWinners.add(p);
+                    objWinners.add(player);
                 }
             }
         } else {
@@ -315,19 +314,25 @@ public class Game extends Observable {
      *
      * @param winners the winners
      */
-    public void notifyWinner(ArrayList<String> winners) {
+    public void notifyWinner(ArrayList<Player> winners) {
         switch (winners.size()) {
             case 1:
-                notifyObserver(new WinnersMessage("server", "The winner is: " + getWinners().getFirst()));
+                notifyObserver(new WinnersMessage("server", "The winner is " + getWinners().getFirst().getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts"));
                 break;
             case 2:
-                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + " and " + getWinners().get(1)));
+                notifyObserver(new WinnersMessage("server", "The winners are " + getWinners().get(0).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n and " + getWinners().get(1).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts"));
                 break;
             case 3:
-                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + " and " + getWinners().get(2)));
+                notifyObserver(new WinnersMessage("server", "The winners are " + getWinners().get(0).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n" + getWinners().get(1).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n and " + getWinners().get(2).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts"));
                 break;
             case 4:
-                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0) + ", " + getWinners().get(1) + ", " + getWinners().get(2) + " and " + getWinners().get(3)));
+                notifyObserver(new WinnersMessage("server", "The winners are: " + getWinners().get(0).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n" + getWinners().get(1).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n" + getWinners().get(2).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts" +
+                        "\n and " + getWinners().get(3).getUsername() + ": " + getWinners().getFirst().getBoard().getPoints() + " pts"));
                 break;
             default:
                 break;

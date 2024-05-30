@@ -5,6 +5,7 @@ import codex.lb04.Message.GameMessage.*;
 import codex.lb04.Model.Card;
 import codex.lb04.Model.Enumerations.GameState;
 import codex.lb04.Model.Game;
+import codex.lb04.Model.Player;
 import codex.lb04.Network.server.Server;
 import codex.lb04.Observer.GameObserver;
 
@@ -319,7 +320,7 @@ public class GameController {
                     }
                     if (endGame && countDown == 0) {
                         game.setGameState(GameState.ENDED);
-                        ArrayList<String> winners = game.getWinners();
+                        ArrayList<Player> winners = game.getWinners();
                         game.notifyWinner(winners);
                     }
                     if (endGame && turnController.getActivePlayer().equals(turnController.getLobby().getFirst())) {
