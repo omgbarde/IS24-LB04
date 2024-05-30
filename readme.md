@@ -16,7 +16,7 @@
 |  CLI interface   |   ✅   |
 |   in-game chat   |   ✅   |
 
-[documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables/Archive)
+[documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables)
 
 ## Todo list
 - [ ] make board resizable
@@ -51,5 +51,5 @@ in command line navigate to the deliverables folder and run the following comman
   - to join a game use the correct ip address and port of the person hosting the game (the network interfaces are also displayed in the console by the serverApp)
 
 ## How to play
-- [codex rulebook](https://github.com/omgbarde/IS24-LB04/blob/bd00eed9bb266829cce41ff64434404faad6cba2/src/main/resources/CODEX_Rulebook_IT.pdf)
+- [codex rulebook](src/main/resources/CODEX_Rulebook_IT.pdf)
 - the controls are displayed in the view based on the graphic mode
