@@ -263,10 +263,12 @@ public class CliBoardModel {
     //GETTER
 
     /**
-     * sets the initial card
+     * gets the selected card
+     *
+     * @return the currently selected card
      */
-    public void setInitialCard(InitialCard initialCard) {
-        this.initialCard = initialCard;
+    public Card getSelectedCard() {
+        return selectedCard;
     }
 
     /**
@@ -279,15 +281,6 @@ public class CliBoardModel {
     }
 
     /**
-     * sets the turn label
-     *
-     * @param turnLabel turn label
-     */
-    public void setTurnLabel(String turnLabel) {
-        this.turnLabel = turnLabel;
-    }
-
-    /**
      * gets the hand
      *
      * @return the arraylist of cards in the hand
@@ -297,14 +290,13 @@ public class CliBoardModel {
     }
 
     /**
-     * sets the hand
+     * gets the board state
      *
-     * @param hand the arraylist of cards in the hand
+     * @return the current state of the board
      */
-    public void setHand(ArrayList<Card> hand) {
-        this.hand = hand;
+    public CliBoardState getBoardState() {
+        return boardState;
     }
-
 
     /**
      * sets the objective cards
@@ -315,15 +307,31 @@ public class CliBoardModel {
         this.objectiveCards = objectiveCards;
     }
 
-    //SETTER
-
     /**
-     * gets the choices
+     * gets the objective cards choices
      *
-     * @return the arraylist of objective cards to choose from
+     * @return the arraylist of ObjectiveCard
      */
     public ArrayList<ObjectiveCard> getChoices() {
         return choices;
+    }
+
+    //SETTER
+
+    /**
+     * sets the initial card
+     */
+    public void setInitialCard(InitialCard initialCard) {
+        this.initialCard = initialCard;
+    }
+
+    /**
+     * sets the turn label
+     *
+     * @param turnLabel turn label
+     */
+    public void setTurnLabel(String turnLabel) {
+        this.turnLabel = turnLabel;
     }
 
     /**
@@ -336,15 +344,6 @@ public class CliBoardModel {
     }
 
     /**
-     * gets the selected card
-     *
-     * @return the currently selected card
-     */
-    public Card getSelectedCard() {
-        return selectedCard;
-    }
-
-    /**
      * sets the selected card
      *
      * @param selectedCard the card to set as selected
@@ -354,12 +353,12 @@ public class CliBoardModel {
     }
 
     /**
-     * gets the board state
+     * sets the hand
      *
-     * @return the current state of the board
+     * @param hand the arraylist of cards in the hand
      */
-    public CliBoardState getBoardState() {
-        return boardState;
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
     }
 
     /**
@@ -396,6 +395,15 @@ public class CliBoardModel {
      */
     public void setPoints(ArrayList<Integer> points) {
         this.points = points;
+    }
+
+    /**
+     * sets the choices
+     *
+     * @param secretObjectives the arraylist of secret objectives to choose from
+     */
+    public void setChoices(ArrayList<ObjectiveCard> secretObjectives) {
+        this.choices = secretObjectives;
     }
 
 }
