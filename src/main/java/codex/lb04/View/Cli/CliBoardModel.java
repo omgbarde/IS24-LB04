@@ -37,7 +37,7 @@ public class CliBoardModel {
     /**
      * method to reset the board at startup and every time a player is in the lobby (before restarting a game)
      */
-    public void resetBoard(){
+    public void resetBoard() {
         this.turnLabel = "not your turn";
         this.boardState = CliBoardState.END;
         this.hand = new ArrayList<>();
@@ -64,21 +64,23 @@ public class CliBoardModel {
         //inverse transforms the coordinates and places the card, if it's going to cover a corner
         //the covered card will be rendered again
         for (Card c : playedCards) {
+            Integer boardX = c.getX();
+            Integer boardY = c.getY();
+            Face toBeCovered = c.getShownFace();
+
             //sets corners as not visible for the card being covered by the one you are placing
-            if (c != null) {
-                if (c.getX() == x + 1 && c.getY() == y + 1) {
-                    c.getShownFace().getLowerLeft().setCovered(c);
-                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);
-                } else if (c.getX() == x + 1 && c.getY() == y - 1) {
-                    c.getShownFace().getUpperLeft().setCovered(c);
-                    gridMap[-c.getY() + k][k + c.getY()] = CardRenderer.renderInGame(c);
-                } else if (c.getX() == x - 1 && c.getY() == y + 1) {
-                    c.getShownFace().getLowerRight().setCovered(c);
-                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);
-                } else if (c.getX() == x - 1 && c.getY() == y - 1) {
-                    c.getShownFace().getUpperRight().setCovered(c);
-                    gridMap[-c.getY() + k][k + c.getX()] = CardRenderer.renderInGame(c);
-                }
+            if (boardX == x + 1 && boardY == y + 1) {
+                toBeCovered.getLowerLeft().setCovered(c);
+                gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
+            } else if (boardX == x + 1 && boardY == y - 1) {
+                toBeCovered.getUpperLeft().setCovered(c);
+                gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
+            } else if (boardX== x - 1 && boardY == y + 1) {
+                toBeCovered.getLowerRight().setCovered(c);
+                gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
+            } else if (boardX == x - 1 && boardY == y - 1) {
+                toBeCovered.getUpperRight().setCovered(c);
+                gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
             }
         }
         playedCards.add(card);
@@ -182,13 +184,13 @@ public class CliBoardModel {
      * prints the objectives
      */
     public void printObjectives() {
-        System.out.println("Your common objectives are:");
-        for (int i = 0; i < objectiveCards.size(); i++) {
-            String renderedObjective = CardRenderer.renderObjective(objectiveCards.get(i).getID());
-            System.out.println("    " + (i + 1) + ")" + renderedObjective);
+        System.out.println("The common objectives are:");
+        for (ObjectiveCard objectiveCard : objectiveCards) {
+            String renderedObjective = CardRenderer.renderObjective(objectiveCard.getID());
+            System.out.println("    - " + renderedObjective);
         }
         System.out.print("Your secret objective is:\n");
-        out.println("   " + CardRenderer.renderObjective(secretObjective.getID()));
+        out.println("   - " + CardRenderer.renderObjective(secretObjective.getID()));
     }
 
     /**
@@ -279,14 +281,6 @@ public class CliBoardModel {
     }
 
 
-    /**
-     * sets the objective cards
-     *
-     * @return the arraylist of objective cards
-     */
-    public ArrayList<ObjectiveCard> getObjectiveCards() {
-        return objectiveCards;
-    }
 
     /**
      * gets the choices
@@ -297,14 +291,6 @@ public class CliBoardModel {
         return choices;
     }
 
-    /**
-     * gets the secret objective
-     *
-     * @return the secret objective card
-     */
-    public ObjectiveCard getSecretObjective() {
-        return secretObjective;
-    }
 
     /**
      * gets the selected card

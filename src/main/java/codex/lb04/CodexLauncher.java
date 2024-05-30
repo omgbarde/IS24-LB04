@@ -21,8 +21,7 @@ public class CodexLauncher {
         } else if (args.length > 0 && args[0].equals("--gui")) {
             //launches GUI
             Application.launch(GuiLauncher.class);
-        }
-        else if (args.length > 0 && args[0].equals("--ser")) {
+        } else if (args.length > 0 && args[0].equals("--ser")) {
             //launches Server
             new Server().run();
         } else {

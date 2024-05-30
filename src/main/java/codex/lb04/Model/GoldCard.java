@@ -77,6 +77,7 @@ public class GoldCard extends Card {
 
     /**
      * Getter for the mushrooms needed from a gold card to be placed
+     *
      * @return the mushrooms needed
      */
     public Integer getMushroom_needed() {
@@ -85,6 +86,7 @@ public class GoldCard extends Card {
 
     /**
      * Getter for the animals needed from a gold card to be placed
+     *
      * @return the mushrooms needed
      */
     public Integer getAnimals_needed() {
@@ -93,6 +95,7 @@ public class GoldCard extends Card {
 
     /**
      * Getter for the insects needed from a gold card to be placed
+     *
      * @return the mushrooms needed
      */
     public Integer getInsects_needed() {
@@ -101,6 +104,7 @@ public class GoldCard extends Card {
 
     /**
      * Getter for the leafs needed from a gold card to be placed
+     *
      * @return the mushrooms needed
      */
     public Integer getLeaf_needed() {

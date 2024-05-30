@@ -307,6 +307,7 @@ public class Game extends Observable {
 
     /**
      * notifies the winner or winners to the observer
+     *
      * @param winners the winners
      */
     public void notifyWinner(ArrayList<String> winners) {

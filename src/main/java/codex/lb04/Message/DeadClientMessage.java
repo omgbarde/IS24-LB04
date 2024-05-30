@@ -11,6 +11,7 @@ public class DeadClientMessage extends Message {
 
     /**
      * Constructor for DeadClientMessage
+     *
      * @param username username of the client that died
      */
     public DeadClientMessage(String username) {

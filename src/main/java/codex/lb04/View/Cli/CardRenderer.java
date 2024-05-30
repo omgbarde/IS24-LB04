@@ -233,7 +233,7 @@ public class CardRenderer {
         StringBuilder cardString = new StringBuilder();
         String colorCode = colorMap(card.getColor());
         ArrayList<Integer> resourcesNeededArray = new ArrayList<>();
-        ArrayList<String> emojis = new ArrayList<>(List.of("\uD83C\uDF44", "\uD83E\uDD8A", "\uD83E\uDD8B", "\uD83C\uDF43"));
+        ArrayList<String> emojis = new ArrayList<>(List.of("\uD83C\uDF44", "\uD83D\uDC3A", "\uD83E\uDD8B", "\uD83C\uDF43"));
         String multiplier = multiplierMap(card.getID());
         //get the corners of the card
         Corner upperLeft = card.getShownFace().getUpperLeft();

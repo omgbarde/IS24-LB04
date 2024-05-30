@@ -17,6 +17,7 @@ public class UpdatePointsMessage extends Message {
 
     /**
      * Constructor for UpdatePointsMessage
+     *
      * @param points points to update
      */
     public UpdatePointsMessage(String username, ArrayList<Integer> points) {
@@ -27,6 +28,7 @@ public class UpdatePointsMessage extends Message {
 
     /**
      * Getter for points
+     *
      * @return points
      */
     public ArrayList<Integer> getPoints() {

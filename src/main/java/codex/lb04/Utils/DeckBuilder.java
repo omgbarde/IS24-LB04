@@ -33,9 +33,10 @@ public class DeckBuilder implements Serializable {
 
     /**
      * this method generates all the lists in the deck builder
+     *
      * @param builder the deck builder you want to add cards to
      */
-    private static void addCards(DeckBuilder builder){
+    private static void addCards(DeckBuilder builder) {
         //creates all cards
         builder.resourceCards = createResourceCards();
         builder.goldCards = createGoldCards();
@@ -1467,18 +1468,19 @@ public class DeckBuilder implements Serializable {
         Gson gson = new Gson();
         String json = gson.toJson(toSerialize);
 
-        try(FileWriter file = new FileWriter("src/main/resources/deck.json")){
+        try (FileWriter file = new FileWriter("src/main/resources/deck.json")) {
             file.write(json);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("error writing json file for the deck");
         }
     }
 
     /**
      * utility method to load json file, in case of failure it generates the deck manually
+     *
      * @return the deck builder containing array lists of cards to use to build the game deck
      */
-    public static DeckBuilder deserialize(){
+    public static DeckBuilder deserialize() {
         Gson gson = new Gson();
 
         DeckBuilder deck = new DeckBuilder();

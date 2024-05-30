@@ -45,14 +45,13 @@ public class Server implements Runnable {
     public void run() {
         System.out.println("select desired port or press enter to use default (49152)");
         Scanner scanner = new Scanner(System.in);
-        String input  = scanner.nextLine();
-        try{
+        String input = scanner.nextLine();
+        try {
             int desiredPort = Integer.parseInt(input);
             if (ConnectionUtil.isValidPort(desiredPort)) {
                 port = desiredPort;
-            }
-            else System.out.println("not a free port, using default");
-        }catch (NumberFormatException e){
+            } else System.out.println("not a free port, using default");
+        } catch (NumberFormatException e) {
             System.out.println("using default port");
         }
 
@@ -93,21 +92,6 @@ public class Server implements Runnable {
             clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
         }
     }
-
-    /**
-     * starts the server on a predefined port, if no port is provided in the args, the default port is used
-     */
-    /*public static void main(String[] args) {
-        port = ConnectionUtil.defaultPort;
-        if (args.length > 0) {
-            try {
-                port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                print("Invalid port, using default port");
-            }
-        }
-        new Thread(new ServerApp()).start();
-    }*/
 
     /**
      * method that is called when a message is received

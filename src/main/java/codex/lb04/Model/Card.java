@@ -132,6 +132,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the shown face of the card
+     *
      * @return the shown face of the card
      */
     public Face getShownFace() {
@@ -144,6 +145,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the front of the card
+     *
      * @return the front of the card
      */
     public Face getFront() {
@@ -152,6 +154,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the back of the card
+     *
      * @return the back of the card
      */
     public Face getBack() {
@@ -160,6 +163,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the color of the card
+     *
      * @return the color of the card
      */
     public Color getColor() {
@@ -168,6 +172,7 @@ public class Card implements Serializable {
 
     /**
      * This method returns the points of the card
+     *
      * @return the points of the card
      */
     public Integer getPoints() {
@@ -176,21 +181,30 @@ public class Card implements Serializable {
 
     /**
      * This method returns the x coordinate of the card
+     *
      * @return the x coordinate of the card
      */
-    public Integer getX() {return x;}
+    public Integer getX() {
+        return x;
+    }
 
     /**
      * This method returns the y coordinate of the card
+     *
      * @return the y coordinate of the card
      */
-    public Integer getY() {return y;}
+    public Integer getY() {
+        return y;
+    }
 
     /**
      * This method returns the ID of the card
+     *
      * @return the ID of the card
      */
-    public Integer getID() {return ID;}
+    public Integer getID() {
+        return ID;
+    }
 
     //SETTER
 

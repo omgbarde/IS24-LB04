@@ -33,9 +33,6 @@ public class SceneLauncher extends Application {
             case "5":
                 Platform.runLater(() -> guiView.drawBoardScene());
                 break;
-            case "6":
-                Platform.runLater(() -> guiView.drawWinnerScene());
-                break;
             default:
                 System.out.println("what are you doing?");
                 break;

@@ -93,6 +93,7 @@ public class CliView extends View implements Runnable {
         for (String name : lobby) {
             out.println("   " + name);
         }
+        out.println();
         out.println("If you want to go back press 'B', else press 'P' to start the game");
     }
 
@@ -289,13 +290,12 @@ public class CliView extends View implements Runnable {
      */
     public void showChat() {
         printSpaces();
-
-        out.println("----------------------------------------------------------------------------------- " +
-                "CHAT: " +
-                "-----------------------------------------------------------------------------------");
         for (String message : chat) {
             out.println("   " + message);
         }
+        out.println("----------------------------------------------------------------------------------- " +
+                "CHAT: " +
+                "-----------------------------------------------------------------------------------");
         out.println("write a message below or press 'B' to go back");
     }
 

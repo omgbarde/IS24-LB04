@@ -254,6 +254,7 @@ public class GuiController extends ViewController {
 
     /**
      * Method to clean an image
+     *
      * @param rectangle the part to clean
      */
     public void cleanImage(Rectangle rectangle) {
@@ -587,7 +588,6 @@ public class GuiController extends ViewController {
         Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
         this.disableRectangle(toDisable1);
         this.disableRectangle(toDisable2);
-        this.disableRectangle(guiView.getSecretObjectiveBackground());
 
         String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);
@@ -854,6 +854,7 @@ public class GuiController extends ViewController {
 
     /**
      * method to set the client socket
+     *
      * @param clientSocket the client socket
      */
     public void setClientSocket(ClientSocket clientSocket) {

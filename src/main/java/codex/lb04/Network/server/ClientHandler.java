@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable {
         } catch (SocketException | EOFException e) {
             System.out.println("client disconnected: " + getUsername());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("error reading message from server");
+            System.out.println("error reading message from client");
         } finally {
             try {
                 pinger.shutdown();
