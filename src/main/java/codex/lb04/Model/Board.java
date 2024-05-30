@@ -19,16 +19,15 @@ import java.util.Objects;
 public class Board extends Observable {
     //cards played
     private final ArrayList<Card> playedCards = new ArrayList<>();
-
+    private final ArrayList<ObjectiveCard> secretObjectiveToPick;
+    //cards
+    private final ArrayList<Card> hand;
+    //deck
+    private final Deck deck;
     //objectives
     private ArrayList<ObjectiveCard> CommonObjectives;
     private ObjectiveCard secretObjective;
-    private final ArrayList<ObjectiveCard> secretObjectiveToPick;
-
-    //cards
-    private final ArrayList<Card> hand;
     private InitialCard initialCard;
-
     //resources
     private Integer insects;
     private Integer animals;
@@ -37,14 +36,9 @@ public class Board extends Observable {
     private Integer quills;
     private Integer inkwells;
     private Integer manuscripts;
-
     //points
     private Integer points;
     private Integer pointsByGoldCards;
-
-    //deck
-    private final Deck deck;
-
     //boolean to check if the player chose the secret objective
     private boolean secretObjectiveChosen = false;
 
@@ -717,6 +711,15 @@ public class Board extends Observable {
     //GETTERS
 
     /**
+     * This method sets a boolean as true when the initial card has been played
+     *
+     * @param initialCardChosen the boolean to set
+     */
+    public void setInitialCardChosen(boolean initialCardChosen) {
+        this.initialCardChosen = initialCardChosen;
+    }
+
+    /**
      * This method returns the deck of the game
      *
      * @return deck the deck of the game
@@ -753,12 +756,45 @@ public class Board extends Observable {
     }
 
     /**
+     * sets the common objectives
+     *
+     * @param CommonObjectives the common objectives
+     */
+    public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
+        this.CommonObjectives = CommonObjectives;
+    }
+
+    /**
      * getter for the secret objective
      *
      * @return the secret objective chosen by the player
      */
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
+    }
+
+    //SETTERS
+
+    /**
+     * This method sets the secret objective of the player
+     *
+     * @param pick the secret objective to set
+     */
+    public void setSecretObjective(Integer pick) {
+        if (secretObjectiveToPick.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        switch (pick) {
+            case 0, 1:
+                this.secretObjective = this.secretObjectiveToPick.get(pick);
+                break;
+            default: //should never be reached
+                System.out.println("invalid choice");
+                return;
+        }
+
+        secretObjectiveChosen = true;
+        notifyObserver(new UpdateSecretObjectiveMessage(username, this.secretObjective));
     }
 
     /**
@@ -770,7 +806,6 @@ public class Board extends Observable {
         return hand;
     }
 
-
     /**
      * getter for the secret objectives to choose from
      *
@@ -779,8 +814,6 @@ public class Board extends Observable {
     public ArrayList<ObjectiveCard> getSecretObjectiveToPick() {
         return secretObjectiveToPick;
     }
-
-    //SETTERS
 
     /**
      * test method to set the points
@@ -808,46 +841,6 @@ public class Board extends Observable {
     public void setInitialCard() {
         this.initialCard = deck.drawInitialCard();
         notifyObserver(new UpdateInitialCardDisplayMessage(this.username, initialCard));
-    }
-
-    /**
-     * This method sets a boolean as true when the initial card has been played
-     *
-     * @param initialCardChosen the boolean to set
-     */
-    public void setInitialCardChosen(boolean initialCardChosen) {
-        this.initialCardChosen = initialCardChosen;
-    }
-
-    /**
-     * sets the common objectives
-     *
-     * @param CommonObjectives the common objectives
-     */
-    public void setCommonObjectives(ArrayList<ObjectiveCard> CommonObjectives) {
-        this.CommonObjectives = CommonObjectives;
-    }
-
-    /**
-     * This method sets the secret objective of the player
-     *
-     * @param pick the secret objective to set
-     */
-    public void setSecretObjective(Integer pick) {
-        if (secretObjectiveToPick.isEmpty()) {
-            throw new IllegalStateException("Deck is empty");
-        }
-        switch (pick) {
-            case 0, 1:
-                this.secretObjective = this.secretObjectiveToPick.get(pick);
-                break;
-            default: //should never be reached
-                System.out.println("invalid choice");
-                return;
-        }
-
-        secretObjectiveChosen = true;
-        notifyObserver(new UpdateSecretObjectiveMessage(username, this.secretObjective));
     }
 
     /**

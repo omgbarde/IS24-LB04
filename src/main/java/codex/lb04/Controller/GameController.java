@@ -17,13 +17,20 @@ import java.util.Objects;
  */
 public class GameController {
 
+    private static GameController instance;
+    GameObserver gameObserver;
     private Game game;
     private InputController inputController;
     private TurnController turnController;
-    private static GameController instance;
     private boolean endGame = false;
     private int countDown = -1;
-    GameObserver gameObserver;
+
+    /**
+     * Private constructor to prevent instantiation from outside the class
+     */
+    private GameController() {
+        createGameController();
+    }
 
     /**
      * Singleton instance method
@@ -53,13 +60,6 @@ public class GameController {
         instance = getInstance();
         this.inputController = new InputController(this, game);
 
-    }
-
-    /**
-     * Private constructor to prevent instantiation from outside the class
-     */
-    private GameController() {
-        createGameController();
     }
 
     /**

@@ -15,10 +15,9 @@ public class Card implements Serializable {
 
     private final Face front;
     private final Face back;
-    private boolean isShowingFront;
-
     private final Color color;
     private final Integer points;
+    private boolean isShowingFront;
     private Integer x, y;
     private Integer ID;
 
@@ -102,12 +101,33 @@ public class Card implements Serializable {
     }
 
     /**
+     * Set the shown face of the card
+     *
+     * @param showingFront true if the card needs to be showing the front face , false otherwise
+     */
+    public void setShowingFront(boolean showingFront) {
+        this.isShowingFront = showingFront;
+    }
+
+    /**
      * this method returns if the card is used for positional objectives
      *
      * @return true if the card is used for positional objectives , false otherwise
      */
     public boolean isUsedForPositionalObjectives() {
         return usedForPositionalObjectives;
+    }
+
+    //GETTER
+
+    /**
+     * Set the card as already used for positional objectives
+     * this way the card will be counted only once for positional objectives
+     *
+     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
+     */
+    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
+        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
     /**
@@ -127,8 +147,6 @@ public class Card implements Serializable {
                 this.isShowingFront,
                 this.usedForPositionalObjectives);
     }
-
-    //GETTER
 
     /**
      * This method returns the shown face of the card
@@ -214,25 +232,6 @@ public class Card implements Serializable {
     public void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    /**
-     * Set the shown face of the card
-     *
-     * @param showingFront true if the card needs to be showing the front face , false otherwise
-     */
-    public void setShowingFront(boolean showingFront) {
-        this.isShowingFront = showingFront;
-    }
-
-    /**
-     * Set the card as already used for positional objectives
-     * this way the card will be counted only once for positional objectives
-     *
-     * @param usedForPositionalObjectives true if the card is used for positional objectives , false otherwise
-     */
-    public void setUsedForPositionalObjectives(boolean usedForPositionalObjectives) {
-        this.usedForPositionalObjectives = usedForPositionalObjectives;
     }
 
 }

@@ -13,13 +13,12 @@ import static java.lang.System.out;
  * This class represents the view of the game in CLI mode
  */
 public class CliView extends View implements Runnable {
-    private CliViewState state = CliViewState.HELLO;
+    private static Scanner scanner;
+    private final ArrayList<String> chat;
     ArrayList<String> lobby;
     CliBoardModel boardModel;
     CliController controller;
-    private final ArrayList<String> chat;
-
-    private static Scanner scanner;
+    private CliViewState state = CliViewState.HELLO;
 
     /**
      * Constructor for the CliView
@@ -311,23 +310,23 @@ public class CliView extends View implements Runnable {
     }
 
     /**
-     * Gets the board
-     *
-     * @return the board
-     */
-    public CliBoardModel getBoard() {
-        return boardModel;
-    }
-
-    //SETTER
-
-    /**
      * Sets the state
      *
      * @param state the state
      */
     public void setState(CliViewState state) {
         this.state = state;
+    }
+
+    //SETTER
+
+    /**
+     * Gets the board
+     *
+     * @return the board
+     */
+    public CliBoardModel getBoard() {
+        return boardModel;
     }
 
 }

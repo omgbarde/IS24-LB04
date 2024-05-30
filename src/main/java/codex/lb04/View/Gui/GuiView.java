@@ -37,7 +37,6 @@ import java.util.ArrayList;
  * This class represents the view of the game in GUI mode
  */
 public class GuiView extends View {
-
     //sizing constants
     private static final double cardWidth = 124;
     private static final double cardHeight = 82.5;
@@ -975,7 +974,7 @@ public class GuiView extends View {
     }
 
     //GETTER
-
+  
     /**
      * method to get the chat group
      *

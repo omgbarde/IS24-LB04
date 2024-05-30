@@ -20,11 +20,10 @@ import java.util.concurrent.TimeUnit;
 public class ClientHandler implements Runnable {
     private final Server server;
     private final Socket clientSocket;
+    private final ScheduledExecutorService pinger;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private String username;
-
-    private final ScheduledExecutorService pinger;
     private long pingSentTime;
     private long pongReceivedTime;
 

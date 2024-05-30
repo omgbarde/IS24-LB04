@@ -16,7 +16,7 @@
 |  CLI interface   |   ✅   |
 |   in-game chat   |   ✅   |
 
-[documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables/Archive)
+[documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables)
 
 ## Requirements
 - A working LAN connection is required to play with multiple pc.
@@ -28,19 +28,19 @@ in command line navigate to the deliverables folder and run the following comman
 1. first launch the serverApp and choose the default port when asked in the command line\
    to start Server:
     ```sh
-    java -jar CodexLauncher.jar --ser
+    java -jar CodexBoardGame.jar --ser
     ```
 2. then launch the clients in the desired mode (omit arguments to play in default mode GUI)\
     to start CLI:
    
     ```sh
-    java -jar CodexLauncher.jar --cli
+    java -jar CodexBoardGame.jar --cli
     ```
     
     to start GUI:
   
     ```sh
-    java -jar CodexLauncher.jar --gui
+    java -jar CodexBoardGame.jar --gui
     ```
    
 3. lastly create or join a game
@@ -48,5 +48,5 @@ in command line navigate to the deliverables folder and run the following comman
   - to join a game use the correct ip address and port of the person hosting the game (the network interfaces are also displayed in the console by the serverApp)
 
 ## How to play
-- [codex rulebook](https://github.com/omgbarde/IS24-LB04/blob/bd00eed9bb266829cce41ff64434404faad6cba2/src/main/resources/CODEX_Rulebook_IT.pdf)
+- [codex rulebook](src/main/resources/CODEX_Rulebook_IT.pdf)
 - the controls are displayed in the view based on the graphic mode

@@ -13,6 +13,12 @@ import java.util.Scanner;
 public class SceneLauncher extends Application {
     private GuiView guiView;
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        launch(String.valueOf(scanner.nextInt()));
+    }
+
     @Override
     public void start(Stage primaryStage) {
         this.guiView = new GuiView(primaryStage);
@@ -37,12 +43,6 @@ public class SceneLauncher extends Application {
                 System.out.println("what are you doing?");
                 break;
         }
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        launch(String.valueOf(scanner.nextInt()));
     }
 
 }

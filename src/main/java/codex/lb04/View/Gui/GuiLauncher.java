@@ -18,6 +18,7 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) {
         View guiView = new GuiView(stage);
+
         //add icon to the window
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/codex-naturalis-espt.jpg"))));
         stage.setHeight(650);

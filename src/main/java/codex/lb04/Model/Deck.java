@@ -14,13 +14,13 @@ import java.util.NoSuchElementException;
  * this class represents the deck of cards
  */
 public class Deck extends Observable {
+    private static Deck instance;
     private ArrayList<ResourceCard> resourceCards;
     private ArrayList<GoldCard> goldCards;
     private ArrayList<ObjectiveCard> objectiveCards;
     private ArrayList<InitialCard> initialCards;
     private ArrayList<GoldCard> visibleGoldCards;
     private ArrayList<ResourceCard> visibleResourceCards;
-    private static Deck instance;
 
     /**
      * Default constructor
@@ -33,6 +33,18 @@ public class Deck extends Observable {
         visibleGoldCards = new ArrayList<>();
         visibleResourceCards = new ArrayList<>();
         initializeDeck();
+    }
+
+    /**
+     * returns the deck instance
+     *
+     * @return the deck instance
+     */
+    public static Deck getInstance() {
+        if (instance == null) {
+            instance = new Deck();
+        }
+        return instance;
     }
 
     /**
@@ -52,19 +64,6 @@ public class Deck extends Observable {
         this.shuffleInitial();
         visibleGoldCards = setVisibleGoldCards();
         visibleResourceCards = setVisibleResourceCards();
-    }
-
-
-    /**
-     * returns the deck instance
-     *
-     * @return the deck instance
-     */
-    public static Deck getInstance() {
-        if (instance == null) {
-            instance = new Deck();
-        }
-        return instance;
     }
 
     /**

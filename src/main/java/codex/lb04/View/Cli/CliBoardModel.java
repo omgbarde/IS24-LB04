@@ -263,6 +263,13 @@ public class CliBoardModel {
     //GETTER
 
     /**
+     * sets the initial card
+     */
+    public void setInitialCard(InitialCard initialCard) {
+        this.initialCard = initialCard;
+    }
+
+    /**
      * gets the turn label
      *
      * @return turn label
@@ -270,47 +277,6 @@ public class CliBoardModel {
     public String getTurnLabel() {
         return turnLabel;
     }
-
-    /**
-     * gets the hand
-     *
-     * @return the arraylist of cards in the hand
-     */
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
-
-
-    /**
-     * gets the choices
-     *
-     * @return the arraylist of objective cards to choose from
-     */
-    public ArrayList<ObjectiveCard> getChoices() {
-        return choices;
-    }
-
-
-    /**
-     * gets the selected card
-     *
-     * @return the currently selected card
-     */
-    public Card getSelectedCard() {
-        return selectedCard;
-    }
-
-    /**
-     * gets the board state
-     *
-     * @return the current state of the board
-     */
-    public CliBoardState getBoardState() {
-        return boardState;
-    }
-
-    //SETTER
 
     /**
      * sets the turn label
@@ -322,10 +288,12 @@ public class CliBoardModel {
     }
 
     /**
-     * sets the initial card
+     * gets the hand
+     *
+     * @return the arraylist of cards in the hand
      */
-    public void setInitialCard(InitialCard initialCard) {
-        this.initialCard = initialCard;
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 
     /**
@@ -335,6 +303,72 @@ public class CliBoardModel {
      */
     public void setHand(ArrayList<Card> hand) {
         this.hand = hand;
+    }
+
+
+    /**
+     * sets the objective cards
+     *
+     * @param objectiveCards the arraylist of objective cards to set
+     */
+    public void setObjectiveCards(ArrayList<ObjectiveCard> objectiveCards) {
+        this.objectiveCards = objectiveCards;
+    }
+
+    //SETTER
+
+    /**
+     * gets the choices
+     *
+     * @return the arraylist of objective cards to choose from
+     */
+    public ArrayList<ObjectiveCard> getChoices() {
+        return choices;
+    }
+
+    /**
+     * sets the secret objective
+     *
+     * @param secretObjective the secret objective card to set
+     */
+    public void setSecretObjective(ObjectiveCard secretObjective) {
+        this.secretObjective = secretObjective;
+    }
+
+    /**
+     * gets the selected card
+     *
+     * @return the currently selected card
+     */
+    public Card getSelectedCard() {
+        return selectedCard;
+    }
+
+    /**
+     * sets the selected card
+     *
+     * @param selectedCard the card to set as selected
+     */
+    public void setSelectedCard(Card selectedCard) {
+        this.selectedCard = selectedCard;
+    }
+
+    /**
+     * gets the board state
+     *
+     * @return the current state of the board
+     */
+    public CliBoardState getBoardState() {
+        return boardState;
+    }
+
+    /**
+     * sets the board state
+     *
+     * @param boardState the state to set the board to
+     */
+    public void setBoardState(CliBoardState boardState) {
+        this.boardState = boardState;
     }
 
     /**
@@ -356,55 +390,12 @@ public class CliBoardModel {
     }
 
     /**
-     * sets the choices
-     */
-    public void setChoices(ArrayList<ObjectiveCard> secretObjectivesToChooseFrom) {
-        this.choices = secretObjectivesToChooseFrom;
-    }
-
-    /**
-     * sets the objective cards
-     *
-     * @param objectiveCards the arraylist of objective cards to set
-     */
-    public void setObjectiveCards(ArrayList<ObjectiveCard> objectiveCards) {
-        this.objectiveCards = objectiveCards;
-    }
-
-    /**
-     * sets the secret objective
-     *
-     * @param secretObjective the secret objective card to set
-     */
-    public void setSecretObjective(ObjectiveCard secretObjective) {
-        this.secretObjective = secretObjective;
-    }
-
-    /**
-     * sets the selected card
-     *
-     * @param selectedCard the card to set as selected
-     */
-    public void setSelectedCard(Card selectedCard) {
-        this.selectedCard = selectedCard;
-    }
-
-    /**
      * sets the points
      *
      * @param points the arraylist of all resources and points
      */
     public void setPoints(ArrayList<Integer> points) {
         this.points = points;
-    }
-
-    /**
-     * sets the board state
-     *
-     * @param boardState the state to set the board to
-     */
-    public void setBoardState(CliBoardState boardState) {
-        this.boardState = boardState;
     }
 
 }

@@ -99,22 +99,6 @@ public class CardRenderer {
     }
 
     /**
-     * method to print the card in board format (used only as a test method)
-     *
-     * @param card the card to be printed
-     * @return the string representing the card already formatted
-     */
-    public String printInGame(Card card) {
-        String[] components = renderInGame(card);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String s : components) {
-            stringBuilder.append(s);
-            stringBuilder.append("\n");
-        }
-        return stringBuilder.toString();
-    }
-
-    /**
      * This method renders the card in the game
      *
      * @param card the card to be rendered
@@ -388,6 +372,22 @@ public class CardRenderer {
             cost += getResourcesNeeded(card).get(i);
         }
         return cost;
+    }
+
+    /**
+     * method to print the card in board format (used only as a test method)
+     *
+     * @param card the card to be printed
+     * @return the string representing the card already formatted
+     */
+    public String printInGame(Card card) {
+        String[] components = renderInGame(card);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : components) {
+            stringBuilder.append(s);
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
 }

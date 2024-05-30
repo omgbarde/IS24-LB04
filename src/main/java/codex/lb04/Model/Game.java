@@ -22,9 +22,9 @@ import java.util.Objects;
 public class Game extends Observable {
     private static Game instance;
     private final ArrayList<Player> players;
+    private final ArrayList<String> lobby;
     private Deck deck;
     private GameState gameState;
-    private final ArrayList<String> lobby;
     private ArrayList<ObjectiveCard> inGameObjectiveCards;
     private int numPlayers;
     private int replies;
@@ -42,13 +42,6 @@ public class Game extends Observable {
     }
 
     /**
-     * sets the deck
-     */
-    public void setDeck() {
-        this.deck = Deck.getInstance();
-    }
-
-    /**
      * Singleton instance method
      *
      * @return the singleton instance of the Game class
@@ -58,6 +51,13 @@ public class Game extends Observable {
             instance = new Game();
         }
         return instance;
+    }
+
+    /**
+     * sets the deck
+     */
+    public void setDeck() {
+        this.deck = Deck.getInstance();
     }
 
     /**
@@ -343,6 +343,15 @@ public class Game extends Observable {
     }
 
     /**
+     * sets the number of players
+     *
+     * @param numPlayers the number of players
+     */
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    /**
      * Returns the player names
      *
      * @return the player names
@@ -361,6 +370,17 @@ public class Game extends Observable {
     }
 
     /**
+     * sets the game state
+     *
+     * @param gameState the game state
+     */
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    //SETTER
+
+    /**
      * returns the players
      *
      * @return the players
@@ -376,26 +396,6 @@ public class Game extends Observable {
      */
     public Deck getDeck() {
         return deck;
-    }
-
-    //SETTER
-
-    /**
-     * sets the game state
-     *
-     * @param gameState the game state
-     */
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    /**
-     * sets the number of players
-     *
-     * @param numPlayers the number of players
-     */
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
     }
 
     /**
