@@ -526,15 +526,15 @@ public class GuiView extends View {
      * @param centerRoot the center pane where the boxes are placed
      */
     private void createChoiceBoxes(Pane centerRoot) {
-        Rectangle initialCardDisplay = new Rectangle(250, 200, cardWidth, cardHeight);
+        Rectangle initialCardDisplay = new Rectangle(300, 250, cardWidth, cardHeight);
         //initialCardDisplay.setFill(Color.RED.getPaint());
         this.initCardBackground = initialCardDisplay;
 
-        Rectangle secretObjectiveDisplay1 = new Rectangle(400, 150, cardWidth, cardHeight);
+        Rectangle secretObjectiveDisplay1 = new Rectangle(450, 200, cardWidth, cardHeight);
         //secretObjectiveDisplay1.setFill(Color.RED.getPaint());
         secretObjectiveDisplay1.setUserData(0);
 
-        Rectangle secretObjectiveDisplay2 = new Rectangle(400, 250, cardWidth, cardHeight);
+        Rectangle secretObjectiveDisplay2 = new Rectangle(450, 300, cardWidth, cardHeight);
         //secretObjectiveDisplay2.setFill(Color.RED.getPaint());
         secretObjectiveDisplay2.setUserData(1);
 

@@ -19,8 +19,6 @@ public class Server implements Runnable {
     //list of all client handlers, use copy on write array list to avoid concurrent modification exceptions
     private static final CopyOnWriteArrayList<ClientHandler> clientHandlerList = new CopyOnWriteArrayList<>();
     private final GameController gameController = GameController.getInstance();
-    //default port
-    private int port = ConnectionUtil.defaultPort;
 
     /**
      * sends a message to a specific client
@@ -37,25 +35,6 @@ public class Server implements Runnable {
         }
     }
 
-    /**
-     * send message to all connected clients
-     *
-     * @param message message to be broadcast
-     */
-    public static void broadcast(Message message) {
-        for (ClientHandler clientHandler : clientHandlerList) {
-            clientHandler.sendMessage(message);
-        }
-    }
-
-    /**
-     * print utility method
-     *
-     * @param s is the string to be printed
-     */
-    public static void print(String s) {
-        System.out.println(s);
-    }
 
     /**
      * creates the server socket, game objects and multiple client handlers based on incoming connection requests
