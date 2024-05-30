@@ -228,6 +228,9 @@ public class Card implements Serializable {
 
     /**
      * Set the coordinates of the card
+     *
+     * @param x the x coordinate to set
+     * @param y the y coordinate to set
      */
     public void setCoordinates(int x, int y) {
         this.x = x;

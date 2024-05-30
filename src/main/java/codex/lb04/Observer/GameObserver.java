@@ -9,6 +9,7 @@ import codex.lb04.Network.server.Server;
 public class GameObserver implements Observer {
     /**
      * method called on changes of the model that notifies the clients connected with different messages
+     *
      * @param message the message to be sent to one or more clients
      */
     @Override

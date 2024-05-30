@@ -75,7 +75,7 @@ public class CliBoardModel {
             } else if (boardX == x + 1 && boardY == y - 1) {
                 toBeCovered.getUpperLeft().setCovered(c);
                 gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
-            } else if (boardX== x - 1 && boardY == y + 1) {
+            } else if (boardX == x - 1 && boardY == y + 1) {
                 toBeCovered.getLowerRight().setCovered(c);
                 gridMap[-boardY + k][k + boardX] = CardRenderer.renderInGame(c);
             } else if (boardX == x - 1 && boardY == y - 1) {
@@ -320,6 +320,8 @@ public class CliBoardModel {
 
     /**
      * sets the initial card
+     *
+     * @param initialCard the initial card to set
      */
     public void setInitialCard(InitialCard initialCard) {
         this.initialCard = initialCard;

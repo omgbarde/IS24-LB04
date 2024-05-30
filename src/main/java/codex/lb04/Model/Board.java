@@ -185,6 +185,8 @@ public class Board extends Observable {
      * This method places a card on the board
      *
      * @param toBePlaced the card to be placed on the board
+     * @param x          the x coordinate
+     * @param y          the y coordinate
      */
     public void placeCard(Card toBePlaced, Integer x, Integer y) {
         if (!hasPlacedACard && (toBePlaced.getClass() == ResourceCard.class || toBePlaced.getClass() == GoldCard.class) || ((toBePlaced.getClass() == InitialCard.class) && x == 0 && y == 0)) {
@@ -239,8 +241,9 @@ public class Board extends Observable {
     /**
      * This method tells if a card can be placed with certain coordinates
      *
-     * @param x coordinate
-     * @param y coordinate
+     * @param x          coordinate
+     * @param y          coordinate
+     * @param toBePlaced the card to be placed
      * @return true if the card can be placed false otherwise
      */
     public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
@@ -312,6 +315,10 @@ public class Board extends Observable {
 
     /**
      * This method returns the number of corner you're going to cover placing a card
+     *
+     * @param x the x coordinate of where you want to place the card
+     * @param y the y coordinate of where you want to place the card
+     * @return the number of corner you're going to cover placing a card
      */
     public Integer getCornerCovered(Integer x, Integer y) {
         int corner_covered = 0;
@@ -649,6 +656,8 @@ public class Board extends Observable {
 
     /**
      * this method checks how many objectives a player has completed
+     *
+     * @return the number of objectives completed
      */
     public Integer checkNumberObjectives() {
         int count = 0;

@@ -115,7 +115,10 @@ public class Game extends Observable {
     /**
      * Places a card on the board
      *
-     * @param card the card to place
+     * @param card   the card to place
+     * @param x      the x coordinate
+     * @param y      the y coordinate
+     * @param player the player who places the card
      */
     public void placeCard(Card card, Integer x, Integer y, Player player) {
         player.getBoard().placeCard(card, x, y);
@@ -221,6 +224,8 @@ public class Game extends Observable {
     /**
      * check for victory conditions
      * if there is more than one player, the player with the most objectives completed wins
+     *
+     * @return the winner names
      */
     public ArrayList<String> getWinners() {
         ArrayList<String> winners = new ArrayList<>();

@@ -30,6 +30,8 @@ public class Corner implements Serializable {
 
     /**
      * constructor for corners with no resources that can be covered or not
+     *
+     * @param isCovered tells if a corner is covered or not
      */
     public Corner(boolean isCovered) {
         this.resource = null;

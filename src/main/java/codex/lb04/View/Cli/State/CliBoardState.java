@@ -9,5 +9,5 @@ public enum CliBoardState {
     SELECTING,          // when the player is selecting a card
     PLACING,            // when the player is placing a card
     DRAWING,            // when the player is drawing a card
-    END                // when the turn is over, and the client has to pass
+    END                 // when the turn is over, and the client has to pass
 }

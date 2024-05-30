@@ -31,9 +31,8 @@ public class ClientHandler implements Runnable {
      * the client handler constructor creates a handler for a single client
      *
      * @param socket is the socket of the client
-     *               //@param server is the serverApp instance that the client is connected to
+     * @param server is the serverApp instance that the client is connected to
      */
-    /* @param game is the game instance that the player wants to join */
     public ClientHandler(Socket socket, Server server) {
         this.clientSocket = socket;
         this.server = server;
@@ -118,6 +117,7 @@ public class ClientHandler implements Runnable {
     /**
      * starts a new executor to ping the client
      * it sends a ping message to the client every 5 seconds and checks if the client has responded in the last 10 seconds
+     *
      * @see PingMessage
      */
     private void startPinger() {
@@ -134,8 +134,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * closes the client handler and removes it from the server it also signals to disconnect all clients
-     * @see codex.lb04.Network.client.ClientSocket#disconnect()
      *
+     * @see codex.lb04.Network.client.ClientSocket#disconnect()
      */
     void closeClientHandler() {
         pinger.shutdown();

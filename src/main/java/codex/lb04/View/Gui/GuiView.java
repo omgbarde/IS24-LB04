@@ -974,7 +974,7 @@ public class GuiView extends View {
     }
 
     //GETTER
-  
+
     /**
      * method to get the chat group
      *

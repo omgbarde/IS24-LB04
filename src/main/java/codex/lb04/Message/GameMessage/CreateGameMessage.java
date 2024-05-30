@@ -17,7 +17,6 @@ public class CreateGameMessage extends Message {
      * Constructor for CreateGameMessage
      *
      * @param username username of the client that wants to create a game
-     * @param port     port the client wants to use
      * @param num      number of players in the game
      */
     public CreateGameMessage(String username, int num) {

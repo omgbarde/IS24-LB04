@@ -83,7 +83,7 @@ public class Server implements Runnable {
     /**
      * remove a client handler from the list
      *
-     * @param clientHandlerName is the name of the client handler to be removed
+     * @param clientHandler is the clientHandler to be removed
      */
     public void removeClientHandler(ClientHandler clientHandler) {
         if (!clientHandlerList.isEmpty()) {
@@ -104,7 +104,7 @@ public class Server implements Runnable {
         }*/
         this.gameController.onMessageReceived(receivedMessage);
     }
-  
+
     /**
      * print utility method
      *

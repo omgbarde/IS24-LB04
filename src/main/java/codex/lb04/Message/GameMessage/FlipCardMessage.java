@@ -19,6 +19,7 @@ public class FlipCardMessage extends Message {
      * Constructor for FlipCardMessage
      *
      * @param username username of the player
+     * @param card     card that has been flipped
      */
     public FlipCardMessage(String username, Card card) {
         super(username, MessageType.FLIP_CARD);

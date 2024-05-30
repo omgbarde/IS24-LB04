@@ -184,6 +184,8 @@ public class Deck extends Observable {
 
     /**
      * this method updates the visible gold cards
+     *
+     * @param pick the card pick (0,1 or 2)
      */
     public void updateVisibleGold(int pick) {
         this.visibleGoldCards.remove(pick);
@@ -206,6 +208,8 @@ public class Deck extends Observable {
 
     /**
      * this method updates the visible resource cards
+     *
+     * @param pick the card pick (0,1 or 2)
      */
     public void updateVisibleResource(int pick) {
         visibleResourceCards.remove(pick);

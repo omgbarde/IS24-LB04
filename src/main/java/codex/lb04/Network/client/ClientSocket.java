@@ -25,8 +25,11 @@ public class ClientSocket {
     /**
      * generates a client socket with the parameters in input
      *
-     * @param address is the port address
-     * @param port    is the desired port
+     * @param username   is the username of the client
+     * @param address    is the port address
+     * @param port       is the desired port
+     * @param controller is the controller that will handle the messages
+     * @throws IOException if the socket cannot be created
      */
     public ClientSocket(String username, String address, int port, ViewController controller) throws IOException {
         this.username = username;
