@@ -481,7 +481,7 @@ public class GuiView extends View {
         createCameraTranslate(scene, movableRoot);
 
         Platform.runLater(() -> {
-            scene.getStylesheets().add("/codexTheme.css");
+            //scene.getStylesheets().add("/codexTheme.css");
             stageReference.setTitle("Codex! - your board");
             stageReference.setScene(scene);
             stageReference.show();
@@ -958,7 +958,7 @@ public class GuiView extends View {
         alert.getStyleClass().add("alert-text");
         PauseTransition delay = new PauseTransition(Duration.seconds(timer));
         delay.setOnFinished(event -> alert.setText(""));
-        alert.setX(120);
+        alert.setX(100);
         alert.setY(50);
         delay.play();
     }

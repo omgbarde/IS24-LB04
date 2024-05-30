@@ -1,17 +1,14 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Controller.GameController;
-import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
-import codex.lb04.Message.MessageType;
 import codex.lb04.Utils.ConnectionUtil;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * ServerApp class that represents the server side of the game.
@@ -19,8 +16,8 @@ import java.util.Scanner;
 public class Server implements Runnable {
     //default port
     private int port = ConnectionUtil.defaultPort;
-    //list of all client handlers
-    private static final List<ClientHandler> clientHandlerList = new ArrayList<>();
+    //list of all client handlers, use copy on write array list to avoid concurrent modification exceptions
+    private static final CopyOnWriteArrayList<ClientHandler> clientHandlerList = new CopyOnWriteArrayList<>();
     private final GameController gameController = GameController.getInstance();
 
     /**
@@ -87,9 +84,9 @@ public class Server implements Runnable {
      *
      * @param clientHandlerName is the name of the client handler to be removed
      */
-    public void removeClientHandler(String clientHandlerName) {
+    public void removeClientHandler(ClientHandler clientHandler) {
         if (!clientHandlerList.isEmpty()) {
-            clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
+            clientHandlerList.remove(clientHandler);
         }
     }
 
@@ -99,12 +96,11 @@ public class Server implements Runnable {
      * @param receivedMessage is the message received
      */
     public void onMessageReceived(Message receivedMessage) {
-        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
+        /*if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
             String usr = receivedMessage.getUsername();
-            removeClientHandler(usr);
             ErrorMessage message = new ErrorMessage("server", "client " + usr + " disconnected");
             broadcast(message);
-        }
+        }*/
         this.gameController.onMessageReceived(receivedMessage);
     }
 
@@ -115,5 +111,16 @@ public class Server implements Runnable {
      */
     public static void print(String s) {
         System.out.println(s);
+    }
+
+
+    /**
+     * method to disconnect all clients
+     */
+    public void disconnectAllClients() {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.closeClientHandler();
+        }
+        gameController.resetInstance();
     }
 }
