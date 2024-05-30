@@ -31,19 +31,19 @@ in command line navigate to the deliverables folder and run the following comman
 1. first launch the serverApp and choose the default port when asked in the command line\
    to start Server:
     ```sh
-    java -jar CodexLauncher.jar --ser
+    java -jar CodexBoardGame.jar --ser
     ```
 2. then launch the clients in the desired mode (omit arguments to play in default mode GUI)\
     to start CLI:
    
     ```sh
-    java -jar CodexLauncher.jar --cli
+    java -jar CodexBoardGame.jar --cli
     ```
     
     to start GUI:
   
     ```sh
-    java -jar CodexLauncher.jar --gui
+    java -jar CodexBoardGame.jar --gui
     ```
    
 3. lastly create or join a game
