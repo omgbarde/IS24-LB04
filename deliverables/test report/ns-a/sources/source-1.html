@@ -130,6 +130,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * this class represents the observer of the game
 &nbsp; */
 <b class="fc">&nbsp;public class GameObserver implements Observer {</b>
+&nbsp;    /**
+&nbsp;     * method called on changes of the model that notifies the clients connected with different messages
+&nbsp;     *
+&nbsp;     * @param message the message to be sent to one or more clients
+&nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void update(Message message) {
 <b class="fc">&nbsp;        String usr = message.getUsername();</b>
@@ -173,7 +178,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

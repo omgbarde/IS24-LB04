@@ -48,7 +48,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/33)
+    (0/38)
   </span>
 </td>
 <td class="coverageStat">
@@ -56,7 +56,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/32)
+    (0/40)
   </span>
 </td>
 <td class="coverageStat">
@@ -64,7 +64,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/568)
+    (0/487)
   </span>
 </td>
 </tr>
@@ -94,7 +94,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/34)
+    (0/39)
   </span>
 </td>
 <td class="coverageStat">
@@ -102,7 +102,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/32)
+    (0/40)
   </span>
 </td>
 <td class="coverageStat">
@@ -110,7 +110,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/569)
+    (0/488)
   </span>
 </td>
 </tr>
@@ -134,6 +134,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import codex.lb04.View.View;
 &nbsp;import javafx.animation.PauseTransition;
 &nbsp;import javafx.application.Platform;
+&nbsp;import javafx.geometry.Insets;
+&nbsp;import javafx.geometry.Pos;
 &nbsp;import javafx.scene.Group;
 &nbsp;import javafx.scene.Scene;
 &nbsp;import javafx.scene.control.Button;
@@ -142,10 +144,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import javafx.scene.control.TextField;
 &nbsp;import javafx.scene.image.Image;
 &nbsp;import javafx.scene.image.ImageView;
-&nbsp;import javafx.scene.layout.Background;
-&nbsp;import javafx.scene.layout.StackPane;
+&nbsp;import javafx.scene.layout.*;
 &nbsp;import javafx.scene.shape.Rectangle;
-&nbsp;import javafx.scene.text.Font;
 &nbsp;import javafx.scene.text.Text;
 &nbsp;import javafx.scene.transform.Translate;
 &nbsp;import javafx.stage.Stage;
@@ -160,30 +160,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * This class represents the view of the game in GUI mode
 &nbsp; */
 <b class="nc">&nbsp;public class GuiView extends View {</b>
-<b class="nc">&nbsp;    double centerX = 1000 / 2.0;</b>
-<b class="nc">&nbsp;    double centerY = 600 / 2.0;</b>
-<b class="nc">&nbsp;    double cardWidth = 124;</b>
-<b class="nc">&nbsp;    double cardHeight = 82.5;</b>
-<b class="nc">&nbsp;    double resourceWidth = 50;</b>
-<b class="nc">&nbsp;    double resourceHeight = 50;</b>
-<b class="nc">&nbsp;    double stageWidth = 1000;</b>
-<b class="nc">&nbsp;    double stageHeight = 600;</b>
+&nbsp;    //sizing constants
+&nbsp;    private static final double cardWidth = 124;
+&nbsp;    private static final double cardHeight = 82.5;
+&nbsp;    private static final double resourceWidth = 50;
+&nbsp;    private static final double resourceHeight = 50;
 &nbsp;
 &nbsp;    private final Stage stageReference;
 &nbsp;    private ClientSocket clientSocket;
+&nbsp;
+&nbsp;    //GUI elements to be updated/set multiple times
 &nbsp;    private final Label lobbyLabel;
 &nbsp;    private TextArea chatText;
 &nbsp;    private final Label winnerLabel;
-&nbsp;    GuiController controller;
-&nbsp;
-&nbsp;    Group movableRootReference;
-&nbsp;    Group staticGroupReference;
-&nbsp;    Group chatGroupReference;
-&nbsp;
-&nbsp;    Rectangle initCardBackground;
-&nbsp;    Rectangle secretObjectiveBackground;
-&nbsp;    Text alert;
-&nbsp;    Text turnText;
+&nbsp;    private final GuiController controller;
+&nbsp;    private Group chatGroup;
+&nbsp;    private Rectangle initCardBackground;
+&nbsp;    private Text alert;
+&nbsp;    private Text turnText;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Constructor for the GUI view
@@ -191,17 +185,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param stage the javafx stage
 &nbsp;     */
 <b class="nc">&nbsp;    public GuiView(Stage stage) {</b>
-<b class="nc">&nbsp;        stage.setHeight(600);</b>
-<b class="nc">&nbsp;        stage.setWidth(1000);</b>
-<b class="nc">&nbsp;        stage.setResizable(false);//leave it to false because boardScene will be bugged when resized</b>
-<b class="nc">&nbsp;        stage.minHeightProperty().set(600);</b>
-<b class="nc">&nbsp;        stage.minWidthProperty().set(1000);</b>
 <b class="nc">&nbsp;        this.alert = new Text(&quot;&quot;);</b>
 <b class="nc">&nbsp;        this.lobbyLabel = new Label();</b>
 <b class="nc">&nbsp;        this.chatText = new TextArea();</b>
 <b class="nc">&nbsp;        this.winnerLabel = new Label();</b>
 <b class="nc">&nbsp;        this.controller = new GuiController(this);</b>
-<b class="nc">&nbsp;        stageReference = stage;</b>
+<b class="nc">&nbsp;        this.stageReference = stage;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -235,20 +224,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        joinGameButton.setTranslateX(50);</b>
 <b class="nc">&nbsp;        createGameButton.setTranslateY(120);</b>
 <b class="nc">&nbsp;        createGameButton.setTranslateX(-50);</b>
-<b class="nc">&nbsp;        root.getChildren().add(createGameButton);</b>
-<b class="nc">&nbsp;        root.getChildren().add(joinGameButton);</b>
+<b class="nc">&nbsp;        root.getChildren().addAll(createGameButton, joinGameButton);</b>
 <b class="nc">&nbsp;        Scene scene = new Scene(root, 1520, 850);</b>
 <b class="nc">&nbsp;        scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
 <b class="nc">&nbsp;        stageReference.setScene(scene);</b>
 <b class="nc">&nbsp;        stageReference.show();</b>
-&nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method to display an image
+&nbsp;     *
 &nbsp;     * @param root the stack pane
-&nbsp;     * @param is the input stream
-&nbsp;     * @return
+&nbsp;     * @param is   the input stream
+&nbsp;     * @return the image view
 &nbsp;     */
 &nbsp;    private ImageView createImageView(StackPane root, InputStream is) {
 <b class="nc">&nbsp;        assert is != null;</b>
@@ -322,8 +310,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;        //append elements to the root
 <b class="nc">&nbsp;        stageReference.setTitle(&quot;Codex! - Login&quot;);</b>
-<b class="nc">&nbsp;        root.getChildren().add(imageView);</b>
-<b class="nc">&nbsp;        root.getChildren().add(titleLabel);</b>
+&nbsp;
 <b class="nc">&nbsp;        titleLabel.setTranslateY(-200);</b>
 <b class="nc">&nbsp;        usernameField.setTranslateY(-100);</b>
 <b class="nc">&nbsp;        serverAddressField.setTranslateY(-50);</b>
@@ -334,18 +321,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        loginButton.setTranslateX(50);</b>
 <b class="nc">&nbsp;        backButton.setTranslateX(-50);</b>
 &nbsp;
-<b class="nc">&nbsp;        root.getChildren().add(usernameField);</b>
-<b class="nc">&nbsp;        root.getChildren().add(serverAddressField);</b>
-<b class="nc">&nbsp;        root.getChildren().add(serverPortField);</b>
-<b class="nc">&nbsp;        root.getChildren().add(loginButton);</b>
-<b class="nc">&nbsp;        root.getChildren().add(backButton);</b>
-<b class="nc">&nbsp;        root.getChildren().add(errorLabel);</b>
+<b class="nc">&nbsp;        root.getChildren().addAll(imageView, titleLabel, usernameField, serverAddressField, serverPortField, loginButton, backButton, errorLabel);</b>
 &nbsp;
 <b class="nc">&nbsp;        Scene scene = new Scene(root, 1520, 850);</b>
 <b class="nc">&nbsp;        scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
 <b class="nc">&nbsp;        stageReference.setScene(scene);</b>
 <b class="nc">&nbsp;        stageReference.show();</b>
-&nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -363,10 +344,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Button playButton = new Button(&quot;Play&quot;);</b>
 <b class="nc">&nbsp;        Button backButton = new Button(&quot;Back&quot;);</b>
 &nbsp;
+<b class="nc">&nbsp;        stageReference.setTitle(&quot;Codex! - Lobby&quot;);</b>
 <b class="nc">&nbsp;        titleLabel.setTranslateY(-200);</b>
 <b class="nc">&nbsp;        lobbyLabel.setTranslateY(-100);</b>
-&nbsp;
-&nbsp;
 <b class="nc">&nbsp;        playButton.setTranslateY(50);</b>
 <b class="nc">&nbsp;        playButton.setTranslateX(50);</b>
 <b class="nc">&nbsp;        backButton.setTranslateY(50);</b>
@@ -379,14 +359,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;        playButton.setOnMouseClicked(actionEvent -&gt; clientSocket.sendMessage(new DrawBoardMessage(clientSocket.getUsername())));</b>
 &nbsp;
-<b class="nc">&nbsp;        stageReference.setTitle(&quot;Codex! - Lobby&quot;);</b>
-<b class="nc">&nbsp;        root.getChildren().add(imageView);</b>
-<b class="nc">&nbsp;        root.getChildren().add(titleLabel);</b>
-<b class="nc">&nbsp;        root.getChildren().add(lobbyLabel);</b>
-<b class="nc">&nbsp;        root.getChildren().add(playButton);</b>
-<b class="nc">&nbsp;        root.getChildren().add(backButton);</b>
+<b class="nc">&nbsp;        root.getChildren().addAll(imageView, titleLabel, lobbyLabel, playButton, backButton);</b>
 &nbsp;
-<b class="nc">&nbsp;        Scene scene = new Scene(root, stageWidth, stageHeight);</b>
+<b class="nc">&nbsp;        Scene scene = new Scene(root);</b>
 <b class="nc">&nbsp;        scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
 <b class="nc">&nbsp;        stageReference.setScene(scene);</b>
 <b class="nc">&nbsp;        stageReference.show();</b>
@@ -486,8 +461,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;        //append elements to the root
 <b class="nc">&nbsp;        stageReference.setTitle(&quot;Codex! - Create Game&quot;);</b>
-<b class="nc">&nbsp;        root.getChildren().add(imageView);</b>
-<b class="nc">&nbsp;        root.getChildren().add(localHostLabel);</b>
+&nbsp;
 <b class="nc">&nbsp;        localHostLabel.setTranslateY(-200);</b>
 <b class="nc">&nbsp;        numPlayersChoice.setTranslateY(-50);</b>
 <b class="nc">&nbsp;        portField.setTranslateY(0);</b>
@@ -497,12 +471,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        errorLabel.setTranslateY(100);</b>
 <b class="nc">&nbsp;        confirmButton.setTranslateX(50);</b>
 <b class="nc">&nbsp;        backButton.setTranslateX(-50);</b>
-<b class="nc">&nbsp;        root.getChildren().add(usernameField);</b>
-<b class="nc">&nbsp;        root.getChildren().add(numPlayersChoice);</b>
-<b class="nc">&nbsp;        root.getChildren().add(portField);</b>
-<b class="nc">&nbsp;        root.getChildren().add(confirmButton);</b>
-<b class="nc">&nbsp;        root.getChildren().add(errorLabel);</b>
-<b class="nc">&nbsp;        root.getChildren().add(backButton);</b>
+&nbsp;
+<b class="nc">&nbsp;        root.getChildren().addAll(imageView, localHostLabel, usernameField, numPlayersChoice, portField, confirmButton, errorLabel, backButton);</b>
 &nbsp;
 <b class="nc">&nbsp;        Scene scene = new Scene(root, 1520, 850);</b>
 <b class="nc">&nbsp;        scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
@@ -510,7 +480,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        stageReference.show();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    //TODO: refactor this method, it&#39;s too long and has repeated code
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method to instantiate the board scene
@@ -518,30 +487,136 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    @Override
 &nbsp;    public void drawBoardScene() {
 <b class="nc">&nbsp;        controller.reset();</b>
-&nbsp;        // Create a group for static elements
-<b class="nc">&nbsp;        Group staticRoot = new Group();</b>
-&nbsp;        // Add static elements to staticRoot here
+<b class="nc">&nbsp;        chatText = new TextArea();</b>
+<b class="nc">&nbsp;        chatGroup = new Group();</b>
 &nbsp;
-&nbsp;        // Create a group for movable elements
+&nbsp;        //border pane containing all
+<b class="nc">&nbsp;        BorderPane root = new BorderPane();</b>
+&nbsp;        //group for the movable grid
 <b class="nc">&nbsp;        Group movableRoot = new Group();</b>
-<b class="nc">&nbsp;        movableRoot.setTranslateY(260);</b>
-<b class="nc">&nbsp;        movableRoot.setTranslateX(415);</b>
 &nbsp;
-&nbsp;        // Create a group to hold both the static and movable groups
-<b class="nc">&nbsp;        Group root = new Group();</b>
-<b class="nc">&nbsp;        Rectangle background = new Rectangle();</b>
-<b class="nc">&nbsp;        background.setHeight(4000);</b>
-<b class="nc">&nbsp;        background.setWidth(4000);</b>
-<b class="nc">&nbsp;        background.setFill(javafx.scene.paint.Color.BLACK);</b>
-<b class="nc">&nbsp;        root.getChildren().add(background);</b>
+&nbsp;        //pane for the center of the window
+<b class="nc">&nbsp;        Pane center = new Pane();</b>
 &nbsp;
+&nbsp;        //Hbox containing turn text and end turn button
+<b class="nc">&nbsp;        HBox topBox = new HBox(50);</b>
+<b class="nc">&nbsp;        HBox.setHgrow(topBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        topBox.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));</b>
+<b class="nc">&nbsp;        topBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        topBox.setMaxHeight(50);</b>
 &nbsp;
-<b class="nc">&nbsp;        root.getChildren().addAll(movableRoot, staticRoot);</b>
+&nbsp;        //Vbox containing cards in hand and buttons to chat and flip, positioned on the left
+<b class="nc">&nbsp;        VBox handBox = new VBox();</b>
+<b class="nc">&nbsp;        VBox.setVgrow(handBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        handBox.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));</b>
+<b class="nc">&nbsp;        handBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        handBox.setMaxWidth(cardWidth);</b>
 &nbsp;
-<b class="nc">&nbsp;        Text alert = new Text(&quot;&quot;);</b>
-<b class="nc">&nbsp;        alert.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        alert.setWrappingWidth(700);</b>
-<b class="nc">&nbsp;        setAlert(alert);</b>
+&nbsp;        //Vbox containing drawable cards positioned on the right
+<b class="nc">&nbsp;        VBox visibleCardsBox = new VBox();</b>
+<b class="nc">&nbsp;        VBox.setVgrow(handBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        visibleCardsBox.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));</b>
+<b class="nc">&nbsp;        visibleCardsBox.setAlignment(Pos.TOP_RIGHT);</b>
+<b class="nc">&nbsp;        visibleCardsBox.setMaxWidth(cardWidth);</b>
+&nbsp;
+&nbsp;        //Hbox containing points and objectives at the bottom of the screen
+<b class="nc">&nbsp;        HBox bottomBox = new HBox(1);</b>
+<b class="nc">&nbsp;        HBox.setHgrow(bottomBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        bottomBox.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));</b>
+<b class="nc">&nbsp;        bottomBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        bottomBox.setMaxHeight(cardHeight);</b>
+&nbsp;
+&nbsp;        //sub-box containing resources and points
+<b class="nc">&nbsp;        HBox pointsBox = new HBox();</b>
+<b class="nc">&nbsp;        HBox.setHgrow(pointsBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        pointsBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        pointsBox.setMaxHeight(resourceHeight);</b>
+&nbsp;
+&nbsp;        //sub-box containing objective cards
+<b class="nc">&nbsp;        HBox objectivesBox = new HBox();</b>
+<b class="nc">&nbsp;        HBox.setHgrow(pointsBox, Priority.ALWAYS);</b>
+<b class="nc">&nbsp;        objectivesBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        objectivesBox.setMaxHeight(cardHeight);</b>
+&nbsp;
+&nbsp;        //button to flip selected card
+<b class="nc">&nbsp;        Button flipButton = new Button(&quot;flip card&quot;);</b>
+<b class="nc">&nbsp;        flipButton.setMaxWidth(75);</b>
+<b class="nc">&nbsp;        flipButton.setOnMouseClicked(e -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                controller.flipCard();</b>
+<b class="nc">&nbsp;            } catch (FileNotFoundException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;
+&nbsp;        //button to end turn
+<b class="nc">&nbsp;        Button endTurnButton = new Button(&quot;end turn&quot;);</b>
+<b class="nc">&nbsp;        endTurnButton.setMaxWidth(75);</b>
+<b class="nc">&nbsp;        endTurnButton.setOnMouseClicked(e -&gt; clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername())));</b>
+&nbsp;
+&nbsp;        //button to toggle chat
+<b class="nc">&nbsp;        Button chatButton = new Button(&quot;Chat&quot;);</b>
+<b class="nc">&nbsp;        chatButton.setMaxWidth(75);</b>
+<b class="nc">&nbsp;        chatButton.setOnMouseClicked(e -&gt; controller.toggleChat());</b>
+&nbsp;
+<b class="nc">&nbsp;        BorderPane.setAlignment(movableRoot, Pos.CENTER);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(handBox, Pos.CENTER);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(visibleCardsBox, Pos.CENTER);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(endTurnButton, Pos.CENTER);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(objectivesBox, Pos.BOTTOM_LEFT);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(pointsBox, Pos.BOTTOM_RIGHT);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(endTurnButton, Pos.CENTER);</b>
+<b class="nc">&nbsp;        BorderPane.setAlignment(bottomBox, Pos.CENTER);</b>
+&nbsp;
+&nbsp;        //setup center
+<b class="nc">&nbsp;        createGrid(movableRoot);</b>
+<b class="nc">&nbsp;        center.getChildren().add(movableRoot);</b>
+<b class="nc">&nbsp;        createChoiceBoxes(center);</b>
+<b class="nc">&nbsp;        createAlertText(center);</b>
+<b class="nc">&nbsp;        createChatBox(chatGroup, center);</b>
+<b class="nc">&nbsp;        root.setCenter(center);</b>
+&nbsp;
+&nbsp;        //setup top
+<b class="nc">&nbsp;        createTurnText(topBox);</b>
+<b class="nc">&nbsp;        topBox.getChildren().add(endTurnButton);</b>
+<b class="nc">&nbsp;        root.setTop(topBox);</b>
+&nbsp;
+&nbsp;        //setup left
+<b class="nc">&nbsp;        createHandBox(handBox);</b>
+<b class="nc">&nbsp;        handBox.getChildren().addAll(new Rectangle(cardWidth, 10), flipButton, new Rectangle(cardWidth, 10), chatButton);</b>
+<b class="nc">&nbsp;        root.setLeft(handBox);</b>
+&nbsp;
+&nbsp;        //setup right
+<b class="nc">&nbsp;        createResourceCardsBox(visibleCardsBox);</b>
+<b class="nc">&nbsp;        visibleCardsBox.getChildren().add(new Rectangle(cardWidth, 10));</b>
+<b class="nc">&nbsp;        createGoldCardsBox(visibleCardsBox);</b>
+<b class="nc">&nbsp;        root.setRight(visibleCardsBox);</b>
+&nbsp;
+&nbsp;        //setup bottom
+<b class="nc">&nbsp;        createObjectivesBox(bottomBox);</b>
+<b class="nc">&nbsp;        bottomBox.getChildren().add(new Rectangle(50, cardHeight));</b>
+<b class="nc">&nbsp;        createPointsBox(bottomBox);</b>
+<b class="nc">&nbsp;        root.setBottom(bottomBox);</b>
+&nbsp;
+<b class="nc">&nbsp;        Scene scene = new Scene(root);</b>
+&nbsp;        //set camera movement for the movable grid
+<b class="nc">&nbsp;        createCameraTranslate(scene, movableRoot);</b>
+&nbsp;
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;            scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
+<b class="nc">&nbsp;            stageReference.setTitle(&quot;Codex! - your board&quot;);</b>
+<b class="nc">&nbsp;            stageReference.setScene(scene);</b>
+<b class="nc">&nbsp;            stageReference.show();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the alert text with initial styling and controls tutorial
+&nbsp;     *
+&nbsp;     * @param centerRoot the center pane where the text is placed
+&nbsp;     */
+&nbsp;    private void createAlertText(Pane centerRoot) {
+<b class="nc">&nbsp;        this.alert = new Text(&quot;&quot;);</b>
 <b class="nc">&nbsp;        displayTimedAlertText(&quot;&quot;&quot;</b>
 &nbsp;                        GAME CONTROLS:
 &nbsp;                        To select a card LEFT click on it
@@ -552,180 +627,57 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                        To place a card select it and click where you want to place it
 &nbsp;                        To move the camera use WASD&quot;&quot;&quot;,
 <b class="nc">&nbsp;                25);</b>
+<b class="nc">&nbsp;        centerRoot.getChildren().add(alert);</b>
+&nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * creates the turn text
+&nbsp;     *
+&nbsp;     * @param topBox the HBox at the top of the screen where the text is placed
+&nbsp;     */
+&nbsp;    private void createTurnText(HBox topBox) {
 <b class="nc">&nbsp;        Text yourTurn = new Text(&quot;&quot;);</b>
-<b class="nc">&nbsp;        yourTurn.setFill(javafx.scene.paint.Color.WHITE);</b>
+<b class="nc">&nbsp;        yourTurn.getStyleClass().add(&quot;turn-text&quot;);</b>
 <b class="nc">&nbsp;        yourTurn.setWrappingWidth(200);</b>
-<b class="nc">&nbsp;        yourTurn.setX(stageWidth / 2 + 130);</b>
-<b class="nc">&nbsp;        yourTurn.setY(20);</b>
 <b class="nc">&nbsp;        setYouTurnDisplay(yourTurn);</b>
+<b class="nc">&nbsp;        topBox.getChildren().add(yourTurn);</b>
+&nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * creates choice boxes for initial card and secret objectives
+&nbsp;     *
+&nbsp;     * @param centerRoot the center pane where the boxes are placed
+&nbsp;     */
+&nbsp;    private void createChoiceBoxes(Pane centerRoot) {
+<b class="nc">&nbsp;        Rectangle initialCardDisplay = new Rectangle(300, 250, cardWidth, cardHeight);</b>
+&nbsp;        //initialCardDisplay.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        this.initCardBackground = initialCardDisplay;</b>
 &nbsp;
-<b class="nc">&nbsp;        root.getChildren().add(alert);</b>
-<b class="nc">&nbsp;        root.getChildren().add(yourTurn);</b>
+<b class="nc">&nbsp;        Rectangle secretObjectiveDisplay1 = new Rectangle(450, 200, cardWidth, cardHeight);</b>
+&nbsp;        //secretObjectiveDisplay1.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        secretObjectiveDisplay1.setUserData(0);</b>
 &nbsp;
-<b class="nc">&nbsp;        setMovableRootReference(movableRoot);</b>
-<b class="nc">&nbsp;        setStaticGroupReference(staticRoot);</b>
+<b class="nc">&nbsp;        Rectangle secretObjectiveDisplay2 = new Rectangle(450, 300, cardWidth, cardHeight);</b>
+&nbsp;        //secretObjectiveDisplay2.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        secretObjectiveDisplay2.setUserData(1);</b>
 &nbsp;
+<b class="nc">&nbsp;        controller.setUpInitialCardDisplay(initialCardDisplay);</b>
+<b class="nc">&nbsp;        controller.setUpSecretObjectivesToChoose(secretObjectiveDisplay1, secretObjectiveDisplay2);</b>
 &nbsp;
-&nbsp;        //STATIC PART OF THE STAGE
+<b class="nc">&nbsp;        centerRoot.getChildren().addAll(initialCardDisplay, secretObjectiveDisplay1, secretObjectiveDisplay2);</b>
+&nbsp;    }
 &nbsp;
-&nbsp;        // BOX THAT CONTAINS RESOURCE CARDS THAT CAN BE DRAWN
-<b class="nc">&nbsp;        double rectangleWidthOfResourceCardPicker = 130;</b>
-<b class="nc">&nbsp;        double rectangleHeightOfResourceCardPicker = 259.5;</b>
-<b class="nc">&nbsp;        Rectangle ResourceCardsBox = new Rectangle(stageWidth - rectangleWidthOfResourceCardPicker, 0, rectangleWidthOfResourceCardPicker, rectangleHeightOfResourceCardPicker);</b>
-<b class="nc">&nbsp;        ResourceCardsBox.setFill(Color.BLACK.getPaint());</b>
-&nbsp;
-&nbsp;        //Display of the resource cards that can be drawn
-<b class="nc">&nbsp;        Rectangle ResourceCard1 = new Rectangle(stageWidth - cardWidth - 3, 3, cardWidth, cardHeight);</b>
-&nbsp;        //ResourceCard1.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        ResourceCard1.setUserData(0);</b>
-&nbsp;
-<b class="nc">&nbsp;        Rectangle ResourceCard2 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        // ResourceCard2.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        ResourceCard2.setUserData(1);</b>
-&nbsp;
-<b class="nc">&nbsp;        Rectangle ResourceCard3 = new Rectangle(stageWidth - cardWidth - 3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //ResourceCard3.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        ResourceCard3.setUserData(2);</b>
-&nbsp;
-<b class="nc">&nbsp;        controller.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);</b>
-&nbsp;
-&nbsp;
-&nbsp;        // BOX THAT CONTAINS GOLD CARDS THAT CAN BE DRAWN
-<b class="nc">&nbsp;        double rectangleWidthOfGoldCardPicker = 130;</b>
-<b class="nc">&nbsp;        double rectangleHeightOfGoldCardPicker = 259.5;</b>
-<b class="nc">&nbsp;        Rectangle GoldCardsBox = new Rectangle(stageWidth - rectangleWidthOfGoldCardPicker, 270, rectangleWidthOfGoldCardPicker, rectangleHeightOfGoldCardPicker);</b>
-&nbsp;        //GoldCardsBox.setFill(Color.BLACK.getPaint());
-&nbsp;
-&nbsp;        //Display of the resource cards that can be drawn
-<b class="nc">&nbsp;        Rectangle GoldCard1 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3, cardWidth, cardHeight);</b>
-&nbsp;        //GoldCard1.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        GoldCard1.setUserData(0);</b>
-&nbsp;
-&nbsp;
-<b class="nc">&nbsp;        Rectangle GoldCard2 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //GoldCard2.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        GoldCard2.setUserData(1);</b>
-&nbsp;
-&nbsp;
-<b class="nc">&nbsp;        Rectangle GoldCard3 = new Rectangle(stageWidth - cardWidth - 3, 270 + 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //GoldCard3.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        GoldCard3.setUserData(2);</b>
-<b class="nc">&nbsp;        controller.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);</b>
-&nbsp;
-&nbsp;        // HAND BOX
-<b class="nc">&nbsp;        double rectangleWidthHand = 130;</b>
-<b class="nc">&nbsp;        double rectangleHeightHand = 259.5;</b>
-<b class="nc">&nbsp;        Rectangle HandBox = new Rectangle(0, 0, rectangleWidthHand, rectangleHeightHand);</b>
-<b class="nc">&nbsp;        HandBox.setFill(Color.BLACK.getPaint());</b>
-&nbsp;
-&nbsp;        //cards in hand
-<b class="nc">&nbsp;        Rectangle HandCard1 = new Rectangle(3, 3, cardWidth, cardHeight);</b>
-&nbsp;        //HandCard1.setFill(Color.RED.getPaint());
-&nbsp;
-<b class="nc">&nbsp;        Rectangle HandCard2 = new Rectangle(3, 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //HandCard2.setFill(Color.RED.getPaint());
-&nbsp;
-<b class="nc">&nbsp;        Rectangle HandCard3 = new Rectangle(3, 3 + cardHeight + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //HandCard3.setFill(Color.RED.getPaint());
-&nbsp;
-<b class="nc">&nbsp;        controller.setUpHandMap(HandCard1, HandCard2, HandCard3);</b>
-&nbsp;
-&nbsp;        // COMMON OBJECTIVES BOX
-<b class="nc">&nbsp;        double rectangleWidthCommonObjectives = cardWidth * 2 + 3 * 3;</b>
-<b class="nc">&nbsp;        double rectangleHeightCommonObjectives = cardHeight + 6;</b>
-<b class="nc">&nbsp;        Rectangle CommonObjectivesBox = new Rectangle(0, stageHeight - rectangleHeightCommonObjectives, rectangleWidthCommonObjectives, rectangleHeightCommonObjectives);</b>
-<b class="nc">&nbsp;        CommonObjectivesBox.setFill(Color.BLACK.getPaint());</b>
-&nbsp;
-&nbsp;        //common objectives
-<b class="nc">&nbsp;        Rectangle CommonObjective1 = new Rectangle(3, stageHeight - cardHeight - 3, cardWidth, cardHeight);</b>
-&nbsp;        //CommonObjective1.setFill(Color.RED.getPaint());
-&nbsp;
-<b class="nc">&nbsp;        Rectangle CommonObjective2 = new Rectangle(3 + cardWidth + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);</b>
-&nbsp;        //CommonObjective2.setFill(Color.RED.getPaint());
-&nbsp;
-<b class="nc">&nbsp;        controller.setUpCommonObjectivesMap(CommonObjective1, CommonObjective2);</b>
-&nbsp;
-&nbsp;        // SECRET OBJECTIVE BOX
-<b class="nc">&nbsp;        double rectangleWidthSecretObjective = cardWidth + 6;</b>
-<b class="nc">&nbsp;        double rectangleHeightSecretObjective = cardHeight + 6;</b>
-<b class="nc">&nbsp;        Rectangle SecretObjectiveBox = new Rectangle(0 + rectangleWidthCommonObjectives + 5, stageHeight - rectangleHeightSecretObjective, rectangleWidthSecretObjective, rectangleHeightSecretObjective);</b>
-<b class="nc">&nbsp;        SecretObjectiveBox.setFill(Color.BLACK.getPaint());</b>
-&nbsp;
-&nbsp;
-&nbsp;        //secret objective
-<b class="nc">&nbsp;        Rectangle SecretObjective = new Rectangle(0 + rectangleWidthCommonObjectives + 5 + 3, stageHeight - cardHeight - 3, cardWidth, cardHeight);</b>
-&nbsp;        //SecretObjective.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        controller.setSecretObjectiveMap(SecretObjective);</b>
-&nbsp;
-&nbsp;        //INITIAL CARD DISPLAY FOR FACE SELECTION
-<b class="nc">&nbsp;        double rectangleWidthInitialCardDisplay = cardWidth + 6;</b>
-<b class="nc">&nbsp;        double rectangleHeightInitialCardDisplay = cardHeight + 6;</b>
-<b class="nc">&nbsp;        Rectangle InitialCardDisplayBox = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50, stageHeight / 2 - rectangleHeightInitialCardDisplay, rectangleWidthInitialCardDisplay, rectangleHeightInitialCardDisplay);</b>
-<b class="nc">&nbsp;        InitialCardDisplayBox.setFill(Color.BLACK.getPaint());</b>
-<b class="nc">&nbsp;        this.initCardBackground = InitialCardDisplayBox;</b>
-&nbsp;
-<b class="nc">&nbsp;        Rectangle InitialCardDisplay = new Rectangle(stageWidth / 2 - rectangleWidthInitialCardDisplay - 50 + 3, stageHeight / 2 - rectangleHeightInitialCardDisplay + 3, cardWidth, cardHeight);</b>
-&nbsp;        //InitialCardDisplay.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        controller.setUpInitialCardDisplay(InitialCardDisplay);</b>
-&nbsp;
-&nbsp;        //SECRET OBJECTIVES DISPLAY FOR SELECTION
-<b class="nc">&nbsp;        double rectangleWidthSecretObjectiveDisplay = cardWidth + 6;</b>
-<b class="nc">&nbsp;        double rectangleHeightObjectiveCardsDisplay = 2 * cardHeight + 9;</b>
-<b class="nc">&nbsp;        Rectangle secretObjectivesDisplayBox = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4, rectangleWidthSecretObjectiveDisplay, rectangleHeightObjectiveCardsDisplay);</b>
-<b class="nc">&nbsp;        secretObjectivesDisplayBox.setFill(Color.BLACK.getPaint());</b>
-<b class="nc">&nbsp;        this.secretObjectiveBackground = secretObjectivesDisplayBox;</b>
-&nbsp;
-<b class="nc">&nbsp;        Rectangle secretObjective1Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3, cardWidth, cardHeight);</b>
-&nbsp;        //secretObjective1Display.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        secretObjective1Display.setUserData(0);</b>
-&nbsp;
-<b class="nc">&nbsp;        Rectangle secretObjective2Display = new Rectangle(stageWidth / 2 + rectangleWidthSecretObjectiveDisplay - 60 + 3, stageHeight / 2 - rectangleHeightObjectiveCardsDisplay / 2 - rectangleHeightObjectiveCardsDisplay / 4 + 3 + cardHeight + 3, cardWidth, cardHeight);</b>
-&nbsp;        //secretObjective2Display.setFill(Color.RED.getPaint());
-<b class="nc">&nbsp;        secretObjective2Display.setUserData(1);</b>
-<b class="nc">&nbsp;        controller.setUpSecretObjectivesToChoose(secretObjective1Display, secretObjective2Display);</b>
-&nbsp;
-&nbsp;
-&nbsp;        //Button to flip the card selected
-<b class="nc">&nbsp;        Button flipButton = new Button(&quot;flip card&quot;);</b>
-<b class="nc">&nbsp;        flipButton.setTextFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        flipButton.setLayoutX(10);</b>
-<b class="nc">&nbsp;        flipButton.setLayoutY(265);</b>
-<b class="nc">&nbsp;        flipButton.setMaxHeight(10);</b>
-<b class="nc">&nbsp;        flipButton.setMaxWidth(75);</b>
-<b class="nc">&nbsp;        flipButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));</b>
-<b class="nc">&nbsp;        flipButton.setOnMouseClicked(e -&gt; {</b>
-&nbsp;            try {
-<b class="nc">&nbsp;                controller.flipCard();</b>
-<b class="nc">&nbsp;            } catch (FileNotFoundException ex) {</b>
-<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
-&nbsp;            }
-&nbsp;        });
-&nbsp;
-&nbsp;        //Button end turn
-<b class="nc">&nbsp;        Button endTurnButton = new Button(&quot;end turn&quot;);</b>
-<b class="nc">&nbsp;        endTurnButton.setTextFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        endTurnButton.setLayoutX(centerX - 37.5);</b>
-<b class="nc">&nbsp;        endTurnButton.setLayoutY(5);</b>
-<b class="nc">&nbsp;        endTurnButton.setMaxHeight(10);</b>
-<b class="nc">&nbsp;        endTurnButton.setMaxWidth(75);</b>
-<b class="nc">&nbsp;        endTurnButton.setBackground(Background.fill(javafx.scene.paint.Color.BLACK));</b>
-<b class="nc">&nbsp;        endTurnButton.setOnMouseClicked(e -&gt; clientSocket.sendMessage(new EndTurnMessage(clientSocket.getUsername())));</b>
-&nbsp;
-&nbsp;        //Chat Button
-<b class="nc">&nbsp;        Button chatButton = new Button(&quot;Chat&quot;);</b>
-<b class="nc">&nbsp;        chatButton.setLayoutX(10);</b>
-<b class="nc">&nbsp;        chatButton.setLayoutY(295);</b>
-<b class="nc">&nbsp;        chatButton.setMaxHeight(10);</b>
-<b class="nc">&nbsp;        chatButton.setMaxWidth(75);</b>
-<b class="nc">&nbsp;        chatButton.setOnMouseClicked(e -&gt; controller.toggleChat());</b>
-&nbsp;
-&nbsp;        // Chat group (can be toggled)
-<b class="nc">&nbsp;        chatText = new TextArea();</b>
-<b class="nc">&nbsp;        Group chatRoot = new Group();</b>
+&nbsp;    /**
+&nbsp;     * creates the chat box
+&nbsp;     *
+&nbsp;     * @param chatRoot   the group containing the chat elements
+&nbsp;     * @param centerRoot the center pane where the chat box is placed
+&nbsp;     */
+&nbsp;    private void createChatBox(Group chatRoot, Pane centerRoot) {
+&nbsp;        //background for the chat box
 <b class="nc">&nbsp;        Rectangle chatBox = new Rectangle(0, 0, 500, 500);</b>
 <b class="nc">&nbsp;        chatBox.setFill(Color.BLACK.getPaint());</b>
+&nbsp;
 <b class="nc">&nbsp;        chatText.getStyleClass().add(&quot;chat-text&quot;);</b>
 <b class="nc">&nbsp;        chatText.setEditable(false);</b>
 &nbsp;
@@ -742,39 +694,130 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            messageField.clear();</b>
 &nbsp;        });
 &nbsp;
-<b class="nc">&nbsp;        chatBox.setLayoutX(centerX - chatBox.getWidth() / 2);</b>
-<b class="nc">&nbsp;        chatBox.setLayoutY(centerY - chatBox.getHeight() / 2 - 150);</b>
+&nbsp;        //set spacing and position
 <b class="nc">&nbsp;        chatText.setPrefSize(400, 350);</b>
-<b class="nc">&nbsp;        chatText.setLayoutX(centerX - 200);</b>
-<b class="nc">&nbsp;        chatText.setLayoutY(centerY - 300);</b>
-<b class="nc">&nbsp;        messageField.setLayoutX(centerX - 100);</b>
-<b class="nc">&nbsp;        messageField.setLayoutY(350);</b>
-<b class="nc">&nbsp;        sendButton.setLayoutX(centerX + 50);</b>
-<b class="nc">&nbsp;        sendButton.setLayoutY(350);</b>
+<b class="nc">&nbsp;        chatText.setTranslateX(40);</b>
+<b class="nc">&nbsp;        chatText.setTranslateY(40);</b>
+<b class="nc">&nbsp;        sendButton.setTranslateX(390);</b>
+<b class="nc">&nbsp;        sendButton.setTranslateY(400);</b>
+<b class="nc">&nbsp;        messageField.setMinWidth(300);</b>
+<b class="nc">&nbsp;        messageField.setTranslateX(50);</b>
+<b class="nc">&nbsp;        messageField.setTranslateY(400);</b>
 &nbsp;
-<b class="nc">&nbsp;        chatRoot.getChildren().add(chatBox);</b>
-<b class="nc">&nbsp;        chatRoot.getChildren().add(chatText);</b>
-<b class="nc">&nbsp;        chatRoot.getChildren().add(messageField);</b>
-<b class="nc">&nbsp;        chatRoot.getChildren().add(sendButton);</b>
-&nbsp;
+<b class="nc">&nbsp;        chatRoot.getChildren().addAll(chatBox, chatText, messageField, sendButton);</b>
 <b class="nc">&nbsp;        chatRoot.setVisible(false);</b>
-<b class="nc">&nbsp;        setChatGroupReference(chatRoot);</b>
 &nbsp;
-&nbsp;        //resources &amp; points box
-<b class="nc">&nbsp;        double rectanglePointsBoxWidth = 422.5;</b>
-<b class="nc">&nbsp;        Rectangle PointsBox = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20, stageHeight - rectangleHeightSecretObjective, rectanglePointsBoxWidth, rectangleHeightSecretObjective);</b>
+<b class="nc">&nbsp;        centerRoot.getChildren().add(chatRoot);</b>
+&nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;        PointsBox.setFill(Color.BLACK.getPaint());</b>
+&nbsp;    /**
+&nbsp;     * creates rectangles for the resource cards
+&nbsp;     *
+&nbsp;     * @param visibleCardsBox the VBox where the decks are placed
+&nbsp;     */
+&nbsp;    private void createResourceCardsBox(VBox visibleCardsBox) {
+&nbsp;        //Display of the resource cards that can be drawn
+<b class="nc">&nbsp;        Rectangle ResourceCard1 = new Rectangle(0, 0, cardWidth, cardHeight);</b>
+&nbsp;        //ResourceCard1.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        ResourceCard1.setUserData(0);</b>
 &nbsp;
+<b class="nc">&nbsp;        Rectangle ResourceCard2 = new Rectangle(0, 0, cardWidth, cardHeight);</b>
+&nbsp;        //ResourceCard2.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        ResourceCard2.setUserData(1);</b>
+&nbsp;
+<b class="nc">&nbsp;        Rectangle ResourceCard3 = new Rectangle(0, 0, cardWidth, cardHeight);</b>
+&nbsp;        //ResourceCard3.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        ResourceCard3.setUserData(2);</b>
+&nbsp;
+<b class="nc">&nbsp;        controller.setUpDrawableResources(ResourceCard1, ResourceCard2, ResourceCard3);</b>
+&nbsp;
+<b class="nc">&nbsp;        visibleCardsBox.getChildren().addAll(ResourceCard1, ResourceCard2, ResourceCard3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates rectangles for the gold cards
+&nbsp;     *
+&nbsp;     * @param visibleCardsBox the VBox where the decks are placed
+&nbsp;     */
+&nbsp;    private void createGoldCardsBox(VBox visibleCardsBox) {
+&nbsp;        //Display of the gold cards that can be drawn
+<b class="nc">&nbsp;        Rectangle GoldCard1 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //GoldCard1.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        GoldCard1.setUserData(0);</b>
+&nbsp;
+<b class="nc">&nbsp;        Rectangle GoldCard2 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //GoldCard2.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        GoldCard2.setUserData(1);</b>
+&nbsp;
+<b class="nc">&nbsp;        Rectangle GoldCard3 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //GoldCard3.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        GoldCard3.setUserData(2);</b>
+&nbsp;
+<b class="nc">&nbsp;        controller.setUpDrawableGold(GoldCard1, GoldCard2, GoldCard3);</b>
+&nbsp;
+<b class="nc">&nbsp;        visibleCardsBox.getChildren().addAll(GoldCard1, GoldCard2, GoldCard3);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates rectangles for the hand cards
+&nbsp;     *
+&nbsp;     * @param handBox the VBox where the hand is placed
+&nbsp;     */
+&nbsp;    private void createHandBox(VBox handBox) {
+&nbsp;        //cards in hand
+<b class="nc">&nbsp;        Rectangle HandCard1 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //HandCard1.setFill(Color.RED.getPaint());
+&nbsp;
+<b class="nc">&nbsp;        Rectangle HandCard2 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //HandCard2.setFill(Color.RED.getPaint());
+&nbsp;
+<b class="nc">&nbsp;        Rectangle HandCard3 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //HandCard3.setFill(Color.RED.getPaint());
+&nbsp;
+<b class="nc">&nbsp;        controller.setUpHandMap(HandCard1, HandCard2, HandCard3);</b>
+&nbsp;
+<b class="nc">&nbsp;        handBox.getChildren().addAll(HandCard1, HandCard2, HandCard3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates rectangles for the objective cards
+&nbsp;     *
+&nbsp;     * @param objectivesBox the HBox where the objectives are placed
+&nbsp;     */
+&nbsp;    private void createObjectivesBox(HBox objectivesBox) {
+&nbsp;        //common objectives
+<b class="nc">&nbsp;        Rectangle commonObjective1 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //commonObjective1.setFill(Color.RED.getPaint());
+&nbsp;
+<b class="nc">&nbsp;        Rectangle commonObjective2 = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //commonObjective2.setFill(Color.RED.getPaint());
+&nbsp;
+&nbsp;        //secret objective
+<b class="nc">&nbsp;        Rectangle secretObjective = new Rectangle(cardWidth, cardHeight);</b>
+&nbsp;        //secretObjective.setFill(Color.RED.getPaint());
+&nbsp;        //this.secretObjectiveBackground = secretObjective;
+&nbsp;
+<b class="nc">&nbsp;        controller.setUpCommonObjectivesMap(commonObjective1, commonObjective2);</b>
+<b class="nc">&nbsp;        controller.setSecretObjectiveMap(secretObjective);</b>
+&nbsp;
+<b class="nc">&nbsp;        objectivesBox.getChildren().addAll(commonObjective1, commonObjective2, secretObjective);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates the points box
+&nbsp;     *
+&nbsp;     * @param pointsBox the HBox where the points are placed
+&nbsp;     */
+&nbsp;    private void createPointsBox(HBox pointsBox) {
 &nbsp;        //resources
-&nbsp;
-<b class="nc">&nbsp;        Rectangle mushrooms = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle mushrooms_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox mushroomBox = new VBox();</b>
+<b class="nc">&nbsp;        mushroomBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane mushroomStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle mushrooms = new Rectangle(resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle mushrooms_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text mush_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        mush_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        mush_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        mush_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 2.5 + 5);</b>
-<b class="nc">&nbsp;        mush_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        mush_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(mushrooms_points, mush_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -782,14 +825,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        mushroomBox.getChildren().addAll(mushrooms, mush_label);</b>
+<b class="nc">&nbsp;        mushroomStack.getChildren().addAll(mushrooms_points, mushroomBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle animals = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle animals_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox animalsBox = new VBox();</b>
+<b class="nc">&nbsp;        animalsBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane animalStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle animals = new Rectangle(resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle animals_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text animals_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        animals_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        animals_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        animals_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 5 + resourceWidth + 5);</b>
-<b class="nc">&nbsp;        animals_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        animals_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(animals_points, animals_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -797,30 +842,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        animalsBox.getChildren().addAll(animals, animals_label);</b>
+<b class="nc">&nbsp;        animalStack.getChildren().addAll(animals_points, animalsBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle insect = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle insect_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+&nbsp;
+<b class="nc">&nbsp;        VBox insectBox = new VBox();</b>
+<b class="nc">&nbsp;        insectBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane insectStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle insect = new Rectangle(resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle insect_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text insect_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        insect_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        insect_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        insect_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 7.5 + resourceWidth * 2 + 5);</b>
-<b class="nc">&nbsp;        insect_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        insect_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(insect_points, insect_label);</b>
-&nbsp;
 &nbsp;
 &nbsp;        try {
 <b class="nc">&nbsp;            controller.setImageToRectangle(&quot;/board_icons/insect_icon.png&quot;, insect);</b>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        insectBox.getChildren().addAll(insect, insect_label);</b>
+<b class="nc">&nbsp;        insectStack.getChildren().addAll(insect_points, insectBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle leaves = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle leaves_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox leafBox = new VBox();</b>
+<b class="nc">&nbsp;        leafBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane leafStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle leaves = new Rectangle(resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle leaves_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text leaves_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        leaves_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        leaves_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        leaves_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 10 + resourceWidth * 3 + 5);</b>
-<b class="nc">&nbsp;        leaves_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        leaves_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(leaves_points, leaves_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -828,14 +877,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        leafBox.getChildren().addAll(leaves, leaves_label);</b>
+<b class="nc">&nbsp;        leafStack.getChildren().addAll(leaves_points, leafBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle quills = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle quills_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox quillBox = new VBox();</b>
+<b class="nc">&nbsp;        quillBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane quillStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle quills = new Rectangle(resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle quills_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text quills_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        quills_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        quills_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        quills_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 12.5 + resourceWidth * 4 + 5);</b>
-<b class="nc">&nbsp;        quills_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        quills_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(quills_points, quills_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -843,14 +894,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        quillBox.getChildren().addAll(quills, quills_label);</b>
+<b class="nc">&nbsp;        quillStack.getChildren().addAll(quills_points, quillBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle inkwells = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle inkwells_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox inkwellBox = new VBox();</b>
+<b class="nc">&nbsp;        inkwellBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane inkwellStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle inkwells = new Rectangle(0, 0, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle inkwells_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text inkwells_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        inkwells_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        inkwells_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        inkwells_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 15 + resourceWidth * 5 + 5);</b>
-<b class="nc">&nbsp;        inkwells_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        inkwells_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(inkwells_points, inkwells_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -858,14 +911,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        inkwellBox.getChildren().addAll(inkwells, inkwells_label);</b>
+<b class="nc">&nbsp;        inkwellStack.getChildren().addAll(inkwells_points, inkwellBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle manuscript = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle manuscript_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox manuscriptBox = new VBox();</b>
+<b class="nc">&nbsp;        manuscriptBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane manuscriptStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle manuscript = new Rectangle(0, 0, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        Rectangle manuscript_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text manuscript_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        manuscript_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        manuscript_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        manuscript_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 17.5 + resourceWidth * 6 + 5);</b>
-<b class="nc">&nbsp;        manuscript_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
+<b class="nc">&nbsp;        manuscript_label.getStyleClass().add(&quot;points-text&quot;);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(manuscript_points, manuscript_label);</b>
 &nbsp;
 &nbsp;        try {
@@ -873,92 +928,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        }
+<b class="nc">&nbsp;        manuscriptBox.getChildren().addAll(manuscript, manuscript_label);</b>
+<b class="nc">&nbsp;        manuscriptStack.getChildren().addAll(manuscript_points, manuscriptBox);</b>
 &nbsp;
-<b class="nc">&nbsp;        Rectangle points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeight - rectangleHeightSecretObjective + 3, resourceWidth, resourceHeight);</b>
-<b class="nc">&nbsp;        Rectangle Points_points = new Rectangle(0 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7, stageHeight - rectangleHeightSecretObjective + resourceHeight + 3, resourceWidth, resourceHeight);</b>
+<b class="nc">&nbsp;        VBox scoreBox = new VBox();</b>
+<b class="nc">&nbsp;        scoreBox.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        StackPane scoreStack = new StackPane();</b>
+<b class="nc">&nbsp;        Rectangle pointsPadding = new Rectangle(0, 0, resourceWidth, 22);</b>
+<b class="nc">&nbsp;        Rectangle Points_points = new Rectangle(resourceWidth, cardHeight);</b>
 <b class="nc">&nbsp;        Text points_label = new Text(&quot;0&quot;);</b>
-<b class="nc">&nbsp;        points_label.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        points_label.setFill(javafx.scene.paint.Color.WHITE);</b>
-<b class="nc">&nbsp;        points_label.setLayoutX(15 + rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 20 + 20 + resourceWidth * 7 + 5);</b>
-<b class="nc">&nbsp;        points_label.setLayoutY(stageHeight - rectangleHeightSecretObjective + resourceHeight + 3 + 20);</b>
 <b class="nc">&nbsp;        controller.addRectangleToPointsDisplay(Points_points, points_label);</b>
 <b class="nc">&nbsp;        Text points_text = new Text(&quot;Points&quot;);</b>
-<b class="nc">&nbsp;        points_text.setFont(new Font(&quot;Nimbus Roman&quot;, 20));</b>
-<b class="nc">&nbsp;        points_text.setX(rectangleWidthCommonObjectives + rectangleWidthSecretObjective + 18 + 20 + resourceWidth * 7 + 5);</b>
-<b class="nc">&nbsp;        points_text.setY(stageHeight - rectangleHeightSecretObjective + resourceHeight - 12);</b>
-<b class="nc">&nbsp;        points_text.setFill(javafx.scene.paint.Color.WHITE);</b>
-&nbsp;        //points.setFill(Color.RED.getPaint());
+<b class="nc">&nbsp;        points_label.getStyleClass().add(&quot;points-text&quot;);</b>
+<b class="nc">&nbsp;        points_text.getStyleClass().add(&quot;points-text&quot;);</b>
+<b class="nc">&nbsp;        scoreBox.getChildren().addAll(points_text, pointsPadding, points_label);</b>
+<b class="nc">&nbsp;        scoreStack.getChildren().addAll(Points_points, scoreBox);</b>
 &nbsp;
-&nbsp;        // Add the static rectangle to the staticRoot group
-<b class="nc">&nbsp;        staticRoot.getChildren().add(ResourceCardsBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(GoldCardsBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(CommonObjectivesBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(SecretObjectiveBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(HandBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(PointsBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(InitialCardDisplayBox);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(secretObjectivesDisplayBox);</b>
+<b class="nc">&nbsp;        pointsBox.getChildren().addAll(mushroomStack, animalStack, insectStack, leafStack, quillStack, inkwellStack, manuscriptStack, scoreStack);</b>
+&nbsp;    }
 &nbsp;
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(ResourceCard1);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(ResourceCard2);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(ResourceCard3);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(GoldCard1);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(GoldCard2);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(GoldCard3);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(HandCard1);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(HandCard2);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(HandCard3);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(CommonObjective1);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(CommonObjective2);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(SecretObjective);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(InitialCardDisplay);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(secretObjective1Display);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(secretObjective2Display);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(flipButton);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(endTurnButton);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(chatButton);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(mushrooms);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(leaves);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(insect);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(manuscript);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(inkwells);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(animals);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(quills);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(points);</b>
-&nbsp;
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(mushrooms_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(leaves_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(insect_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(manuscript_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(inkwells_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(animals_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(quills_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(Points_points);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(mush_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(leaves_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(insect_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(manuscript_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(inkwells_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(animals_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(quills_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(points_label);</b>
-<b class="nc">&nbsp;        staticRoot.getChildren().add(points_text);</b>
-&nbsp;
-<b class="nc">&nbsp;        staticRoot.getChildren().add(chatRoot);</b>
-&nbsp;
-&nbsp;        //THE GRID
-&nbsp;
-<b class="nc">&nbsp;        int gridSize = 20;</b>
+&nbsp;    /**
+&nbsp;     * creates the grid of the board
+&nbsp;     *
+&nbsp;     * @param movableRoot the group containing the grid
+&nbsp;     */
+&nbsp;    private void createGrid(Group movableRoot) {
+<b class="nc">&nbsp;        int gridSize = 50;</b>
 <b class="nc">&nbsp;        double rectangleWidth = cardWidth - 30;//change these values to change di distance between rectangles</b>
 <b class="nc">&nbsp;        double rectangleHeight = cardHeight - 33;</b>
 <b class="nc">&nbsp;        double opacity = 0;</b>
@@ -971,7 +966,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;                Rectangle gridRectangle = new Rectangle(x, y, cardWidth, cardHeight);</b>
 &nbsp;
-<b class="nc">&nbsp;                gridRectangle.setFill(Color.GREY.getPaint());</b>
+<b class="nc">&nbsp;                gridRectangle.setFill(javafx.scene.paint.Color.GREY);</b>
 <b class="nc">&nbsp;                gridRectangle.setOpacity(opacity);</b>
 &nbsp;                // Add an outline to the rectangle
 <b class="nc">&nbsp;                gridRectangle.setStroke(javafx.scene.paint.Color.BLACK);</b>
@@ -991,38 +986,36 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
+&nbsp;    }
 &nbsp;
-&nbsp;        //THE CAMERA
-&nbsp;
-&nbsp;        // Create a translation transform for the movable group
+&nbsp;    /**
+&nbsp;     * creates and sets the translation animation for the board
+&nbsp;     *
+&nbsp;     * @param scene       the scene where the animation is set
+&nbsp;     * @param movableRoot the group containing the board
+&nbsp;     */
+&nbsp;    private void createCameraTranslate(Scene scene, Group movableRoot) {
 <b class="nc">&nbsp;        Translate cameraTranslate = new Translate();</b>
 <b class="nc">&nbsp;        movableRoot.getTransforms().add(cameraTranslate);</b>
+<b class="nc">&nbsp;        cameraTranslate.setX(350);</b>
+<b class="nc">&nbsp;        cameraTranslate.setY(250);</b>
 &nbsp;
-<b class="nc">&nbsp;        Scene scene = new Scene(root, 1400, 900);</b>
 &nbsp;        // Add key listeners to the scene to move the camera
 <b class="nc">&nbsp;        scene.setOnKeyPressed(e -&gt; {</b>
 <b class="nc">&nbsp;            switch (e.getCode()) {</b>
 &nbsp;                case W:
-<b class="nc">&nbsp;                    cameraTranslate.setY(cameraTranslate.getY() + 20);</b>
+<b class="nc">&nbsp;                    if (cameraTranslate.getY() &lt;= 1500) cameraTranslate.setY(cameraTranslate.getY() + 20);</b>
 &nbsp;                    break;
 &nbsp;                case S:
-<b class="nc">&nbsp;                    cameraTranslate.setY(cameraTranslate.getY() - 20);</b>
+<b class="nc">&nbsp;                    if (cameraTranslate.getY() &gt;= -1500) cameraTranslate.setY(cameraTranslate.getY() - 20);</b>
 &nbsp;                    break;
 &nbsp;                case A:
-<b class="nc">&nbsp;                    cameraTranslate.setX(cameraTranslate.getX() + 20);</b>
+<b class="nc">&nbsp;                    if (cameraTranslate.getX() &lt;= 2000) cameraTranslate.setX(cameraTranslate.getX() + 20);</b>
 &nbsp;                    break;
 &nbsp;                case D:
-<b class="nc">&nbsp;                    cameraTranslate.setX(cameraTranslate.getX() - 20);</b>
+<b class="nc">&nbsp;                    if (cameraTranslate.getX() &gt;= -2000) cameraTranslate.setX(cameraTranslate.getX() - 20);</b>
 &nbsp;                    break;
 &nbsp;            }
-&nbsp;        });
-<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
-<b class="nc">&nbsp;            scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
-<b class="nc">&nbsp;            stageReference.setTitle(&quot;Codex! - your board&quot;);</b>
-<b class="nc">&nbsp;            stageReference.setScene(scene);</b>
-<b class="nc">&nbsp;            stageReference.setHeight(stageHeight + 37);</b>
-<b class="nc">&nbsp;            stageReference.setWidth(stageWidth);</b>
-<b class="nc">&nbsp;            stageReference.show();</b>
 &nbsp;        });
 &nbsp;    }
 &nbsp;
@@ -1037,19 +1030,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        ImageView imageView = createImageView(root, is);</b>
 &nbsp;
 <b class="nc">&nbsp;        Button backButton = new Button(&quot;Back to Menu&quot;);</b>
-<b class="nc">&nbsp;        backButton.setTranslateY(50);</b>
 &nbsp;
+&nbsp;        //adding listeners
 <b class="nc">&nbsp;        backButton.setOnAction(actionEvent -&gt; {</b>
 <b class="nc">&nbsp;            clientSocket.disconnect();</b>
 <b class="nc">&nbsp;            drawHelloScene();</b>
 &nbsp;        });
 &nbsp;
 <b class="nc">&nbsp;        stageReference.setTitle(&quot;Codex! - Game Ended&quot;);</b>
-<b class="nc">&nbsp;        root.getChildren().add(imageView);</b>
-<b class="nc">&nbsp;        root.getChildren().add(winnerLabel);</b>
-<b class="nc">&nbsp;        root.getChildren().add(backButton);</b>
 &nbsp;
-<b class="nc">&nbsp;        Scene scene = new Scene(root, stageWidth, stageHeight);</b>
+<b class="nc">&nbsp;        backButton.setTranslateY(50);</b>
+<b class="nc">&nbsp;        root.getChildren().addAll(imageView, winnerLabel, backButton);</b>
+&nbsp;
+<b class="nc">&nbsp;        Scene scene = new Scene(root);</b>
 <b class="nc">&nbsp;        scene.getStylesheets().add(&quot;/codexTheme.css&quot;);</b>
 <b class="nc">&nbsp;        stageReference.setScene(scene);</b>
 <b class="nc">&nbsp;        stageReference.show();</b>
@@ -1066,41 +1059,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        displayTimedAlertText(alert, 7);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    /**
-&nbsp;     * method to set the static group reference for the board scene
-&nbsp;     *
-&nbsp;     * @param staticGroupReference the static group of the board scene
-&nbsp;     */
-&nbsp;    private void setStaticGroupReference(Group staticGroupReference) {
-<b class="nc">&nbsp;        this.staticGroupReference = staticGroupReference;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * method to set the movable root reference for the board scene
-&nbsp;     *
-&nbsp;     * @param movableGroupReference the movable group of the board scene
-&nbsp;     */
-&nbsp;    private void setMovableRootReference(Group movableGroupReference) {
-<b class="nc">&nbsp;        this.movableRootReference = movableGroupReference;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * method to set the chat group reference for the board scene
-&nbsp;     *
-&nbsp;     * @param chatGroup the chat group of the board scene
-&nbsp;     */
-&nbsp;    private void setChatGroupReference(Group chatGroup) {
-<b class="nc">&nbsp;        this.chatGroupReference = chatGroup;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * method to set the alert text for the board scene
-&nbsp;     *
-&nbsp;     * @param alert the alert text to set in the board scene
-&nbsp;     */
-&nbsp;    public void setAlert(Text alert) {
-<b class="nc">&nbsp;        this.alert = alert;</b>
-&nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method to set the text for the turn display in the board scene
@@ -1119,34 +1077,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private void displayTimedAlertText(String text, Integer timer) {
 <b class="nc">&nbsp;        this.alert.setText(text);</b>
-<b class="nc">&nbsp;        double stageWidth = stageReference.getWidth();</b>
-<b class="nc">&nbsp;        double textWidth = alert.getLayoutBounds().getWidth();</b>
-&nbsp;
-<b class="nc">&nbsp;        double centerX = (stageWidth - textWidth) / 2;</b>
-&nbsp;
+<b class="nc">&nbsp;        alert.getStyleClass().add(&quot;alert-text&quot;);</b>
 <b class="nc">&nbsp;        PauseTransition delay = new PauseTransition(Duration.seconds(timer));</b>
 <b class="nc">&nbsp;        delay.setOnFinished(event -&gt; alert.setText(&quot;&quot;));</b>
-<b class="nc">&nbsp;        this.alert.setX(centerX);</b>
-<b class="nc">&nbsp;        this.alert.setY(50);</b>
+<b class="nc">&nbsp;        alert.setX(100);</b>
+<b class="nc">&nbsp;        alert.setY(50);</b>
 <b class="nc">&nbsp;        delay.play();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * method to get the background rectangle of the secret objective
-&nbsp;     *
-&nbsp;     * @return the rectangle of the secret objective
-&nbsp;     */
-&nbsp;    public Rectangle getSecretObjectiveBackground() {
-<b class="nc">&nbsp;        return secretObjectiveBackground;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * method to get the background rectangle of the initial card
-&nbsp;     *
-&nbsp;     * @return the rectangle of the initial card
-&nbsp;     */
-&nbsp;    public Rectangle getInitCardBackground() {
-<b class="nc">&nbsp;        return initCardBackground;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -1163,23 +1099,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    //GETTER
 &nbsp;
 &nbsp;    /**
-&nbsp;     * method to get the client socket
-&nbsp;     * @return the client socket
-&nbsp;     */
-&nbsp;    public ClientSocket getClientSocket() {
-<b class="nc">&nbsp;        return clientSocket;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
 &nbsp;     * method to get the chat group
+&nbsp;     *
 &nbsp;     * @return the chat group reference
 &nbsp;     */
 &nbsp;    public Group getChatGroup() {
-<b class="nc">&nbsp;        return chatGroupReference;</b>
+<b class="nc">&nbsp;        return chatGroup;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method to get the place to append the chat text
+&nbsp;     *
 &nbsp;     * @return the chat text
 &nbsp;     */
 &nbsp;    public TextArea getChatText() {
@@ -1188,6 +1118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method to get the place to append the turn text
+&nbsp;     *
 &nbsp;     * @return the chat text
 &nbsp;     */
 &nbsp;    public Text getTurnText() {
@@ -1195,7 +1126,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
+&nbsp;     * method to get the background rectangle of the initial card
+&nbsp;     *
+&nbsp;     * @return the rectangle of the initial card
+&nbsp;     */
+&nbsp;    public Rectangle getInitCardBackground() {
+<b class="nc">&nbsp;        return initCardBackground;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
 &nbsp;     * method to set the winner label
+&nbsp;     *
 &nbsp;     * @param winner the winner
 &nbsp;     */
 &nbsp;    public void setWinnerLabel(String winner) {
@@ -1225,7 +1166,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

@@ -61,10 +61,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    58,5%
+    58,2%
   </span>
   <span class="absValue">
-    (185/316)
+    (184/316)
   </span>
 </td>
 </tr>
@@ -107,10 +107,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    58,7%
+    58,4%
   </span>
   <span class="absValue">
-    (186/317)
+    (185/317)
   </span>
 </td>
 </tr>
@@ -142,16 +142,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;public class Board extends Observable {
 &nbsp;    //cards played
 <b class="fc">&nbsp;    private final ArrayList&lt;Card&gt; playedCards = new ArrayList&lt;&gt;();</b>
-&nbsp;
+&nbsp;    private final ArrayList&lt;ObjectiveCard&gt; secretObjectiveToPick;
+&nbsp;    //cards
+&nbsp;    private final ArrayList&lt;Card&gt; hand;
+&nbsp;    //deck
+&nbsp;    private final Deck deck;
 &nbsp;    //objectives
 &nbsp;    private ArrayList&lt;ObjectiveCard&gt; CommonObjectives;
 &nbsp;    private ObjectiveCard secretObjective;
-&nbsp;    private final ArrayList&lt;ObjectiveCard&gt; secretObjectiveToPick;
-&nbsp;
-&nbsp;    //cards
-&nbsp;    private final ArrayList&lt;Card&gt; hand;
 &nbsp;    private InitialCard initialCard;
-&nbsp;
 &nbsp;    //resources
 &nbsp;    private Integer insects;
 &nbsp;    private Integer animals;
@@ -160,14 +159,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private Integer quills;
 &nbsp;    private Integer inkwells;
 &nbsp;    private Integer manuscripts;
-&nbsp;
 &nbsp;    //points
 &nbsp;    private Integer points;
 &nbsp;    private Integer pointsByGoldCards;
-&nbsp;
-&nbsp;    //deck
-&nbsp;    private final Deck deck;
-&nbsp;
 &nbsp;    //boolean to check if the player chose the secret objective
 <b class="fc">&nbsp;    private boolean secretObjectiveChosen = false;</b>
 &nbsp;
@@ -314,6 +308,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * This method places a card on the board
 &nbsp;     *
 &nbsp;     * @param toBePlaced the card to be placed on the board
+&nbsp;     * @param x          the x coordinate
+&nbsp;     * @param y          the y coordinate
 &nbsp;     */
 &nbsp;    public void placeCard(Card toBePlaced, Integer x, Integer y) {
 <b class="pc">&nbsp;        if (!hasPlacedACard &amp;&amp; (toBePlaced.getClass() == ResourceCard.class || toBePlaced.getClass() == GoldCard.class) || ((toBePlaced.getClass() == InitialCard.class) &amp;&amp; x == 0 &amp;&amp; y == 0)) {</b>
@@ -368,8 +364,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * This method tells if a card can be placed with certain coordinates
 &nbsp;     *
-&nbsp;     * @param x coordinate
-&nbsp;     * @param y coordinate
+&nbsp;     * @param x          coordinate
+&nbsp;     * @param y          coordinate
+&nbsp;     * @param toBePlaced the card to be placed
 &nbsp;     * @return true if the card can be placed false otherwise
 &nbsp;     */
 &nbsp;    public boolean canBePlaced(Integer x, Integer y, Card toBePlaced) {
@@ -441,6 +438,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * This method returns the number of corner you&#39;re going to cover placing a card
+&nbsp;     *
+&nbsp;     * @param x the x coordinate of where you want to place the card
+&nbsp;     * @param y the y coordinate of where you want to place the card
+&nbsp;     * @return the number of corner you&#39;re going to cover placing a card
 &nbsp;     */
 &nbsp;    public Integer getCornerCovered(Integer x, Integer y) {
 <b class="nc">&nbsp;        int corner_covered = 0;</b>
@@ -544,7 +545,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                                this.leaves++;</b>
 &nbsp;                                break;
 &nbsp;                            case ResourceType.MUSHROOM:
-<b class="fc">&nbsp;                                this.mushrooms++;</b>
+<b class="nc">&nbsp;                                this.mushrooms++;</b>
 &nbsp;                                break;
 &nbsp;                            case ResourceType.QUILL:
 <b class="nc">&nbsp;                                this.quills++;</b>
@@ -592,11 +593,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            case 96 -&gt; objectiveCard.getPoints() * (this.leaves / 3);</b>
 <b class="nc">&nbsp;            case 97 -&gt; objectiveCard.getPoints() * (this.animals / 3);</b>
 <b class="fc">&nbsp;            case 98 -&gt; objectiveCard.getPoints() * (this.insects / 3);</b>
-<b class="nc">&nbsp;            case 99 -&gt; objectiveCard.getPoints() * Math.min(this.manuscripts, Math.min(this.inkwells, this.quills));</b>
+<b class="fc">&nbsp;            case 99 -&gt; objectiveCard.getPoints() * Math.min(this.manuscripts, Math.min(this.inkwells, this.quills));</b>
 <b class="nc">&nbsp;            case 100 -&gt; objectiveCard.getPoints() * (this.manuscripts / 2);</b>
 <b class="nc">&nbsp;            case 101 -&gt; objectiveCard.getPoints() * (this.inkwells / 2);</b>
 <b class="nc">&nbsp;            case 102 -&gt; objectiveCard.getPoints() * (this.quills / 2);</b>
-<b class="fc">&nbsp;            default -&gt; 0;</b>
+<b class="nc">&nbsp;            default -&gt; 0;</b>
 &nbsp;        };
 &nbsp;    }
 &nbsp;
@@ -778,6 +779,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * this method checks how many objectives a player has completed
+&nbsp;     *
+&nbsp;     * @return the number of objectives completed
 &nbsp;     */
 &nbsp;    public Integer checkNumberObjectives() {
 <b class="fc">&nbsp;        int count = 0;</b>
@@ -840,6 +843,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    //GETTERS
 &nbsp;
 &nbsp;    /**
+&nbsp;     * This method sets a boolean as true when the initial card has been played
+&nbsp;     *
+&nbsp;     * @param initialCardChosen the boolean to set
+&nbsp;     */
+&nbsp;    public void setInitialCardChosen(boolean initialCardChosen) {
+<b class="fc">&nbsp;        this.initialCardChosen = initialCardChosen;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
 &nbsp;     * This method returns the deck of the game
 &nbsp;     *
 &nbsp;     * @return deck the deck of the game
@@ -876,12 +888,45 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
+&nbsp;     * sets the common objectives
+&nbsp;     *
+&nbsp;     * @param CommonObjectives the common objectives
+&nbsp;     */
+&nbsp;    public void setCommonObjectives(ArrayList&lt;ObjectiveCard&gt; CommonObjectives) {
+<b class="fc">&nbsp;        this.CommonObjectives = CommonObjectives;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
 &nbsp;     * getter for the secret objective
 &nbsp;     *
 &nbsp;     * @return the secret objective chosen by the player
 &nbsp;     */
 &nbsp;    public ObjectiveCard getSecretObjective() {
 <b class="fc">&nbsp;        return secretObjective;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //SETTERS
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method sets the secret objective of the player
+&nbsp;     *
+&nbsp;     * @param pick the secret objective to set
+&nbsp;     */
+&nbsp;    public void setSecretObjective(Integer pick) {
+<b class="pc">&nbsp;        if (secretObjectiveToPick.isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        switch (pick) {</b>
+&nbsp;            case 0, 1:
+<b class="fc">&nbsp;                this.secretObjective = this.secretObjectiveToPick.get(pick);</b>
+&nbsp;                break;
+&nbsp;            default: //should never be reached
+<b class="nc">&nbsp;                System.out.println(&quot;invalid choice&quot;);</b>
+&nbsp;                return;
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        secretObjectiveChosen = true;</b>
+<b class="fc">&nbsp;        notifyObserver(new UpdateSecretObjectiveMessage(username, this.secretObjective));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -893,7 +938,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return hand;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;
 &nbsp;    /**
 &nbsp;     * getter for the secret objectives to choose from
 &nbsp;     *
@@ -902,8 +946,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ArrayList&lt;ObjectiveCard&gt; getSecretObjectiveToPick() {
 <b class="fc">&nbsp;        return secretObjectiveToPick;</b>
 &nbsp;    }
-&nbsp;
-&nbsp;    //SETTERS
 &nbsp;
 &nbsp;    /**
 &nbsp;     * test method to set the points
@@ -931,46 +973,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void setInitialCard() {
 <b class="fc">&nbsp;        this.initialCard = deck.drawInitialCard();</b>
 <b class="fc">&nbsp;        notifyObserver(new UpdateInitialCardDisplayMessage(this.username, initialCard));</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * This method sets a boolean as true when the initial card has been played
-&nbsp;     *
-&nbsp;     * @param initialCardChosen the boolean to set
-&nbsp;     */
-&nbsp;    public void setInitialCardChosen(boolean initialCardChosen) {
-<b class="fc">&nbsp;        this.initialCardChosen = initialCardChosen;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * sets the common objectives
-&nbsp;     *
-&nbsp;     * @param CommonObjectives the common objectives
-&nbsp;     */
-&nbsp;    public void setCommonObjectives(ArrayList&lt;ObjectiveCard&gt; CommonObjectives) {
-<b class="fc">&nbsp;        this.CommonObjectives = CommonObjectives;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * This method sets the secret objective of the player
-&nbsp;     *
-&nbsp;     * @param pick the secret objective to set
-&nbsp;     */
-&nbsp;    public void setSecretObjective(Integer pick) {
-<b class="pc">&nbsp;        if (secretObjectiveToPick.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Deck is empty&quot;);</b>
-&nbsp;        }
-<b class="pc">&nbsp;        switch (pick) {</b>
-&nbsp;            case 0, 1:
-<b class="fc">&nbsp;                this.secretObjective = this.secretObjectiveToPick.get(pick);</b>
-&nbsp;                break;
-&nbsp;            default: //should never be reached
-<b class="nc">&nbsp;                System.out.println(&quot;invalid choice&quot;);</b>
-&nbsp;                return;
-&nbsp;        }
-&nbsp;
-<b class="fc">&nbsp;        secretObjectiveChosen = true;</b>
-<b class="fc">&nbsp;        notifyObserver(new UpdateSecretObjectiveMessage(username, this.secretObjective));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -1024,7 +1026,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

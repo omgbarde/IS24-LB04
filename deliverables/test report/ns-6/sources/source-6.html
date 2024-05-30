@@ -111,9 +111,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;public class Game extends Observable {
 &nbsp;    private static Game instance;
 &nbsp;    private final ArrayList&lt;Player&gt; players;
+&nbsp;    private final ArrayList&lt;String&gt; lobby;
 &nbsp;    private Deck deck;
 &nbsp;    private GameState gameState;
-&nbsp;    private final ArrayList&lt;String&gt; lobby;
 &nbsp;    private ArrayList&lt;ObjectiveCard&gt; inGameObjectiveCards;
 &nbsp;    private int numPlayers;
 &nbsp;    private int replies;
@@ -131,13 +131,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * sets the deck
-&nbsp;     */
-&nbsp;    public void setDeck() {
-<b class="fc">&nbsp;        this.deck = Deck.getInstance();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
 &nbsp;     * Singleton instance method
 &nbsp;     *
 &nbsp;     * @return the singleton instance of the Game class
@@ -147,6 +140,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            instance = new Game();</b>
 &nbsp;        }
 <b class="fc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the deck
+&nbsp;     */
+&nbsp;    public void setDeck() {
+<b class="fc">&nbsp;        this.deck = Deck.getInstance();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -204,7 +204,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * Places a card on the board
 &nbsp;     *
-&nbsp;     * @param card the card to place
+&nbsp;     * @param card   the card to place
+&nbsp;     * @param x      the x coordinate
+&nbsp;     * @param y      the y coordinate
+&nbsp;     * @param player the player who places the card
 &nbsp;     */
 &nbsp;    public void placeCard(Card card, Integer x, Integer y, Player player) {
 <b class="fc">&nbsp;        player.getBoard().placeCard(card, x, y);</b>
@@ -310,6 +313,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * check for victory conditions
 &nbsp;     * if there is more than one player, the player with the most objectives completed wins
+&nbsp;     *
+&nbsp;     * @return the winner names
 &nbsp;     */
 &nbsp;    public ArrayList&lt;String&gt; getWinners() {
 <b class="fc">&nbsp;        ArrayList&lt;String&gt; winners = new ArrayList&lt;&gt;();</b>
@@ -396,6 +401,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * notifies the winner or winners to the observer
+&nbsp;     *
 &nbsp;     * @param winners the winners
 &nbsp;     */
 &nbsp;    public void notifyWinner(ArrayList&lt;String&gt; winners) {
@@ -431,6 +437,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
+&nbsp;     * sets the number of players
+&nbsp;     *
+&nbsp;     * @param numPlayers the number of players
+&nbsp;     */
+&nbsp;    public void setNumPlayers(int numPlayers) {
+<b class="fc">&nbsp;        this.numPlayers = numPlayers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
 &nbsp;     * Returns the player names
 &nbsp;     *
 &nbsp;     * @return the player names
@@ -449,6 +464,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
+&nbsp;     * sets the game state
+&nbsp;     *
+&nbsp;     * @param gameState the game state
+&nbsp;     */
+&nbsp;    public void setGameState(GameState gameState) {
+<b class="fc">&nbsp;        this.gameState = gameState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //SETTER
+&nbsp;
+&nbsp;    /**
 &nbsp;     * returns the players
 &nbsp;     *
 &nbsp;     * @return the players
@@ -464,26 +490,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public Deck getDeck() {
 <b class="fc">&nbsp;        return deck;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    //SETTER
-&nbsp;
-&nbsp;    /**
-&nbsp;     * sets the game state
-&nbsp;     *
-&nbsp;     * @param gameState the game state
-&nbsp;     */
-&nbsp;    public void setGameState(GameState gameState) {
-<b class="fc">&nbsp;        this.gameState = gameState;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * sets the number of players
-&nbsp;     *
-&nbsp;     * @param numPlayers the number of players
-&nbsp;     */
-&nbsp;    public void setNumPlayers(int numPlayers) {
-<b class="fc">&nbsp;        this.numPlayers = numPlayers;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -519,7 +525,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

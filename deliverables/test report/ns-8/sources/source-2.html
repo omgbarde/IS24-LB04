@@ -114,8 +114,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * generates a client socket with the parameters in input
 &nbsp;     *
-&nbsp;     * @param address is the port address
-&nbsp;     * @param port    is the desired port
+&nbsp;     * @param username   is the username of the client
+&nbsp;     * @param address    is the port address
+&nbsp;     * @param port       is the desired port
+&nbsp;     * @param controller is the controller that will handle the messages
+&nbsp;     * @throws IOException if the socket cannot be created
 &nbsp;     */
 <b class="nc">&nbsp;    public ClientSocket(String username, String address, int port, ViewController controller) throws IOException {</b>
 <b class="nc">&nbsp;        this.username = username;</b>
@@ -211,7 +214,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

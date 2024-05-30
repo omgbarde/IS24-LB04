@@ -140,13 +140,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; */
 &nbsp;public class GameController {
 &nbsp;
+&nbsp;    private static GameController instance;
+&nbsp;    GameObserver gameObserver;
 &nbsp;    private Game game;
 &nbsp;    private InputController inputController;
 &nbsp;    private TurnController turnController;
-&nbsp;    private static GameController instance;
 <b class="fc">&nbsp;    private boolean endGame = false;</b>
 <b class="fc">&nbsp;    private int countDown = -1;</b>
-&nbsp;    GameObserver gameObserver;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Private constructor to prevent instantiation from outside the class
+&nbsp;     */
+<b class="fc">&nbsp;    private GameController() {</b>
+<b class="fc">&nbsp;        createGameController();</b>
+&nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Singleton instance method
@@ -176,13 +183,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        instance = getInstance();</b>
 <b class="fc">&nbsp;        this.inputController = new InputController(this, game);</b>
 &nbsp;
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * Private constructor to prevent instantiation from outside the class
-&nbsp;     */
-<b class="fc">&nbsp;    private GameController() {</b>
-<b class="fc">&nbsp;        createGameController();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -288,6 +288,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Checks if the lobby size is between 2 and 4
+&nbsp;     *
 &nbsp;     * @return true if the lobby size is between 2 and 4, false otherwise
 &nbsp;     */
 &nbsp;    private boolean checkLobbySize() {
@@ -508,6 +509,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Checks if the player has placed a card
+&nbsp;     *
 &nbsp;     * @return true if the player has placed a card, false otherwise
 &nbsp;     */
 &nbsp;    public boolean hasPlacedCard() {
@@ -516,6 +518,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Checks if the player has drawn a card
+&nbsp;     *
 &nbsp;     * @return true if the player has drawn a card, false otherwise
 &nbsp;     */
 &nbsp;    public boolean hasDrawnCard() {
@@ -651,7 +654,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>

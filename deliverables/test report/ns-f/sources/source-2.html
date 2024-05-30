@@ -63,7 +63,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/9)
+    (0/11)
   </span>
 </td>
 </tr>
@@ -83,7 +83,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import javafx.scene.image.Image;
 &nbsp;import javafx.stage.Stage;
 &nbsp;
-&nbsp;import java.io.IOException;
+&nbsp;import java.util.Objects;
 &nbsp;
 <b class="nc">&nbsp;public class GuiLauncher extends Application {</b>
 &nbsp;
@@ -91,20 +91,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * this method starts the GUI
 &nbsp;     *
 &nbsp;     * @param stage is the stage (window) reference
-&nbsp;     * @throws IOException when an error occurs in loading the fxml
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public void start(Stage stage) throws IOException {
+&nbsp;    public void start(Stage stage) {
 <b class="nc">&nbsp;        View guiView = new GuiView(stage);</b>
-<b class="nc">&nbsp;        guiView.drawHelloScene();</b>
-&nbsp;        /*try {*/
-<b class="nc">&nbsp;            stage.getIcons().add(new Image(getClass().getResourceAsStream(&quot;/graphics/codex-naturalis-espt.jpg&quot;)));</b>
-&nbsp;       /* } catch (FileNotFoundException e) {
-&nbsp;            System.out.println(&quot;window icon not found&quot;);
-&nbsp;        }*/
-<b class="nc">&nbsp;        stage.setHeight(600);</b>
+&nbsp;
+&nbsp;        //add icon to the window
+<b class="nc">&nbsp;        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/graphics/codex-naturalis-espt.jpg&quot;))));</b>
+<b class="nc">&nbsp;        stage.setHeight(650);</b>
 <b class="nc">&nbsp;        stage.setWidth(1000);</b>
-<b class="nc">&nbsp;        stage.setResizable(false);</b>
+<b class="nc">&nbsp;        stage.setResizable(true);</b>
+<b class="nc">&nbsp;        stage.setMinHeight(650);</b>
+<b class="nc">&nbsp;        stage.setMinWidth(1000);</b>
+&nbsp;
+<b class="nc">&nbsp;        guiView.drawHelloScene();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -139,7 +139,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-05-28 12:20</div>
+    <div style="float:right;">generated on 2024-05-30 18:54</div>
 </div>
 </body>
 </html>
