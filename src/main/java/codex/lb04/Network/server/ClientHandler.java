@@ -118,6 +118,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * starts a new executor to ping the client
+     * it sends a ping message to the client every 5 seconds and checks if the client has responded in the last 10 seconds
+     * @see PingMessage
      */
     private void startPinger() {
         pinger.scheduleAtFixedRate(() -> {
@@ -133,6 +135,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * closes the client handler and removes it from the server it also signals to disconnect all clients
+     * @see codex.lb04.Network.client.ClientSocket#disconnect()
+     *
      */
     void closeClientHandler() {
         pinger.shutdown();

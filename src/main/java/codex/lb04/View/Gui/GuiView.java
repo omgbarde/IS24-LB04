@@ -481,7 +481,7 @@ public class GuiView extends View {
         createCameraTranslate(scene, movableRoot);
 
         Platform.runLater(() -> {
-            //scene.getStylesheets().add("/codexTheme.css");
+            scene.getStylesheets().add("/codexTheme.css");
             stageReference.setTitle("Codex! - your board");
             stageReference.setScene(scene);
             stageReference.show();
