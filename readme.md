@@ -18,9 +18,6 @@
 
 [documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables)
 
-## Todo list
-- [ ] make board resizable
-
 ## Requirements
 - A working LAN connection is required to play with multiple pc.
 - to build and run: OpenJDK 21

@@ -588,7 +588,6 @@ public class GuiController extends ViewController {
         Rectangle toDisable2 = (Rectangle) secretObjectivesToChoose.keySet().toArray()[1];
         this.disableRectangle(toDisable1);
         this.disableRectangle(toDisable2);
-        this.disableRectangle(guiView.getSecretObjectiveBackground());
 
         String imagePath = loadImagePath(card);
         setImageToRectangle(imagePath, rectangle);

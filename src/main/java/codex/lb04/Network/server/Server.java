@@ -1,24 +1,23 @@
 package codex.lb04.Network.server;
 
 import codex.lb04.Controller.GameController;
-import codex.lb04.Message.ErrorMessage;
 import codex.lb04.Message.Message;
-import codex.lb04.Message.MessageType;
 import codex.lb04.Utils.ConnectionUtil;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * ServerApp class that represents the server side of the game.
  */
 public class Server implements Runnable {
-    //list of all client handlers
-    private static final List<ClientHandler> clientHandlerList = new ArrayList<>();
+    //default port
+    private int port = ConnectionUtil.defaultPort;
+    //list of all client handlers, use copy on write array list to avoid concurrent modification exceptions
+    private static final CopyOnWriteArrayList<ClientHandler> clientHandlerList = new CopyOnWriteArrayList<>();
     private final GameController gameController = GameController.getInstance();
     //default port
     private int port = ConnectionUtil.defaultPort;
@@ -92,28 +91,24 @@ public class Server implements Runnable {
     }
 
     /**
-     * starts the server on a predefined port, if no port is provided in the args, the default port is used
+     * send message to all connected clients
+     *
+     * @param message message to be broadcast
      */
-    /*public static void main(String[] args) {
-        port = ConnectionUtil.defaultPort;
-        if (args.length > 0) {
-            try {
-                port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                print("Invalid port, using default port");
-            }
+    public static void broadcast(Message message) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.sendMessage(message);
         }
-        new Thread(new ServerApp()).start();
-    }*/
+    }
 
     /**
      * remove a client handler from the list
      *
      * @param clientHandlerName is the name of the client handler to be removed
      */
-    public void removeClientHandler(String clientHandlerName) {
+    public void removeClientHandler(ClientHandler clientHandler) {
         if (!clientHandlerList.isEmpty()) {
-            clientHandlerList.removeIf(ch -> ch.getUsername().equals(clientHandlerName));
+            clientHandlerList.remove(clientHandler);
         }
     }
 
@@ -123,12 +118,31 @@ public class Server implements Runnable {
      * @param receivedMessage is the message received
      */
     public void onMessageReceived(Message receivedMessage) {
-        if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
+        /*if (receivedMessage.getMessageType() == MessageType.DEAD_CLIENT) {
             String usr = receivedMessage.getUsername();
-            removeClientHandler(usr);
             ErrorMessage message = new ErrorMessage("server", "client " + usr + " disconnected");
             broadcast(message);
-        }
+        }*/
         this.gameController.onMessageReceived(receivedMessage);
+    }
+  
+    /**
+     * print utility method
+     *
+     * @param s is the string to be printed
+     */
+    public static void print(String s) {
+        System.out.println(s);
+    }
+
+
+    /**
+     * method to disconnect all clients
+     */
+    public void disconnectAllClients() {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.closeClientHandler();
+        }
+        gameController.resetInstance();
     }
 }

@@ -3,7 +3,7 @@ package codex.lb04.Message;
 import java.io.Serial;
 
 /**
- * Message sent between clients to chat (broadcast
+ * Message sent between clients to chat (broadcast)
  */
 public class ChatMessage extends Message {
     @Serial

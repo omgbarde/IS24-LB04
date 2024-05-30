@@ -21,6 +21,7 @@ module codex.lb {
     exports codex.lb04.Model.Enumerations;
     exports codex.lb04.View.Gui;
     exports codex.lb04.View.Cli;
+    exports codex.lb04.View.Cli.State;
 
     opens codex.lb04 to
             javafx.fxml;

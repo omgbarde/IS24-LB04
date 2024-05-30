@@ -1,6 +1,5 @@
 package codex.lb04.Network.server;
 
-import codex.lb04.Message.DeadClientMessage;
 import codex.lb04.Message.Message;
 import codex.lb04.Message.MessageType;
 import codex.lb04.Message.PingMessage;
@@ -38,7 +37,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, Server server) {
         this.clientSocket = socket;
         this.server = server;
-        //this.messageQueue = new LinkedBlockingQueue<>();
+
         this.pongReceivedTime = System.currentTimeMillis();
         this.pinger = Executors.newSingleThreadScheduledExecutor();
         try {
@@ -63,10 +62,11 @@ public class ClientHandler implements Runnable {
                     //just check if the message is a login request and set the username
                     if ((message.getMessageType() == MessageType.LOGIN_REQUEST || message.getMessageType() == MessageType.CREATE_GAME) && this.username == null) {
                         this.username = message.getUsername();
+                    } else if (message.getMessageType() == MessageType.DEAD_CLIENT) {
+                        closeClientHandler();
                     } else if (message.getMessageType() == MessageType.PONG) {
                         pongReceivedTime = System.currentTimeMillis();
                         //don't forward the pong message to the server
-                        continue;
                     }
                     //forward the message to the server
                     server.onMessageReceived(message);
@@ -75,17 +75,12 @@ public class ClientHandler implements Runnable {
         } catch (SocketException | EOFException e) {
             System.out.println("client disconnected: " + getUsername());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("error reading message from server");
+            System.out.println("error reading message from client");
         } finally {
-            try {
-                pinger.shutdown();
-                clientSocket.close();
-                server.onMessageReceived(new DeadClientMessage(this.username));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            closeClientHandler();
         }
     }
+
 
     /**
      * this method reads messages from the server and sends them to the client
@@ -122,6 +117,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * starts a new executor to ping the client
+     * it sends a ping message to the client every 5 seconds and checks if the client has responded in the last 10 seconds
+     * @see PingMessage
      */
     private void startPinger() {
         pinger.scheduleAtFixedRate(() -> {
@@ -130,14 +127,24 @@ public class ClientHandler implements Runnable {
             sendMessage(new PingMessage(s));
             //check for elapsed time
             if (System.currentTimeMillis() - pongReceivedTime > 10000) {
-                try {
-                    pinger.shutdown();
-                    clientSocket.close();
-                    server.onMessageReceived(new DeadClientMessage(this.username));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                closeClientHandler();
             }
         }, 0, 5, TimeUnit.SECONDS);
+    }
+
+    /**
+     * closes the client handler and removes it from the server it also signals to disconnect all clients
+     * @see codex.lb04.Network.client.ClientSocket#disconnect()
+     *
+     */
+    void closeClientHandler() {
+        pinger.shutdown();
+        server.removeClientHandler(this);
+        server.disconnectAllClients();
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

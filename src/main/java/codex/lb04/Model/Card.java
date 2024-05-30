@@ -206,8 +206,6 @@ public class Card implements Serializable {
         return x;
     }
 
-    //SETTER
-
     /**
      * This method returns the y coordinate of the card
      *
@@ -225,6 +223,8 @@ public class Card implements Serializable {
     public Integer getID() {
         return ID;
     }
+
+    //SETTER
 
     /**
      * Set the coordinates of the card

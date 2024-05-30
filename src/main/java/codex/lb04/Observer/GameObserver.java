@@ -7,6 +7,10 @@ import codex.lb04.Network.server.Server;
  * this class represents the observer of the game
  */
 public class GameObserver implements Observer {
+    /**
+     * method called on changes of the model that notifies the clients connected with different messages
+     * @param message the message to be sent to one or more clients
+     */
     @Override
     public void update(Message message) {
         String usr = message.getUsername();
