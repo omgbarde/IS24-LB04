@@ -50,3 +50,9 @@ in command line navigate to the deliverables folder and run the following comman
 ## How to play
 - [codex rulebook](src/main/resources/CODEX_Rulebook_IT.pdf)
 - the controls are displayed in the view based on the graphic mode
+
+## Demos
+![home](src/main/resources/demos/homepage.png)
+![gui_board](src/main/resources/demos/gui_board.png)
+![gui_chat](src/main/resources/demos/gui_chat.png)
+
