@@ -1,13 +1,13 @@
 # Codex Naturalis - board game
 ![codex](src/main/resources/graphics/CODEX_wallpaper_1080.jpg)
 
-## Built by
+## 🛠️ Built by
 - Lorenzo Bardelli 10831941 `lorenzo1.bardelli@mail.polimi.it` 
 - Pietro Pizzoccheri 10797420 `pietro.pizzoccheri@mail.polimi.it` 
 - Alex Hathaway 10829946 `alex.hathaway@mail.polimi.it` 
 - Mattia Brianti 10773859 `mattia.brianti@mail.polimi.it` 
 
-## Functionalities
+## ⚙️ Functionalities
 |     Feature      | state |
 |:----------------:|:-----:|
 | complete ruleset |   ✅   |
@@ -18,12 +18,12 @@
 
 [documentation](https://github.com/omgbarde/IS24-LB04/tree/master/deliverables)
 
-## Requirements
+## 💻 Requirements
 - A working LAN connection is required to play with multiple pc.
 - to build and run: OpenJDK 21
 - to test: Junit 4.13.1
 
-## Getting started
+## 📦 Getting started
 in command line navigate to the deliverables folder and run the following commands:
 1. first launch the serverApp and choose the default port when asked in the command line\
    to start Server:
@@ -47,11 +47,11 @@ in command line navigate to the deliverables folder and run the following comman
   - to create a game use the port displayed by the serverApp in the console.
   - to join a game use the correct ip address and port of the person hosting the game (the network interfaces are also displayed in the console by the serverApp)
 
-## How to play
+## 🎮 How to play
 - [codex rulebook](src/main/resources/CODEX_Rulebook_IT.pdf)
 - the controls are displayed in the view based on the graphic mode
 
-## Demos
+## 📎 Demos
 ![home](src/main/resources/demos/homepage.png)
 ![gui_board](src/main/resources/demos/gui_board.png)
 ![gui_chat](src/main/resources/demos/gui_chat.png)
